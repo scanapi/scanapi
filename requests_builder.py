@@ -10,7 +10,7 @@ class RequestsBuilder:
         self.file_path = file_path
         with open(file_path, "r") as stream:
             try:
-                self.api = yaml.safe_load(stream)
+                self.api = yaml.safe_load(stream)["api"]
             except yaml.YAMLError as exc:
                 print(exc)
 
