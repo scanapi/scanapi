@@ -16,7 +16,7 @@ class RequestsBuilder:
 
     def all_responses(self):
         responses = []
-        url = populate_str(self.api["base-url"])
+        url = populate_str(self.api["base_url"])
         headers = self.merge_headers({}, self.api)
 
         for endpoint in self.api["endpoints"]:

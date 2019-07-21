@@ -19,12 +19,12 @@ Create an API spec file `api.yaml` file in the root of your project and list the
 
 ```yaml
 api:
-  base-url: https://jsonplaceholder.typicode.com/
+  base_url: https://jsonplaceholder.typicode.com/
   endpoints:
     - namespace: posts
       path: /posts
       requests:
-        - name: list-all
+        - name: list_all
           method: get
         - name: details
           method: get
@@ -43,7 +43,7 @@ By default, the doc will be available in the `docs.md` file.
 
 ```yaml
 api:
-  base-url: https://jsonplaceholder.typicode.com/
+  base_url: https://jsonplaceholder.typicode.com/
   headers:
     Authorization: Bearer 3032196d-4563-4047-ac7b-e7763e43177e
   endpoints:
@@ -52,7 +52,7 @@ api:
         Content-Type: application/json
       path: /posts
       requests:
-        - name: list-all
+        - name: list_all
           method: get
         - name: details
           method: get
@@ -92,8 +92,8 @@ To be implemented
 If you want to configure api-scanner, you can do it by creating a file `.api-scanner.yaml` in the root of your project.
 
 ```yaml
-api-file: api.yaml
-docs-file: docs.md
+api_file: api.yaml
+docs_file: docs.md
 ```
 
 ### Environment Variables
@@ -102,7 +102,7 @@ You can use environment variables in your API spec file:
 
 ```yaml
 api:
-  base-url: https://jsonplaceholder.typicode.com/
+  base_url: ${env_base_url}
   headers:
     Authorization: ${env_bearer_token}
   endpoints:
@@ -111,7 +111,7 @@ api:
         Content-Type: application/json
       path: /posts
       requests:
-        - name: list-all
+        - name: list_all
           method: get
         - name: details
           method: get
@@ -122,8 +122,8 @@ And in the config file `.api-scanner.yaml` set their values:
 
 ```yaml
 env-vars:
+  env_base_url: https://jsonplaceholder.typicode.com/
   env_bearer_token: Bearer 3032196d-4563-4047-ac7b-e7763e43177e
-  env_post_id: "/1"
 ```
 
 ### Automation with Peril

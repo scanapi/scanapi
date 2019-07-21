@@ -2,7 +2,7 @@ import os
 import yaml
 
 SETTINGS_FILE = ".api-scanner.yaml"
-DEFAULT_SETTINGS = {"api-file": "api.yaml", "docs-file": "docs.md"}
+DEFAULT_SETTINGS = {"api_file": "api.yaml", "docs_file": "docs.md"}
 
 
 def settings():
