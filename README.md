@@ -39,6 +39,15 @@ python api-scanner.py
 
 By default, the doc will be available in the `docs.md` file.
 
+### Configuration
+
+If you want to configure api-scanner, you can do it by creating a file `.api-scanner.yaml` in the root of your project.
+
+```yaml
+api_file: api.yaml
+docs_file: docs.md
+```
+
 ### Headers
 
 ```yaml
@@ -62,39 +71,6 @@ api:
 ### Cases
 
 To be implemented
-
-### Chaining Requests
-
-To be implemented
-
-### Split API spec file in multiples files
-
-To be implemented:
-
-```
-- api/
-  - api.yaml
-  - endpoints/
-    - endpoints.yaml
-    - posts/
-      - posts.yaml
-      - requests/
-        - list-all.yaml
-        - details.yaml
-```
-
-### Asserts
-
-To be implemented
-
-### Configuration
-
-If you want to configure api-scanner, you can do it by creating a file `.api-scanner.yaml` in the root of your project.
-
-```yaml
-api_file: api.yaml
-docs_file: docs.md
-```
 
 ### Environment Variables
 
@@ -125,6 +101,49 @@ env-vars:
   BASE_URL: https://jsonplaceholder.typicode.com/
   BEARER_TOKEN: Bearer 3032196d-4563-4047-ac7b-e7763e43177e
 ```
+
+### Chaining Requests
+
+```yaml
+api:
+  base_url: ${BASE_URL}
+  headers:
+    Authorization: ${BEARER_TOKEN}
+  endpoints:
+    - namespace: posts
+      headers:
+        Content-Type: application/json
+      path: /posts
+      requests:
+        - name: list_all # posts_list_all
+          method: get
+          vars:
+            post_id: ${{responses['posts_list_all'].json()[1]['id']}} # should return id 2
+        - name: details # posts_details
+          method: get
+          path: ${post_id}
+```
+
+### Split API spec file in multiples files
+
+To be implemented:
+
+```
+- api/
+  - api.yaml
+  - endpoints/
+    - endpoints.yaml
+    - posts/
+      - posts.yaml
+      - requests/
+        - list-all.yaml
+        - details.yaml
+```
+
+### Asserts
+
+To be implemented
+
 
 ### Automation with Peril
 

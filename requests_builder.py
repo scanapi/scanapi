@@ -2,7 +2,7 @@
 import requests
 import yaml
 
-from variable_parser import populate_dict, populate_str, save_variable
+from variable_parser import populate_dict, populate_str, save_response, save_variable
 
 
 class RequestsBuilder:
@@ -28,10 +28,14 @@ class RequestsBuilder:
             for request in endpoint["requests"]:
                 headers = self.merge_headers(headers, request)
                 url = self.merge_url_path(url, request)
-                self.merge_custom_vars(request)
 
                 if request["method"].lower() == "get":
-                    responses.append(self.get_request(url, headers))
+                    response = self.get_request(url, headers)
+                    response_id = "{}_{}".format(endpoint["namespace"], request["name"])
+                    save_response(response_id, response)
+                    responses.append(response)
+
+                self.merge_custom_vars(request)
 
         return responses
 
