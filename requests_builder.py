@@ -32,18 +32,18 @@ class RequestsBuilder:
 
         return responses
 
+    def merge_headers(self, headers, node):
+        if "headers" not in node:
+            return headers
+
+        return {**headers, **populate_dict(node["headers"])}
+
     def merge_url_path(self, path, node):
         if "path" not in node:
             return path
 
         populated_node_path = populate_str(node["path"])
         return "/".join(s.strip("/") for s in [path, populated_node_path])
-
-    def merge_headers(self, headers, node):
-        if "headers" not in node:
-            return headers
-
-        return {**headers, **populate_dict(node["headers"])}
 
     def get_request(self, url, headers):
         return requests.get(url, headers=headers)

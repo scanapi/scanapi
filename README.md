@@ -102,9 +102,9 @@ You can use environment variables in your API spec file:
 
 ```yaml
 api:
-  base_url: ${env_base_url}
+  base_url: ${BASE_URL}
   headers:
-    Authorization: ${env_bearer_token}
+    Authorization: ${BEARER_TOKEN}
   endpoints:
     - namespace: posts
       headers:
@@ -115,15 +115,15 @@ api:
           method: get
         - name: details
           method: get
-          path: ${env_post_id}
+          path: /1
 ```
 
 And in the config file `.api-scanner.yaml` set their values:
 
 ```yaml
 env-vars:
-  env_base_url: https://jsonplaceholder.typicode.com/
-  env_bearer_token: Bearer 3032196d-4563-4047-ac7b-e7763e43177e
+  BASE_URL: https://jsonplaceholder.typicode.com/
+  BEARER_TOKEN: Bearer 3032196d-4563-4047-ac7b-e7763e43177e
 ```
 
 ### Automation with Peril

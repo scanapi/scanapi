@@ -19,7 +19,8 @@ def populate_str(sequence):
     if not variable_name:
         return sequence
 
-    return SETTINGS["env_vars"][variable_name]
+    if variable_name.isupper():
+        return SETTINGS["env_vars"][variable_name]
 
 
 def get_variable_name(sequence):
