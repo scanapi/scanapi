@@ -2,6 +2,8 @@
 import requests
 import yaml
 
+from variable_parser import populate_dict, populate_str
+
 
 class RequestsBuilder:
     def __init__(self, file_path):
@@ -14,7 +16,7 @@ class RequestsBuilder:
 
     def all_responses(self):
         responses = []
-        url = self.api["base-url"]
+        url = populate_str(self.api["base-url"])
         headers = self.merge_headers({}, self.api)
 
         for endpoint in self.api["endpoints"]:
@@ -30,20 +32,18 @@ class RequestsBuilder:
 
         return responses
 
-    def join_url_paths(self, paths):
-        return "/".join(s.strip("/") for s in paths)
-
     def merge_url_path(self, path, node):
         if "path" not in node:
             return path
 
-        return "/".join(s.strip("/") for s in [path, node["path"]])
+        populated_node_path = populate_str(node["path"])
+        return "/".join(s.strip("/") for s in [path, populated_node_path])
 
     def merge_headers(self, headers, node):
         if "headers" not in node:
             return headers
 
-        return {**headers, **node["headers"]}
+        return {**headers, **populate_dict(node["headers"])}
 
     def get_request(self, url, headers):
         return requests.get(url, headers=headers)

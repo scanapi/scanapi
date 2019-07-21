@@ -47,7 +47,11 @@ endpoints:
         path: /1
 ```
 
+### Cases
+
 ### Chaining Requests
+
+### Split api.yaml in multiples files
 
 ### Asserts
 
