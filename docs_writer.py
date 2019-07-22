@@ -76,7 +76,10 @@ class ResponseWriter(HTTPMessageWriter):
             return
 
         with CodeBlock(self.file):
-            json.dump(self.response.json(), self.file, indent=2)
+            try:
+                json.dump(self.response.json(), self.file, indent=2)
+            except ValueError:
+                self.file.write(str(self.response.content))
 
 
 class DocsWriter:
@@ -89,17 +92,6 @@ class DocsWriter:
 
     def write_response(self, response):
         request = response.request
-
-        if "application/json" not in response.headers["Content-Type"]:
-            print(
-                "Error: response is not a JSON: \n\tContent-Type: {} \n\tRequest: {} \n\tResponse {}: {}".format(
-                    response.headers["Content-Type"],
-                    request.url,
-                    response.status_code,
-                    response.content,
-                )
-            )
-            return
 
         with open(self.file_path, "a", newline="\n") as docs:
             RequestWriter(request, docs).write()
