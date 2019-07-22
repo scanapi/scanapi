@@ -26,11 +26,11 @@ class RequestsBuilder:
             self.merge_custom_vars(endpoint)
 
             for request in endpoint["requests"]:
-                headers = self.merge_headers(headers, request)
-                url = self.merge_url_path(url, request)
+                request_headers = self.merge_headers(headers, request)
+                request_url = self.merge_url_path(url, request)
 
                 if request["method"].lower() == "get":
-                    response = self.get_request(url, headers)
+                    response = self.get_request(request_url, request_headers)
                     response_id = "{}_{}".format(endpoint["namespace"], request["name"])
                     save_response(response_id, response)
                     responses.append(response)
