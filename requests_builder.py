@@ -20,9 +20,13 @@ class RequestsBuilder:
         headers = self.merge_headers({}, self.api)
         self.merge_custom_vars(self.api)
 
-        for endpoint in self.api["endpoints"]:
+        return self.parse_endpoints(responses, self.api["endpoints"], headers, url)
+
+    def parse_endpoints(self, responses, endpoints, headers, url, namespace=""):
+        for endpoint in endpoints:
             headers = self.merge_headers(headers, endpoint)
             url = self.merge_url_path(url, endpoint)
+            namespace = self.merge_namespace(namespace, endpoint)
             self.merge_custom_vars(endpoint)
 
             for request in endpoint["requests"]:
@@ -31,11 +35,16 @@ class RequestsBuilder:
 
                 if request["method"].lower() == "get":
                     response = self.get_request(request_url, request_headers)
-                    response_id = "{}_{}".format(endpoint["namespace"], request["name"])
+                    response_id = "{}_{}".format(namespace, request["name"])
                     save_response(response_id, response)
                     responses.append(response)
 
                 self.merge_custom_vars(request)
+
+            if "endpoints" in endpoint:
+                return self.parse_endpoints(
+                    responses, endpoint["endpoints"], headers, url, namespace
+                )
 
         return responses
 
@@ -58,6 +67,17 @@ class RequestsBuilder:
 
         populated_node_path = populate_str(node["path"])
         return "/".join(s.strip("/") for s in [path, populated_node_path])
+
+    def merge_namespace(self, namespace, node):
+        if "namespace" not in node:
+            return namespace
+
+        populated_node_namespace = populate_str(node["namespace"])
+
+        if not namespace:
+            return populated_node_namespace
+
+        return "{}_{}".format(namespace, populated_node_namespace)
 
     def get_request(self, url, headers):
         return requests.get(url, headers=headers)
