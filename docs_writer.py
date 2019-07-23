@@ -10,10 +10,13 @@ class CodeBlock:
         self.file = file
 
     def __enter__(self):
-        self.file.write("\n```\n")
+        self.file.write(
+            """<details><summary></summary><p>
+            \n```\n"""
+        )
 
     def __exit__(self, type, value, traceback):
-        self.file.write("\n```\n")
+        self.file.write("""\n```\n</p></details>\n""")
 
 
 class HTTPMessageWriter:
@@ -38,7 +41,7 @@ class RequestWriter(HTTPMessageWriter):
 
     def write(self):
         self.file.write(
-            "### Request: {} {}\n".format(self.request.method, self.request.url)
+            "\n## Request: {} {}\n".format(self.request.method, self.request.url)
         )
         self.write_headers()
         self.write_body()
