@@ -1,7 +1,7 @@
 import os
 import yaml
 
-SETTINGS_FILE = ".api-scanner.yaml"
+SETTINGS_FILE = ".scanapi.yaml"
 DEFAULT_SETTINGS = {"spec_path": "api.yaml", "docs_path": "docs.md"}
 
 

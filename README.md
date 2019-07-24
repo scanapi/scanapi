@@ -1,4 +1,4 @@
-# API Scanner
+# ScanAPI
 
 A library for your API that provides:
 
@@ -30,14 +30,14 @@ api:
 To run the requests and create the doc, run:
 
 ```
-python api-scanner.py
+python scanapi.py
 ```
 
 By default, the doc will be available in the `docs.md` file.
 
 ### Configuration
 
-If you want to configure api-scanner, you can do it by creating a file `.api-scanner.yaml` in the root of your project.
+If you want to configure scanapi, you can do it by creating a file `.scanapi.yaml` in the root of your project.
 
 ```yaml
 spec_path: api.yaml
@@ -90,7 +90,7 @@ api:
           path: /1
 ```
 
-And in the config file `.api-scanner.yaml` set their values:
+And in the config file `.scanapi.yaml` set their values:
 
 ```yaml
 env-vars:
