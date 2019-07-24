@@ -1,6 +1,6 @@
 import re
 import yaml
-from settings import SETTINGS
+from scanapi.settings import SETTINGS
 
 
 variable_pattern = re.compile("(^\\${)(\\w*)(}$)")  # ${<variable_name>}
