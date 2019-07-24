@@ -1,5 +1,5 @@
-### API Scanner files
-.api-scanner.yaml
+### ScanAPI files
+.scanapi.yaml
 api.yaml
 docs.md
 
