@@ -7,7 +7,9 @@ A library for your API that provides:
 
 ## How to install
 
-
+```bash
+$ pip install scanapi
+```
 
 ## How to use
 

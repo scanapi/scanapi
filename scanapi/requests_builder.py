@@ -2,7 +2,12 @@
 import requests
 import yaml
 
-from variable_parser import populate_dict, populate_str, save_response, save_variable
+from scanapi.variable_parser import (
+    populate_dict,
+    populate_str,
+    save_response,
+    save_variable,
+)
 
 
 class RequestsBuilder:
