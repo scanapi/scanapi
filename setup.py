@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="scanapi",
-    version="0.0.7",
+    version="0.0.8",
     author="Camila Maia",
     author_email="cmaiacd@gmail.com",
     description="Automated Testing and Documentation for your REST API",
@@ -19,4 +19,8 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    entry_points="""
+        [console_scripts]
+        scanapi = scanapi:scan
+    """
 )

@@ -32,7 +32,15 @@ api:
 To run the requests and create the doc, run:
 
 ```
-python scanapi.py
+$ scanapi --help
+Usage: scanapi [OPTIONS]
+
+  Automated Testing and Documentation for your REST API.
+
+Options:
+  -s, --spec-path PATH
+  -d, --docs-path TEXT
+  --help                Show this message and exit.
 ```
 
 By default, the doc will be available in the `docs.md` file.
