@@ -2,13 +2,12 @@ import os
 import yaml
 
 SETTINGS_FILE = ".api-scanner.yaml"
-DEFAULT_SETTINGS = {"api_file": "api.yaml", "docs_file": "docs.md"}
+DEFAULT_SETTINGS = {"spec_path": "api.yaml", "docs_path": "docs.md"}
 
 
 def settings():
     if not os.path.isfile(SETTINGS_FILE):
         return DEFAULT_SETTINGS
-
     with open(SETTINGS_FILE, "r") as stream:
         try:
             user_config = yaml.safe_load(stream)

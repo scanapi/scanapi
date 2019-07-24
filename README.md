@@ -7,11 +7,7 @@ A library for your API that provides:
 
 ## How to install
 
-To be implemented:
 
-```bash
-pip install api-scanner
-```
 
 ## How to use
 
@@ -44,8 +40,8 @@ By default, the doc will be available in the `docs.md` file.
 If you want to configure api-scanner, you can do it by creating a file `.api-scanner.yaml` in the root of your project.
 
 ```yaml
-api_file: api.yaml
-docs_file: docs.md
+spec_path: api.yaml
+docs_path: docs.md
 ```
 
 ### Headers
@@ -123,6 +119,8 @@ api:
           method: get
           path: ${post_id}
 ```
+
+### Nested Endpoints
 
 ### Split API spec file in multiples files
 
