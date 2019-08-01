@@ -45,6 +45,12 @@ Options:
 
 By default, the doc will be available in the `docs.md` file.
 
+### Available Methods
+
+You can run this methods:
+- get
+- post
+
 ### Configuration
 
 If you want to configure scanapi, you can do it by creating a file `.scanapi.yaml` in the root of your project.
@@ -78,7 +84,7 @@ api:
 
 ``` yaml
 api:
-  base_url: ${BASE_URL}
+  base_url: http://api.openweathermap.org/data/2.5
   params:
     APPID: ${API_KEY}
   endpoints:
@@ -90,6 +96,30 @@ api:
           params:
             q: Rio de Janeiro
 ```
+
+### Body
+
+In a post request you can add a body:
+
+```yaml
+api:
+  base_url: https://api.thecatapi.com/v1/votes
+  headers:
+    x-api-key: ${API_KEY} 
+    Content-Type: application/json
+  endpoints:
+    - namespace: v1
+      path: /v1
+      requests:
+        - name: votes
+          method: post
+          path: /votes
+          body: 
+            image_id: asf2
+            value: 1
+            sub_id: ${USER_ID}
+```
+
 
 ### Cases
 

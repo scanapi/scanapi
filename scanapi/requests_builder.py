@@ -40,10 +40,16 @@ class RequestsBuilder:
                 request_headers = self.merge_headers(headers, request)
                 request_url = self.merge_url_path(url, request)
                 request_params = self.merge_params(params, request)
-
+                request_body = self.merge_body({}, request)
 
                 if request["method"].lower() == "get":
                     response = self.get_request(request_url, request_headers, request_params)
+                    response_id = "{}_{}".format(namespace, request["name"])
+                    save_response(response_id, response)
+                    responses.append(response)
+                
+                if request["method"].lower() == "post":
+                    response = self.post_request(request_url, request_headers, request_body)
                     response_id = "{}_{}".format(namespace, request["name"])
                     save_response(response_id, response)
                     responses.append(response)
@@ -94,5 +100,14 @@ class RequestsBuilder:
 
         return {**params, **populate_dict(node["params"])}
 
+    def merge_body(self, body, node):
+        if "body" not in node:
+            return body
+
+        return {**body, **populate_dict(node["body"])}
+
     def get_request(self, url, headers, params):
         return requests.get(url, headers=headers, params=params)
+
+    def post_request(self, url, headers, body):
+        return requests.post(url, json=body, headers=headers)
