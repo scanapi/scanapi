@@ -23,23 +23,27 @@ class RequestsBuilder:
         responses = []
         url = populate_str(self.api["base_url"])
         headers = self.merge_headers({}, self.api)
+        params = self.merge_params({},self.api)
         self.merge_custom_vars(self.api)
 
-        return self.parse_endpoints(responses, self.api["endpoints"], headers, url)
+        return self.parse_endpoints(responses, self.api["endpoints"], headers, url, params)
 
-    def parse_endpoints(self, responses, endpoints, headers, url, namespace=""):
+    def parse_endpoints(self, responses, endpoints, headers, url, params, namespace=""):
         for endpoint in endpoints:
             headers = self.merge_headers(headers, endpoint)
             url = self.merge_url_path(url, endpoint)
             namespace = self.merge_namespace(namespace, endpoint)
+            params = self.merge_params(params, endpoint)
             self.merge_custom_vars(endpoint)
 
             for request in endpoint["requests"]:
                 request_headers = self.merge_headers(headers, request)
                 request_url = self.merge_url_path(url, request)
+                request_params = self.merge_params(params, request)
+
 
                 if request["method"].lower() == "get":
-                    response = self.get_request(request_url, request_headers)
+                    response = self.get_request(request_url, request_headers, request_params)
                     response_id = "{}_{}".format(namespace, request["name"])
                     save_response(response_id, response)
                     responses.append(response)
@@ -84,5 +88,11 @@ class RequestsBuilder:
 
         return "{}_{}".format(namespace, populated_node_namespace)
 
-    def get_request(self, url, headers):
-        return requests.get(url, headers=headers)
+    def merge_params(self, params, node):
+        if "params" not in node:
+            return params
+
+        return {**params, **populate_dict(node["params"])}
+
+    def get_request(self, url, headers, params):
+        return requests.get(url, headers=headers, params=params)

@@ -74,6 +74,23 @@ api:
           path: /1
 ```
 
+### Params
+
+``` yaml
+api:
+  base_url: ${BASE_URL}
+  params:
+    APPID: ${API_KEY}
+  endpoints:
+    - namespace: weather
+      path: /weather
+      requests:
+        - name: current_weather_at_city
+          method: get
+          params:
+            q: Rio de Janeiro
+```
+
 ### Cases
 
 To be implemented
