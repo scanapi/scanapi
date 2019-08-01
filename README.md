@@ -150,7 +150,7 @@ api:
 And in the config file `.scanapi.yaml` set their values:
 
 ```yaml
-env-vars:
+env_vars:
   BASE_URL: https://jsonplaceholder.typicode.com/
   BEARER_TOKEN: Bearer 3032196d-4563-4047-ac7b-e7763e43177e
 ```
