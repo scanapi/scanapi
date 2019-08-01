@@ -49,7 +49,13 @@ class RequestsBuilder:
                     responses.append(response)
                 
                 if request["method"].lower() == "post":
-                    response = self.post_request(request_url, request_headers, request_body)
+                    response = self.post_request(request_url, request_headers, request_body, request_params)
+                    response_id = "{}_{}".format(namespace, request["name"])
+                    save_response(response_id, response)
+                    responses.append(response)
+
+                if request["method"].lower() == "delete":
+                    response = self.delete_request(request_url, request_headers, request_body)
                     response_id = "{}_{}".format(namespace, request["name"])
                     save_response(response_id, response)
                     responses.append(response)
@@ -109,5 +115,8 @@ class RequestsBuilder:
     def get_request(self, url, headers, params):
         return requests.get(url, headers=headers, params=params)
 
-    def post_request(self, url, headers, body):
-        return requests.post(url, json=body, headers=headers)
+    def post_request(self, url, headers, body, params):
+        return requests.post(url, json=body, headers=headers, params=params)
+
+    def delete_request(self, url, headers, body):
+        return requests.delete(url, headers=headers, json=body)
