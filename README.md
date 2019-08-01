@@ -85,7 +85,7 @@ api:
     - namespace: weather
       path: /weather
       requests:
-        - name: current_weather_at_city
+        - name: city_weather
           method: get
           params:
             q: Rio de Janeiro
