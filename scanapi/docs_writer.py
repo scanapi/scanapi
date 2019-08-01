@@ -54,7 +54,8 @@ class RequestWriter(HTTPMessageWriter):
             return
 
         with CodeBlock(self.file):
-            json.dump(dict(self.request.body), self.file, indent=2)
+            serialized_body = json.loads(self.request.body)
+            json.dump(serialized_body, self.file, indent=2)
 
 
 class ResponseWriter(HTTPMessageWriter):
