@@ -1,0 +1,17 @@
+api:
+  base_url: https://api.thecatapi.com/v1
+  headers:
+    x-api-key: ${API_KEY}
+    Content-Type: application/json
+  endpoints:
+    - namespace: votes
+      path: /votes
+      requests:
+        - name: list_all
+          method: get
+        - name: vote
+          method: post
+          body:
+            image_id: ${{responses['votes_list_all'].json()[1]['image_id']}}
+            value: 1
+            sub_id: ${USER_ID}

@@ -1,0 +1,5 @@
+spec_path: api.yaml
+docs_path: docs.md
+env_vars:
+  API_KEY: DEMO-API-KEY
+  USER_ID: demo-d4332e

@@ -1,0 +1,4 @@
+spec_path: api.yaml
+docs_path: docs.md
+env_vars:
+  API_KEY: <INSERT YOUR API KEY HERE>
