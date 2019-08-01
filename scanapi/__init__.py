@@ -17,3 +17,7 @@ def scan(spec_path, docs_path):
 
     responses = RequestsBuilder(spec_path).all_responses()
     DocsWriter(docs_path).write(responses)
+
+
+if __name__ == "__main__":
+    scan()
