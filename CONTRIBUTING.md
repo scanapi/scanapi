@@ -21,6 +21,19 @@ For help, run:
 $ scanapi --help
 ```
 
+### Tests
+
+
+```
+$ pytest
+```
+
+To have the BDD reports on terminal, run:
+
+```
+$ pytest --gherkin-terminal-reporter
+```
+
 ## Deploy on PyPI
 
 Requirements:

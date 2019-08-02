@@ -3,6 +3,7 @@ name = "scanapi"
 from scanapi.docs_writer import DocsWriter
 from scanapi.requests_builder import RequestsBuilder
 from scanapi.settings import SETTINGS
+from scanapi.yaml_loader import load_yaml
 
 import click
 
@@ -21,5 +22,6 @@ def scan(spec_path, docs_path):
 
     SETTINGS.update({"spec_path": spec_path, "docs_path": docs_path})
 
-    responses = RequestsBuilder(spec_path).call_all()
+    api_spec = load_yaml(SETTINGS["spec_path"])
+    responses = RequestsBuilder(api_spec).call_all()
     DocsWriter(docs_path).write(responses)
