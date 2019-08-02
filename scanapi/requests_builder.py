@@ -16,6 +16,9 @@ class RequestsBuilder:
     def call_all(self):
         root = APINode(self.api_spec)
 
+        if not "endpoints" in self.api_spec:
+            return self.call_requests(root)
+
         return self.call_endpoints(root)
 
     def call_endpoints(self, parent):
