@@ -7,16 +7,14 @@ from scanapi.variable_parser import populate_dict, populate_str, save_response
 
 
 class RequestsBuilder:
-    def __init__(self, file_path):
-        self.file_path = file_path
-        with open(file_path, "r") as stream:
-            try:
-                self.api = yaml.safe_load(stream)["api"]
-            except yaml.YAMLError as exc:
-                print(exc)
+    def __init__(self, api_spec):
+        if "api" not in api_spec:
+            print("API spec must start with api key as root")
+
+        self.api_spec = api_spec["api"]
 
     def call_all(self):
-        root = APINode(self.api)
+        root = APINode(self.api_spec)
 
         return self.call_endpoints(root)
 
