@@ -2,12 +2,8 @@
 import requests
 import yaml
 
-from scanapi.variable_parser import (
-    populate_dict,
-    populate_str,
-    save_response,
-    save_variable,
-)
+from scanapi.api_node import APINode, RequestNode
+from scanapi.variable_parser import populate_dict, populate_str, save_response
 
 
 class RequestsBuilder:
@@ -19,92 +15,45 @@ class RequestsBuilder:
             except yaml.YAMLError as exc:
                 print(exc)
 
-    def all_responses(self):
+    def call_all(self):
+        root = APINode(self.api)
+
+        return self.call_endpoints(root)
+
+    def call_endpoints(self, parent):
         responses = []
-        url = populate_str(self.api["base_url"])
-        headers = self.merge_headers({}, self.api)
-        params = self.merge_params({},self.api)
-        self.merge_custom_vars(self.api)
 
-        return self.parse_endpoints(responses, self.api["endpoints"], headers, url, params)
+        for endpoint_spec in parent.spec["endpoints"]:
+            endpoint = APINode(endpoint_spec, parent)
+            responses = responses + self.call_requests(endpoint)
 
-    def parse_endpoints(self, responses, endpoints, headers, url, params, namespace=""):
-        for endpoint in endpoints:
-            headers = self.merge_headers(headers, endpoint)
-            url = self.merge_url_path(url, endpoint)
-            namespace = self.merge_namespace(namespace, endpoint)
-            params = self.merge_params(params, endpoint)
-            self.merge_custom_vars(endpoint)
-
-            for request in endpoint["requests"]:
-                request_headers = self.merge_headers(headers, request)
-                request_url = self.merge_url_path(url, request)
-                request_params = self.merge_params(params, request)
-                request_body = self.merge_body({}, request)
-
-                if request["method"].lower() == "get":
-                    response = self.get_request(request_url, request_headers, request_params)
-                    response_id = "{}_{}".format(namespace, request["name"])
-                    save_response(response_id, response)
-                    responses.append(response)
-                
-                if request["method"].lower() == "post":
-                    response = self.post_request(request_url, request_headers, request_body)
-                    response_id = "{}_{}".format(namespace, request["name"])
-                    save_response(response_id, response)
-                    responses.append(response)
-
-                self.merge_custom_vars(request)
-
-            if "endpoints" in endpoint:
-                return self.parse_endpoints(
-                    responses, endpoint["endpoints"], headers, url, namespace
-                )
+            if "endpoints" in endpoint.spec:
+                return self.call_endpoints(endpoint)
 
         return responses
 
-    def merge_headers(self, headers, node):
-        if "headers" not in node:
-            return headers
+    def call_requests(self, endpoint):
+        responses = []
+        for request_spec in endpoint.spec["requests"]:
+            request = RequestNode(request_spec, endpoint)
 
-        return {**headers, **populate_dict(node["headers"])}
+            if request_spec["method"].lower() == "get":
+                response = self.get_request(
+                    request.url, request.headers, request.params
+                )
+                response_id = "{}_{}".format(request.namespace, request_spec["name"])
+                save_response(response_id, response)
+                responses.append(response)
 
-    def merge_custom_vars(self, node):
-        if "vars" not in node:
-            return
+            if request_spec["method"].lower() == "post":
+                response = self.post_request(request.url, request.headers, request.body)
+                response_id = "{}_{}".format(request.namespace, request_spec["name"])
+                save_response(response_id, response)
+                responses.append(response)
 
-        for var_name, var_value in node["vars"].items():
-            save_variable(var_name, var_value)
+            request.save_custom_vars()
 
-    def merge_url_path(self, path, node):
-        if "path" not in node:
-            return path
-
-        populated_node_path = populate_str(node["path"])
-        return "/".join(s.strip("/") for s in [path, populated_node_path])
-
-    def merge_namespace(self, namespace, node):
-        if "namespace" not in node:
-            return namespace
-
-        populated_node_namespace = populate_str(node["namespace"])
-
-        if not namespace:
-            return populated_node_namespace
-
-        return "{}_{}".format(namespace, populated_node_namespace)
-
-    def merge_params(self, params, node):
-        if "params" not in node:
-            return params
-
-        return {**params, **populate_dict(node["params"])}
-
-    def merge_body(self, body, node):
-        if "body" not in node:
-            return body
-
-        return {**body, **populate_dict(node["body"])}
+        return responses
 
     def get_request(self, url, headers, params):
         return requests.get(url, headers=headers, params=params)
