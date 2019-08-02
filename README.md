@@ -47,7 +47,7 @@ By default, the doc will be available in the `docs.md` file.
 
 ### Available Methods
 
-You can run this methods:
+You can run these methods:
 - get
 - post
 
@@ -64,20 +64,16 @@ docs_path: docs.md
 
 ```yaml
 api:
-  base_url: https://jsonplaceholder.typicode.com/
+  base_url: https://api.thecatapi.com/v1
   headers:
-    Authorization: Bearer 3032196d-4563-4047-ac7b-e7763e43177e
+    x-api-key: DEMO-API-KEY
+    Content-Type: application/json
   endpoints:
-    - namespace: posts
-      headers:
-        Content-Type: application/json
-      path: /posts
+    - namespace: votes
+      path: /votes
       requests:
         - name: list_all
           method: get
-        - name: details
-          method: get
-          path: /1
 ```
 
 ### Params
@@ -86,12 +82,12 @@ api:
 api:
   base_url: http://api.openweathermap.org/data/2.5
   params:
-    APPID: ${API_KEY}
+    APPID: <INSERT_YOUR_API_KEY_HERE>
   endpoints:
     - namespace: weather
       path: /weather
       requests:
-        - name: city_weather
+        - name: city
           method: get
           params:
             q: Rio de Janeiro
@@ -103,21 +99,20 @@ In a post request you can add a body:
 
 ```yaml
 api:
-  base_url: https://api.thecatapi.com/v1/votes
+  base_url: https://api.thecatapi.com/v1
   headers:
-    x-api-key: ${API_KEY} 
+    x-api-key: DEMO-API-KEY
     Content-Type: application/json
   endpoints:
-    - namespace: v1
-      path: /v1
+    - namespace: votes
+      path: /votes
       requests:
-        - name: votes
+        - name: vote
           method: post
-          path: /votes
-          body: 
+          body:
             image_id: asf2
             value: 1
-            sub_id: ${USER_ID}
+            sub_id: demo-d4332e
 ```
 
 
@@ -133,11 +128,9 @@ You can use environment variables in your API spec file:
 api:
   base_url: ${BASE_URL}
   headers:
-    Authorization: ${BEARER_TOKEN}
+    Content-Type: application/json
   endpoints:
     - namespace: posts
-      headers:
-        Content-Type: application/json
       path: /posts
       requests:
         - name: list_all
@@ -152,20 +145,17 @@ And in the config file `.scanapi.yaml` set their values:
 ```yaml
 env_vars:
   BASE_URL: https://jsonplaceholder.typicode.com/
-  BEARER_TOKEN: Bearer 3032196d-4563-4047-ac7b-e7763e43177e
 ```
 
 ### Chaining Requests
 
 ```yaml
 api:
-  base_url: ${BASE_URL}
+  base_url: https://jsonplaceholder.typicode.com/
   headers:
-    Authorization: ${BEARER_TOKEN}
+    Content-Type: application/json
   endpoints:
     - namespace: posts
-      headers:
-        Content-Type: application/json
       path: /posts
       requests:
         - name: list_all # posts_list_all
