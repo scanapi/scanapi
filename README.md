@@ -76,7 +76,7 @@ api:
           method: get
 ```
 
-### Params
+### Query Parameters
 
 ``` yaml
 api:
@@ -114,11 +114,6 @@ api:
             value: 1
             sub_id: demo-d4332e
 ```
-
-
-### Cases
-
-To be implemented
 
 ### Environment Variables
 
@@ -185,11 +180,25 @@ To be implemented:
         - details.yaml
 ```
 
+### Keys
+
+| KEY       | Description                                                                                         | Type   | Scopes                 |
+|-----------|-----------------------------------------------------------------------------------------------------|--------|------------------------|
+| api       | It is reserver word that marks the root of the specification and must not appear in any other place | dict   | root                   |
+| body      | The HTTP body of the request                                                                        | dict   | POST request           |
+| base_url  | The API’s base URL                                                                                  | string | api                    |
+| endpoints | It represents a list of API endpoints                                                               | list   | api, endpoint          |
+| headers   | The HTTP headers                                                                                    | dict   | api, endpoint, request |
+| method    | The HTTP method of the request                                                                      | string | request                |
+| name      | An identifier                                                                                       | string | endpoint, request      |
+| path      | A part of the URL path that will be concatenated with the base URL and possible other paths         | string | endpoint, request      |
+| requests  | It represents a list of HTTP requests                                                               | list   | api, endpoint          |
+| vars      | Key used to define your custom variables to be used along the specification                         | dict   | request                |
+
 ### Asserts
 
 To be implemented
 
-
-### Automation with Peril
+### Cases
 
 To be implemented
