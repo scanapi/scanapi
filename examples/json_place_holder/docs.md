@@ -10,13 +10,11 @@ HEADERS:
   "Accept-Encoding": "gzip, deflate",
   "Accept": "*/*",
   "Connection": "keep-alive",
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
+  "Content-Length": "2"
 }
 ```
 </p></details>
-
-BODY:
-None
 
 ### Response: 200
 
@@ -27,26 +25,26 @@ HEADERS:
             
 ```
 {
-  "Date": "Thu, 01 Aug 2019 20:56:23 GMT",
+  "Date": "Mon, 05 Aug 2019 20:25:15 GMT",
   "Content-Type": "application/json; charset=utf-8",
   "Transfer-Encoding": "chunked",
   "Connection": "keep-alive",
-  "Set-Cookie": "__cfduid=dc4b9f781ce5e4ec6f1fe22fa69e1572d1564692983; expires=Fri, 31-Jul-20 20:56:23 GMT; path=/; domain=.typicode.com; HttpOnly",
+  "Set-Cookie": "__cfduid=d950daefee139ccf586ae503aa87635001565036715; expires=Tue, 04-Aug-20 20:25:15 GMT; path=/; domain=.typicode.com; HttpOnly",
   "X-Powered-By": "Express",
   "Vary": "Origin, Accept-Encoding",
   "Access-Control-Allow-Credentials": "true",
   "Cache-Control": "public, max-age=14400",
   "Pragma": "no-cache",
-  "Expires": "Fri, 02 Aug 2019 00:56:23 GMT",
+  "Expires": "Tue, 06 Aug 2019 00:25:15 GMT",
   "X-Content-Type-Options": "nosniff",
   "Etag": "W/\"6b80-Ybsq/K6GwwqrYkAsFxqDXGC7DoM\"",
   "Content-Encoding": "gzip",
   "Via": "1.1 vegur",
   "CF-Cache-Status": "HIT",
-  "Age": "6174",
+  "Age": "5594",
   "Expect-CT": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
   "Server": "cloudflare",
-  "CF-RAY": "4ffab7eccc03c560-ORD"
+  "CF-RAY": "501b7fd129d0cf58-IAD"
 }
 ```
 </p></details>
@@ -671,13 +669,11 @@ HEADERS:
   "Accept-Encoding": "gzip, deflate",
   "Accept": "*/*",
   "Connection": "keep-alive",
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
+  "Content-Length": "2"
 }
 ```
 </p></details>
-
-BODY:
-None
 
 ### Response: 200
 
@@ -688,25 +684,25 @@ HEADERS:
             
 ```
 {
-  "Date": "Thu, 01 Aug 2019 20:56:24 GMT",
+  "Date": "Mon, 05 Aug 2019 20:25:16 GMT",
   "Content-Type": "application/json; charset=utf-8",
   "Transfer-Encoding": "chunked",
   "Connection": "keep-alive",
-  "Set-Cookie": "__cfduid=dcea111ec3445ab809a332b31c82eee1b1564692984; expires=Fri, 31-Jul-20 20:56:24 GMT; path=/; domain=.typicode.com; HttpOnly",
+  "Set-Cookie": "__cfduid=dd120dd3ccd8e489deb6a28adaf59455a1565036716; expires=Tue, 04-Aug-20 20:25:16 GMT; path=/; domain=.typicode.com; HttpOnly",
   "X-Powered-By": "Express",
   "Vary": "Origin, Accept-Encoding",
   "Access-Control-Allow-Credentials": "true",
   "Cache-Control": "public, max-age=14400",
   "Pragma": "no-cache",
-  "Expires": "Fri, 02 Aug 2019 00:56:24 GMT",
+  "Expires": "Tue, 06 Aug 2019 00:25:16 GMT",
   "X-Content-Type-Options": "nosniff",
   "Etag": "W/\"116-jnDuMpjju89+9j7e0BqkdFsVRjs\"",
   "Via": "1.1 vegur",
   "CF-Cache-Status": "HIT",
-  "Age": "1301",
+  "Age": "4419",
   "Expect-CT": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
   "Server": "cloudflare",
-  "CF-RAY": "4ffab7f1fea871a7-ORD",
+  "CF-RAY": "501b7fd6396d957e-IAD",
   "Content-Encoding": "gzip"
 }
 ```
