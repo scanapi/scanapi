@@ -1,0 +1,12 @@
+api:
+  base_url: http://api.openweathermap.org/data/2.5
+  params:
+    APPID: ${API_KEY}
+  endpoints:
+    - namespace: weather
+      path: /weather
+      requests:
+        - name: city
+          method: get
+          params:
+            q: Rio de Janeiro

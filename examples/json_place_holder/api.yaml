@@ -1,0 +1,15 @@
+api:
+  base_url: https://jsonplaceholder.typicode.com/
+  headers:
+    Content-Type: application/json
+  endpoints:
+    - namespace: posts
+      path: /posts
+      requests:
+        - name: list_all # posts_list_all
+          method: get
+          vars:
+            post_id: ${{responses['posts_list_all'].json()[1]['id']}} # should return id 2
+        - name: details # posts_details
+          method: get
+          path: ${post_id}
