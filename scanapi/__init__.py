@@ -23,5 +23,7 @@ def scan(spec_path, docs_path):
     SETTINGS.update({"spec_path": spec_path, "docs_path": docs_path})
 
     api_spec = load_yaml(SETTINGS["spec_path"])
-    responses = RequestsBuilder(api_spec).call_all()
+    request_builder = RequestsBuilder(api_spec)
+    request_builder.build_all()
+    responses = request_builder.call_all()
     DocsWriter(docs_path).write(responses)

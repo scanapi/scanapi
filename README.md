@@ -182,18 +182,21 @@ To be implemented:
 
 ### Keys
 
-| KEY       | Description                                                                                         | Type   | Scopes                 |
-|-----------|-----------------------------------------------------------------------------------------------------|--------|------------------------|
-| api       | It is reserver word that marks the root of the specification and must not appear in any other place | dict   | root                   |
-| body      | The HTTP body of the request                                                                        | dict   | POST request           |
-| base_url  | The API’s base URL                                                                                  | string | api                    |
-| endpoints | It represents a list of API endpoints                                                               | list   | api, endpoint          |
-| headers   | The HTTP headers                                                                                    | dict   | api, endpoint, request |
-| method    | The HTTP method of the request                                                                      | string | request                |
-| name      | An identifier                                                                                       | string | endpoint, request      |
-| path      | A part of the URL path that will be concatenated with the base URL and possible other paths         | string | endpoint, request      |
-| requests  | It represents a list of HTTP requests                                                               | list   | api, endpoint          |
-| vars      | Key used to define your custom variables to be used along the specification                         | dict   | request                |
+| KEY               | Description                                                                                         | Type   | Scopes                            |
+|-------------------|-----------------------------------------------------------------------------------------------------|--------|-----------------------------------|
+| api               | It is reserver word that marks the root of the specification and must not appear in any other place | dict   | root                              |
+| body              | The HTTP body of the request                                                                        | dict   | POST request                      |
+| base_url          | The API’s base URL                                                                                  | string | api                               |
+| endpoints         | It represents a list of API endpoints                                                               | list   | api, endpoint                     |
+| headers           | The HTTP headers                                                                                    | dict   | api, endpoint, request            |
+| method            | The HTTP method of the request                                                                      | string | request                           |
+| name              | An identifier                                                                                       | string | endpoint, request                 |
+| path              | A part of the URL path that will be concatenated with the base URL and possible other paths         | string | endpoint, request                 |
+| requests          | It represents a list of HTTP requests                                                               | list   | api, endpoint                     |
+| vars              | Key used to define your custom variables to be used along the specification                         | dict   | request                           |
+| ${custom var}     | A syntax to get the value of the custom variables defined at key `vars`                             | string | request - after `vars` definition |
+| ${ENV_VAR}        | A syntax to get the value of the environment variables defined at `.scanapi` file                   | string | api, endpoint, request            |
+| ${{python_code}}  | A syntax to get the value of a Python code expression                                               | string | requests                          |
 
 ### Asserts
 

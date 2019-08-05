@@ -1,3 +1,4 @@
+from enum import Enum
 import re
 import yaml
 from scanapi.settings import SETTINGS
@@ -8,42 +9,75 @@ python_code_pattern = re.compile("(^\\${{)(.*)(}}$)")  # ${{<python_code>}}
 responses = {}
 
 
-def populate_dict(element, node):
-    populated_dict = {}
+class EvaluationType(Enum):
+    ENV_VAR = 1
+    CUSTOM_VAR = 2
+    PYTHON_CODE = 3
+
+
+def evaluate(type, element, node=None):
+    if isinstance(element, dict):
+        return evaluate_dict(type, element, node)
+
+    element = str(element)
+
+    if type == EvaluationType.ENV_VAR:
+        return evaluate_env_var(element)
+
+    if type == EvaluationType.CUSTOM_VAR:
+        return evaluate_custom_var(element, node)
+
+    if type == EvaluationType.PYTHON_CODE:
+        return evaluate_python_code(element)
+
+    return element
+
+
+def evaluate_dict(type, element, node):
+    evaluated_dict = {}
     for key, value in element.items():
-        populated_dict[key] = populate_str(value, node)
+        evaluated_dict[key] = evaluate(type, value, node)
 
-    return populated_dict
+    return evaluated_dict
 
 
-def populate_str(sequence, node):
-    sequence = str(sequence)
+def evaluate_env_var(sequence):
+    if not is_env_var(sequence):
+        return sequence
 
-    if is_variable(sequence):
-        return get_variable_value(sequence, node)
+    variable_name = get_variable_name(sequence)
+    return SETTINGS["env_vars"][variable_name]
 
-    if is_python_code(sequence):
-        return get_python_code_value(sequence)
 
-    return sequence
+def evaluate_custom_var(sequence, node):
+    if not is_custom_var(sequence) or not node:
+        return sequence
+
+    variable_name = get_variable_name(sequence)
+    return node.parent.custom_vars[variable_name]
+
+
+def evaluate_python_code(sequence):
+    if not is_python_code(sequence):
+        return sequence
+
+    return get_python_code_value(sequence)
 
 
 def is_variable(sequence):
     return variable_pattern.search(sequence) is not None
 
 
+def is_custom_var(sequence):
+    return is_variable(sequence) and sequence.islower()
+
+
+def is_env_var(sequence):
+    return is_variable(sequence) and sequence.isupper()
+
+
 def is_python_code(sequence):
     return python_code_pattern.search(sequence) is not None
-
-
-def get_variable_value(sequence, node):
-    variable_name = get_variable_name(sequence)
-
-    if variable_name.isupper():
-        return SETTINGS["env_vars"][variable_name]
-
-    if type(node).__name__ == "RequestNode":
-        return node.parent.custom_vars[variable_name]
 
 
 def get_variable_name(sequence):

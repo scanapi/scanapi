@@ -3,7 +3,7 @@ import requests
 import yaml
 
 from scanapi.api_node import APINode, RequestNode
-from scanapi.variable_parser import populate_dict, populate_str, save_response
+from scanapi.variable_parser import save_response
 
 
 class RequestsBuilder:
@@ -12,49 +12,50 @@ class RequestsBuilder:
             print("API spec must start with api key as root")
 
         self.api_spec = api_spec["api"]
+        self.requests = []
 
-    def call_all(self):
+    def build_all(self):
         root = APINode(self.api_spec)
 
         if not "endpoints" in self.api_spec:
-            return self.call_requests(root)
+            return self.build_requests(root)
 
-        return self.call_endpoints(root)
+        return self.build_endpoints(root)
 
-    def call_endpoints(self, parent):
+    def call_all(self):
         responses = []
 
-        for endpoint_spec in parent.spec["endpoints"]:
-            endpoint = APINode(endpoint_spec, parent)
-            responses = responses + self.call_requests(endpoint)
-
-            if "endpoints" in endpoint.spec:
-                return self.call_endpoints(endpoint)
-
-        return responses
-
-    def call_requests(self, endpoint):
-        responses = []
-        for request_spec in endpoint.spec["requests"]:
-            request = RequestNode(request_spec, endpoint)
-
-            if request_spec["method"].lower() == "get":
+        for request in self.requests:
+            request.evaluate_request()
+            if request.spec["method"].lower() == "get":
                 response = self.get_request(
                     request.url, request.headers, request.params
                 )
-                response_id = "{}_{}".format(request.namespace, request_spec["name"])
+                response_id = "{}_{}".format(request.namespace, request.spec["name"])
                 save_response(response_id, response)
                 responses.append(response)
 
-            if request_spec["method"].lower() == "post":
+            if request.spec["method"].lower() == "post":
                 response = self.post_request(request.url, request.headers, request.body)
-                response_id = "{}_{}".format(request.namespace, request_spec["name"])
+                response_id = "{}_{}".format(request.namespace, request.spec["name"])
                 save_response(response_id, response)
                 responses.append(response)
 
             request.save_custom_vars()
 
         return responses
+
+    def build_endpoints(self, parent):
+        for endpoint_spec in parent.spec["endpoints"]:
+            endpoint = APINode(endpoint_spec, parent)
+            self.build_requests(endpoint)
+
+            if "endpoints" in endpoint.spec:
+                return self.build_endpoints(endpoint)
+
+    def build_requests(self, endpoint):
+        for request_spec in endpoint.spec["requests"]:
+            self.requests.append(RequestNode(request_spec, endpoint))
 
     def get_request(self, url, headers, params):
         return requests.get(url, headers=headers, params=params)
