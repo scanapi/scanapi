@@ -36,7 +36,9 @@ def http_method(api_spec):
 
 @then("the request should be made")
 def get_called(api_spec, mock_get_request):
-    RequestsBuilder(api_spec).call_all()
+    request_builder = RequestsBuilder(api_spec)
+    request_builder.build_all()
+    request_builder.call_all()
 
     mock_get_request.assert_called_once_with(
         "https://jsonplaceholder.typicode.com/todos", headers={}, params={}
