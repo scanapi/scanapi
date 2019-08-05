@@ -5,8 +5,8 @@ from scanapi.requests_builder import RequestsBuilder
 
 
 @pytest.fixture(autouse=True)
-def mock_get_request(mocker):
-    return mocker.patch("scanapi.requests_builder.requests.get")
+def mock_request(mocker):
+    return mocker.patch("scanapi.requests_builder.requests.request")
 
 
 @pytest.fixture
@@ -35,11 +35,15 @@ def http_method(api_spec):
 
 
 @then("the request should be made")
-def get_called(api_spec, mock_get_request):
+def get_called(api_spec, mock_request):
     request_builder = RequestsBuilder(api_spec)
     request_builder.build_all()
     request_builder.call_all()
 
-    mock_get_request.assert_called_once_with(
-        "https://jsonplaceholder.typicode.com/todos", headers={}, params={}
+    mock_request.assert_called_once_with(
+        "GET",
+        "https://jsonplaceholder.typicode.com/todos",
+        headers={},
+        params={},
+        json={},
     )

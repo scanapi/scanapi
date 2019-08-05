@@ -9,13 +9,12 @@ HEADERS:
   "User-Agent": "python-requests/2.22.0",
   "Accept-Encoding": "gzip, deflate",
   "Accept": "*/*",
-  "Connection": "keep-alive"
+  "Connection": "keep-alive",
+  "Content-Length": "2",
+  "Content-Type": "application/json"
 }
 ```
 </p></details>
-
-BODY:
-None
 
 ### Response: 200
 
@@ -27,9 +26,9 @@ HEADERS:
 ```
 {
   "Server": "openresty",
-  "Date": "Thu, 01 Aug 2019 20:46:38 GMT",
+  "Date": "Mon, 05 Aug 2019 20:25:55 GMT",
   "Content-Type": "application/json; charset=utf-8",
-  "Content-Length": "471",
+  "Content-Length": "472",
   "Connection": "keep-alive",
   "X-Cache-Key": "/data/2.5/weather?APPID=<YOUR_API_KEY>&q=rio+de+janeiro",
   "Access-Control-Allow-Origin": "*",
@@ -50,36 +49,36 @@ Content:
   },
   "weather": [
     {
-      "id": 800,
-      "main": "Clear",
-      "description": "clear sky",
-      "icon": "01n"
+      "id": 521,
+      "main": "Rain",
+      "description": "shower rain",
+      "icon": "09d"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 298.49,
-    "pressure": 1013,
-    "humidity": 78,
-    "temp_min": 295.37,
-    "temp_max": 302.15
+    "temp": 294.01,
+    "pressure": 1029,
+    "humidity": 88,
+    "temp_min": 292.15,
+    "temp_max": 296.15
   },
   "visibility": 10000,
   "wind": {
-    "speed": 5.7,
-    "deg": 180
+    "speed": 6.2,
+    "deg": 80
   },
   "clouds": {
-    "all": 0
+    "all": 75
   },
-  "dt": 1564692144,
+  "dt": 1565035993,
   "sys": {
     "type": 1,
     "id": 8429,
-    "message": 0.0063,
+    "message": 0.0054,
     "country": "BR",
-    "sunrise": 1564651618,
-    "sunset": 1564691475
+    "sunrise": 1564997087,
+    "sunset": 1565037175
   },
   "timezone": -10800,
   "id": 3451190,

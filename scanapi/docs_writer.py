@@ -47,14 +47,15 @@ class RequestWriter(HTTPMessageWriter):
         self.write_body()
 
     def write_body(self):
-        self.file.write("\nBODY:\n")
-
         if not self.request.body:
-            self.file.write("None\n")
             return
 
+        serialized_body = json.loads(self.request.body)
+        if not serialized_body:
+            return
+
+        self.file.write("\nBODY:\n")
         with CodeBlock(self.file):
-            serialized_body = json.loads(self.request.body)
             json.dump(serialized_body, self.file, indent=2)
 
 
@@ -73,11 +74,10 @@ class ResponseWriter(HTTPMessageWriter):
         self.file.write("\nIs redirect? {}\n".format(self.response.is_redirect))
 
     def write_content(self):
-        self.file.write("\nContent:\n")
-
         if not self.response.content:
-            self.file.write("None\n")
             return
+
+        self.file.write("\nContent:\n")
 
         with CodeBlock(self.file):
             try:

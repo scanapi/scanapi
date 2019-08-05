@@ -27,19 +27,9 @@ class RequestsBuilder:
 
         for request in self.requests:
             request.evaluate_request()
-            if request.spec["method"].lower() == "get":
-                response = self.get_request(
-                    request.url, request.headers, request.params
-                )
-                response_id = "{}_{}".format(request.namespace, request.spec["name"])
-                save_response(response_id, response)
-                responses.append(response)
-
-            if request.spec["method"].lower() == "post":
-                response = self.post_request(request.url, request.headers, request.body)
-                response_id = "{}_{}".format(request.namespace, request.spec["name"])
-                save_response(response_id, response)
-                responses.append(response)
+            response = self.make_request(request)
+            save_response(request.id, response)
+            responses.append(response)
 
             request.save_custom_vars()
 
@@ -57,8 +47,21 @@ class RequestsBuilder:
         for request_spec in endpoint.spec["requests"]:
             self.requests.append(RequestNode(request_spec, endpoint))
 
-    def get_request(self, url, headers, params):
-        return requests.get(url, headers=headers, params=params)
+    def make_request(self, request):
+        method = request.method.upper()
 
-    def post_request(self, url, headers, body):
-        return requests.post(url, json=body, headers=headers)
+        if method not in ("GET", "POST", "DELETE"):
+            print(
+                "HTTP method not supported: {}. Request ID: {}".format(
+                    method, request.id
+                )
+            )
+            return
+
+        return requests.request(
+            method,
+            request.url,
+            headers=request.headers,
+            params=request.params,
+            json=request.body,
+        )

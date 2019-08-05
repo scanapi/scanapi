@@ -61,7 +61,9 @@ class APINode:
 class RequestNode(APINode):
     def __init__(self, node_spec, parent):
         super().__init__(node_spec, parent)
+        self.method = self.spec["method"]
         self.body = self.define_body()
+        self.id = "{}_{}".format(self.namespace, self.spec["name"])
 
     def evaluate_request(self):
         request_path = self.url.rsplit("/", 1)[-1]

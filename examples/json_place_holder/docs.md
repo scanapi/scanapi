@@ -3,20 +3,18 @@
 
 HEADERS:
 <details><summary></summary><p>
-            
+
 ```
 {
   "User-Agent": "python-requests/2.22.0",
   "Accept-Encoding": "gzip, deflate",
   "Accept": "*/*",
   "Connection": "keep-alive",
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
+  "Content-Length": "2"
 }
 ```
 </p></details>
-
-BODY:
-None
 
 ### Response: 200
 
@@ -24,36 +22,36 @@ Is redirect? False
 
 HEADERS:
 <details><summary></summary><p>
-            
+
 ```
 {
-  "Date": "Thu, 01 Aug 2019 20:56:23 GMT",
+  "Date": "Mon, 05 Aug 2019 20:49:27 GMT",
   "Content-Type": "application/json; charset=utf-8",
   "Transfer-Encoding": "chunked",
   "Connection": "keep-alive",
-  "Set-Cookie": "__cfduid=dc4b9f781ce5e4ec6f1fe22fa69e1572d1564692983; expires=Fri, 31-Jul-20 20:56:23 GMT; path=/; domain=.typicode.com; HttpOnly",
+  "Set-Cookie": "__cfduid=d5e047ec3aa73bf2958f9456e8530a69a1565038167; expires=Tue, 04-Aug-20 20:49:27 GMT; path=/; domain=.typicode.com; HttpOnly",
   "X-Powered-By": "Express",
   "Vary": "Origin, Accept-Encoding",
   "Access-Control-Allow-Credentials": "true",
   "Cache-Control": "public, max-age=14400",
   "Pragma": "no-cache",
-  "Expires": "Fri, 02 Aug 2019 00:56:23 GMT",
+  "Expires": "Tue, 06 Aug 2019 00:49:27 GMT",
   "X-Content-Type-Options": "nosniff",
   "Etag": "W/\"6b80-Ybsq/K6GwwqrYkAsFxqDXGC7DoM\"",
   "Content-Encoding": "gzip",
   "Via": "1.1 vegur",
   "CF-Cache-Status": "HIT",
-  "Age": "6174",
+  "Age": "7046",
   "Expect-CT": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
   "Server": "cloudflare",
-  "CF-RAY": "4ffab7eccc03c560-ORD"
+  "CF-RAY": "501ba3432c3ec1ac-IAD"
 }
 ```
 </p></details>
 
 Content:
 <details><summary></summary><p>
-            
+
 ```
 [
   {
@@ -664,20 +662,18 @@ Content:
 
 HEADERS:
 <details><summary></summary><p>
-            
+
 ```
 {
   "User-Agent": "python-requests/2.22.0",
   "Accept-Encoding": "gzip, deflate",
   "Accept": "*/*",
   "Connection": "keep-alive",
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
+  "Content-Length": "2"
 }
 ```
 </p></details>
-
-BODY:
-None
 
 ### Response: 200
 
@@ -685,28 +681,28 @@ Is redirect? False
 
 HEADERS:
 <details><summary></summary><p>
-            
+
 ```
 {
-  "Date": "Thu, 01 Aug 2019 20:56:24 GMT",
+  "Date": "Mon, 05 Aug 2019 20:49:28 GMT",
   "Content-Type": "application/json; charset=utf-8",
   "Transfer-Encoding": "chunked",
   "Connection": "keep-alive",
-  "Set-Cookie": "__cfduid=dcea111ec3445ab809a332b31c82eee1b1564692984; expires=Fri, 31-Jul-20 20:56:24 GMT; path=/; domain=.typicode.com; HttpOnly",
+  "Set-Cookie": "__cfduid=dd0c55499f779caab4d89dc0ff85885e21565038168; expires=Tue, 04-Aug-20 20:49:28 GMT; path=/; domain=.typicode.com; HttpOnly",
   "X-Powered-By": "Express",
   "Vary": "Origin, Accept-Encoding",
   "Access-Control-Allow-Credentials": "true",
   "Cache-Control": "public, max-age=14400",
   "Pragma": "no-cache",
-  "Expires": "Fri, 02 Aug 2019 00:56:24 GMT",
+  "Expires": "Tue, 06 Aug 2019 00:49:28 GMT",
   "X-Content-Type-Options": "nosniff",
   "Etag": "W/\"116-jnDuMpjju89+9j7e0BqkdFsVRjs\"",
   "Via": "1.1 vegur",
   "CF-Cache-Status": "HIT",
-  "Age": "1301",
+  "Age": "5871",
   "Expect-CT": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
   "Server": "cloudflare",
-  "CF-RAY": "4ffab7f1fea871a7-ORD",
+  "CF-RAY": "501ba3485d5d9fd6-IAD",
   "Content-Encoding": "gzip"
 }
 ```
@@ -714,13 +710,60 @@ HEADERS:
 
 Content:
 <details><summary></summary><p>
-            
+
 ```
 {
   "userId": 1,
   "id": 2,
   "title": "qui est esse",
   "body": "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
+}
+```
+</p></details>
+
+## Request: DELETE https://jsonplaceholder.typicode.com/posts/1
+
+HEADERS:
+<details><summary></summary><p>
+
+```
+{
+  "User-Agent": "python-requests/2.22.0",
+  "Accept-Encoding": "gzip, deflate",
+  "Accept": "*/*",
+  "Connection": "keep-alive",
+  "Content-Type": "application/json",
+  "Content-Length": "2"
+}
+```
+</p></details>
+
+### Response: 200
+
+Is redirect? False
+
+HEADERS:
+<details><summary></summary><p>
+
+```
+{
+  "Date": "Mon, 05 Aug 2019 20:49:29 GMT",
+  "Content-Type": "application/json; charset=utf-8",
+  "Content-Length": "2",
+  "Connection": "keep-alive",
+  "Set-Cookie": "__cfduid=d69aa9f0e61eed1a57d45a78c881876e81565038169; expires=Tue, 04-Aug-20 20:49:29 GMT; path=/; domain=.typicode.com; HttpOnly",
+  "X-Powered-By": "Express",
+  "Vary": "Origin, Accept-Encoding",
+  "Access-Control-Allow-Credentials": "true",
+  "Cache-Control": "no-cache",
+  "Pragma": "no-cache",
+  "Expires": "-1",
+  "X-Content-Type-Options": "nosniff",
+  "Etag": "W/\"2-vyGp6PvFo4RvsFtPoIWeCReyIC8\"",
+  "Via": "1.1 vegur",
+  "Expect-CT": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+  "Server": "cloudflare",
+  "CF-RAY": "501ba34d5bc4c1c5-IAD"
 }
 ```
 </p></details>

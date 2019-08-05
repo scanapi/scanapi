@@ -50,6 +50,7 @@ By default, the doc will be available in the `docs.md` file.
 You can run these methods:
 - get
 - post
+- delete
 
 ### Configuration
 
