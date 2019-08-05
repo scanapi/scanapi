@@ -74,11 +74,10 @@ class ResponseWriter(HTTPMessageWriter):
         self.file.write("\nIs redirect? {}\n".format(self.response.is_redirect))
 
     def write_content(self):
-        self.file.write("\nContent:\n")
-
         if not self.response.content:
-            self.file.write("None\n")
             return
+
+        self.file.write("\nContent:\n")
 
         with CodeBlock(self.file):
             try:

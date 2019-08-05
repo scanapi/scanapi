@@ -13,3 +13,6 @@ api:
         - name: details # posts_details
           method: get
           path: ${post_id}
+        - name: delete_posts
+          method: delete
+          path: /1
