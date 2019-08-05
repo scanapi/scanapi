@@ -41,5 +41,9 @@ def get_called(api_spec, mock_request):
     request_builder.call_all()
 
     mock_request.assert_called_once_with(
-        "GET", "https://jsonplaceholder.typicode.com/todos", headers={}, params={}
+        "GET",
+        "https://jsonplaceholder.typicode.com/todos",
+        headers={},
+        params={},
+        json={},
     )
