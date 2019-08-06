@@ -48,9 +48,10 @@ By default, the doc will be available in the `docs.md` file.
 ### Available Methods
 
 You can run these methods:
-- get
-- post
-- delete
+- GET
+- POST
+- PUT
+- DELETE
 
 ### Configuration
 
@@ -186,11 +187,11 @@ To be implemented:
 | KEY               | Description                                                                                         | Type   | Scopes                            |
 |-------------------|-----------------------------------------------------------------------------------------------------|--------|-----------------------------------|
 | api               | It is reserver word that marks the root of the specification and must not appear in any other place | dict   | root                              |
-| body              | The HTTP body of the request                                                                        | dict   | POST request                      |
+| body              | The HTTP body of the request                                                                        | dict   | request                           |
 | base_url          | The API’s base URL                                                                                  | string | api                               |
 | endpoints         | It represents a list of API endpoints                                                               | list   | api, endpoint                     |
 | headers           | The HTTP headers                                                                                    | dict   | api, endpoint, request            |
-| method            | The HTTP method of the request                                                                      | string | request                           |
+| method            | The HTTP method of the request (GET, POST, PUT or DELETE)                                           | string | request                           |
 | name              | An identifier                                                                                       | string | endpoint, request                 |
 | path              | A part of the URL path that will be concatenated with the base URL and possible other paths         | string | endpoint, request                 |
 | requests          | It represents a list of HTTP requests                                                               | list   | api, endpoint                     |

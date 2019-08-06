@@ -7,6 +7,8 @@ from scanapi.variable_parser import save_response
 
 
 class RequestsBuilder:
+    ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "DELETE")
+
     def __init__(self, api_spec):
         if "api" not in api_spec:
             print("API spec must start with api key as root")
@@ -41,7 +43,7 @@ class RequestsBuilder:
             self.build_requests(endpoint)
 
             if "endpoints" in endpoint.spec:
-                return self.build_endpoints(endpoint)
+                self.build_endpoints(endpoint)
 
     def build_requests(self, endpoint):
         for request_spec in endpoint.spec["requests"]:
@@ -50,10 +52,10 @@ class RequestsBuilder:
     def make_request(self, request):
         method = request.method.upper()
 
-        if method not in ("GET", "POST", "DELETE"):
+        if method not in self.ALLOWED_HTTP_METHODS:
             print(
-                "HTTP method not supported: {}. Request ID: {}".format(
-                    method, request.id
+                "HTTP method not supported: {}. Supported methods: {}. Request ID: {}".format(
+                    method, self.ALLOWED_HTTP_METHODS, request.id
                 )
             )
             return

@@ -63,7 +63,10 @@ class RequestNode(APINode):
         super().__init__(node_spec, parent)
         self.method = self.spec["method"]
         self.body = self.define_body()
-        self.id = "{}_{}".format(self.namespace, self.spec["name"])
+        if self.namespace:
+            self.id = "{}_{}".format(self.namespace, self.spec["name"])
+        else:
+            self.id = self.spec["name"]
 
     def evaluate_request(self):
         request_path = self.url.rsplit("/", 1)[-1]
