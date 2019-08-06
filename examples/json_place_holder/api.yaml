@@ -30,7 +30,20 @@ api:
         - name: delete # posts_delete
           method: delete
           path: ${post_id}
-        - name: delete # posts_list_all_by_user
+        - name: list_all_by_user # posts_list_all_by_user
           method: get
           params:
             userId: 1
+      endpoints:
+        - namespace: comments
+          path: /1/comments
+          requests:
+            - name: comments # posts_details_comments
+              method: get
+    - namespace: comments
+      path: /comments
+      requests:
+        - name: by_post # comments_by_post
+          method: get
+          params:
+            postId: 1

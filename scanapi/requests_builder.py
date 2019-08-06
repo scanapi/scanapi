@@ -43,7 +43,7 @@ class RequestsBuilder:
             self.build_requests(endpoint)
 
             if "endpoints" in endpoint.spec:
-                return self.build_endpoints(endpoint)
+                self.build_endpoints(endpoint)
 
     def build_requests(self, endpoint):
         for request_spec in endpoint.spec["requests"]:
