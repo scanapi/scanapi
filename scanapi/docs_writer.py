@@ -4,6 +4,8 @@ import json
 import logging
 import requests
 
+from scanapi.settings import SETTINGS
+
 
 class CodeBlock:
     def __init__(self, file):
@@ -25,13 +27,29 @@ class HTTPMessageWriter:
         self.file = file
 
     def write_headers(self):
+        headers = self.message.headers
+        headers = self.hide_headers_sensitive_info(headers)
+
         self.file.write("\nHEADERS:\n")
-        if not self.message.headers:
+        if not headers:
             self.file.write("None\n")
             return
 
         with CodeBlock(self.file):
-            json.dump(dict(self.message.headers), self.file, indent=2)
+            json.dump(dict(headers), self.file, indent=2)
+
+    def hide_headers_sensitive_info(self, headers):
+        if "docs" in SETTINGS and "hide" in SETTINGS["docs"]:
+            to_hide = SETTINGS["docs"]["hide"]
+        else:
+            to_hide = {}
+
+        if to_hide and "headers" in to_hide:
+            keys_to_hide = to_hide["headers"]
+            for key in keys_to_hide:
+                headers[key] = "<sensitive information>"
+
+        return headers
 
 
 class RequestWriter(HTTPMessageWriter):
