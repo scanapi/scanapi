@@ -3,7 +3,7 @@
 
 HEADERS:
 <details><summary></summary><p>
-
+            
 ```
 {
   "User-Agent": "python-requests/2.22.0",
@@ -22,36 +22,36 @@ Is redirect? False
 
 HEADERS:
 <details><summary></summary><p>
-
+            
 ```
 {
-  "Date": "Mon, 05 Aug 2019 20:49:27 GMT",
+  "Date": "Tue, 06 Aug 2019 13:13:14 GMT",
   "Content-Type": "application/json; charset=utf-8",
   "Transfer-Encoding": "chunked",
   "Connection": "keep-alive",
-  "Set-Cookie": "__cfduid=d5e047ec3aa73bf2958f9456e8530a69a1565038167; expires=Tue, 04-Aug-20 20:49:27 GMT; path=/; domain=.typicode.com; HttpOnly",
+  "Set-Cookie": "__cfduid=d40b03ab1d00581050131d6e17e5dd5f01565097194; expires=Wed, 05-Aug-20 13:13:14 GMT; path=/; domain=.typicode.com; HttpOnly",
   "X-Powered-By": "Express",
   "Vary": "Origin, Accept-Encoding",
   "Access-Control-Allow-Credentials": "true",
   "Cache-Control": "public, max-age=14400",
   "Pragma": "no-cache",
-  "Expires": "Tue, 06 Aug 2019 00:49:27 GMT",
+  "Expires": "Tue, 06 Aug 2019 17:13:14 GMT",
   "X-Content-Type-Options": "nosniff",
   "Etag": "W/\"6b80-Ybsq/K6GwwqrYkAsFxqDXGC7DoM\"",
   "Content-Encoding": "gzip",
   "Via": "1.1 vegur",
   "CF-Cache-Status": "HIT",
-  "Age": "7046",
+  "Age": "447",
   "Expect-CT": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
   "Server": "cloudflare",
-  "CF-RAY": "501ba3432c3ec1ac-IAD"
+  "CF-RAY": "502144578b5dd03c-GRU"
 }
 ```
 </p></details>
 
 Content:
 <details><summary></summary><p>
-
+            
 ```
 [
   {
@@ -662,7 +662,7 @@ Content:
 
 HEADERS:
 <details><summary></summary><p>
-
+            
 ```
 {
   "User-Agent": "python-requests/2.22.0",
@@ -681,28 +681,27 @@ Is redirect? False
 
 HEADERS:
 <details><summary></summary><p>
-
+            
 ```
 {
-  "Date": "Mon, 05 Aug 2019 20:49:28 GMT",
+  "Date": "Tue, 06 Aug 2019 13:13:14 GMT",
   "Content-Type": "application/json; charset=utf-8",
   "Transfer-Encoding": "chunked",
   "Connection": "keep-alive",
-  "Set-Cookie": "__cfduid=dd0c55499f779caab4d89dc0ff85885e21565038168; expires=Tue, 04-Aug-20 20:49:28 GMT; path=/; domain=.typicode.com; HttpOnly",
+  "Set-Cookie": "__cfduid=d228d3d7fac321a239e6ba9a10892838c1565097194; expires=Wed, 05-Aug-20 13:13:14 GMT; path=/; domain=.typicode.com; HttpOnly",
   "X-Powered-By": "Express",
   "Vary": "Origin, Accept-Encoding",
   "Access-Control-Allow-Credentials": "true",
   "Cache-Control": "public, max-age=14400",
   "Pragma": "no-cache",
-  "Expires": "Tue, 06 Aug 2019 00:49:28 GMT",
+  "Expires": "Tue, 06 Aug 2019 17:13:14 GMT",
   "X-Content-Type-Options": "nosniff",
   "Etag": "W/\"116-jnDuMpjju89+9j7e0BqkdFsVRjs\"",
   "Via": "1.1 vegur",
-  "CF-Cache-Status": "HIT",
-  "Age": "5871",
+  "CF-Cache-Status": "REVALIDATED",
   "Expect-CT": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
   "Server": "cloudflare",
-  "CF-RAY": "501ba3485d5d9fd6-IAD",
+  "CF-RAY": "50214459ce3c4bf1-GRU",
   "Content-Encoding": "gzip"
 }
 ```
@@ -710,7 +709,7 @@ HEADERS:
 
 Content:
 <details><summary></summary><p>
-
+            
 ```
 {
   "userId": 1,
@@ -721,11 +720,159 @@ Content:
 ```
 </p></details>
 
-## Request: DELETE https://jsonplaceholder.typicode.com/posts/1
+## Request: POST https://jsonplaceholder.typicode.com/posts
 
 HEADERS:
 <details><summary></summary><p>
+            
+```
+{
+  "User-Agent": "python-requests/2.22.0",
+  "Accept-Encoding": "gzip, deflate",
+  "Accept": "*/*",
+  "Connection": "keep-alive",
+  "Content-Type": "application/json",
+  "Content-Length": "99"
+}
+```
+</p></details>
 
+BODY:
+<details><summary></summary><p>
+            
+```
+{
+  "title": "My new post",
+  "body": "This is my new post, and it is really important.",
+  "userId": "1"
+}
+```
+</p></details>
+
+### Response: 201
+
+Is redirect? False
+
+HEADERS:
+<details><summary></summary><p>
+            
+```
+{
+  "Date": "Tue, 06 Aug 2019 13:13:15 GMT",
+  "Content-Type": "application/json; charset=utf-8",
+  "Content-Length": "120",
+  "Connection": "keep-alive",
+  "Set-Cookie": "__cfduid=d588833d706d7f24e04dd529fb5e317b01565097195; expires=Wed, 05-Aug-20 13:13:15 GMT; path=/; domain=.typicode.com; HttpOnly",
+  "X-Powered-By": "Express",
+  "Vary": "Origin, X-HTTP-Method-Override, Accept-Encoding",
+  "Access-Control-Allow-Credentials": "true",
+  "Cache-Control": "no-cache",
+  "Pragma": "no-cache",
+  "Expires": "-1",
+  "Access-Control-Expose-Headers": "Location",
+  "Location": "http://jsonplaceholder.typicode.com/posts/101",
+  "X-Content-Type-Options": "nosniff",
+  "Etag": "W/\"78-2o6WcuWex+rIL+nPygZOrDKzTQw\"",
+  "Via": "1.1 vegur",
+  "Expect-CT": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+  "Server": "cloudflare",
+  "CF-RAY": "5021445e38da4b3d-GRU"
+}
+```
+</p></details>
+
+Content:
+<details><summary></summary><p>
+            
+```
+{
+  "title": "My new post",
+  "body": "This is my new post, and it is really important.",
+  "userId": "1",
+  "id": 101
+}
+```
+</p></details>
+
+## Request: PUT https://jsonplaceholder.typicode.com/posts/2
+
+HEADERS:
+<details><summary></summary><p>
+            
+```
+{
+  "User-Agent": "python-requests/2.22.0",
+  "Accept-Encoding": "gzip, deflate",
+  "Accept": "*/*",
+  "Connection": "keep-alive",
+  "Content-Type": "application/json",
+  "Content-Length": "100"
+}
+```
+</p></details>
+
+BODY:
+<details><summary></summary><p>
+            
+```
+{
+  "id": "2",
+  "title": "This is my post new title",
+  "body": "This is my post new body",
+  "userId": "1"
+}
+```
+</p></details>
+
+### Response: 200
+
+Is redirect? False
+
+HEADERS:
+<details><summary></summary><p>
+            
+```
+{
+  "Date": "Tue, 06 Aug 2019 13:13:16 GMT",
+  "Content-Type": "application/json; charset=utf-8",
+  "Transfer-Encoding": "chunked",
+  "Connection": "keep-alive",
+  "Set-Cookie": "__cfduid=d350fb600df08b10658b3c932217f8af61565097196; expires=Wed, 05-Aug-20 13:13:16 GMT; path=/; domain=.typicode.com; HttpOnly",
+  "X-Powered-By": "Express",
+  "Vary": "Origin, Accept-Encoding",
+  "Access-Control-Allow-Credentials": "true",
+  "Cache-Control": "no-cache",
+  "Pragma": "no-cache",
+  "Expires": "-1",
+  "X-Content-Type-Options": "nosniff",
+  "Etag": "W/\"6c-7HL75Pz/iCTEh68nZep7MnKsSNY\"",
+  "Via": "1.1 vegur",
+  "Expect-CT": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+  "Server": "cloudflare",
+  "CF-RAY": "502144635eb54a7c-GRU",
+  "Content-Encoding": "gzip"
+}
+```
+</p></details>
+
+Content:
+<details><summary></summary><p>
+            
+```
+{
+  "id": 2,
+  "title": "This is my post new title",
+  "body": "This is my post new body",
+  "userId": "1"
+}
+```
+</p></details>
+
+## Request: DELETE https://jsonplaceholder.typicode.com/posts/2
+
+HEADERS:
+<details><summary></summary><p>
+            
 ```
 {
   "User-Agent": "python-requests/2.22.0",
@@ -744,14 +891,14 @@ Is redirect? False
 
 HEADERS:
 <details><summary></summary><p>
-
+            
 ```
 {
-  "Date": "Mon, 05 Aug 2019 20:49:29 GMT",
+  "Date": "Tue, 06 Aug 2019 13:13:17 GMT",
   "Content-Type": "application/json; charset=utf-8",
   "Content-Length": "2",
   "Connection": "keep-alive",
-  "Set-Cookie": "__cfduid=d69aa9f0e61eed1a57d45a78c881876e81565038169; expires=Tue, 04-Aug-20 20:49:29 GMT; path=/; domain=.typicode.com; HttpOnly",
+  "Set-Cookie": "__cfduid=d3e1869f2963d714bf49466ed8f9537c21565097196; expires=Wed, 05-Aug-20 13:13:16 GMT; path=/; domain=.typicode.com; HttpOnly",
   "X-Powered-By": "Express",
   "Vary": "Origin, Accept-Encoding",
   "Access-Control-Allow-Credentials": "true",
@@ -763,7 +910,133 @@ HEADERS:
   "Via": "1.1 vegur",
   "Expect-CT": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
   "Server": "cloudflare",
-  "CF-RAY": "501ba34d5bc4c1c5-IAD"
+  "CF-RAY": "502144677bd1d048-GRU"
 }
+```
+</p></details>
+
+Content:
+<details><summary></summary><p>
+            
+```
+{}
+```
+</p></details>
+
+## Request: GET https://jsonplaceholder.typicode.com/posts?userId=1
+
+HEADERS:
+<details><summary></summary><p>
+            
+```
+{
+  "User-Agent": "python-requests/2.22.0",
+  "Accept-Encoding": "gzip, deflate",
+  "Accept": "*/*",
+  "Connection": "keep-alive",
+  "Content-Type": "application/json",
+  "Content-Length": "2"
+}
+```
+</p></details>
+
+### Response: 200
+
+Is redirect? False
+
+HEADERS:
+<details><summary></summary><p>
+            
+```
+{
+  "Date": "Tue, 06 Aug 2019 13:13:17 GMT",
+  "Content-Type": "application/json; charset=utf-8",
+  "Transfer-Encoding": "chunked",
+  "Connection": "keep-alive",
+  "Set-Cookie": "__cfduid=d673b9885011788d9ce6eec1dd5fec3ae1565097197; expires=Wed, 05-Aug-20 13:13:17 GMT; path=/; domain=.typicode.com; HttpOnly",
+  "X-Powered-By": "Express",
+  "Vary": "Origin, Accept-Encoding",
+  "Access-Control-Allow-Credentials": "true",
+  "Cache-Control": "public, max-age=14400",
+  "Pragma": "no-cache",
+  "Expires": "Tue, 06 Aug 2019 17:13:17 GMT",
+  "X-Content-Type-Options": "nosniff",
+  "Etag": "W/\"aa6-j2NSH739l9uq40OywFMn7Y0C/iY\"",
+  "Content-Encoding": "gzip",
+  "Via": "1.1 vegur",
+  "CF-Cache-Status": "REVALIDATED",
+  "Expect-CT": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+  "Server": "cloudflare",
+  "CF-RAY": "5021446ba9bcd01c-GRU"
+}
+```
+</p></details>
+
+Content:
+<details><summary></summary><p>
+            
+```
+[
+  {
+    "userId": 1,
+    "id": 1,
+    "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+    "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+  },
+  {
+    "userId": 1,
+    "id": 2,
+    "title": "qui est esse",
+    "body": "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
+  },
+  {
+    "userId": 1,
+    "id": 3,
+    "title": "ea molestias quasi exercitationem repellat qui ipsa sit aut",
+    "body": "et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut"
+  },
+  {
+    "userId": 1,
+    "id": 4,
+    "title": "eum et est occaecati",
+    "body": "ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit"
+  },
+  {
+    "userId": 1,
+    "id": 5,
+    "title": "nesciunt quas odio",
+    "body": "repudiandae veniam quaerat sunt sed\nalias aut fugiat sit autem sed est\nvoluptatem omnis possimus esse voluptatibus quis\nest aut tenetur dolor neque"
+  },
+  {
+    "userId": 1,
+    "id": 6,
+    "title": "dolorem eum magni eos aperiam quia",
+    "body": "ut aspernatur corporis harum nihil quis provident sequi\nmollitia nobis aliquid molestiae\nperspiciatis et ea nemo ab reprehenderit accusantium quas\nvoluptate dolores velit et doloremque molestiae"
+  },
+  {
+    "userId": 1,
+    "id": 7,
+    "title": "magnam facilis autem",
+    "body": "dolore placeat quibusdam ea quo vitae\nmagni quis enim qui quis quo nemo aut saepe\nquidem repellat excepturi ut quia\nsunt ut sequi eos ea sed quas"
+  },
+  {
+    "userId": 1,
+    "id": 8,
+    "title": "dolorem dolore est ipsam",
+    "body": "dignissimos aperiam dolorem qui eum\nfacilis quibusdam animi sint suscipit qui sint possimus cum\nquaerat magni maiores excepturi\nipsam ut commodi dolor voluptatum modi aut vitae"
+  },
+  {
+    "userId": 1,
+    "id": 9,
+    "title": "nesciunt iure omnis dolorem tempora et accusantium",
+    "body": "consectetur animi nesciunt iure dolore\nenim quia ad\nveniam autem ut quam aut nobis\net est aut quod aut provident voluptas autem voluptas"
+  },
+  {
+    "userId": 1,
+    "id": 10,
+    "title": "optio molestias id quia eum",
+    "body": "quo et expedita modi cum officia vel magni\ndoloribus qui repudiandae\nvero nisi sit\nquos veniam quod sed accusamus veritatis error"
+  }
+]
 ```
 </p></details>

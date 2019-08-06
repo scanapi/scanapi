@@ -13,6 +13,24 @@ api:
         - name: details # posts_details
           method: get
           path: ${post_id}
-        - name: delete_posts
+        - name: create # posts_create
+          method: post
+          body:
+            title: My new post
+            body: This is my new post, and it is really important.
+            userId: 1
+        - name: update # posts_update
+          method: put
+          path: ${post_id}
+          body:
+            id: ${post_id}
+            title: This is my post new title
+            body: This is my post new body
+            userId: 1
+        - name: delete # posts_delete
           method: delete
-          path: /1
+          path: ${post_id}
+        - name: delete # posts_list_all_by_user
+          method: get
+          params:
+            userId: 1
