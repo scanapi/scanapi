@@ -185,6 +185,17 @@ api:
               method: get # https://jsonplaceholder.typicode.com/posts/1/comments
 ```
 
+### Hiding sensitive information
+
+If you want to ommit sensitive information in your generated documentation, you can configure it in the `.scanapi.yaml` file. For now, it is only working for headers.
+
+```yaml
+docs:
+  hide:
+    headers:
+      - Authorization
+```
+
 You can find more examples [here][examples].
 
 ## Available Keys
