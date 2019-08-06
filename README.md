@@ -144,7 +144,7 @@ env_vars:
   BASE_URL: https://jsonplaceholder.typicode.com/
 ```
 
-### Chaining Requests
+### Chaining Requests: Custom Vars + Python Code
 
 ```yaml
 api:
@@ -166,23 +166,28 @@ api:
 
 ### Nested Endpoints
 
-### Split API spec file in multiples files
-
-To be implemented:
-
+```yaml
+api:
+  base_url: https://jsonplaceholder.typicode.com/
+  headers:
+    Content-Type: application/json
+  endpoints:
+    - namespace: posts
+      path: /posts
+      requests:
+        - name: list_all # posts_list_all
+          method: get
+      endpoints:
+        - namespace: comments
+          path: /1/comments
+          requests:
+            - name: comments # posts_details_comments
+              method: get # https://jsonplaceholder.typicode.com/posts/1/comments
 ```
-- api/
-  - api.yaml
-  - endpoints/
-    - endpoints.yaml
-    - posts/
-      - posts.yaml
-      - requests/
-        - list-all.yaml
-        - details.yaml
-```
 
-### Keys
+You can find more examples [here][examples].
+
+## Available Keys
 
 | KEY               | Description                                                                                         | Type   | Scopes                            |
 |-------------------|-----------------------------------------------------------------------------------------------------|--------|-----------------------------------|
@@ -200,10 +205,4 @@ To be implemented:
 | ${ENV_VAR}        | A syntax to get the value of the environment variables defined at `.scanapi` file                   | string | api, endpoint, request            |
 | ${{python_code}}  | A syntax to get the value of a Python code expression                                               | string | requests                          |
 
-### Asserts
-
-To be implemented
-
-### Cases
-
-To be implemented
+[examples]: https://github.com/camilamaia/scanapi/tree/master/examples
