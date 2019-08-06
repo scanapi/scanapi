@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 
+import click
 import json
 import logging
 import requests
 
 from scanapi.settings import SETTINGS
+
+logger = logging.getLogger(__name__)
 
 
 class CodeBlock:
@@ -109,8 +112,13 @@ class DocsWriter:
         self.file_path = file_path
 
     def write(self, responses):
+        logger.info("Writing documentation")
         open(self.file_path, "w").close()
+
         [self.write_response(response) for response in responses]
+
+        logger.info("The documentation was generated successfully.")
+        logger.info("It is available at {}".format(SETTINGS["docs_path"]))
 
     def write_response(self, response):
         request = response.request

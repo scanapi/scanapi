@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
+import click
+import logging
 import requests
 import yaml
 
 from scanapi.api_node import APINode, RequestNode
+from scanapi.errors import HTTPMethodNotAllowedError, APIKeyMissingError
 from scanapi.variable_parser import save_response
+
+logger = logging.getLogger(__name__)
 
 
 class RequestsBuilder:
@@ -11,12 +16,13 @@ class RequestsBuilder:
 
     def __init__(self, api_spec):
         if "api" not in api_spec:
-            print("API spec must start with api key as root")
+            raise APIKeyMissingError
 
         self.api_spec = api_spec["api"]
         self.requests = []
 
     def build_all(self):
+        logger.info("Building requests")
         root = APINode(self.api_spec)
 
         if not "endpoints" in self.api_spec:
@@ -29,7 +35,13 @@ class RequestsBuilder:
 
         for request in self.requests:
             request.evaluate_request()
-            response = self.make_request(request)
+            try:
+                response = self.make_request(request)
+            except Exception as e:
+                error_message = "Error to make request {}".format(request.id)
+                error_message = "{} {}".format(error_message, str(e))
+                logger.error(error_message)
+                continue
             save_response(request.id, response)
             responses.append(response)
 
@@ -53,12 +65,7 @@ class RequestsBuilder:
         method = request.method.upper()
 
         if method not in self.ALLOWED_HTTP_METHODS:
-            print(
-                "HTTP method not supported: {}. Supported methods: {}. Request ID: {}".format(
-                    method, self.ALLOWED_HTTP_METHODS, request.id
-                )
-            )
-            return
+            raise HTTPMethodNotAllowedError(method, self.ALLOWED_HTTP_METHODS)
 
         return requests.request(
             method,
