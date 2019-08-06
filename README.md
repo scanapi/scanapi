@@ -31,7 +31,7 @@ api:
 
 To run the requests and create the doc, run:
 
-```
+```bash
 $ scanapi --help
 Usage: scanapi [OPTIONS]
 
@@ -40,7 +40,8 @@ Usage: scanapi [OPTIONS]
 Options:
   -s, --spec-path PATH
   -d, --docs-path TEXT
-  --help                Show this message and exit.
+  --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]
+  --help                          Show this message and exit.
 ```
 
 By default, the doc will be available in the `docs.md` file.
