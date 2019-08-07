@@ -4,7 +4,7 @@ import yaml
 from scanapi.settings import SETTINGS
 
 
-variable_pattern = re.compile("(^\\${)(\\w*)(}$)")  # ${<variable_name>}
+variable_pattern = re.compile("(\\w*)(\\${)(\\w*)(})(\\w*)")  # ${<variable_name>}
 python_code_pattern = re.compile("(^\\${{)(.*)(}}$)")  # ${{<python_code>}}
 responses = {}
 
@@ -42,57 +42,47 @@ def evaluate_dict(type, element, node):
 
 
 def evaluate_env_var(sequence):
-    if not is_env_var(sequence):
+    match = variable_pattern.search(sequence)
+
+    if not match or match.group(3).islower():
         return sequence
 
-    variable_name = get_variable_name(sequence)
-    return SETTINGS["env_vars"][variable_name]
+    variable_name = match.group(3)
+    variable_value = SETTINGS["env_vars"][variable_name]
+
+    return evaluate_var(sequence, variable_name, variable_value)
 
 
 def evaluate_custom_var(sequence, node):
-    if not is_custom_var(sequence) or not node:
+    match = variable_pattern.search(sequence)
+
+    if not match or match.group(3).isupper() or not node:
         return sequence
 
-    variable_name = get_variable_name(sequence)
-    return node.parent.custom_vars[variable_name]
+    variable_name = match.group(3)
+    variable_value = evaluate(
+        EvaluationType.PYTHON_CODE, node.parent.custom_vars[variable_name]
+    )
+
+    return evaluate_var(sequence, variable_name, variable_value)
+
+
+def evaluate_var(sequence, variable_name, variable_value):
+    sequence = re.sub(variable_name, variable_value, sequence)
+    sequence = re.sub(r"\${", "", sequence)
+    sequence = re.sub(r"}", "", sequence)
+
+    return sequence
 
 
 def evaluate_python_code(sequence):
-    if not is_python_code(sequence):
+    match = python_code_pattern.search(sequence)
+
+    if not match:
         return sequence
 
-    return get_python_code_value(sequence)
-
-
-def is_variable(sequence):
-    return variable_pattern.search(sequence) is not None
-
-
-def is_custom_var(sequence):
-    return is_variable(sequence) and sequence.islower()
-
-
-def is_env_var(sequence):
-    return is_variable(sequence) and sequence.isupper()
-
-
-def is_python_code(sequence):
-    return python_code_pattern.search(sequence) is not None
-
-
-def get_variable_name(sequence):
-    match = variable_pattern.search(sequence)
-    if not match:
-        return
-    return match.group(2)
-
-
-def get_python_code_value(sequence):
-    match = python_code_pattern.search(sequence)
-    if not match:
-        return
-
-    return str(eval(match.group(2)))
+    code = match.group(2)
+    return str(eval(code))
 
 
 def save_response(request_id, response):

@@ -69,11 +69,8 @@ class RequestNode(APINode):
             self.id = self.spec["name"]
 
     def evaluate_request(self):
-        request_path = self.url.rsplit("/", 1)[-1]
-        evaluated_path = evaluate(EvaluationType.CUSTOM_VAR, request_path, self)
-        evaluated_path = evaluate(EvaluationType.PYTHON_CODE, evaluated_path)
-        self.url = self.url.replace(request_path, evaluated_path)
-
+        self.url = evaluate(EvaluationType.CUSTOM_VAR, self.url, self)
+        self.url = evaluate(EvaluationType.PYTHON_CODE, self.url)
         self.headers = evaluate(EvaluationType.CUSTOM_VAR, self.headers, self)
         self.headers = evaluate(EvaluationType.PYTHON_CODE, self.headers)
         self.params = evaluate(EvaluationType.CUSTOM_VAR, self.params, self)

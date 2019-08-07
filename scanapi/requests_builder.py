@@ -73,4 +73,5 @@ class RequestsBuilder:
             headers=request.headers,
             params=request.params,
             json=request.body,
+            allow_redirects=False,
         )
