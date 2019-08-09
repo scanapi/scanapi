@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="scanapi",
-    version="0.0.8",
+    version="0.0.10",
     author="Camila Maia",
     author_email="cmaiacd@gmail.com",
     description="Automated Testing and Documentation for your REST API",
