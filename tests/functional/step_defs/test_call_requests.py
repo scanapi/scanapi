@@ -46,4 +46,5 @@ def get_called(api_spec, mock_request):
         headers={},
         params={},
         json={},
+        allow_redirects=False,
     )

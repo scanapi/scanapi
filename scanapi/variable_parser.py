@@ -1,9 +1,13 @@
 from enum import Enum
+import logging
+import os
 import re
+import sys
 import yaml
-from scanapi.settings import SETTINGS
 
+from scanapi.errors import BadConfigurationError
 
+logger = logging.getLogger(__name__)
 variable_pattern = re.compile("(\\w*)(\\${)(\\w*)(})(\\w*)")  # ${<variable_name>}
 python_code_pattern = re.compile("(^\\${{)(.*)(}}$)")  # ${{<python_code>}}
 responses = {}
@@ -22,7 +26,11 @@ def evaluate(type, element, node=None):
     element = str(element)
 
     if type == EvaluationType.ENV_VAR:
-        return evaluate_env_var(element)
+        try:
+            return evaluate_env_var(element)
+        except BadConfigurationError as e:
+            logger.error(e)
+            sys.exit()
 
     if type == EvaluationType.CUSTOM_VAR:
         return evaluate_custom_var(element, node)
@@ -48,7 +56,10 @@ def evaluate_env_var(sequence):
         return sequence
 
     variable_name = match.group(3)
-    variable_value = SETTINGS["env_vars"][variable_name]
+    try:
+        variable_value = os.environ[variable_name]
+    except KeyError as e:
+        raise BadConfigurationError(e)
 
     return evaluate_var(sequence, variable_name, variable_value)
 
