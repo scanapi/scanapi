@@ -122,6 +122,10 @@ api:
 
 You can use environment variables in your API spec file:
 
+```bash
+export BASE_URL=https://jsonplaceholder.typicode.com/
+```
+
 ```yaml
 api:
   base_url: ${BASE_URL}
@@ -138,12 +142,7 @@ api:
           path: /1
 ```
 
-And in the config file `.scanapi.yaml` set their values:
-
-```yaml
-env_vars:
-  BASE_URL: https://jsonplaceholder.typicode.com/
-```
+**Heads up: the variable name must be in upper case.**
 
 ### Chaining Requests: Custom Vars + Python Code
 

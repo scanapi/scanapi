@@ -18,3 +18,12 @@ class APIKeyMissingError(MalformedSpecError):
     def __init__(self, *args):
         message = "Missing api `key` at root scope in the API spec"
         super(APIKeyMissingError, self).__init__(message, *args)
+
+
+class BadConfigurationError(Exception):
+    """Raised when an environment variable was not set or was badly configured"""
+
+    def __init__(self, env_var, *args):
+        super(BadConfigurationError, self).__init__(
+            "{} environment variable not set or badly configured".format(env_var), *args
+        )
