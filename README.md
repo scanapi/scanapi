@@ -7,6 +7,8 @@ A library for your API that provides:
 
 ![Overview Image][overview-image]
 
+[Example of generated documentation][doc-example]
+
 ## How to install
 
 ```bash
@@ -218,5 +220,6 @@ You can find more examples [here][examples].
 | ${ENV_VAR}        | A syntax to get the value of the environment variables defined at `.scanapi` file                   | string | api, endpoint, request            |
 | ${{python_code}}  | A syntax to get the value of a Python code expression                                               | string | requests                          |
 
+[doc-example]: https://github.com/camilamaia/scanapi/blob/master/examples/json_place_holder/docs.md
 [examples]: https://github.com/camilamaia/scanapi/tree/master/examples
 [overview-image]: https://github.com/camilamaia/scanapi/blob/master/images/overview.png
