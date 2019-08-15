@@ -1,4 +1,5 @@
 # ScanAPI
+[![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scanapi/community)
 
 A library for your API that provides:
 
