@@ -5,6 +5,8 @@ A library for your API that provides:
 - Automated Testing
 - Automated Documentation
 
+![Overview Image][overview-image]
+
 ## How to install
 
 ```bash
@@ -217,3 +219,4 @@ You can find more examples [here][examples].
 | ${{python_code}}  | A syntax to get the value of a Python code expression                                               | string | requests                          |
 
 [examples]: https://github.com/camilamaia/scanapi/tree/master/examples
+[overview-image]: https://github.com/camilamaia/scanapi/blob/master/images/overview.png
