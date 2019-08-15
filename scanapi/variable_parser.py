@@ -5,7 +5,7 @@ import re
 import sys
 import yaml
 
-from scanapi.errors import BadConfigurationError
+from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
 
 logger = logging.getLogger(__name__)
 variable_pattern = re.compile("(\\w*)(\\${)(\\w*)(})(\\w*)")  # ${<variable_name>}
@@ -36,7 +36,11 @@ def evaluate(type, element, node=None):
         return evaluate_custom_var(element, node)
 
     if type == EvaluationType.PYTHON_CODE:
-        return evaluate_python_code(element)
+        try:
+            return evaluate_python_code(element)
+        except InvalidPythonCodeError as e:
+            logger.error(e)
+            sys.exit()
 
     return element
 
@@ -50,40 +54,51 @@ def evaluate_dict(type, element, node):
 
 
 def evaluate_env_var(sequence):
-    match = variable_pattern.search(sequence)
+    matches = variable_pattern.finditer(sequence)
 
-    if not match or match.group(3).islower():
+    if not matches:
         return sequence
 
-    variable_name = match.group(3)
-    try:
-        variable_value = os.environ[variable_name]
-    except KeyError as e:
-        raise BadConfigurationError(e)
+    for match in matches:
+        variable_name = match.group(3)
 
-    return evaluate_var(sequence, variable_name, variable_value)
+        if variable_name.islower():
+            continue
+
+        try:
+            variable_value = os.environ[variable_name]
+        except KeyError as e:
+            raise BadConfigurationError(e)
+
+        sequence = evaluate_var(sequence, match.group(), variable_value)
+
+    return sequence
 
 
 def evaluate_custom_var(sequence, node):
-    match = variable_pattern.search(sequence)
+    matches = variable_pattern.finditer(sequence)
 
-    if not match or match.group(3).isupper() or not node:
+    if not matches or not node:
         return sequence
 
-    variable_name = match.group(3)
-    variable_value = evaluate(
-        EvaluationType.PYTHON_CODE, node.parent.custom_vars[variable_name]
-    )
+    for match in matches:
+        variable_name = match.group(3)
 
-    return evaluate_var(sequence, variable_name, variable_value)
+        if variable_name.isupper():
+            continue
 
+        variable_value = evaluate(
+            EvaluationType.PYTHON_CODE, node.parent.custom_vars[match.group(3)]
+        )
 
-def evaluate_var(sequence, variable_name, variable_value):
-    sequence = re.sub(variable_name, variable_value, sequence)
-    sequence = re.sub(r"\${", "", sequence)
-    sequence = re.sub(r"}", "", sequence)
+        sequence = evaluate_var(sequence, match.group(), variable_value)
 
     return sequence
+
+
+def evaluate_var(sequence, variable, variable_value):
+    variable = re.escape(variable)
+    return re.sub(variable, variable_value, sequence)
 
 
 def evaluate_python_code(sequence):
@@ -93,7 +108,11 @@ def evaluate_python_code(sequence):
         return sequence
 
     code = match.group(2)
-    return str(eval(code))
+
+    try:
+        return str(eval(code))
+    except Exception as e:
+        raise InvalidPythonCodeError(str(e))
 
 
 def save_response(request_id, response):

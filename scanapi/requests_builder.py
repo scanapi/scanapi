@@ -38,8 +38,7 @@ class RequestsBuilder:
             try:
                 response = self.make_request(request)
             except Exception as e:
-                error_message = "Error to make request {}".format(request.id)
-                error_message = "{} {}".format(error_message, str(e))
+                error_message = f"Error to make request `{request.id}`. {str(e)}"
                 logger.error(error_message)
                 continue
             save_response(request.id, response)
