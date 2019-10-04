@@ -1,0 +1,12 @@
+api:
+  base_url: https://jsonplaceholder.typicode.com/
+  requests:
+    - name: docs
+      method: get
+      path: docs
+  endpoints:
+    - namespace: posts
+      path: /posts
+      requests:
+        - name: list_all_posts
+          method: get

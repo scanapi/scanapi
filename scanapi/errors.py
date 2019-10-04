@@ -6,8 +6,8 @@ class HTTPMethodNotAllowedError(MalformedSpecError):
     """Raised when the HTTP method in the API spec is invalid"""
 
     def __init__(self, method, allowed_methos, *args):
-        message = "HTTP method not supported: {}. Supported methods: {}.".format(
-            method, allowed_methos
+        message = (
+            f"HTTP method not supported: {method}. Supported methods: {allowed_methos}."
         )
         super(HTTPMethodNotAllowedError, self).__init__(message, *args)
 
@@ -18,6 +18,14 @@ class APIKeyMissingError(MalformedSpecError):
     def __init__(self, *args):
         message = "Missing api `key` at root scope in the API spec"
         super(APIKeyMissingError, self).__init__(message, *args)
+
+
+class InvalidPythonCodeError(MalformedSpecError):
+    """Raised when python code defined in the API spec raises an error"""
+
+    def __init__(self, error_message, *args):
+        error_message = f"Invalid Python code defined in the API spec: {error_message}"
+        super(InvalidPythonCodeError, self).__init__(error_message, *args)
 
 
 class BadConfigurationError(Exception):
