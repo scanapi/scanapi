@@ -20,7 +20,7 @@ class APINode:
         if "path" not in self.spec:
             return parent_url
 
-        populated_node_path = evaluate(EvaluationType.ENV_VAR, self.spec["path"])
+        populated_node_path = str(evaluate(EvaluationType.ENV_VAR, self.spec["path"]))
         return "/".join(s.strip("/") for s in [parent_url, populated_node_path])
 
     def define_headers(self):
@@ -68,6 +68,8 @@ class RequestNode(APINode):
         else:
             self.id = self.spec["name"]
 
+        self.save_custom_vars()
+
     def evaluate_request(self):
         self.url = evaluate(EvaluationType.CUSTOM_VAR, self.url, self)
         self.url = evaluate(EvaluationType.PYTHON_CODE, self.url)
@@ -84,15 +86,22 @@ class RequestNode(APINode):
 
         return evaluate(EvaluationType.ENV_VAR, self.spec["body"])
 
-    def save_custom_vars(self):
+    def save_custom_vars(self, dynamic_chain=False):
         parent_vars = self.parent.custom_vars
+        key = self.custom_vars_key(dynamic_chain)
 
-        if "vars" not in self.spec:
+        if key not in self.spec:
             return parent_vars
 
         node_vars = {}
 
-        for var_name, var_value in self.spec["vars"].items():
+        for var_name, var_value in self.spec[key].items():
             node_vars[var_name] = evaluate(EvaluationType.ENV_VAR, var_value)
 
         self.parent.custom_vars = {**parent_vars, **node_vars}
+
+    def custom_vars_key(self, dynamic_chain):
+        if dynamic_chain:
+            return "dcvars"
+
+        return "vars"

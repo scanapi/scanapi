@@ -48,14 +48,16 @@ class RequestsBuilder:
             save_response(request.id, response)
             responses.append(response)
 
-            request.save_custom_vars()
+            request.save_custom_vars(dynamic_chain=True)
 
         return responses
 
     def build_endpoints(self, parent):
         for endpoint_spec in parent.spec["endpoints"]:
             endpoint = APINode(endpoint_spec, parent)
-            self.build_requests(endpoint)
+
+            if "requests" in endpoint.spec:
+                self.build_requests(endpoint)
 
             if "endpoints" in endpoint.spec:
                 self.build_endpoints(endpoint)

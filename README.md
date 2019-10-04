@@ -218,6 +218,7 @@ You can find more examples [here][examples].
 | path              | A part of the URL path that will be concatenated with the base URL and possible other paths         | string | endpoint, request                 |
 | requests          | It represents a list of HTTP requests                                                               | list   | api, endpoint                     |
 | vars              | Key used to define your custom variables to be used along the specification                         | dict   | request                           |
+| dcvars            | Key used to define your dynamic chain variables to be used along the specification                  | dict   | request                           |
 | ${custom var}     | A syntax to get the value of the custom variables defined at key `vars`                             | string | request - after `vars` definition |
 | ${ENV_VAR}        | A syntax to get the value of the environment variables defined at `.scanapi` file                   | string | api, endpoint, request            |
 | ${{python_code}}  | A syntax to get the value of a Python code expression                                               | string | requests                          |
