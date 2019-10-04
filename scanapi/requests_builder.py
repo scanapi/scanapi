@@ -48,7 +48,7 @@ class RequestsBuilder:
             save_response(request.id, response)
             responses.append(response)
 
-            request.save_custom_vars()
+            request.save_custom_vars(dynamic_chain=True)
 
         return responses
 
