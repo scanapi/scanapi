@@ -76,4 +76,52 @@ class TestRequestBuilder:
             ):
                 request_builder.build_all()
                 assert mock_build_requests.called_once
-                assert not mock_build_endpoints.called
+
+        class TestWhenSpecHasRootRequestAndEndpoints:
+            @pytest.fixture
+            def api_spec(self):
+                return load_yaml(
+                    "tests/data/specs/with_endpoints/get_with_root_requests.yaml"
+                )
+
+            @pytest.fixture
+            def request_builder(self, api_spec):
+                return RequestsBuilder(api_spec)
+
+            def test_should_build_requests(self, request_builder):
+                request_builder.build_all()
+                assert len(request_builder.requests) == 2
+
+                root_request = request_builder.requests[0]
+                assert root_request.spec == {
+                    "name": "docs",
+                    "method": "get",
+                    "path": "docs",
+                }
+                assert root_request.id == "docs"
+                assert root_request.url == "https://jsonplaceholder.typicode.com/docs"
+                assert root_request.custom_vars == {}
+                assert root_request.method == "get"
+                assert root_request.body == {}
+                assert root_request.headers == {}
+
+                endpoint_request = request_builder.requests[1]
+                assert endpoint_request.spec == {
+                    "name": "list_all_posts",
+                    "method": "get",
+                }
+                assert endpoint_request.id == "posts_list_all_posts"
+                assert (
+                    endpoint_request.url == "https://jsonplaceholder.typicode.com/posts"
+                )
+                assert endpoint_request.custom_vars == {}
+                assert endpoint_request.method == "get"
+                assert endpoint_request.body == {}
+                assert endpoint_request.headers == {}
+
+            def test_build_request_should_be_called(
+                self, request_builder, mock_build_endpoints, mock_build_requests
+            ):
+                request_builder.build_all()
+                assert mock_build_requests.called_once
+                assert mock_build_requests.called_once

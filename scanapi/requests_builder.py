@@ -25,10 +25,14 @@ class RequestsBuilder:
         logger.info("Building requests")
         root = APINode(self.api_spec)
 
-        if not "endpoints" in self.api_spec:
-            return self.build_requests(root)
+        # Builds the root requests
+        if "requests" in self.api_spec:
+            self.build_requests(root)
 
-        return self.build_endpoints(root)
+        if not "endpoints" in self.api_spec:
+            return
+
+        self.build_endpoints(root)
 
     def call_all(self):
         responses = []
