@@ -23,7 +23,11 @@ def evaluate(type, element, node=None):
     if isinstance(element, dict):
         return evaluate_dict(type, element, node)
 
-    element = str(element)
+    if isinstance(element, list):
+        return evaluate_list(type, element, node)
+
+    if not isinstance(element, str):
+        return element
 
     if type == EvaluationType.ENV_VAR:
         try:
@@ -51,6 +55,14 @@ def evaluate_dict(type, element, node):
         evaluated_dict[key] = evaluate(type, value, node)
 
     return evaluated_dict
+
+
+def evaluate_list(type, elements, node):
+    evaluated_list = []
+    for item in elements:
+        evaluated_list.append(evaluate(type, item, node))
+
+    return evaluated_list
 
 
 def evaluate_env_var(sequence):

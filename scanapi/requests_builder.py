@@ -55,7 +55,9 @@ class RequestsBuilder:
     def build_endpoints(self, parent):
         for endpoint_spec in parent.spec["endpoints"]:
             endpoint = APINode(endpoint_spec, parent)
-            self.build_requests(endpoint)
+
+            if "requests" in endpoint.spec:
+                self.build_requests(endpoint)
 
             if "endpoints" in endpoint.spec:
                 self.build_endpoints(endpoint)

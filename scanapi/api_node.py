@@ -20,7 +20,7 @@ class APINode:
         if "path" not in self.spec:
             return parent_url
 
-        populated_node_path = evaluate(EvaluationType.ENV_VAR, self.spec["path"])
+        populated_node_path = str(evaluate(EvaluationType.ENV_VAR, self.spec["path"]))
         return "/".join(s.strip("/") for s in [parent_url, populated_node_path])
 
     def define_headers(self):
