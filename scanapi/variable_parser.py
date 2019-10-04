@@ -7,6 +7,9 @@ import yaml
 
 from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
 
+# Available imports to be used dinamically in the api spec
+import datetime
+
 logger = logging.getLogger(__name__)
 variable_pattern = re.compile("(\\w*)(\\${)(\\w*)(})(\\w*)")  # ${<variable_name>}
 python_code_pattern = re.compile("(^\\${{)(.*)(}}$)")  # ${{<python_code>}}
