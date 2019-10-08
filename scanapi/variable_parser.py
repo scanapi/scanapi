@@ -9,6 +9,10 @@ from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
 
 # Available imports to be used dinamically in the api spec
 import datetime
+import math
+import random
+import time
+import uuid
 
 logger = logging.getLogger(__name__)
 variable_pattern = re.compile("(\\w*)(\\${)(\\w*)(})(\\w*)")  # ${<variable_name>}
