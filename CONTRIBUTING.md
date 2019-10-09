@@ -34,33 +34,24 @@ To have the BDD reports on terminal, run:
 $ pytest --gherkin-terminal-reporter
 ```
 
-## Deploy on PyPI
+## Deploy
+
+Steps:
+1. Deploy on GitHub
+2. Deploy on PyPI
+3. Deploy on DockerHub
+
+### 1. Deploy on GitHub
+
+Deploy on GitHub is done when a [new release is created][creating-releases]. Real examples are available at: https://github.com/camilamaia/scanapi/releases.
+
+### 2. Deploy on PyPI
 
 Requirements:
 
 - [setuptools][setuptools]
 - [twine][twine]
-
-### Test Environment
-
-Check the last release number at https://test.pypi.org/manage/project/scanapi/releases/
-Increment the version number at `setup.py` according to the version you have just got.
-
-Then, send the new version to PyPi server
-
-```bash
-$ rm -r dist/*
-$ python3 setup.py sdist bdist_wheel
-$ python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
-```
-
-To test it, run:
-
-```
-$ pip install -i https://test.pypi.org/simple/ scanapi
-```
-
-### Production Environment
+- PyPI credentials
 
 Check the last release number at https://pypi.org/manage/project/scanapi/releases/
 Increment the version number at `setup.py` according to the version you have just got.
@@ -71,6 +62,18 @@ Then, send the new version to PyPi server
 $ rm -r dist/*
 $ python3 setup.py sdist bdist_wheel
 $ twine upload dist/*
+```
+
+### 3. Deploy on DockerHub
+
+Requirements:
+
+- DockerHub credentials
+
+```bash
+$ docker build -f Dockerfile -t camilamaia/scanapi:latest . --no-cache
+$ docker tag camilamaia/scanapi:latest camilamaia/scanapi:latest
+$ docker push camilamaia/scanapi:latest
 ```
 
 [virtualenv]: https://virtualenv.pypa.io/en/latest/
