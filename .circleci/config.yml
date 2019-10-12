@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/scanapi
+    docker:
+      - image: circleci/python:3.7.3
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - run:
+          command: ./venv/bin/pytest --junit-xml=test-report.xml
+      - store_artifacts:
+          path: test-report.xml
