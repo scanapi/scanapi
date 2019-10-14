@@ -1,5 +1,6 @@
 # ScanAPI
 [![CircleCI](https://circleci.com/gh/camilamaia/scanapi.svg?style=svg)](https://circleci.com/gh/camilamaia/scanapi)
+[![codecov](https://codecov.io/gh/camilamaia/scanapi/branch/master/graph/badge.svg)](https://codecov.io/gh/camilamaia/scanapi)
 [![PyPI version](https://badge.fury.io/py/scanapi.svg)](https://badge.fury.io/py/scanapi)
 [![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scanapi/community)
 
@@ -207,22 +208,22 @@ You can find more examples [here][examples].
 
 ## Available Keys
 
-| KEY               | Description                                                                                         | Type   | Scopes                            |
-|-------------------|-----------------------------------------------------------------------------------------------------|--------|-----------------------------------|
-| api               | It is reserver word that marks the root of the specification and must not appear in any other place | dict   | root                              |
-| body              | The HTTP body of the request                                                                        | dict   | request                           |
-| base_url          | The API’s base URL                                                                                  | string | api                               |
-| endpoints         | It represents a list of API endpoints                                                               | list   | api, endpoint                     |
-| headers           | The HTTP headers                                                                                    | dict   | api, endpoint, request            |
-| method            | The HTTP method of the request (GET, POST, PUT or DELETE)                                           | string | request                           |
-| name              | An identifier                                                                                       | string | endpoint, request                 |
-| path              | A part of the URL path that will be concatenated with the base URL and possible other paths         | string | endpoint, request                 |
-| requests          | It represents a list of HTTP requests                                                               | list   | api, endpoint                     |
-| vars              | Key used to define your custom variables to be used along the specification                         | dict   | request                           |
-| dcvars            | Key used to define your dynamic chain variables to be used along the specification                  | dict   | request                           |
-| ${custom var}     | A syntax to get the value of the custom variables defined at key `vars`                             | string | request - after `vars` definition |
-| ${ENV_VAR}        | A syntax to get the value of the environment variables defined at `.scanapi` file                   | string | api, endpoint, request            |
-| ${{python_code}}  | A syntax to get the value of a Python code expression                                               | string | requests                          |
+| KEY              | Description                                                                                         | Type   | Scopes                            |
+| ---------------- | --------------------------------------------------------------------------------------------------- | ------ | --------------------------------- |
+| api              | It is reserver word that marks the root of the specification and must not appear in any other place | dict   | root                              |
+| body             | The HTTP body of the request                                                                        | dict   | request                           |
+| base_url         | The API’s base URL                                                                                  | string | api                               |
+| endpoints        | It represents a list of API endpoints                                                               | list   | api, endpoint                     |
+| headers          | The HTTP headers                                                                                    | dict   | api, endpoint, request            |
+| method           | The HTTP method of the request (GET, POST, PUT or DELETE)                                           | string | request                           |
+| name             | An identifier                                                                                       | string | endpoint, request                 |
+| path             | A part of the URL path that will be concatenated with the base URL and possible other paths         | string | endpoint, request                 |
+| requests         | It represents a list of HTTP requests                                                               | list   | api, endpoint                     |
+| vars             | Key used to define your custom variables to be used along the specification                         | dict   | request                           |
+| dcvars           | Key used to define your dynamic chain variables to be used along the specification                  | dict   | request                           |
+| ${custom var}    | A syntax to get the value of the custom variables defined at key `vars`                             | string | request - after `vars` definition |
+| ${ENV_VAR}       | A syntax to get the value of the environment variables defined at `.scanapi` file                   | string | api, endpoint, request            |
+| ${{python_code}} | A syntax to get the value of a Python code expression                                               | string | requests                          |
 
 [doc-example]: https://github.com/camilamaia/scanapi/blob/master/examples/json_place_holder/docs.md
 [examples]: https://github.com/camilamaia/scanapi/tree/master/examples
