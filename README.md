@@ -1,4 +1,5 @@
 # ScanAPI
+[![CircleCI](https://circleci.com/gh/camilamaia/scanapi.svg?style=svg)](https://circleci.com/gh/camilamaia/scanapi)
 [![PyPI version](https://badge.fury.io/py/scanapi.svg)](https://badge.fury.io/py/scanapi)
 [![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scanapi/community)
 
