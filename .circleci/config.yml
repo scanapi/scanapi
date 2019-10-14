@@ -14,9 +14,7 @@ jobs:
             pip install -r requirements-dev.txt
       - run:
           name: Run tests
-          command: ./venv/bin/pytest --cov=./ --junit-xml=test-report.xml
-      - store_artifacts:
-          path: test-report.xml
+          command: ./venv/bin/pytest --cov=./scanapi
       - run:
           name: Upload coverage report to codecov.io
           command: ./venv/bin/codecov
