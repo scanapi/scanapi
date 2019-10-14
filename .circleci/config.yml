@@ -11,8 +11,12 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
+            pip install -r requirements-dev.txt
       - run:
-          command: ./venv/bin/pytest --junit-xml=test-report.xml
+          name: Run tests
+          command: ./venv/bin/pytest --cov=./ --junit-xml=test-report.xml
       - store_artifacts:
           path: test-report.xml
+      - run:
+          name: Upload coverage report to codecov.io
+          command: ./venv/bin/codecov
