@@ -11,7 +11,7 @@ A library for your API that provides:
 
 ![Overview Image][overview-image]
 
-[Example of generated documentation][doc-example]
+Here is an [example][doc-example] of a generated documentation.
 
 ## How to install
 
