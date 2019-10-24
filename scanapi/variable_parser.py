@@ -15,8 +15,12 @@ import time
 import uuid
 
 logger = logging.getLogger(__name__)
-variable_pattern = re.compile("(\\w*)(\\${)(\\w*)(})(\\w*)")  # ${<variable_name>}
-python_code_pattern = re.compile("(^\\${{)(.*)(}}$)")  # ${{<python_code>}}
+variable_pattern = re.compile(
+    r"(?P<something_before>\w*)(?P<start>\${)(?P<variable>\w*)(?P<end>})(?P<something_after>\w*)"
+)  # ${<variable>}
+python_code_pattern = re.compile(
+    r"(?P<start>^\${{)(?P<python_code>.*)(?P<end>}}$)"
+)  # ${{<python_code>}}
 responses = {}
 
 
@@ -79,7 +83,7 @@ def evaluate_env_var(sequence):
         return sequence
 
     for match in matches:
-        variable_name = match.group(3)
+        variable_name = match.group("variable")
 
         if variable_name.islower():
             continue
@@ -101,7 +105,7 @@ def evaluate_custom_var(sequence, node):
         return sequence
 
     for match in matches:
-        variable_name = match.group(3)
+        variable_name = match.group("variable")
 
         if variable_name.isupper():
             continue
@@ -126,7 +130,7 @@ def evaluate_python_code(sequence):
     if not match:
         return sequence
 
-    code = match.group(2)
+    code = match.group("python_code")
 
     try:
         return str(eval(code))
