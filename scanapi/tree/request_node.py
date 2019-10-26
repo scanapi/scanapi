@@ -35,7 +35,7 @@ class RequestNode(EndpointNode):
         if not self.namespace:
             return self.spec["name"]
 
-        return "{}_{}".format(self.namespace, self.spec["name"])
+        return f"{self.namespace}_{self.spec['name']}"
 
     def save_custom_vars(self, dynamic_chain=False):
         parent_vars = self.parent.custom_vars
