@@ -1,6 +1,7 @@
 import logging
 
-from scanapi.api_node import APINode, RequestNode
+from scanapi.tree.api_node import APINode
+from scanapi.tree.request_node import RequestNode
 from scanapi.errors import APIKeyMissingError
 
 logger = logging.getLogger(__name__)
