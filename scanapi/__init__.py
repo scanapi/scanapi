@@ -3,7 +3,7 @@ name = "scanapi"
 import click
 import logging
 
-from scanapi.api_tree import APITree
+from scanapi.tree.api_tree import APITree
 from scanapi.docs_writer import DocsWriter
 from scanapi.requests_maker import RequestsMaker
 from scanapi.settings import SETTINGS

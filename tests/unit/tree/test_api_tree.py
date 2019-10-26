@@ -1,6 +1,6 @@
 import pytest
 
-from scanapi.api_tree import APITree
+from scanapi.tree.api_tree import APITree
 from scanapi.yaml_loader import load_yaml
 
 
@@ -8,11 +8,11 @@ class TestAPITree:
     class TestBuild:
         @pytest.fixture
         def mock_build_endpoints(self, mocker):
-            return mocker.patch("scanapi.api_tree.APITree.build_endpoints")
+            return mocker.patch("scanapi.tree.api_tree.APITree.build_endpoints")
 
         @pytest.fixture
         def mock_build_requests(self, mocker):
-            return mocker.patch("scanapi.api_tree.APITree.build_requests")
+            return mocker.patch("scanapi.tree.api_tree.APITree.build_requests")
 
         class TestWhenSpecHasEndpoints:
             @pytest.fixture

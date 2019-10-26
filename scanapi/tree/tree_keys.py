@@ -1,0 +1,34 @@
+BASE_URL_KEY = "base_url"
+BODY_KEY = "body"
+DCVARS_KEY = "dcvars"
+ENDPOINTS_KEY = "endpoints"
+HEADERS_KEY = "headers"
+METHOD_KEY = "method"
+NAME_KEY = "name"
+NAMESPACE_KEY = "namespace"
+PATH_KEY = "path"
+PARAMS = "params"
+REQUESTS_KEY = "requests"
+VARS_KEY = "vars"
+
+ROOT_NODE_KEYS = (BASE_URL_KEY, ENDPOINTS_KEY, HEADERS_KEY, PARAMS, REQUESTS_KEY)
+
+ENDPOINT_NODE_KEYS = (
+    ENDPOINTS_KEY,
+    HEADERS_KEY,
+    NAMESPACE_KEY,
+    PARAMS,
+    PATH_KEY,
+    REQUESTS_KEY,
+)
+
+REQUEST_NODE_KEYS = (
+    BODY_KEY,
+    DCVARS_KEY,
+    HEADERS_KEY,
+    METHOD_KEY,
+    NAME_KEY,
+    PARAMS,
+    PATH_KEY,
+    VARS_KEY,
+)

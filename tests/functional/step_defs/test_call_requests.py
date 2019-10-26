@@ -1,7 +1,7 @@
 import pytest
 from pytest_bdd import scenario, given, when, then
 
-from scanapi.api_tree import APITree
+from scanapi.tree.api_tree import APITree
 from scanapi.requests_maker import RequestsMaker
 
 

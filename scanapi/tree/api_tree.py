@@ -1,6 +1,9 @@
 import logging
 
-from scanapi.api_node import APINode, RequestNode
+from scanapi.tree.api_node import APINode
+from scanapi.tree.endpoint_node import EndpointNode
+from scanapi.tree.request_node import RequestNode
+from scanapi.tree.root_node import RootNode
 from scanapi.errors import APIKeyMissingError
 
 logger = logging.getLogger(__name__)
@@ -12,7 +15,7 @@ class APITree:
             raise APIKeyMissingError
 
         self.spec = api_spec["api"]
-        self.root = APINode(self.spec)
+        self.root = RootNode(self.spec)
         self.leaves = []
 
         self.build()
@@ -31,7 +34,7 @@ class APITree:
 
     def build_endpoints(self, parent):
         for endpoint_spec in parent.spec["endpoints"]:
-            endpoint = APINode(endpoint_spec, parent)
+            endpoint = EndpointNode(endpoint_spec, parent)
 
             if "requests" in endpoint.spec:
                 self.build_requests(endpoint)
