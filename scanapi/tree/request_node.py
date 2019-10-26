@@ -1,8 +1,8 @@
-from scanapi.tree.api_node import APINode
+from scanapi.tree.endpoint_node import EndpointNode
 from scanapi.variable_parser import EvaluationType, evaluate
 
 
-class RequestNode(APINode):
+class RequestNode(EndpointNode):
     def __init__(self, node_spec, parent):
         super().__init__(node_spec, parent)
         self.method = self.spec["method"]
