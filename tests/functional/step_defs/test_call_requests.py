@@ -1,12 +1,13 @@
 import pytest
 from pytest_bdd import scenario, given, when, then
 
-from scanapi.requests_builder import RequestsBuilder
+from scanapi.api_tree import APITree
+from scanapi.requests_maker import RequestsMaker
 
 
 @pytest.fixture(autouse=True)
 def mock_request(mocker):
-    return mocker.patch("scanapi.requests_builder.requests.request")
+    return mocker.patch("scanapi.requests_maker.requests.request")
 
 
 @pytest.fixture
@@ -36,9 +37,8 @@ def http_method(api_spec):
 
 @then("the request should be made")
 def get_called(api_spec, mock_request):
-    request_builder = RequestsBuilder(api_spec)
-    request_builder.build_all()
-    request_builder.call_all()
+    api_tree = APITree(api_spec)
+    RequestsMaker(api_tree.leaves).make_all()
 
     mock_request.assert_called_once_with(
         "GET",

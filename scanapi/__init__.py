@@ -3,8 +3,9 @@ name = "scanapi"
 import click
 import logging
 
+from scanapi.api_tree import APITree
 from scanapi.docs_writer import DocsWriter
-from scanapi.requests_builder import RequestsBuilder
+from scanapi.requests_maker import RequestsMaker
 from scanapi.settings import SETTINGS
 from scanapi.yaml_loader import load_yaml
 
@@ -40,13 +41,12 @@ def scan(spec_path, docs_path, log_level):
         return
 
     try:
-        request_builder = RequestsBuilder(api_spec)
+        api_tree = APITree(api_spec)
     except Exception as e:
         error_message = "Error loading API spec."
         error_message = "{} {}".format(error_message, str(e))
         logger.error(error_message)
         return
 
-    request_builder.build_all()
-    responses = request_builder.call_all()
+    responses = RequestsMaker(api_tree.leaves).make_all()
     DocsWriter(docs_path).write(responses)
