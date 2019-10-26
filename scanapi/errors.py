@@ -1,3 +1,8 @@
+ROOT_SCOPE = "root"
+ENDPOINT_SCOPE = "endpoint"
+REQUEST_SCOPE = "request"
+
+
 class MalformedSpecError(Exception):
     pass
 
@@ -20,6 +25,14 @@ class APIKeyMissingError(MalformedSpecError):
         super(APIKeyMissingError, self).__init__(message, *args)
 
 
+class InvalidKeyError(MalformedSpecError):
+    """Raised when an invalid key is specified in the API spec"""
+
+    def __init__(self, key, scope, available_keys, *args):
+        message = f"Invalid key `{key}` at `{scope}` scope. Available keys are: {available_keys}"
+        super(InvalidKeyError, self).__init__(message, *args)
+
+
 class InvalidPythonCodeError(MalformedSpecError):
     """Raised when python code defined in the API spec raises an error"""
 
@@ -33,5 +46,5 @@ class BadConfigurationError(Exception):
 
     def __init__(self, env_var, *args):
         super(BadConfigurationError, self).__init__(
-            "{} environment variable not set or badly configured".format(env_var), *args
+            f"{env_var} environment variable not set or badly configured", *args
         )

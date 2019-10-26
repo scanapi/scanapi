@@ -1,10 +1,14 @@
+from scanapi.errors import ENDPOINT_SCOPE
 from scanapi.tree.api_node import APINode
+from scanapi.tree.tree_keys import ENDPOINT_NODE_KEYS
 from scanapi.variable_parser import EvaluationType, evaluate
 
 
 class EndpointNode(APINode):
-    def __init__(self, node_spec, parent=None):
+    def __init__(self, node_spec, parent):
         self.spec = node_spec
+        super().__init__(node_spec)
+
         self.parent = parent
         self.url = self.define_url()
         self.headers = self.define_headers()
@@ -54,3 +58,6 @@ class EndpointNode(APINode):
         )
 
         return "_".join(filter(None, [parent_namespace, populated_node_namespace]))
+
+    def validate(self):
+        APINode.validate_keys(self.spec.keys(), ENDPOINT_NODE_KEYS, ENDPOINT_SCOPE)

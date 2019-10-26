@@ -1,16 +1,17 @@
+from scanapi.errors import REQUEST_SCOPE
+from scanapi.tree.api_node import APINode
 from scanapi.tree.endpoint_node import EndpointNode
+from scanapi.tree.tree_keys import REQUEST_NODE_KEYS
 from scanapi.variable_parser import EvaluationType, evaluate
 
 
 class RequestNode(EndpointNode):
     def __init__(self, node_spec, parent):
         super().__init__(node_spec, parent)
+
         self.method = self.spec["method"]
         self.body = self.define_body()
-        if self.namespace:
-            self.id = "{}_{}".format(self.namespace, self.spec["name"])
-        else:
-            self.id = self.spec["name"]
+        self.id = self.define_id()
 
         self.save_custom_vars()
 
@@ -29,6 +30,12 @@ class RequestNode(EndpointNode):
             return {}
 
         return evaluate(EvaluationType.ENV_VAR, self.spec["body"])
+
+    def define_id(self):
+        if not self.namespace:
+            return self.spec["name"]
+
+        return "{}_{}".format(self.namespace, self.spec["name"])
 
     def save_custom_vars(self, dynamic_chain=False):
         parent_vars = self.parent.custom_vars
@@ -49,3 +56,6 @@ class RequestNode(EndpointNode):
             return "dcvars"
 
         return "vars"
+
+    def validate(self):
+        APINode.validate_keys(self.spec.keys(), REQUEST_NODE_KEYS, REQUEST_SCOPE)
