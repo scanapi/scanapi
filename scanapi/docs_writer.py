@@ -61,9 +61,7 @@ class RequestWriter(HTTPMessageWriter):
         self.request = request
 
     def write(self):
-        self.file.write(
-            "\n## Request: {} {}\n".format(self.request.method, self.request.url)
-        )
+        self.file.write(f"\n## Request: {self.request.method} {self.request.url}\n")
         self.write_headers()
         self.write_body()
 
@@ -86,13 +84,13 @@ class ResponseWriter(HTTPMessageWriter):
         self.response = response
 
     def write(self):
-        self.file.write("\n### Response: {}\n".format(self.response.status_code))
+        self.file.write(f"\n### Response: {self.response.status_code}\n")
         self.write_is_redirect()
         self.write_headers()
         self.write_content()
 
     def write_is_redirect(self):
-        self.file.write("\nIs redirect? {}\n".format(self.response.is_redirect))
+        self.file.write(f"\nIs redirect? {self.response.is_redirect}\n")
 
     def write_content(self):
         if not self.response.content:
@@ -118,7 +116,7 @@ class DocsWriter:
         [self.write_response(response) for response in responses]
 
         logger.info("The documentation was generated successfully.")
-        logger.info("It is available at {}".format(SETTINGS["docs_path"]))
+        logger.info(f"It is available at {SETTINGS['docs_path']}")
 
     def write_response(self, response):
         request = response.request
