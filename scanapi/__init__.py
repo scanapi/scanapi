@@ -4,7 +4,7 @@ import click
 import logging
 
 from scanapi.tree.api_tree import APITree
-from scanapi.docs_writer import DocsWriter
+from scanapi.docs_writer import MarkdownReporter
 from scanapi.requests_maker import RequestsMaker
 from scanapi.settings import SETTINGS
 from scanapi.yaml_loader import load_yaml
@@ -49,4 +49,4 @@ def scan(spec_path, docs_path, log_level):
         return
 
     responses = RequestsMaker(api_tree.leaves).make_all()
-    DocsWriter(docs_path).write(responses)
+    MarkdownReporter(docs_path).write(responses)

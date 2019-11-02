@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 
+# TODO LIST
+# extrair private methods comuns entre request e response
+# matar param doc
+# retornar ao inves de imprimir: separar responsabilidade entre "reportar" e "escrever"
+# pensar se vale a pena trazer o hide_sensitive_informations pra dentro do report request/response
+
+from abc import ABC, abstractmethod
 import click
 import json
 import logging
@@ -10,36 +17,103 @@ from scanapi.settings import SETTINGS
 logger = logging.getLogger(__name__)
 
 
-class CodeBlock:
-    def __init__(self, file):
-        self.file = file
+class Reporter(ABC):
+    def __init__(self, file_path):
+        self.file_path = file_path
 
-    def __enter__(self):
-        self.file.write(
+    @abstractmethod
+    def write(self, responses):
+        pass
+
+    @abstractmethod
+    def report_request(self, request, docs):
+        pass
+
+    @abstractmethod
+    def report_response(self, response, docs):
+        pass
+
+    @abstractmethod
+    def build_code_block(self, code):
+        pass
+
+
+class MarkdownReporter(Reporter):
+    def write(self, responses):
+        logger.info("Writing documentation")
+        open(self.file_path, "w").close()
+
+        for response in responses:
+            request = response.request
+
+            with open(self.file_path, "a", newline="\n") as docs:
+                self.report_request(request, docs)
+                self.report_response(response, docs)
+
+        logger.info("The documentation was generated successfully.")
+        logger.info(f"It is available at {SETTINGS['docs_path']}")
+
+    def report_request(self, request, docs):
+        docs.write(f"\n## Request: {request.method} {request.url}\n")
+
+        # self.write_headers()
+        headers = request.headers
+        headers = self.hide_headers_sensitive_info(headers)
+
+        docs.write("\nHEADERS:\n")
+        if not headers:
+            docs.write("None\n")
+            return
+
+        self.build_code_block(json.dumps(dict(headers), indent=2), docs)
+
+        # self.write_body()
+        if not request.body:
+            return
+
+        serialized_body = json.loads(request.body)
+        if not serialized_body:
+            return
+
+        docs.write("\nBODY:\n")
+        self.build_code_block(json.dumps(serialized_body, indent=2), docs)
+
+    def report_response(self, response, docs):
+        docs.write(f"\n### Response: {response.status_code}\n")
+
+        # self.write_is_redirect()
+        docs.write(f"\nIs redirect? {response.is_redirect}\n")
+
+        # self.write_headers()
+        headers = response.headers
+        headers = self.hide_headers_sensitive_info(headers)
+
+        docs.write("\nHEADERS:\n")
+        if not headers:
+            docs.write("None\n")
+            return
+
+        self.build_code_block(json.dumps(dict(headers), indent=2), docs)
+
+        # self.write_content()
+        if not response.content:
+            return
+
+        docs.write("\nContent:\n")
+
+        try:
+            code = json.dumps(response.json(), indent=2)
+            self.build_code_block(code, docs)
+        except ValueError:
+            self.build_code_block(str(response.content), docs)
+
+    def build_code_block(self, code, docs):
+        docs.write(
             """<details><summary></summary><p>
             \n```\n"""
         )
-
-    def __exit__(self, type, value, traceback):
-        self.file.write("""\n```\n</p></details>\n""")
-
-
-class HTTPMessageWriter:
-    def __init__(self, message, file):
-        self.message = message
-        self.file = file
-
-    def write_headers(self):
-        headers = self.message.headers
-        headers = self.hide_headers_sensitive_info(headers)
-
-        self.file.write("\nHEADERS:\n")
-        if not headers:
-            self.file.write("None\n")
-            return
-
-        with CodeBlock(self.file):
-            json.dump(dict(headers), self.file, indent=2)
+        docs.write(code)
+        docs.write("""\n```\n</p></details>\n""")
 
     def hide_headers_sensitive_info(self, headers):
         if "docs" in SETTINGS and "hide" in SETTINGS["docs"]:
@@ -52,75 +126,4 @@ class HTTPMessageWriter:
             for key in keys_to_hide:
                 headers[key] = "<sensitive information>"
 
-        return headers
-
-
-class RequestWriter(HTTPMessageWriter):
-    def __init__(self, request, file):
-        HTTPMessageWriter.__init__(self, request, file)
-        self.request = request
-
-    def write(self):
-        self.file.write(f"\n## Request: {self.request.method} {self.request.url}\n")
-        self.write_headers()
-        self.write_body()
-
-    def write_body(self):
-        if not self.request.body:
-            return
-
-        serialized_body = json.loads(self.request.body)
-        if not serialized_body:
-            return
-
-        self.file.write("\nBODY:\n")
-        with CodeBlock(self.file):
-            json.dump(serialized_body, self.file, indent=2)
-
-
-class ResponseWriter(HTTPMessageWriter):
-    def __init__(self, response, file):
-        HTTPMessageWriter.__init__(self, response, file)
-        self.response = response
-
-    def write(self):
-        self.file.write(f"\n### Response: {self.response.status_code}\n")
-        self.write_is_redirect()
-        self.write_headers()
-        self.write_content()
-
-    def write_is_redirect(self):
-        self.file.write(f"\nIs redirect? {self.response.is_redirect}\n")
-
-    def write_content(self):
-        if not self.response.content:
-            return
-
-        self.file.write("\nContent:\n")
-
-        with CodeBlock(self.file):
-            try:
-                json.dump(self.response.json(), self.file, indent=2)
-            except ValueError:
-                self.file.write(str(self.response.content))
-
-
-class DocsWriter:
-    def __init__(self, file_path):
-        self.file_path = file_path
-
-    def write(self, responses):
-        logger.info("Writing documentation")
-        open(self.file_path, "w").close()
-
-        [self.write_response(response) for response in responses]
-
-        logger.info("The documentation was generated successfully.")
-        logger.info(f"It is available at {SETTINGS['docs_path']}")
-
-    def write_response(self, response):
-        request = response.request
-
-        with open(self.file_path, "a", newline="\n") as docs:
-            RequestWriter(request, docs).write()
-            ResponseWriter(response, docs).write()
+            return headers
