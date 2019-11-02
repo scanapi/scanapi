@@ -50,4 +50,4 @@ def scan(spec_path, docs_path, log_level):
 
     responses = RequestsMaker(api_tree.leaves).make_all()
     MarkdownReporter(docs_path).write(responses)
-    ConsoleReporter().write(responses)
+    # ConsoleReporter().write(responses)

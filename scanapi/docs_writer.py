@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # TODO LIST
-# retornar ao inves de imprimir: separar responsabilidade entre "reportar" e "escrever"
+# criar jinja template default para Markdown
+# usar jinja template para Markdown Report
+# criar jinja template default para HTML
+# criar HTML Report
 # pensar se vale a pena trazer o hide_sensitive_informations pra dentro do report request/response
 
 from abc import ABC, abstractmethod
@@ -53,6 +56,16 @@ class ConsoleReporter(Reporter):
 
 
 class MarkdownReporter(Reporter):
+    def write(self, responses):
+        from jinja2 import Environment, PackageLoader, select_autoescape
+
+        env = Environment(loader=PackageLoader("scanapi", "templates"))
+        template = env.get_template("markdown.jinja")
+        content = template.render(responses=responses)
+
+        with open("docs-jinja.md", "w", newline="\n") as doc_jinja:
+            doc_jinja.write(content)
+
     def report_request(self, request):
         self.docs.write(f"\n## Request: {request.method} {request.url}\n")
         self.write_headers(request.headers)

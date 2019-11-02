@@ -1,0 +1,35 @@
+# ScanAPI Report
+
+{% for response in responses %}
+{% set request = response.request %}
+## Request: {{ request.method }} {{ request.url }}
+
+HEADERS:
+<details><summary></summary><p>
+            
+```
+{{ request.headers }}
+```
+</p></details>
+
+### Response: {{ response.status_code }} 
+
+Is redirect? {{ response.is_redirect }}
+
+HEADERS:
+<details><summary></summary><p>
+            
+```
+{{ response.headers }}
+```
+</p></details>
+
+Content:
+<details><summary></summary><p>
+            
+```
+{{ response.content }}
+```
+</p></details>
+
+{% endfor %}
