@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 # TODO LIST
-# extrair private methods comuns entre request e response
-# matar param doc
 # retornar ao inves de imprimir: separar responsabilidade entre "reportar" e "escrever"
 # pensar se vale a pena trazer o hide_sensitive_informations pra dentro do report request/response
 
@@ -18,56 +16,47 @@ logger = logging.getLogger(__name__)
 
 
 class Reporter(ABC):
-    def __init__(self, file_path):
+    def __init__(self, file_path=None):
         self.file_path = file_path
 
-    @abstractmethod
     def write(self, responses):
+        if self.file_path:
+            logger.info("Writing documentation")
+            # Clear the document
+            open(self.file_path, "w").close()
+            self.docs = open(self.file_path, "w", newline="\n")
+
+        for response in responses:
+            self.report_request(response.request)
+            self.report_response(response)
+
+        if self.file_path:
+            self.docs.close()
+            logger.info("The documentation was generated successfully.")
+            logger.info(f"It is available at {SETTINGS['docs_path']}")
+
+    @abstractmethod
+    def report_request(self, request):
         pass
 
     @abstractmethod
-    def report_request(self, request, docs):
+    def report_response(self, response):
         pass
 
-    @abstractmethod
-    def report_response(self, response, docs):
-        pass
 
-    @abstractmethod
-    def build_code_block(self, code):
-        pass
+class ConsoleReporter(Reporter):
+    def report_request(self, request):
+        logger.info(request.url)
+
+    def report_response(self, response):
+        logger.info(f"{response.status_code}\n")
 
 
 class MarkdownReporter(Reporter):
-    def write(self, responses):
-        logger.info("Writing documentation")
-        open(self.file_path, "w").close()
+    def report_request(self, request):
+        self.docs.write(f"\n## Request: {request.method} {request.url}\n")
+        self.write_headers(request.headers)
 
-        for response in responses:
-            request = response.request
-
-            with open(self.file_path, "a", newline="\n") as docs:
-                self.report_request(request, docs)
-                self.report_response(response, docs)
-
-        logger.info("The documentation was generated successfully.")
-        logger.info(f"It is available at {SETTINGS['docs_path']}")
-
-    def report_request(self, request, docs):
-        docs.write(f"\n## Request: {request.method} {request.url}\n")
-
-        # self.write_headers()
-        headers = request.headers
-        headers = self.hide_headers_sensitive_info(headers)
-
-        docs.write("\nHEADERS:\n")
-        if not headers:
-            docs.write("None\n")
-            return
-
-        self.build_code_block(json.dumps(dict(headers), indent=2), docs)
-
-        # self.write_body()
         if not request.body:
             return
 
@@ -75,45 +64,42 @@ class MarkdownReporter(Reporter):
         if not serialized_body:
             return
 
-        docs.write("\nBODY:\n")
-        self.build_code_block(json.dumps(serialized_body, indent=2), docs)
+        self.docs.write("\nBODY:\n")
+        self.build_code_block(json.dumps(serialized_body, indent=2))
 
-    def report_response(self, response, docs):
-        docs.write(f"\n### Response: {response.status_code}\n")
+    def report_response(self, response):
+        self.docs.write(f"\n### Response: {response.status_code}\n")
+        self.docs.write(f"\nIs redirect? {response.is_redirect}\n")
+        self.write_headers(response.headers)
 
-        # self.write_is_redirect()
-        docs.write(f"\nIs redirect? {response.is_redirect}\n")
-
-        # self.write_headers()
-        headers = response.headers
-        headers = self.hide_headers_sensitive_info(headers)
-
-        docs.write("\nHEADERS:\n")
-        if not headers:
-            docs.write("None\n")
-            return
-
-        self.build_code_block(json.dumps(dict(headers), indent=2), docs)
-
-        # self.write_content()
         if not response.content:
             return
 
-        docs.write("\nContent:\n")
+        self.docs.write("\nContent:\n")
 
         try:
             code = json.dumps(response.json(), indent=2)
-            self.build_code_block(code, docs)
+            self.build_code_block(code)
         except ValueError:
-            self.build_code_block(str(response.content), docs)
+            self.build_code_block(str(response.content))
 
-    def build_code_block(self, code, docs):
-        docs.write(
+    def build_code_block(self, code):
+        self.docs.write(
             """<details><summary></summary><p>
             \n```\n"""
         )
-        docs.write(code)
-        docs.write("""\n```\n</p></details>\n""")
+        self.docs.write(code)
+        self.docs.write("""\n```\n</p></details>\n""")
+
+    def write_headers(self, headers):
+        headers = self.hide_headers_sensitive_info(headers)
+
+        self.docs.write("\nHEADERS:\n")
+        if not headers:
+            self.docs.write("None\n")
+            return
+
+        self.build_code_block(json.dumps(dict(headers), indent=2))
 
     def hide_headers_sensitive_info(self, headers):
         if "docs" in SETTINGS and "hide" in SETTINGS["docs"]:
