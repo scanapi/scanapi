@@ -47,13 +47,13 @@ Usage: scanapi [OPTIONS]
 
 Options:
   -s, --spec-path PATH
-  -d, --docs-path TEXT
+  -o, --output-path TEXT
   -r, --reporter [console|markdown|html]
   --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]
   --help                          Show this message and exit.
 ```
 
-By default, the doc will be available in the `docs.md` file.
+By default, the doc will be available in the `scanapi-report.md` file.
 
 ### Available Methods
 
@@ -69,7 +69,7 @@ If you want to configure scanapi, you can do it by creating a file `.scanapi.yam
 
 ```yaml
 spec_path: api.yaml
-docs_path: docs.md
+output_path: scanapi-report.md
 reporter: markdown
 ```
 

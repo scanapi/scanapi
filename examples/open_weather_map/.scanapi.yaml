@@ -1,2 +1,2 @@
 spec_path: api.yaml
-docs_path: docs.md
+output_path: scanapi-report.md

@@ -18,7 +18,7 @@ from scanapi.yaml_loader import load_yaml
     type=click.Path(exists=True),
     default=SETTINGS["spec_path"],
 )
-@click.option("-d", "--docs-path", "docs_path")
+@click.option("-o", "--output-path", "output_path")
 @click.option(
     "-r",
     "--reporter",
@@ -33,12 +33,12 @@ from scanapi.yaml_loader import load_yaml
     type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]),
     default="INFO",
 )
-def scan(spec_path, docs_path, reporter, template, log_level):
+def scan(spec_path, output_path, reporter, template, log_level):
     """Automated Testing and Documentation for your REST API."""
 
     logging.basicConfig(level=log_level)
     logger = logging.getLogger(__name__)
-    SETTINGS.update({"spec_path": spec_path, "docs_path": docs_path})
+    SETTINGS.update({"spec_path": spec_path, "output_path": output_path})
 
     # custom templates to be implemented later
     if template is not None:
@@ -61,4 +61,4 @@ def scan(spec_path, docs_path, reporter, template, log_level):
         return
 
     responses = RequestsMaker(api_tree.leaves).make_all()
-    Reporter(docs_path, reporter, template).write(responses)
+    Reporter(output_path, reporter, template).write(responses)

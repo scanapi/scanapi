@@ -8,8 +8,8 @@ logger = logging.getLogger(__name__)
 
 
 class Reporter:
-    def __init__(self, docs_path, reporter, template):
-        self.docs_path = docs_path
+    def __init__(self, output_path, reporter, template):
+        self.output_path = output_path
         self.reporter = reporter
         self.template = template
 
@@ -24,12 +24,12 @@ class Reporter:
             print(f"\n{content}")
             return
 
-        if self.docs_path is None:
-            outputs = {"html": "docs.html", "markdown": "docs.md"}
-            self.docs_path = outputs.get(self.reporter)
+        if self.output_path is None:
+            outputs = {"html": "scanapi-report.html", "markdown": "scanapi-report.md"}
+            self.output_path = outputs.get(self.reporter)
 
-        with open(self.docs_path, "w", newline="\n") as doc:
+        with open(self.output_path, "w", newline="\n") as doc:
             doc.write(content)
 
         logger.info("The documentation was generated successfully.")
-        logger.info(f"It is available at {self.docs_path}")
+        logger.info(f"It is available at {self.output_path}")
