@@ -48,6 +48,7 @@ Usage: scanapi [OPTIONS]
 Options:
   -s, --spec-path PATH
   -d, --docs-path TEXT
+  -r, --reporter [console|markdown|html]
   --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]
   --help                          Show this message and exit.
 ```
@@ -69,6 +70,7 @@ If you want to configure scanapi, you can do it by creating a file `.scanapi.yam
 ```yaml
 spec_path: api.yaml
 docs_path: docs.md
+reporter: markdown
 ```
 
 ### Headers
