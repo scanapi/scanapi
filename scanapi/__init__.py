@@ -40,6 +40,10 @@ def scan(spec_path, docs_path, reporter, template, log_level):
     logger = logging.getLogger(__name__)
     SETTINGS.update({"spec_path": spec_path, "docs_path": docs_path})
 
+    # custom templates to be implemented later
+    if template is not None:
+        logger.warn("Custom templates are not supported yet. Soon to be. Hang tight.")
+
     spec_path = SETTINGS["spec_path"]
     try:
         api_spec = load_yaml(spec_path)
