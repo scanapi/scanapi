@@ -2,7 +2,7 @@ import os
 from scanapi.yaml_loader import load_yaml
 
 SETTINGS_FILE = ".scanapi.yaml"
-DEFAULT_SETTINGS = {"spec_path": "api.yaml", "docs_path": "docs.md"}
+DEFAULT_SETTINGS = {"spec_path": "api.yaml", "reporter": "markdown"}
 
 
 def settings():

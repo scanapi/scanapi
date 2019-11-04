@@ -1,7 +1,7 @@
 ### ScanAPI files
 /.scanapi.yaml
 /api.yaml
-/docs.md
+/scanapi-report.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

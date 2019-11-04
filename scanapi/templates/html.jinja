@@ -1,0 +1,20 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>ScanAPI Report</title>
+  <meta name="description" content="ScanAPI Report">
+  <meta name="author" content="camilamaia/scanapi">
+</head>
+
+<body>
+  {% for response in responses %}
+    <div>
+        <h2>{{ response.request.url }}</h2>
+        <p>{{ response.status_code }}</p>
+    </div>
+  {% endfor %}
+</body>
+</html>
