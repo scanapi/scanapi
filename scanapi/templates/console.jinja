@@ -1,0 +1,5 @@
+ScanAPI Report: Console
+=======================
+{% for response in responses %}
+{{ response.request.url }} - {{ response.status_code }}
+{% endfor %}

@@ -4,7 +4,7 @@ import click
 import logging
 
 from scanapi.tree.api_tree import APITree
-from scanapi.docs_writer import ConsoleReporter, MarkdownReporter
+from scanapi.reporter import Reporter
 from scanapi.requests_maker import RequestsMaker
 from scanapi.settings import SETTINGS
 from scanapi.yaml_loader import load_yaml
@@ -18,14 +18,22 @@ from scanapi.yaml_loader import load_yaml
     type=click.Path(exists=True),
     default=SETTINGS["spec_path"],
 )
-@click.option("-d", "--docs-path", "docs_path", default=SETTINGS["docs_path"])
+@click.option("-d", "--docs-path", "docs_path")
+@click.option(
+    "-r",
+    "--reporter",
+    "reporter",
+    type=click.Choice(["console", "markdown", "html"]),
+    default=SETTINGS["reporter"],
+)
+@click.option("-t", "--template", "template")
 @click.option(
     "--log-level",
     "log_level",
     type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]),
     default="INFO",
 )
-def scan(spec_path, docs_path, log_level):
+def scan(spec_path, docs_path, reporter, template, log_level):
     """Automated Testing and Documentation for your REST API."""
 
     logging.basicConfig(level=log_level)
@@ -49,5 +57,4 @@ def scan(spec_path, docs_path, log_level):
         return
 
     responses = RequestsMaker(api_tree.leaves).make_all()
-    MarkdownReporter(docs_path).write(responses)
-    # ConsoleReporter().write(responses)
+    Reporter(docs_path, reporter, template).write(responses)

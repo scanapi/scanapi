@@ -28,7 +28,11 @@ Content:
 <details><summary></summary><p>
             
 ```
+{% if response.text %}
+{{ response.text }}
+{% else %}
 {{ response.content }}
+{% endif %}
 ```
 </p></details>
 
