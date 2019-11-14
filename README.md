@@ -4,14 +4,14 @@
 [![PyPI version](https://badge.fury.io/py/scanapi.svg)](https://badge.fury.io/py/scanapi)
 [![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scanapi/community)
 
-A library for your API that provides:
+A library for your API that provides automated:
 
-- Automated Testing
-- Automated Documentation
+- Integration Testing
+- Live Documentation
 
 ![Overview Image][overview-image]
 
-Here is an [example][doc-example] of a generated documentation.
+Here is an [example][doc-example] of a generated report.
 
 ## How to install
 
