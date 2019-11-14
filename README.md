@@ -9,7 +9,9 @@ A library for your API that provides automated:
 - Integration Testing
 - Live Documentation
 
-![Overview Image][overview-image]
+<p align="center">
+  <img src="https://github.com/camilamaia/scanapi/blob/master/images/overview.png" width="700">
+</p>
 
 Here is an [example][doc-example] of a generated report.
 
@@ -229,4 +231,3 @@ You can find more examples [here][examples].
 
 [doc-example]: https://github.com/camilamaia/scanapi/blob/master/examples/json_place_holder/docs.md
 [examples]: https://github.com/camilamaia/scanapi/tree/master/examples
-[overview-image]: https://github.com/camilamaia/scanapi/blob/master/images/overview.png
