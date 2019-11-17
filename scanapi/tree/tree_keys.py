@@ -1,6 +1,5 @@
 BASE_URL_KEY = "base_url"
 BODY_KEY = "body"
-DCVARS_KEY = "dcvars"
 ENDPOINTS_KEY = "endpoints"
 HEADERS_KEY = "headers"
 METHOD_KEY = "method"
@@ -24,7 +23,6 @@ ENDPOINT_NODE_KEYS = (
 
 REQUEST_NODE_KEYS = (
     BODY_KEY,
-    DCVARS_KEY,
     HEADERS_KEY,
     METHOD_KEY,
     NAME_KEY,
