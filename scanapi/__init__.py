@@ -60,5 +60,5 @@ def scan(spec_path, output_path, reporter, template, log_level):
         logger.error(error_message)
         return
 
-    responses = RequestsMaker(api_tree.leaves).make_all()
-    Reporter(output_path, reporter, template).write(responses)
+    RequestsMaker(api_tree).make_all()
+    Reporter(output_path, reporter, template).write(api_tree.responses.values())

@@ -7,73 +7,62 @@ import yaml
 
 from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
 
-# Available imports to be used dinamically in the api spec
-import datetime
-import math
-import random
-import time
-import uuid
 
 logger = logging.getLogger(__name__)
 variable_pattern = re.compile(
     r"(?P<something_before>\w*)(?P<start>\${)(?P<variable>\w*)(?P<end>})(?P<something_after>\w*)"
 )  # ${<variable>}
 python_code_pattern = re.compile(
-    r"(?P<start>^\${{)(?P<python_code>.*)(?P<end>}}$)"
+    r"(?P<something_before>\w*)(?P<start>\${{)(?P<python_code>.*)(?P<end>}})(?P<something_after>\w*)"
 )  # ${{<python_code>}}
-responses = {}
 
 
-class EvaluationType(Enum):
-    ENV_VAR = 1
-    CUSTOM_VAR = 2
-    PYTHON_CODE = 3
-
-
-def evaluate(type, element, node=None):
+def evaluate(api_tree, element):
     if isinstance(element, dict):
-        return evaluate_dict(type, element, node)
+        return evaluate_dict(api_tree, element)
 
     if isinstance(element, list):
-        return evaluate_list(type, element, node)
+        return evaluate_list(api_tree, element)
 
     if not isinstance(element, str):
         return element
 
-    if type == EvaluationType.ENV_VAR:
-        try:
-            return evaluate_env_var(element)
-        except BadConfigurationError as e:
-            logger.error(e)
-            sys.exit()
-
-    if type == EvaluationType.CUSTOM_VAR:
-        return evaluate_custom_var(element, node)
-
-    if type == EvaluationType.PYTHON_CODE:
-        try:
-            return evaluate_python_code(element)
-        except InvalidPythonCodeError as e:
-            logger.error(e)
-            sys.exit()
-
-    return element
+    return evaluate_str(api_tree, element)
 
 
-def evaluate_dict(type, element, node):
+def evaluate_dict(type, element):
     evaluated_dict = {}
     for key, value in element.items():
-        evaluated_dict[key] = evaluate(type, value, node)
+        evaluated_dict[key] = evaluate(type, value)
 
     return evaluated_dict
 
 
-def evaluate_list(type, elements, node):
+def evaluate_list(type, elements):
     evaluated_list = []
     for item in elements:
-        evaluated_list.append(evaluate(type, item, node))
+        evaluated_list.append(evaluate(type, item))
 
     return evaluated_list
+
+
+def evaluate_str(api_tree, sequence):
+    try:
+        sequence = evaluate_env_var(sequence)
+    except BadConfigurationError as e:
+        logger.error(e)
+        sys.exit()
+
+    sequence = evaluate_custom_var(api_tree, sequence)
+
+    if not api_tree.responses:
+        return sequence
+
+    try:
+        return evaluate_python_code(api_tree, sequence)
+    except InvalidPythonCodeError as e:
+        logger.error(e)
+        sys.exit()
 
 
 def evaluate_env_var(sequence):
@@ -98,10 +87,10 @@ def evaluate_env_var(sequence):
     return sequence
 
 
-def evaluate_custom_var(sequence, node):
+def evaluate_custom_var(api_tree, sequence):
     matches = variable_pattern.finditer(sequence)
 
-    if not matches or not node:
+    if not matches:
         return sequence
 
     for match in matches:
@@ -110,10 +99,10 @@ def evaluate_custom_var(sequence, node):
         if variable_name.isupper():
             continue
 
-        variable_value = evaluate(
-            EvaluationType.PYTHON_CODE, node.parent.custom_vars[match.group(3)]
-        )
+        if not api_tree.custom_vars.get(variable_name):
+            continue
 
+        variable_value = evaluate(api_tree, api_tree.custom_vars[variable_name])
         sequence = evaluate_var(sequence, match.group(), variable_value)
 
     return sequence
@@ -124,19 +113,24 @@ def evaluate_var(sequence, variable, variable_value):
     return re.sub(variable, variable_value, sequence)
 
 
-def evaluate_python_code(sequence):
+def evaluate_python_code(api_tree, sequence):
+    # Available imports to be used dinamically in the api spec
+    import datetime
+    import math
+    import random
+    import time
+    import uuid
+
     match = python_code_pattern.search(sequence)
 
     if not match:
         return sequence
 
     code = match.group("python_code")
+    responses = api_tree.responses
 
     try:
-        return str(eval(code))
+        python_code_value = str(eval(code))
+        return evaluate_var(sequence, match.group(), python_code_value)
     except Exception as e:
         raise InvalidPythonCodeError(str(e))
-
-
-def save_response(request_id, response):
-    responses[request_id] = response

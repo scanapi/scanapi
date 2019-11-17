@@ -4,6 +4,7 @@ from scanapi.tree.api_node import APINode
 from scanapi.tree.endpoint_node import EndpointNode
 from scanapi.tree.request_node import RequestNode
 from scanapi.tree.root_node import RootNode
+from scanapi.variable_parser import evaluate
 from scanapi.errors import APIKeyMissingError
 
 logger = logging.getLogger(__name__)
@@ -15,8 +16,10 @@ class APITree:
             raise APIKeyMissingError
 
         self.spec = api_spec["api"]
-        self.root = RootNode(self.spec)
-        self.leaves = []
+        self.request_nodes = []  # tree's leaves
+        self.responses = {}
+        self.custom_vars = {}
+        self.root = RootNode(self)
 
         self.build()
 
@@ -34,7 +37,7 @@ class APITree:
 
     def build_endpoints(self, parent):
         for endpoint_spec in parent.spec["endpoints"]:
-            endpoint = EndpointNode(endpoint_spec, parent)
+            endpoint = EndpointNode(self, endpoint_spec, parent)
 
             if "requests" in endpoint.spec:
                 self.build_requests(endpoint)
@@ -44,8 +47,12 @@ class APITree:
 
     def build_requests(self, endpoint):
         for request_spec in endpoint.spec["requests"]:
-            self.leaves.append(RequestNode(request_spec, endpoint))
+            self.request_nodes.append(RequestNode(self, request_spec, endpoint))
 
-    @property
-    def requests(self):
-        return self.leaves
+    def save_custom_vars(self, node_spec):
+
+        if "vars" not in node_spec:
+            return
+
+        for var_name, var_value in node_spec["vars"].items():
+            self.custom_vars[var_name] = evaluate(self, var_value)
