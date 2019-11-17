@@ -1,9 +1,8 @@
-from enum import Enum
 import logging
 import os
 import re
 import sys
-import yaml
+from types import SimpleNamespace
 
 from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
 
@@ -124,7 +123,7 @@ class SpecEvaluator:
             return sequence
 
         code = match.group("python_code")
-        responses = self.api_tree.responses
+        responses = SimpleNamespace(**self.api_tree.responses)
 
         try:
             python_code_value = str(eval(code))
