@@ -21,13 +21,12 @@ class TestAPITree:
 
             def test_should_build_requests(self, api_spec):
                 api_tree = APITree(api_spec)
-                request = api_tree.requests[0]
+                request = api_tree.request_nodes[0]
 
-                assert len(api_tree.requests) == 1
+                assert len(api_tree.request_nodes) == 1
                 assert request.spec == {"name": "list_all_posts", "method": "get"}
                 assert request.id == "posts_list_all_posts"
                 assert request.url == "https://jsonplaceholder.typicode.com/posts"
-                assert request.custom_vars == {}
                 assert request.method == "get"
                 assert request.body == {}
                 assert request.headers == {}
@@ -47,9 +46,9 @@ class TestAPITree:
 
             def test_should_build_requests(self, api_spec):
                 api_tree = APITree(api_spec)
-                request = api_tree.requests[0]
+                request = api_tree.request_nodes[0]
 
-                assert len(api_tree.requests) == 1
+                assert len(api_tree.request_nodes) == 1
                 assert request.spec == {
                     "name": "list_all_posts",
                     "path": "/posts",
@@ -57,7 +56,6 @@ class TestAPITree:
                 }
                 assert request.id == "list_all_posts"
                 assert request.url == "https://jsonplaceholder.typicode.com/posts"
-                assert request.custom_vars == {}
                 assert request.method == "get"
                 assert request.body == {}
                 assert request.headers == {}
@@ -77,9 +75,9 @@ class TestAPITree:
 
             def test_should_build_requests(self, api_spec):
                 api_tree = APITree(api_spec)
-                assert len(api_tree.requests) == 2
+                assert len(api_tree.request_nodes) == 2
 
-                root_request = api_tree.requests[0]
+                root_request = api_tree.request_nodes[0]
                 assert root_request.spec == {
                     "name": "docs",
                     "method": "get",
@@ -87,12 +85,11 @@ class TestAPITree:
                 }
                 assert root_request.id == "docs"
                 assert root_request.url == "https://jsonplaceholder.typicode.com/docs"
-                assert root_request.custom_vars == {}
                 assert root_request.method == "get"
                 assert root_request.body == {}
                 assert root_request.headers == {}
 
-                endpoint_request = api_tree.requests[1]
+                endpoint_request = api_tree.request_nodes[1]
                 assert endpoint_request.spec == {
                     "name": "list_all_posts",
                     "method": "get",
@@ -101,7 +98,6 @@ class TestAPITree:
                 assert (
                     endpoint_request.url == "https://jsonplaceholder.typicode.com/posts"
                 )
-                assert endpoint_request.custom_vars == {}
                 assert endpoint_request.method == "get"
                 assert endpoint_request.body == {}
                 assert endpoint_request.headers == {}

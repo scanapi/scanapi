@@ -1,20 +1,17 @@
 from scanapi.errors import ENDPOINT_SCOPE
 from scanapi.tree.api_node import APINode
 from scanapi.tree.tree_keys import ENDPOINT_NODE_KEYS
-from scanapi.variable_parser import EvaluationType, evaluate
 
 
 class EndpointNode(APINode):
-    def __init__(self, node_spec, parent):
-        self.spec = node_spec
-        super().__init__(node_spec)
+    def __init__(self, api_tree, node_spec, parent):
+        super().__init__(api_tree, node_spec)
 
         self.parent = parent
         self.url = self.define_url()
         self.headers = self.define_headers()
         self.params = self.define_params()
         self.namespace = self.define_namespace()
-        self.custom_vars = {}
 
     def define_url(self):
         parent_url = self.parent.url
@@ -22,7 +19,7 @@ class EndpointNode(APINode):
         if "path" not in self.spec:
             return parent_url
 
-        populated_node_path = str(evaluate(EvaluationType.ENV_VAR, self.spec["path"]))
+        populated_node_path = str(self.spec_evaluator.evaluate(self.spec["path"]))
         return "/".join(s.strip("/") for s in [parent_url, populated_node_path])
 
     def define_headers(self):
@@ -31,10 +28,7 @@ class EndpointNode(APINode):
         if "headers" not in self.spec:
             return parent_headers
 
-        return {
-            **parent_headers,
-            **evaluate(EvaluationType.ENV_VAR, self.spec["headers"]),
-        }
+        return {**parent_headers, **self.spec_evaluator.evaluate(self.spec["headers"])}
 
     def define_params(self):
         parent_params = self.parent.params
@@ -42,10 +36,7 @@ class EndpointNode(APINode):
         if "params" not in self.spec:
             return parent_params
 
-        return {
-            **parent_params,
-            **evaluate(EvaluationType.ENV_VAR, self.spec["params"]),
-        }
+        return {**parent_params, **self.spec_evaluator.evaluate(self.spec["params"])}
 
     def define_namespace(self):
         parent_namespace = self.parent.namespace
@@ -53,9 +44,7 @@ class EndpointNode(APINode):
         if "namespace" not in self.spec:
             return parent_namespace
 
-        populated_node_namespace = evaluate(
-            EvaluationType.ENV_VAR, self.spec["namespace"]
-        )
+        populated_node_namespace = self.spec_evaluator.evaluate(self.spec["namespace"])
 
         return "_".join(filter(None, [parent_namespace, populated_node_namespace]))
 
