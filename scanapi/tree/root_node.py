@@ -1,7 +1,6 @@
 from scanapi.errors import ROOT_SCOPE
 from scanapi.tree.api_node import APINode
 from scanapi.tree.tree_keys import ROOT_NODE_KEYS
-from scanapi.variable_parser import evaluate
 
 
 class RootNode(APINode):
@@ -14,19 +13,19 @@ class RootNode(APINode):
         self.namespace = ""
 
     def define_url(self):
-        return evaluate(self.api_tree, self.spec["base_url"])
+        return self.spec_evaluator.evaluate(self.spec["base_url"])
 
     def define_headers(self):
         if "headers" not in self.spec:
             return {}
 
-        return evaluate(self.api_tree, self.spec["headers"])
+        return self.spec_evaluator.evaluate(self.spec["headers"])
 
     def define_params(self):
         if "params" not in self.spec:
             return {}
 
-        return evaluate(self.api_tree, self.spec["params"])
+        return self.spec_evaluator.evaluate(self.spec["params"])
 
     def validate(self):
         APINode.validate_keys(self.spec.keys(), ROOT_NODE_KEYS, ROOT_SCOPE)

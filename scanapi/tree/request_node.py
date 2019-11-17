@@ -2,7 +2,6 @@ from scanapi.errors import REQUEST_SCOPE
 from scanapi.tree.api_node import APINode
 from scanapi.tree.endpoint_node import EndpointNode
 from scanapi.tree.tree_keys import REQUEST_NODE_KEYS
-from scanapi.variable_parser import evaluate
 
 
 class RequestNode(EndpointNode):
@@ -16,16 +15,16 @@ class RequestNode(EndpointNode):
         self.api_tree.save_custom_vars(self.spec)
 
     def evaluate_request(self):
-        self.url = evaluate(self.api_tree, self.url)
-        self.headers = evaluate(self.api_tree, self.headers)
-        self.params = evaluate(self.api_tree, self.params)
-        self.body = evaluate(self.api_tree, self.body)
+        self.url = self.spec_evaluator.evaluate(self.url)
+        self.headers = self.spec_evaluator.evaluate(self.headers)
+        self.params = self.spec_evaluator.evaluate(self.params)
+        self.body = self.spec_evaluator.evaluate(self.body)
 
     def define_body(self):
         if "body" not in self.spec:
             return {}
 
-        return evaluate(self.api_tree, self.spec["body"])
+        return self.spec_evaluator.evaluate(self.spec["body"])
 
     def define_id(self):
         if not self.namespace:

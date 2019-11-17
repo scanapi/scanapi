@@ -48,7 +48,7 @@ def scan(spec_path, output_path, reporter, template, log_level):
     try:
         api_spec = load_yaml(spec_path)
     except FileNotFoundError as e:
-        error_message = f"Could not find spec file: {spec_path}"
+        error_message = f"Could not find spec file: {spec_path}. {str(e)}"
         logger.error(error_message)
         return
 

@@ -2,13 +2,7 @@ import os
 import pytest
 
 from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
-from scanapi.variable_parser import (
-    evaluate_env_var,
-    evaluate_python_code,
-    evaluate_var,
-    responses,
-    save_response,
-)
+from scanapi.variable_parser import evaluate_env_var, evaluate_python_code, evaluate_var
 
 
 class TestVariableParser:
