@@ -5,7 +5,7 @@ from scanapi.tree.endpoint_node import EndpointNode
 from scanapi.tree.request_node import RequestNode
 from scanapi.tree.root_node import RootNode
 from scanapi.errors import APIKeyMissingError
-from scanapi.spec_evaluator import SpecEvaluator
+from scanapi.evaluators.spec_evaluator import SpecEvaluator
 
 logger = logging.getLogger(__name__)
 
