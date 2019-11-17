@@ -38,7 +38,7 @@ def http_method(api_spec):
 @then("the request should be made")
 def get_called(api_spec, mock_request):
     api_tree = APITree(api_spec)
-    RequestsMaker(api_tree.leaves).make_all()
+    RequestsMaker(api_tree).make_all()
 
     mock_request.assert_called_once_with(
         "GET",

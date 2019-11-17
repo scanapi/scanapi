@@ -30,7 +30,7 @@ class SpecEvaluator:
         if not isinstance(element, str):
             return element
 
-        return self.evaluate_str(element)
+        return self.evaluate_string(element)
 
     def evaluate_dict(self, element):
         evaluated_dict = {}
@@ -46,7 +46,7 @@ class SpecEvaluator:
 
         return evaluated_list
 
-    def evaluate_str(self, sequence):
+    def evaluate_string(self, sequence):
         try:
             sequence = self.evaluate_env_var(sequence)
         except BadConfigurationError as e:

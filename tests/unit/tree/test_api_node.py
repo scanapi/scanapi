@@ -11,7 +11,7 @@ class TestAPINode:
                     pass
 
                 with pytest.raises(TypeError) as excinfo:
-                    NewNode("")
+                    NewNode({}, "")
 
                 assert (
                     str(excinfo.value)
@@ -20,11 +20,15 @@ class TestAPINode:
 
         class TestChildWithValidateMethod:
             def test_should_not_raise_an_exception(self):
+                class APITreeMock:
+                    def __init__(self):
+                        self.spec_evaluator = {}
+
                 class NewNode(APINode):
                     def validate(self):
                         pass
 
-                NewNode("")
+                NewNode(APITreeMock(), "")
 
     class TestValidateKeys:
         class TestThereIsAnInvalidKey:
