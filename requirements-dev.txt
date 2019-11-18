@@ -1,8 +1,0 @@
--r requirements.txt
-pytest-cov
-codecov
-black
-pre-commit
-pytest-bdd
-pytest-mock
-pytest
