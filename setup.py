@@ -9,6 +9,7 @@ requirements = [
 dev_requirements = ["black >= 19.10b0", "pre-commit >= 1.20.0"]
 test_requirements = [
     "codecov >= 2.0.15",
+    "factory-boy >= 2.12.0",
     "pytest >= 5.2.4",
     "pytest-bdd >= 3.2.1",
     "pytest-cov >= 2.8.1",
