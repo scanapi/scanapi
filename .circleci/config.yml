@@ -11,7 +11,8 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r requirements-dev.txt
+            python setup.py develop
+            pip install -e .[dev] .[test]
       - run:
           name: Run tests
           command: ./venv/bin/pytest --cov=./scanapi --cov-report=xml

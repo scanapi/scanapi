@@ -1,6 +1,8 @@
 import pytest
+
 from scanapi.errors import InvalidKeyError
 from scanapi.tree.api_node import APINode
+from tests.unit.factories import APITreeFactory
 
 
 class TestAPINode:
@@ -20,15 +22,11 @@ class TestAPINode:
 
         class TestChildWithValidateMethod:
             def test_should_not_raise_an_exception(self):
-                class APITreeMock:
-                    def __init__(self):
-                        self.spec_evaluator = {}
-
                 class NewNode(APINode):
                     def validate(self):
                         pass
 
-                NewNode(APITreeMock(), "")
+                NewNode(APITreeFactory(), "")
 
     class TestValidateKeys:
         class TestThereIsAnInvalidKey:
