@@ -1,7 +1,11 @@
 import pytest
 
-from scanapi.tree.api_tree import APITree
-from scanapi.yaml_loader import load_yaml
+from tests.unit.factories import (
+    APITreeFactory,
+    WITHOUT_ENDPOINTS_MINIMAL_SPEC,
+    WITH_ENDPOINTS_MINIMAL_SPEC,
+    WITH_ENDPOINTS_WITH_ROOT_REQUESTS,
+)
 
 
 class TestAPITree:
@@ -16,13 +20,15 @@ class TestAPITree:
 
         class TestWhenSpecHasEndpoints:
             @pytest.fixture
+            def api_tree(self):
+                return APITreeFactory(with_endpoints_minimal=True)
+
+            @pytest.fixture
             def api_spec(self):
-                return load_yaml("tests/data/specs/with_endpoints/minimal_get.yaml")
+                return WITH_ENDPOINTS_MINIMAL_SPEC
 
-            def test_should_build_requests(self, api_spec):
-                api_tree = APITree(api_spec)
+            def test_should_build_requests(self, api_tree):
                 request = api_tree.request_nodes[0]
-
                 assert len(api_tree.request_nodes) == 1
                 assert request.spec == {"name": "list_all_posts", "method": "get"}
                 assert request.id == "posts_list_all_posts"
@@ -34,18 +40,21 @@ class TestAPITree:
             def test_build_endpoints_should_be_called(
                 self, api_spec, mock_build_endpoints, mock_build_requests
             ):
-                APITree(api_spec)
+                APITreeFactory(api_spec=api_spec)
 
                 assert mock_build_endpoints.called_once
                 assert not mock_build_requests.called
 
         class TestWhenSpecDoesNotHaveEndpoints:
             @pytest.fixture
-            def api_spec(self):
-                return load_yaml("tests/data/specs/without_endpoints/minimal_get.yaml")
+            def api_tree(self):
+                return APITreeFactory(without_endpoints_minimal=True)
 
-            def test_should_build_requests(self, api_spec):
-                api_tree = APITree(api_spec)
+            @pytest.fixture
+            def api_spec(self):
+                return WITHOUT_ENDPOINTS_MINIMAL_SPEC
+
+            def test_should_build_requests(self, api_tree):
                 request = api_tree.request_nodes[0]
 
                 assert len(api_tree.request_nodes) == 1
@@ -63,18 +72,19 @@ class TestAPITree:
             def test_build_request_should_be_called(
                 self, api_spec, mock_build_endpoints, mock_build_requests
             ):
-                APITree(api_spec)
+                APITreeFactory(api_spec=api_spec)
                 assert mock_build_requests.called_once
 
         class TestWhenSpecHasRootRequestAndEndpoints:
             @pytest.fixture
-            def api_spec(self):
-                return load_yaml(
-                    "tests/data/specs/with_endpoints/get_with_root_requests.yaml"
-                )
+            def api_tree(self):
+                return APITreeFactory(with_endpoints_with_root_requests=True)
 
-            def test_should_build_requests(self, api_spec):
-                api_tree = APITree(api_spec)
+            @pytest.fixture
+            def api_spec(self):
+                return WITH_ENDPOINTS_WITH_ROOT_REQUESTS
+
+            def test_should_build_requests(self, api_tree):
                 assert len(api_tree.request_nodes) == 2
 
                 root_request = api_tree.request_nodes[0]
@@ -105,7 +115,7 @@ class TestAPITree:
             def test_build_request_should_be_called(
                 self, api_spec, mock_build_endpoints, mock_build_requests
             ):
-                APITree(api_spec)
+                APITreeFactory(api_spec=api_spec)
 
                 assert mock_build_requests.called_once
                 assert mock_build_requests.called_once

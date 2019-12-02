@@ -1,0 +1,6 @@
+api:
+  base_url: https://jsonplaceholder.typicode.com/
+  requests:
+    - name: list_all_posts
+      path: /posts
+      method: pet
