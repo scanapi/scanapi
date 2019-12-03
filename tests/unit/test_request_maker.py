@@ -5,6 +5,10 @@ from tests.unit.factories import APITreeFactory, RequestsMakerFactory
 
 
 class TestRequestsMaker:
+    @pytest.fixture
+    def mock_response(self, mocker):
+        return mocker.patch("scanapi.requests_maker.requests.request")
+
     class TestMakeAll:
         class TestWhenMakeRequestRaisesException:
             @pytest.fixture
@@ -55,6 +59,19 @@ class TestRequestsMaker:
                 )
 
         class TestWhenHTTPMethodIsValid:
-            def test_should_build_http_request(self):
-                # TODO
-                pass
+            @pytest.fixture
+            def api_tree(self):
+                return APITreeFactory(with_endpoints_get_with_header_body_params=True)
+
+            def test_should_call_http_request(self, api_tree, mock_response):
+                requests_maker = RequestsMakerFactory(api_tree=api_tree)
+                request_node = requests_maker.api_tree.request_nodes[0]
+                requests_maker.make_request(request_node)
+                mock_response.assert_called_with(
+                    "GET",
+                    "https://jsonplaceholder.typicode.com/posts",
+                    headers={"token": 123, "username": "camila"},
+                    params={"format": "json", "page": 0},
+                    json={"bodeKey": "abc"},
+                    allow_redirects=False,
+                )

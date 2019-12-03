@@ -1,0 +1,18 @@
+api:
+  base_url: https://jsonplaceholder.typicode.com/
+  headers:
+    username: camila
+  endpoints:
+    - namespace: posts
+      headers:
+        token: 123
+      params:
+        format: json
+      path: /posts
+      requests:
+        - name: list_all_posts
+          method: get
+          params:
+            page: 0
+          body:
+            bodeKey: abc

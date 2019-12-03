@@ -12,6 +12,9 @@ WITH_ENDPOINTS_MINIMAL_SPEC = load_yaml(
 WITH_ENDPOINTS_WITH_ROOT_REQUESTS = load_yaml(
     "tests/data/specs/with_endpoints/get_with_root_requests.yaml"
 )
+WITH_ENDPOINTS_GET_WITH_HEADER_BODY_PARAMS = load_yaml(
+    "tests/data/specs/with_endpoints/get_with_header_body_params.yaml"
+)
 WITHOUT_ENDPOINTS_MINIMAL_SPEC = load_yaml(
     "tests/data/specs/without_endpoints/minimal_get.yaml"
 )
@@ -28,6 +31,9 @@ class APITreeFactory(factory.Factory):
         with_endpoints_minimal = factory.Trait(api_spec=WITH_ENDPOINTS_MINIMAL_SPEC)
         with_endpoints_with_root_requests = factory.Trait(
             api_spec=WITH_ENDPOINTS_WITH_ROOT_REQUESTS
+        )
+        with_endpoints_get_with_header_body_params = factory.Trait(
+            api_spec=WITH_ENDPOINTS_GET_WITH_HEADER_BODY_PARAMS
         )
         without_endpoints_minimal = factory.Trait(
             api_spec=WITHOUT_ENDPOINTS_MINIMAL_SPEC
