@@ -13,7 +13,8 @@ test_requirements = [
     "pytest >= 5.2.4",
     "pytest-bdd >= 3.2.1",
     "pytest-cov >= 2.8.1",
-    "pytest-mock >=1.11.2",
+    "pytest-mock >= 1.11.2",
+    "requests-mock >= 1.7.0",
 ]
 
 with open("README.md", "r") as fh:
