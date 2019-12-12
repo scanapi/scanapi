@@ -4,16 +4,30 @@
 [![PyPI version](https://badge.fury.io/py/scanapi.svg)](https://badge.fury.io/py/scanapi)
 [![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scanapi/community)
 
-A library for your API that provides automated:
+A library for **your API** that provides:
 
-- Integration Testing
-- Live Documentation
+- Automated Integration Testing
+- Automated Live Documentation
 
-<p align="center">
-  <img src="https://github.com/camilamaia/scanapi/blob/master/images/overview.png" width="700">
-</p>
+## Contents
 
-Here is an [example][doc-example] of a generated report.
+* [Requirements](#requirements)
+* [How to install](#how-to-install)
+* [Basic Usage](#basic-usage)
+* [Documentation](#documentation)
+  + [ScanAPI CLI](#scanapi-cli)
+  + [API Specification Keys](#api-specification-keys)
+  + [Environment Variables](#environment-variables)
+  + [Custom Variables](#custom-variables)
+  + [Python Code](#python-code)
+  + [Chaining Requests](#chaining-requests)
+  + [Configuration File](#configuration-file)
+  + [Hiding sensitive information](#hiding-sensitive-information)
+* [Contributing](#contributing)
+
+## Requirements
+
+- [pip][pip-installation]
 
 ## How to install
 
@@ -21,25 +35,36 @@ Here is an [example][doc-example] of a generated report.
 $ pip install scanapi
 ```
 
-## How to use
+## Basic Usage
 
-Create an API spec file `api.yaml` file in the root of your project and list the API's endpoints.
+You will need to write the API's specification and save it as `api.yaml`.
 
 ```yaml
 api:
-  base_url: https://jsonplaceholder.typicode.com/
-  endpoints:
-    - namespace: posts
-      path: /posts
-      requests:
-        - name: list_all
-          method: get
-        - name: details
-          method: get
-          path: /1
+  base_url: http://scanapi.dev/demo/api/
+  requests:
+    - name: list_all_devs
+      path: devs
+      method: get
 ```
 
-To run the requests and create the doc, run:
+And run the scanapi command
+
+```bash
+$ scanapi
+```
+
+Then, the lib will hit the specified endpoints and generate a `scanapi-report.md` file with the report results
+
+<p align="center">
+  <img src="images/scanapi-report-example.png" width="700">
+</p>
+
+You can find a complete example of a demo project using ScanAPI at [scanapi-demo][scanapi-demo]!
+
+## Documentation
+
+### ScanAPI CLI
 
 ```bash
 $ scanapi --help
@@ -51,166 +76,12 @@ Options:
   -s, --spec-path PATH
   -o, --output-path TEXT
   -r, --reporter [console|markdown|html]
+  -t, --template TEXT
   --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]
   --help                          Show this message and exit.
 ```
 
-By default, the doc will be available in the `scanapi-report.md` file.
-
-### Available Methods
-
-You can run these methods:
-- GET
-- POST
-- PUT
-- DELETE
-
-### Configuration
-
-If you want to configure scanapi, you can do it by creating a file `.scanapi.yaml` in the root of your project.
-
-```yaml
-spec_path: api.yaml
-output_path: scanapi-report.md
-reporter: markdown
-```
-
-### Headers
-
-```yaml
-api:
-  base_url: https://api.thecatapi.com/v1
-  headers:
-    x-api-key: DEMO-API-KEY
-    Content-Type: application/json
-  endpoints:
-    - namespace: votes
-      path: /votes
-      requests:
-        - name: list_all
-          method: get
-```
-
-### Query Parameters
-
-``` yaml
-api:
-  base_url: http://api.openweathermap.org/data/2.5
-  params:
-    APPID: <INSERT_YOUR_API_KEY_HERE>
-  endpoints:
-    - namespace: weather
-      path: /weather
-      requests:
-        - name: city
-          method: get
-          params:
-            q: Rio de Janeiro
-```
-
-### Body
-
-In a post request you can add a body:
-
-```yaml
-api:
-  base_url: https://api.thecatapi.com/v1
-  headers:
-    x-api-key: DEMO-API-KEY
-    Content-Type: application/json
-  endpoints:
-    - namespace: votes
-      path: /votes
-      requests:
-        - name: vote
-          method: post
-          body:
-            image_id: asf2
-            value: 1
-            sub_id: demo-d4332e
-```
-
-### Environment Variables
-
-You can use environment variables in your API spec file:
-
-```bash
-export BASE_URL=https://jsonplaceholder.typicode.com/
-```
-
-```yaml
-api:
-  base_url: ${BASE_URL}
-  headers:
-    Content-Type: application/json
-  endpoints:
-    - namespace: posts
-      path: /posts
-      requests:
-        - name: list_all
-          method: get
-        - name: details
-          method: get
-          path: /1
-```
-
-**Heads up: the variable name must be in upper case.**
-
-### Chaining Requests: Custom Vars + Python Code
-
-```yaml
-api:
-  base_url: https://jsonplaceholder.typicode.com/
-  headers:
-    Content-Type: application/json
-  endpoints:
-    - namespace: posts
-      path: /posts
-      requests:
-        - name: list_all # posts_list_all
-          method: get
-          vars:
-            post_id: ${{responses['posts_list_all'].json()[1]['id']}} # should return id 2
-        - name: details # posts_details
-          method: get
-          path: ${post_id}
-```
-
-### Nested Endpoints
-
-```yaml
-api:
-  base_url: https://jsonplaceholder.typicode.com/
-  headers:
-    Content-Type: application/json
-  endpoints:
-    - namespace: posts
-      path: /posts
-      requests:
-        - name: list_all # posts_list_all
-          method: get
-      endpoints:
-        - namespace: comments
-          path: /1/comments
-          requests:
-            - name: comments # posts_details_comments
-              method: get # https://jsonplaceholder.typicode.com/posts/1/comments
-```
-
-### Hiding sensitive information
-
-If you want to ommit sensitive information in your generated documentation, you can configure it in the `.scanapi.yaml` file. For now, it is only working for headers.
-
-```yaml
-docs:
-  hide:
-    headers:
-      - Authorization
-```
-
-You can find more examples [here][examples].
-
-## Available Keys
+### API Specification Keys
 
 | KEY              | Description                                                                                         | Type   | Scopes                            |
 | ---------------- | --------------------------------------------------------------------------------------------------- | ------ | --------------------------------- |
@@ -228,5 +99,151 @@ You can find more examples [here][examples].
 | ${ENV_VAR}       | A syntax to get the value of the environment variables defined at `.scanapi` file                   | string | api, endpoint, request            |
 | ${{python_code}} | A syntax to get the value of a Python code expression                                               | string | requests                          |
 
-[doc-example]: https://github.com/camilamaia/scanapi/blob/master/examples/json_place_holder/docs.md
-[examples]: https://github.com/camilamaia/scanapi/tree/master/examples
+
+### Environment Variables
+
+You can use environment variables in your API spec file with the syntax
+
+```yaml
+${MY_ENV_VAR}
+```
+
+For example:
+
+```bash
+$ export BASE_URL="http://demo.scanapi.dev/api/"
+```
+
+```yaml
+api:
+  base_url: ${BASE_URL}
+  requests:
+    - name: health
+      method: get
+      path: /health/
+```
+
+ScanAPI would call the following `http://demo.scanapi.dev/api/health/` then.
+
+**Heads up: the variable name must be in upper case.**
+
+### Custom Variables
+
+Inside the request scope, you can create custom variables using the syntax:
+
+```yaml
+requests:
+  - name: my_request
+    ...
+    vars:
+      my_variable_name: my_variable_value
+```
+
+And in the next requests you can access them using the syntax:
+
+
+```yaml
+${my_variable_name}
+```
+
+### Python Code
+
+You can add Python code to the API specification by using the syntax:
+
+```yaml
+${{my_pyhon_code}}
+```
+
+For example
+
+```yaml
+body:
+  uuid: 5c5af4f2-2265-4e6c-94b4-d681c1648c38
+  name: Tarik
+  yearsOfExperience: ${{2 + 5}}
+  languages:
+    - ruby
+      go
+  newOpportunities: false
+```
+
+### Chaining Requests
+
+Inside the request scope, you can save the results of the resulted response to use in the next requests
+
+```yaml
+requests:
+  - name: list_all
+    method: get
+    vars:
+      dev_id: ${{responses.devs_list_all.json()[2]["uuid"]}}
+```
+
+The dev_id variable will receive the `uuid` value of the 3rd result from the devs_list_all request
+
+It the response is
+
+```json
+[
+    {
+        "uuid": "68af402f-1084-40a4-b9b2-6bb5c2d11559",
+        "name": "Anna",
+        "yearsOfExperience": 5,
+        "languages": [
+            "python",
+            "c"
+        ],
+        "newOpportunities": true
+    },
+    {
+        "uuid": "0d1bd106-c585-4d6b-b3a4-d72dedf7190e",
+        "name": "Louis",
+        "yearsOfExperience": 3,
+        "languages": [
+            "java"
+        ],
+        "newOpportunities": true
+    },
+    {
+        "uuid": "129e8cb2-d19c-41ad-9921-cea329bed7f0",
+        "name": "Marcus",
+        "yearsOfExperience": 4,
+        "languages": [
+            "c"
+        ],
+        "newOpportunities": false
+    }
+]
+```
+
+The dev_id variable will receive the value `129e8cb2-d19c-41ad-9921-cea329bed7f0`
+
+### Configuration File
+
+If you want to configure the ScanAPI with a file, you can create a `.scanapi.yaml` file in the root of your project
+
+```yaml
+spec_path: my_path/api.yaml
+output_path: my_path/scanapi-report.md
+reporter: console
+```
+
+### Hiding sensitive information
+
+If you want to omit sensitive information in the report, you can configure it in the `.scanapi.yaml` file. For now, it is only working for request headers.
+
+```yaml
+report:
+  hide:
+    headers:
+      - Authorization
+```
+
+The following configuration will print all the headers values for the `Authorization` key for all the request as `<sensitive_information>` in the report.
+
+## Contributing
+
+Collaboration is super welcome! We prepared the [CONTRIBUTING.md][CONTRIBUTING.md] file to help you in the first steps. Feel free to create new GitHub issues and interact here :)
+
+[pip-installation]: https://pip.pypa.io/en/stable/installing/
+[scanapi-demo]: https://github.com/camilamaia/scanapi-demo
