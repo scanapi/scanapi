@@ -1,5 +1,6 @@
 import factory
 
+from scanapi.reporter import Reporter
 from scanapi.requests_maker import RequestsMaker
 from scanapi.tree.api_node import APINode
 from scanapi.tree.api_tree import APITree
@@ -46,3 +47,12 @@ class RequestsMakerFactory(factory.Factory):
         model = RequestsMaker
 
     api_tree = factory.SubFactory(APITreeFactory)
+
+
+class ReporterFactory(factory.Factory):
+    class Meta:
+        model = Reporter
+
+    output_path = "reports/"
+    reporter = "markdown"
+    template = "templates/my_template"
