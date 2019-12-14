@@ -20,7 +20,8 @@ class EndpointNode(APINode):
             return parent_url
 
         populated_node_path = str(self.spec_evaluator.evaluate(self.spec["path"]))
-        return "/".join(s.strip("/") for s in [parent_url, populated_node_path])
+
+        return join_urls(parent_url, populated_node_path)
 
     def define_headers(self):
         parent_headers = self.parent.headers
@@ -50,3 +51,10 @@ class EndpointNode(APINode):
 
     def validate(self):
         APINode.validate_keys(self.spec.keys(), ENDPOINT_NODE_KEYS, ENDPOINT_SCOPE)
+
+
+def join_urls(first_url, second_url):
+    first_url = first_url.strip("/")
+    second_url = second_url.lstrip("/")
+
+    return "/".join([first_url, second_url])
