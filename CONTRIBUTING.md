@@ -37,39 +37,39 @@ $ pytest --gherkin-terminal-reporter
 
 ## Deploy
 
-Steps:
-1. Deploy on GitHub
-2. Deploy on PyPI
-3. Deploy on DockerHub
-
-### 1. Deploy on GitHub
-
-Deploy on GitHub is done when a [new release is created][creating-releases]. Real examples are available at: https://github.com/camilamaia/scanapi/releases.
-
-### 2. Deploy on PyPI
-
 Requirements:
 
 - [setuptools][setuptools]
 - [twine][twine]
 - PyPI credentials
+- DockerHub credentials
+
+Steps:
+1. Bump lib Version
+2. Deploy on GitHub
+3. Deploy on PyPI
+4. Deploy on DockerHub
+
+### 1. Bump lib Version
 
 Check the last release number at https://pypi.org/manage/project/scanapi/releases/
 Increment the version number at `setup.py` according to the version you have just got.
+Add the change to `master` branch
 
-Then, send the new version to PyPi server
+### 2. Deploy on GitHub
+
+Deploy on GitHub is done when a [new release is created][creating-releases]. Real examples are available at: https://github.com/camilamaia/scanapi/releases.
+
+### 3. Deploy on PyPI
 
 ```bash
+$ cd scanapi
 $ rm -r dist/*
 $ python3 setup.py sdist bdist_wheel
 $ twine upload dist/*
 ```
 
-### 3. Deploy on DockerHub
-
-Requirements:
-
-- DockerHub credentials
+### 4. Deploy on DockerHub
 
 ```bash
 $ docker build -f Dockerfile -t camilamaia/scanapi:latest . --no-cache
