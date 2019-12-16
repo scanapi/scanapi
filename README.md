@@ -57,7 +57,7 @@ $ scanapi
 Then, the lib will hit the specified endpoints and generate a `scanapi-report.md` file with the report results
 
 <p align="center">
-  <img src="images/scanapi-report-example.png" width="700">
+  <img src="https://github.com/camilamaia/scanapi/blob/master/images/scanapi-report-example.png" width="700">
 </p>
 
 You can find a complete example of a demo project using ScanAPI at [scanapi-demo][scanapi-demo]!
