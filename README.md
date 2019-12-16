@@ -243,7 +243,8 @@ The following configuration will print all the headers values for the `Authoriza
 
 ## Contributing
 
-Collaboration is super welcome! We prepared the [CONTRIBUTING.md](CONTRIBUTING.md) file to help you in the first steps. Feel free to create new GitHub issues and interact here :)
+Collaboration is super welcome! We prepared the [CONTRIBUTING.md][contributing-file] file to help you in the first steps. Feel free to create new GitHub issues and interact here :)
 
 [pip-installation]: https://pip.pypa.io/en/stable/installing/
 [scanapi-demo]: https://github.com/camilamaia/scanapi-demo
+[contributing-file]: https://github.com/camilamaia/scanapi/blob/master/CONTRIBUTING.md
