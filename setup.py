@@ -22,7 +22,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="scanapi",
-    version="0.0.16",
+    version="0.0.17",
     author="Camila Maia",
     author_email="cmaiacd@gmail.com",
     description="Automated Testing and Documentation for your REST API",
@@ -41,4 +41,7 @@ setuptools.setup(
         [console_scripts]
         scanapi = scanapi:scan
     """,
+    zip_safe=False,
+    include_package_data=True,
+    package_data={"scanapi": ["scanapi/templates/*"]},
 )
