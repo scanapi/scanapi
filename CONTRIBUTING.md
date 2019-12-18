@@ -41,7 +41,8 @@ Requirements:
 
 - [setuptools][setuptools]
 - [twine][twine]
-- PyPI credentials
+- [PyPI Test][pypi-test] credentials
+- [PyPI][pypi] credentials
 - DockerHub credentials
 
 Steps:
@@ -62,6 +63,31 @@ Deploy on GitHub is done when a [new release is created][creating-releases]. Rea
 
 ### 3. Deploy on PyPI
 
+#### PyPI Test
+
+Before sending directly the new release to the official PyPi repository, it is a good practice to send it to [PyPI Test][pypi-test] first.
+
+For that, check the last release number at https://test.pypi.org/manage/project/scanapi/releases/
+Increment **locally** the version number at `setup.py` according to the version you have just got. Do not commit the `setup.py` changes.
+
+Run:
+
+```bash
+sudo rm -r dist/*
+python3 setup.py sdist bdist_wheel
+twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+```
+
+To install and test it, run:
+
+```bash
+$ pip install -i https://test.pypi.org/simple/ scanapi
+```
+
+**Revert the `setup.py` changes.**
+
+#### PyPi Production
+
 ```bash
 $ cd scanapi
 $ rm -r dist/*
@@ -78,5 +104,7 @@ $ docker push camilamaia/scanapi:latest
 ```
 
 [virtualenv]: https://virtualenv.pypa.io/en/latest/
+[pypi]: https://pypi.org
+[pypi-test]: https://test.pypi.org
 [setuptools]: https://packaging.python.org/key_projects/#setuptools
 [twine]: https://packaging.python.org/key_projects/#twine
