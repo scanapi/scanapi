@@ -22,7 +22,7 @@ class RequestNode(EndpointNode):
 
     def define_body(self):
         if "body" not in self.spec:
-            return {}
+            return
 
         return self.spec_evaluator.evaluate(self.spec["body"])
 

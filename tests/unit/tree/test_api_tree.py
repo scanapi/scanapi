@@ -34,7 +34,7 @@ class TestAPITree:
                 assert request.id == "posts_list_all_posts"
                 assert request.url == "https://jsonplaceholder.typicode.com/posts"
                 assert request.method == "get"
-                assert request.body == {}
+                assert request.body is None
                 assert request.headers == {}
 
             def test_build_endpoints_should_be_called(
@@ -66,7 +66,7 @@ class TestAPITree:
                 assert request.id == "list_all_posts"
                 assert request.url == "https://jsonplaceholder.typicode.com/posts"
                 assert request.method == "get"
-                assert request.body == {}
+                assert request.body is None
                 assert request.headers == {}
 
             def test_build_request_should_be_called(
@@ -96,7 +96,7 @@ class TestAPITree:
                 assert root_request.id == "docs"
                 assert root_request.url == "https://jsonplaceholder.typicode.com/docs"
                 assert root_request.method == "get"
-                assert root_request.body == {}
+                assert root_request.body is None
                 assert root_request.headers == {}
 
                 endpoint_request = api_tree.request_nodes[1]
@@ -109,7 +109,7 @@ class TestAPITree:
                     endpoint_request.url == "https://jsonplaceholder.typicode.com/posts"
                 )
                 assert endpoint_request.method == "get"
-                assert endpoint_request.body == {}
+                assert endpoint_request.body is None
                 assert endpoint_request.headers == {}
 
             def test_build_request_should_be_called(

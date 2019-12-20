@@ -45,6 +45,6 @@ def get_called(api_spec, mock_request):
         "https://jsonplaceholder.typicode.com/todos",
         headers={},
         params={},
-        json={},
+        json=None,
         allow_redirects=False,
     )
