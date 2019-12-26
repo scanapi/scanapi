@@ -17,13 +17,13 @@ class RootNode(APINode):
 
     def define_headers(self):
         if "headers" not in self.spec:
-            return {}
+            return
 
         return self.spec_evaluator.evaluate(self.spec["headers"])
 
     def define_params(self):
         if "params" not in self.spec:
-            return {}
+            return
 
         return self.spec_evaluator.evaluate(self.spec["params"])
 

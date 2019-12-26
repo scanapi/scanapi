@@ -4,6 +4,7 @@ from scanapi.reporter import Reporter
 from scanapi.requests_maker import RequestsMaker
 from scanapi.tree.api_node import APINode
 from scanapi.tree.api_tree import APITree
+from scanapi.tree.endpoint_node import EndpointNode
 from scanapi.yaml_loader import load_yaml
 
 
@@ -40,6 +41,11 @@ class APITreeFactory(factory.Factory):
             api_spec=WITHOUT_ENDPOINTS_MINIMAL_SPEC
         )
         method_not_allowed = factory.Trait(api_spec=METHOD_NOT_ALLOWED_SPEC)
+
+
+class EndpointNodeFactory(factory.Factory):
+    class Meta:
+        model = EndpointNode
 
 
 class RequestsMakerFactory(factory.Factory):

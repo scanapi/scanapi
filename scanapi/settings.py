@@ -1,4 +1,5 @@
 import os
+
 from scanapi.yaml_loader import load_yaml
 
 SETTINGS_FILE = ".scanapi.yaml"

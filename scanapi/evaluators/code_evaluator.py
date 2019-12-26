@@ -1,5 +1,6 @@
 import logging
 import re
+
 from types import SimpleNamespace
 
 from scanapi.errors import InvalidPythonCodeError

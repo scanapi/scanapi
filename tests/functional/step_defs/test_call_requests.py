@@ -1,4 +1,5 @@
 import pytest
+
 from pytest_bdd import scenario, given, when, then
 
 from scanapi.tree.api_tree import APITree
@@ -43,8 +44,8 @@ def get_called(api_spec, mock_request):
     mock_request.assert_called_once_with(
         "GET",
         "https://jsonplaceholder.typicode.com/todos",
-        headers={},
-        params={},
+        headers=None,
+        params=None,
         json=None,
         allow_redirects=False,
     )
