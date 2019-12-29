@@ -13,27 +13,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [0.0.16] - 2019-12-18
-### Changed
+### Fixed
 - Fixed No module named 'scanapi.tree' [#82](https://github.com/camilamaia/scanapi/issues/82)
 
 ## [0.0.15] - 2019-12-14
-## Added
+### Added
 - CodeCov Setup
 - CircleCI Setup
 
 ### Changed
 - Updated Documentation
 - Increased coverage
-- Fixed join of urls to keep the last slash
 - Used dot notation to access responses inside api spec
 - Renamed option report_path to output_path
 - Reporter option -r, --reporter [console|markdown|html]
+### Fixed
+- Fixed join of urls to keep the last slash
 
 ### Removed
 - Removed requirements files and put every dependency under setup.py
 - Removed dcvars key
 
 ## [0.0.14] - 2019-10-09
+### Added
+- Add math, time, uuid and random libs to be used on api spec
+
+## [0.0.13] - 2019-10-07
 ### Changed
 - Bumped version
 
@@ -47,9 +52,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.10] - 2019-08-09
 ### Added
-- Fix vars interpolation
 - Add logging
 - Option to hide headers fields
+### Fixed
+- Fix vars interpolation
 
 
 
