@@ -1,4 +1,5 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -10,7 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added PyPI Test section to CONTRIBUTING.md
 - Added templates to pypi package - fix [#84](https://github.com/camilamaia/scanapi/issues/84)
-
 
 ## [0.0.16] - 2019-12-18
 ### Fixed
@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Used dot notation to access responses inside api spec
 - Renamed option report_path to output_path
 - Reporter option -r, --reporter [console|markdown|html]
+
 ### Fixed
 - Fixed join of urls to keep the last slash
 
@@ -54,10 +55,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add logging
 - Option to hide headers fields
+
 ### Fixed
 - Fix vars interpolation
-
-
 
 [Unreleased]: https://github.com/camilamaia/scanapi/compare/v0.0.17...HEAD
 [0.0.17]: https://github.com/camilamaia/scanapi/compare/v0.0.16...v0.0.17
