@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-from jinja2 import Environment, PackageLoader, select_autoescape
 import logging
+
+from jinja2 import Environment, PackageLoader, select_autoescape
 
 from scanapi.settings import SETTINGS
 

@@ -29,6 +29,9 @@ class EndpointNode(APINode):
         if "headers" not in self.spec:
             return parent_headers
 
+        if not parent_headers:
+            parent_headers = {}
+
         return {**parent_headers, **self.spec_evaluator.evaluate(self.spec["headers"])}
 
     def define_params(self):
@@ -36,6 +39,9 @@ class EndpointNode(APINode):
 
         if "params" not in self.spec:
             return parent_params
+
+        if not parent_params:
+            parent_params = {}
 
         return {**parent_params, **self.spec_evaluator.evaluate(self.spec["params"])}
 
