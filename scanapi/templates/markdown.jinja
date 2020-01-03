@@ -2,38 +2,56 @@
 
 {% for response in responses %}
 {% set request = response.request %}
-## Request: {{ request.method }} {{ request.url }}
+## {{ request.method }} {{ request.url }}
 
-HEADERS:
-<details><summary></summary><p>
+### Request
 
-```
-{{ request.headers }}
-```
-</p></details>
+#### Headers
 
-### Response: {{ response.status_code }}
-
-Is redirect? {{ response.is_redirect }}
-
-HEADERS:
-<details><summary></summary><p>
-
-```
-{{ response.headers }}
-```
-</p></details>
-
-Content:
-<details><summary></summary><p>
-
-```
-{% if response.text %}
-{{ response.text }}
+{% if request.headers|length > 0 %}
+| Header    | Value       |
+|-----------|-------------|
+{% for key, value in request.headers.items() %}
+| {{ key }} | {{ value }} |
+{% endfor %}
 {% else %}
-{{ response.content }}
+None
 {% endif %}
+
+### Response
+
+#### Metadata
+
+|             |                            |
+|-------------|----------------------------|
+| status code | {{ response.status_code }} |
+| redirect    | {{ response.is_redirect }} |
+
+#### Headers
+
+{% if response.headers|length > 0 %}
+| Header    | Value       |
+|-----------|-------------|
+{% for key, value in response.headers.items() %}
+| {{ key }} | {{ value }} |
+{% endfor %}
+{% else %}
+None
+{% endif %}
+
+#### Content
+<details><summary></summary><p>
+
+{% if response.text %}
 ```
+{{ response.text }}
+```
+{% else %}
+```json
+{{ response.content }}
+```
+{% endif %}
+
 </p></details>
 
 {% endfor %}
