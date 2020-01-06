@@ -45,7 +45,7 @@ class StringEvaluator:
         for match in matches:
             variable_name = match.group("variable")
 
-            if variable_name.islower():
+            if any(letter.islower() for letter in variable_name):
                 continue
 
             try:
