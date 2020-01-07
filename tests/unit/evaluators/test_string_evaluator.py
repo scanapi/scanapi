@@ -21,7 +21,7 @@ class TestStringEvaluator:
 
     class TestEvaluateEnvVar:
         class TestWhenDoesNotMatchThePattern:
-            test_data = ["no env var", "${var}", "${{var}}", "${{VAR}}"]
+            test_data = ["no env var", "${var}", "${MyVar}", "${{var}}", "${{VAR}}"]
 
             @pytest.mark.parametrize("sequence", test_data)
             def test_should_return_sequence(self, string_evaluator, sequence):
@@ -106,12 +106,13 @@ class TestStringEvaluator:
                     class APITreeMock:
                         def __init__(self):
                             self.responses = {}
-                            self.custom_vars = {"user_id": "10"}
+                            self.custom_vars = {"user_id": "10", "apiKey": "abc123"}
 
                     return SpecEvaluator(APITreeMock())
 
                 test_data = [
                     ("${user_id}", "10"),
+                    ("${apiKey}", "abc123"),
                     ("something before ${user_id}", "something before 10"),
                     (
                         "something before ${user_id} something after",
