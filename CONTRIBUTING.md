@@ -50,6 +50,7 @@ Steps:
 2. Deploy on GitHub
 3. Deploy on PyPI
 4. Deploy on DockerHub
+5. Upgrade ScanAPI on ScanAPI Demo
 
 ### 1. Release PR
 
@@ -124,8 +125,29 @@ $ docker push camilamaia/scanapi:<version> # for example $ docker push camilamai
 $ docker push camilamaia/scanapi:latest
 ```
 
+### 5. Upgrade ScanAPI on ScanAPI Demo
+
+Upgrade version of ScanAPI on [ScanAPI Demo Project][scanapi-demo].
+
+First, create a new branch, edit the [requirements.txt file[scanapi-demo-requirements] and change the ScanAPI version:
+
+```txt
+scanapi==<version>
+```
+
+For instance:
+
+```txt
+scanapi==0.0.18
+```
+
+Commit the change and open a Pull Request with it.
+
+
 [virtualenv]: https://virtualenv.pypa.io/en/latest/
 [pypi]: https://pypi.org
 [pypi-test]: https://test.pypi.org
+[scanapi-demo]: https://github.com/camilamaia/scanapi-demo
+[scanapi-demo-requirements]: https://github.com/camilamaia/scanapi-demo/blob/master/requirements.txt
 [setuptools]: https://packaging.python.org/key_projects/#setuptools
 [twine]: https://packaging.python.org/key_projects/#twine
