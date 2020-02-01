@@ -11,6 +11,7 @@ class RequestNode(EndpointNode):
         self.method = self.spec["method"]
         self.body = self.define_body()
         self.id = self.define_id()
+        self.tests = self.define_tests()
 
         self.api_tree.save_custom_vars(self.spec)
 
@@ -25,6 +26,12 @@ class RequestNode(EndpointNode):
             return
 
         return self.spec_evaluator.evaluate(self.spec["body"])
+
+    def define_tests(self):
+        if "tests" not in self.spec:
+            return
+
+        return self.spec["tests"]
 
     def define_id(self):
         if not self.namespace:

@@ -9,6 +9,7 @@ PATH_KEY = "path"
 PARAMS = "params"
 REQUESTS_KEY = "requests"
 VARS_KEY = "vars"
+TESTS_KEY = "tests"
 
 ROOT_NODE_KEYS = (BASE_URL_KEY, ENDPOINTS_KEY, HEADERS_KEY, PARAMS, REQUESTS_KEY)
 
@@ -29,4 +30,5 @@ REQUEST_NODE_KEYS = (
     PARAMS,
     PATH_KEY,
     VARS_KEY,
+    TESTS_KEY,
 )

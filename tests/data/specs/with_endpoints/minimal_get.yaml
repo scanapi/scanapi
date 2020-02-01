@@ -6,3 +6,5 @@ api:
       requests:
         - name: list_all_posts
           method: get
+          tests:
+            - status_code_is_200: response.status_code == 200

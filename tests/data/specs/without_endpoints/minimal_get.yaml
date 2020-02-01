@@ -4,3 +4,5 @@ api:
     - name: list_all_posts
       path: /posts
       method: get
+      tests:
+        - status_code_is_200: response.status_code == 200

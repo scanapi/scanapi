@@ -20,6 +20,7 @@ WITH_ENDPOINTS_GET_WITH_HEADER_BODY_PARAMS = load_yaml(
 WITHOUT_ENDPOINTS_MINIMAL_SPEC = load_yaml(
     "tests/data/specs/without_endpoints/minimal_get.yaml"
 )
+WITH_MULTIPLE_TESTS = load_yaml("tests/data/specs/with_multiple_tests.yaml")
 METHOD_NOT_ALLOWED_SPEC = load_yaml("tests/data/specs/invalid/method_not_allowed.yaml")
 
 
@@ -40,6 +41,7 @@ class APITreeFactory(factory.Factory):
         without_endpoints_minimal = factory.Trait(
             api_spec=WITHOUT_ENDPOINTS_MINIMAL_SPEC
         )
+        with_multiple_tests = factory.Trait(api_spec=WITH_MULTIPLE_TESTS)
         method_not_allowed = factory.Trait(api_spec=METHOD_NOT_ALLOWED_SPEC)
 
 

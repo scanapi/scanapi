@@ -16,3 +16,5 @@ api:
             page: 0
           body:
             bodeKey: abc
+          tests:
+            - status_code_is_200: response.status_code == 200
