@@ -1,7 +1,7 @@
 <img src="https://user-images.githubusercontent.com/2728804/73694724-6d019080-46b7-11ea-8960-70db8f9b0a29.png"/>
 
 # ScanAPI
-[![CircleCI](https://circleci.com/gh/camilamaia/scanapi.svg?style=svg)](https://circleci.com/gh/camilamaia/scanapi)
+[![CircleCI](https://circleci.com/gh/scanapi/scanapi.svg?style=svg)](https://circleci.com/gh/scanapi/scanapi)
 [![codecov](https://codecov.io/gh/camilamaia/scanapi/branch/master/graph/badge.svg)](https://codecov.io/gh/camilamaia/scanapi)
 [![PyPI version](https://badge.fury.io/py/scanapi.svg)](https://badge.fury.io/py/scanapi)
 [![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scanapi/community)
