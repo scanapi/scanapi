@@ -28,7 +28,7 @@ setuptools.setup(
     description="Automated Testing and Documentation for your REST API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/camilamaia/scanapi",
+    url="https://github.com/scanapi/scanapi",
     packages=setuptools.find_packages(),
     install_requires=requirements,
     extras_require={"dev": dev_requirements, "test": test_requirements},
