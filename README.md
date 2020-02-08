@@ -91,7 +91,7 @@ Options:
 | base_url         | The API’s base URL                                                                                  | string | api                               |
 | endpoints        | It represents a list of API endpoints                                                               | list   | api, endpoint                     |
 | headers          | The HTTP headers                                                                                    | dict   | api, endpoint, request            |
-| method           | The HTTP method of the request (GET, POST, PUT or DELETE)                                           | string | request                           |
+| method           | The HTTP method of the request (GET, POST, PUT, PATCH or DELETE)                                           | string | request                           |
 | name             | An identifier                                                                                       | string | endpoint, request                 |
 | path             | A part of the URL path that will be concatenated with the base URL and possible other paths         | string | endpoint, request                 |
 | requests         | It represents a list of HTTP requests                                                               | list   | api, endpoint                     |
