@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class RequestsMaker:
-    ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "DELETE")
+    ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
 
     def __init__(self, api_tree):
         self.api_tree = api_tree

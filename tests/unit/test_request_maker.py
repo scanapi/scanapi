@@ -55,7 +55,7 @@ class TestRequestsMaker:
                 assert (
                     str(excinfo.value)
                     == "HTTP method not supported: PET. Supported methods: "
-                    "('GET', 'POST', 'PUT', 'DELETE')."
+                    "('GET', 'POST', 'PUT', 'PATCH', 'DELETE')."
                 )
 
         class TestWhenHTTPMethodIsValid:
