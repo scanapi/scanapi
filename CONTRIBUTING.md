@@ -129,7 +129,7 @@ $ docker push camilamaia/scanapi:latest
 
 Upgrade version of ScanAPI on [ScanAPI Demo Project][scanapi-demo].
 
-First, create a new branch, edit the [requirements.txt file[scanapi-demo-requirements] and change the ScanAPI version:
+First, create a new branch, edit the [requirements.txt file][scanapi-demo-requirements] and change the ScanAPI version:
 
 ```txt
 scanapi==<version>
