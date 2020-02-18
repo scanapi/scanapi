@@ -37,6 +37,10 @@ class EndpointNode:
             )
         )
 
+    def run(self):
+        for request in self.get_requests():
+            yield request.run()
+
     @property
     def path(self):
         path = self.spec.get("path", "").strip()
@@ -74,8 +78,10 @@ class RequestNode:
         return self.spec.get("method", "get")
 
     def run(self):
-        return requests.request(
+        response = requests.request(
             self.method,
             self.full_url_path,
             allow_redirects=False,
         )
+        #TODO: hide headers
+        return response

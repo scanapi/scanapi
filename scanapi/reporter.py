@@ -17,7 +17,7 @@ class Reporter:
     def write(self, responses):
         logger.info("Writing documentation")
 
-        self.hide_headers_info(responses)
+        # self.hide_headers_info(responses) TODO: Move to RequestNode.run
         env = Environment(loader=PackageLoader("scanapi", "templates"))
         template = env.get_template(f"{self.reporter}.jinja")
         content = template.render(responses=responses)

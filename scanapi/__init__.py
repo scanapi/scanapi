@@ -4,7 +4,7 @@ import click
 import logging
 
 from scanapi.tree import EndpointNode
-from scanapi.requests_maker import run_scan
+from scanapi.reporter import Reporter
 from scanapi.settings import SETTINGS
 from scanapi.yaml_loader import load_yaml
 
@@ -51,4 +51,4 @@ def scan(spec_path, output_path, reporter, template, log_level):
         return
 
     root_node = EndpointNode(api_spec["api"])
-    run_scan(root_node)
+    Reporter(output_path, reporter, template).write(root_node.run())
