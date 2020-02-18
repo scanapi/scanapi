@@ -3,9 +3,8 @@ name = "scanapi"
 import click
 import logging
 
-from scanapi.tree.api_tree import APITree
-from scanapi.reporter import Reporter
-from scanapi.requests_maker import RequestsMaker
+from scanapi.tree import EndpointNode
+from scanapi.requests_maker import run_scan
 from scanapi.settings import SETTINGS
 from scanapi.yaml_loader import load_yaml
 
@@ -35,7 +34,6 @@ from scanapi.yaml_loader import load_yaml
 )
 def scan(spec_path, output_path, reporter, template, log_level):
     """Automated Testing and Documentation for your REST API."""
-
     logging.basicConfig(level=log_level)
     logger = logging.getLogger(__name__)
     SETTINGS.update({"spec_path": spec_path, "output_path": output_path})
@@ -52,13 +50,5 @@ def scan(spec_path, output_path, reporter, template, log_level):
         logger.error(error_message)
         return
 
-    try:
-        api_tree = APITree(api_spec)
-    except Exception as e:
-        error_message = "Error loading API spec."
-        error_message = "{} {}".format(error_message, str(e))
-        logger.error(error_message)
-        return
-
-    RequestsMaker(api_tree).make_all()
-    Reporter(output_path, reporter, template).write(api_tree.responses.values())
+    root_node = EndpointNode(api_spec["api"])
+    run_scan(root_node)
