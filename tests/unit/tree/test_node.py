@@ -7,13 +7,12 @@ from scanapi.tree import EndpointNode, RequestNode, StringEvaluator
 
 class TestEndpointNode:
     class TestInit:
-        class TestChildNodes:
-            def test_should_create_children(self):
-                endpoints = [{}, {}]
-                node = EndpointNode({"endpoints": endpoints})
-                assert len(node.child_nodes) == len(endpoints)
+        def test_should_create_children(self):
+            endpoints = [{}, {}]
+            node = EndpointNode({"endpoints": endpoints})
+            assert len(node.child_nodes) == len(endpoints)
 
-    class TestRootNode:
+    class TestWhenNodeIsRoot:
         node = EndpointNode({})
 
         def test_path(self):
@@ -22,41 +21,71 @@ class TestEndpointNode:
         def test_namespace(self):
             assert self.node.namespace == "root"
 
+        def test_headers(self):
+            assert self.node.headers == {}
+
         def test_count_total_requests_zero(self):
             requests = list(self.node.get_requests())
             assert len(requests) == 0
 
-    class TestNodeWithChildren:
-        node = EndpointNode(
-            {
-                "endpoints": [
-                    {
-                        "namespace": "foo",
-                        "requests": [{"namespace": "First"}, {"namespace": "Second"}],
-                    }
-                ]
-            }
-        )
-
-        def test_request_request_child_requests(self):
-            requests = list(self.node.get_requests())
+    class TestWhenNodeHasChildren:
+        def test_should_build_child_requests(self):
+            node = EndpointNode(
+                {
+                    "endpoints": [
+                        {
+                            "namespace": "foo",
+                            "requests": [
+                                {"namespace": "First"},
+                                {"namespace": "Second"},
+                            ],
+                        }
+                    ]
+                }
+            )
+            requests = list(node.get_requests())
             assert len(requests) == 2
 
-        def test_path_parent_with_no_url(self):
-            base_path = "http://foo.com"
-            node = EndpointNode({"path": base_path}, parent=EndpointNode({}))
-            assert node.path == base_path
+        class TestPath:
+            def test_when_parent_has_no_url(self):
+                base_path = "http://foo.com"
+                node = EndpointNode({"path": base_path}, parent=EndpointNode({}))
+                assert node.path == base_path
 
-        def test_path_with_parent_url(self):
-            base_path = "http://foo.com/api"
-            parent = EndpointNode({"path": base_path})
-            node = EndpointNode({"path": "/foo"}, parent=parent)
-            assert node.path == f"{base_path}/foo"
+            def test_when_parent_has_url(self):
+                base_path = "http://foo.com/api"
+                parent = EndpointNode({"path": base_path})
+                node = EndpointNode({"path": "/foo"}, parent=parent)
+                assert node.path == f"{base_path}/foo"
 
-        def test_path_with_trailing_slashes(self):
-            parent = EndpointNode({"path": "http://foo.com/"})
-            node = EndpointNode({"path": "/foo/"}, parent=parent)
-            assert node.path == "http://foo.com/foo/"
+            def test_with_trailing_slashes(self):
+                parent = EndpointNode({"path": "http://foo.com/"})
+                node = EndpointNode({"path": "/foo/"}, parent=parent)
+                assert node.path == "http://foo.com/foo/"
+
+        class TestHeaders:
+            def test_when_parent_has_no_headers(self):
+                headers = {"abc": "def"}
+                node = EndpointNode({"headers": headers}, parent=EndpointNode({}))
+                assert node.headers == headers
+
+            def test_when_parent_has_headers(self):
+                headers = {"abc": "def"}
+                parent_headers = {"xxx": "www"}
+                node = EndpointNode(
+                    {"headers": headers},
+                    parent=EndpointNode({"headers": parent_headers}),
+                )
+                assert node.headers == {"abc": "def", "xxx": "www"}
+
+            def test_with_repeated_keys(self):
+                headers = {"abc": "def"}
+                parent_headers = {"xxx": "www", "abc": "zxc"}
+                node = EndpointNode(
+                    {"headers": headers},
+                    parent=EndpointNode({"headers": parent_headers}),
+                )
+                assert node.headers == {"abc": "def", "xxx": "www"}
 
 
 class TestRequestNode:

@@ -46,6 +46,15 @@ class EndpointNode:
 
         return StringEvaluator().evaluate(path)
 
+    @property
+    def headers(self):
+        headers = self.spec.get("headers", {})
+
+        if self.parent and self.parent.headers:
+            return {**self.parent.headers, **headers}
+
+        return headers
+
 
 class RequestNode:
     def __init__(self, spec, endpoint):
@@ -71,12 +80,19 @@ class RequestNode:
         return base_path
 
     @property
+    def headers(self):
+        endpoint_headers = self.endpoint.headers
+        headers = self.spec.get("headers", {})
+
+        return {**endpoint_headers, **headers}
+
+    @property
     def method(self):
         return self.spec.get("method", "get")
 
     def run(self):
         response = requests.request(
-            self.method, self.full_url_path, allow_redirects=False
+            self.method, self.full_url_path, headers=self.headers, allow_redirects=False
         )
         # TODO: hide headers
         return response
