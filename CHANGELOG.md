@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added PATCH HTTP method - [#77](https://github.com/scanapi/scanapi/issues/77)
 
+### Changed
+- Make markdown report a bit better - [#96](https://github.com/scanapi/scanapi/issues/60)
+
 ### Fixed
 - Cases where custom var has upper case letters #99
 
