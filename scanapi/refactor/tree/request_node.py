@@ -1,6 +1,6 @@
 import requests
 
-from scanapi.refactor.evaluators import StringEvaluator
+from scanapi.refactor.evaluators import SpecEvaluator, StringEvaluator
 from scanapi.refactor.utils import join_urls
 
 
@@ -32,7 +32,7 @@ class RequestNode:
         endpoint_headers = self.endpoint.headers
         headers = self.spec.get("headers", {})
 
-        return {**endpoint_headers, **headers}
+        return SpecEvaluator.evaluate({**endpoint_headers, **headers})
 
     @property
     def method(self):
