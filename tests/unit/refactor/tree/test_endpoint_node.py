@@ -16,8 +16,8 @@ class TestEndpointNode:
         def test_path(self):
             assert self.node.path == ""
 
-        def test_namespace(self):
-            assert self.node.namespace == "root"
+        def test_name(self):
+            assert self.node.name == "root"
 
         def test_headers(self):
             assert self.node.headers == {}
@@ -32,11 +32,8 @@ class TestEndpointNode:
                 {
                     "endpoints": [
                         {
-                            "namespace": "foo",
-                            "requests": [
-                                {"namespace": "First"},
-                                {"namespace": "Second"},
-                            ],
+                            "name": "foo",
+                            "requests": [{"name": "First"}, {"name": "Second"}],
                         }
                     ]
                 }

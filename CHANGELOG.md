@@ -11,9 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Make markdown report a bit better - [#96](https://github.com/scanapi/scanapi/issues/60)
+- `Namespace` keyword to `name`
 
 ### Fixed
-- Cases where custom var has upper case letters #99
+- Cases where custom var has upper case letters [#99](https://github.com/scanapi/scanapi/issues/99)
 
 ## [0.0.18] - 2020-01-02
 ### Changed

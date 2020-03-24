@@ -19,11 +19,11 @@ class EndpointNode:
         ]
 
     def __repr__(self):
-        return f"<{self.__class__.__name__} {self.namespace}>"
+        return f"<{self.__class__.__name__} {self.name}>"
 
     @property
-    def namespace(self):
-        return self.spec.get("namespace", "root")
+    def name(self):
+        return self.spec.get("name", "root")
 
     def get_requests(self):
         return chain(
