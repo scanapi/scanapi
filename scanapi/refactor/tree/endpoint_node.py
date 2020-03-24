@@ -25,16 +25,6 @@ class EndpointNode:
     def name(self):
         return self.spec.get("name", "root")
 
-    def get_requests(self):
-        return chain(
-            (RequestNode(spec, self) for spec in self.spec.get("requests", [])),
-            *(child.get_requests() for child in self.child_nodes),
-        )
-
-    def run(self):
-        for request in self.get_requests():
-            yield request.run()
-
     @property
     def path(self):
         path = self.spec.get("path", "").strip()
@@ -50,3 +40,13 @@ class EndpointNode:
             return {**self.parent.headers, **headers}
 
         return headers
+
+    def run(self):
+        for request in self._get_requests():
+            yield request.run()
+
+    def _get_requests(self):
+        return chain(
+            (RequestNode(spec, self) for spec in self.spec.get("requests", [])),
+            *(child._get_requests() for child in self.child_nodes),
+        )
