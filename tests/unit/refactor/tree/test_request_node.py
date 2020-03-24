@@ -4,6 +4,24 @@ from scanapi.refactor.tree import EndpointNode, RequestNode
 
 
 class TestRequestNode:
+    class TestHTTPMethod:
+        def test_when_request_has_method(self):
+            request = RequestNode({"method": "put"}, endpoint=EndpointNode({}))
+            assert request.http_method == "put"
+
+        def test_when_request_has_no_method(self):
+            request = RequestNode({}, endpoint=EndpointNode({}))
+            assert request.http_method == "get"
+
+    class TestName:
+        def test_when_request_has_name(self):
+            request = RequestNode({"name": "list-users"}, endpoint=EndpointNode({}))
+            assert request.name == "list-users"
+
+        @pytest.mark.skip("it should validate mandatory `name` key before")
+        def test_when_request_has_no_name(self):
+            request = RequestNode({}, endpoint=EndpointNode({}))
+
     class TestFullPathUrl:
         @pytest.fixture
         def mock_evaluate(self, mocker):
@@ -84,3 +102,45 @@ class TestRequestNode:
             calls = [mocker.call({"abc": "def", "ghi": "jkl"})]
 
             mock_evaluate.assert_has_calls(calls)
+
+    class TestBody:
+        @pytest.fixture
+        def mock_evaluate(self, mocker):
+            mock_func = mocker.patch(
+                "scanapi.refactor.tree.request_node.SpecEvaluator.evaluate"
+            )
+            mock_func.return_value = ""
+
+            return mock_func
+
+        def test_when_request_has_no_body(self):
+            request = RequestNode({}, endpoint=EndpointNode({}))
+            assert request.body == {}
+
+        def test_when_request_has_no_body(self):
+            request = RequestNode({"body": {"abc": "def"}}, endpoint=EndpointNode({}))
+            assert request.body == {"abc": "def"}
+
+        def test_calls_evaluate(self, mocker, mock_evaluate):
+            request = RequestNode({"body": {"ghi": "jkl"}}, endpoint=EndpointNode({}))
+            request.body
+            calls = [mocker.call({"ghi": "jkl"})]
+
+            mock_evaluate.assert_has_calls(calls)
+
+    class TestRun:
+        @pytest.fixture
+        def mock_request(self, mocker):
+            return mocker.patch("scanapi.refactor.tree.request_node.requests.request")
+
+        def test_calls_request(self, mock_request):
+            request = RequestNode({}, endpoint=EndpointNode({}))
+            request.run()
+
+            mock_request.assert_called_once_with(
+                request.http_method,
+                request.full_url_path,
+                headers=request.headers,
+                json=request.body,
+                allow_redirects=False,
+            )

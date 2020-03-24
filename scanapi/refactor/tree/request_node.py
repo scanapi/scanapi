@@ -16,6 +16,10 @@ class RequestNode:
         return self.spec[item]
 
     @property
+    def http_method(self):
+        return self.spec.get("method", "get")
+
+    @property
     def name(self):
         return self["name"]
 
@@ -35,12 +39,19 @@ class RequestNode:
         return SpecEvaluator.evaluate({**endpoint_headers, **headers})
 
     @property
-    def method(self):
-        return self.spec.get("method", "get")
+    def body(self):
+        body = self.spec.get("body", {})
+
+        return SpecEvaluator.evaluate(body)
 
     def run(self):
         response = requests.request(
-            self.method, self.full_url_path, headers=self.headers, allow_redirects=False
+            self.http_method,
+            self.full_url_path,
+            headers=self.headers,
+            # params=request.params,
+            json=self.body,
+            allow_redirects=False,
         )
         # TODO: hide headers
         return response

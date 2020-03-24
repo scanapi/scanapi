@@ -10,12 +10,6 @@ from scanapi.errors import HTTPMethodNotAllowedError
 logger = logging.getLogger(__name__)
 
 
-def run_scan(node):
-    for request_node in node.get_requests():
-        response = request_node.run()
-        print(request_node, response)
-
-
 class RequestsMaker:
     ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
 
