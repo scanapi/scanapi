@@ -6,6 +6,31 @@ from scanapi.refactor.evaluators import StringEvaluator
 
 
 class TestStringEvaluator:
+    class TestEvaluate:
+        @pytest.fixture
+        def mock__evaluate_env_var(self, mocker):
+            mock_func = mocker.patch(
+                "scanapi.refactor.evaluators.string_evaluator.StringEvaluator._evaluate_env_var"
+            )
+            mock_func.return_value = ""
+            return mock_func
+
+        @pytest.fixture
+        def mock_code_evaluate(self, mocker):
+            mock_func = mocker.patch(
+                "scanapi.refactor.evaluators.code_evaluator.CodeEvaluator.evaluate"
+            )
+            mock_func.return_value = ""
+            return mock_func
+
+        def test_calls_code_evaluate(self, mock_code_evaluate):
+            StringEvaluator.evaluate("boo")
+            mock_code_evaluate.assert_called_once_with("boo")
+
+        def test_calls__evaluate_env_var(self, mock__evaluate_env_var):
+            StringEvaluator.evaluate("boo")
+            mock__evaluate_env_var.assert_called_once_with("boo")
+
     class TestEvaluateEnvVar:
         class TestWhenDoesNotMatchThePattern:
             test_data = ["no env var", "${var}", "${MyVar}", "${{var}}", "${{VAR}}"]
@@ -76,7 +101,7 @@ class TestStringEvaluator:
         )
         def test_should_replace(self, sequence, variable, variable_value, expected):
             assert (
-                StringEvaluator._replace_var_with_value(
+                StringEvaluator.replace_var_with_value(
                     sequence, variable, variable_value
                 )
                 == expected

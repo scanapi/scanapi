@@ -3,7 +3,8 @@ import os
 import re
 import sys
 
-from scanapi.errors import BadConfigurationError
+from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
+from scanapi.refactor.evaluators.code_evaluator import CodeEvaluator
 
 logger = logging.getLogger(__name__)
 
@@ -16,8 +17,14 @@ class StringEvaluator:
     @classmethod
     def evaluate(cls, sequence):
         try:
-            return cls._evaluate_env_var(sequence)
+            sequence = cls._evaluate_env_var(sequence)
         except BadConfigurationError as e:
+            logger.error(e)
+            sys.exit()
+
+        try:
+            return CodeEvaluator.evaluate(sequence)
+        except InvalidPythonCodeError as e:
             logger.error(e)
             sys.exit()
 
@@ -39,13 +46,13 @@ class StringEvaluator:
             except KeyError as e:
                 raise BadConfigurationError(e)
 
-            sequence = cls._replace_var_with_value(
+            sequence = cls.replace_var_with_value(
                 sequence, match.group(), variable_value
             )
 
         return sequence
 
     @classmethod
-    def _replace_var_with_value(cls, sequence, variable, variable_value):
+    def replace_var_with_value(cls, sequence, variable, variable_value):
         variable = re.escape(variable)
         return re.sub(variable, variable_value, sequence)

@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make markdown report a bit better - [#96](https://github.com/scanapi/scanapi/issues/96)
 - `base_url` keyword to `path` [#116](https://github.com/scanapi/scanapi/issues/116)
 - `namespace` keyword to `name` [#116](https://github.com/scanapi/scanapi/issues/116)
-- `method` keyword is not mandatory anymore for requests. Default is `get`. [#116](https://github.com/scanapi/scanapi/issues/116)
+- `method` keyword is not mandatory anymore for requests. Default is `get` [#116](https://github.com/scanapi/scanapi/issues/116)
+- Replaced `hide` key on report config by `hide-request` and `hide-response` [#116](https://github.com/scanapi/scanapi/issues/116)
 
 ### Fixed
 - Cases where custom var has upper case letters [#99](https://github.com/scanapi/scanapi/issues/99)

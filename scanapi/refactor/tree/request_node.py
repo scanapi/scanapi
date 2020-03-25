@@ -1,7 +1,7 @@
 import requests
 
 from scanapi.refactor.evaluators import SpecEvaluator
-from scanapi.refactor.utils import join_urls
+from scanapi.refactor.utils import join_urls, hide_sensitive_info
 
 
 class RequestNode:
@@ -60,5 +60,6 @@ class RequestNode:
             json=self.body,
             allow_redirects=False,
         )
-        # TODO: hide headers
+
+        hide_sensitive_info(response)
         return response
