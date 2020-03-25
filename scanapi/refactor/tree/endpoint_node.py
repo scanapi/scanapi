@@ -1,7 +1,7 @@
 from itertools import chain
 
 
-from scanapi.refactor.evaluators import StringEvaluator
+from scanapi.refactor.evaluators import SpecEvaluator
 from scanapi.refactor.tree.request_node import RequestNode
 from scanapi.refactor.utils import join_urls
 
@@ -30,7 +30,7 @@ class EndpointNode:
         path = self.spec.get("path", "").strip()
         url = join_urls(self.parent.path, path) if self.parent else path
 
-        return StringEvaluator.evaluate(url)
+        return SpecEvaluator.evaluate(url)
 
     @property
     def headers(self):
@@ -40,6 +40,15 @@ class EndpointNode:
             return {**self.parent.headers, **headers}
 
         return headers
+
+    @property
+    def params(self):
+        params = self.spec.get("params", {})
+
+        if self.parent and self.parent.params:
+            return {**self.parent.params, **params}
+
+        return params
 
     def run(self):
         for request in self._get_requests():

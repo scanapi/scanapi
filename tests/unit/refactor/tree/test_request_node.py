@@ -4,6 +4,15 @@ from scanapi.refactor.tree import EndpointNode, RequestNode
 
 
 class TestRequestNode:
+    @pytest.fixture
+    def mock_evaluate(self, mocker):
+        mock_func = mocker.patch(
+            "scanapi.refactor.tree.request_node.SpecEvaluator.evaluate"
+        )
+        mock_func.return_value = ""
+
+        return mock_func
+
     class TestHTTPMethod:
         def test_when_request_has_method(self):
             request = RequestNode({"method": "put"}, endpoint=EndpointNode({}))
@@ -23,15 +32,6 @@ class TestRequestNode:
             request = RequestNode({}, endpoint=EndpointNode({}))
 
     class TestFullPathUrl:
-        @pytest.fixture
-        def mock_evaluate(self, mocker):
-            mock_func = mocker.patch(
-                "scanapi.refactor.tree.request_node.StringEvaluator.evaluate"
-            )
-            mock_func.return_value = ""
-
-            return mock_func
-
         def test_request_with_no_path(self):
             base_path = "http://foo.com/"
             request = RequestNode({}, endpoint=EndpointNode({"path": base_path}))
@@ -62,15 +62,6 @@ class TestRequestNode:
             mock_evaluate.assert_has_calls(calls)
 
     class TestHeaders:
-        @pytest.fixture
-        def mock_evaluate(self, mocker):
-            mock_func = mocker.patch(
-                "scanapi.refactor.tree.request_node.SpecEvaluator.evaluate"
-            )
-            mock_func.return_value = ""
-
-            return mock_func
-
         def test_when_endpoint_has_no_headers(self):
             headers = {"abc": "def"}
             request = RequestNode({"headers": headers}, endpoint=EndpointNode({}))
@@ -103,16 +94,38 @@ class TestRequestNode:
 
             mock_evaluate.assert_has_calls(calls)
 
-    class TestBody:
-        @pytest.fixture
-        def mock_evaluate(self, mocker):
-            mock_func = mocker.patch(
-                "scanapi.refactor.tree.request_node.SpecEvaluator.evaluate"
+    class TestParams:
+        def test_when_endpoint_has_no_params(self):
+            params = {"abc": "def"}
+            request = RequestNode({"params": params}, endpoint=EndpointNode({}))
+            assert request.params == params
+
+        def test_when_endpoint_has_params(self):
+            params = {"abc": "def"}
+            endpoint_params = {"xxx": "www"}
+            request = RequestNode(
+                {"params": params}, endpoint=EndpointNode({"params": endpoint_params})
             )
-            mock_func.return_value = ""
+            assert request.params == {"abc": "def", "xxx": "www"}
 
-            return mock_func
+        def test_with_repeated_keys(self):
+            params = {"abc": "def"}
+            endpoint_params = {"xxx": "www", "abc": "zxc"}
+            request = RequestNode(
+                {"params": params}, endpoint=EndpointNode({"params": endpoint_params})
+            )
+            assert request.params == {"abc": "def", "xxx": "www"}
 
+        def test_calls_evaluate(self, mocker, mock_evaluate):
+            endpoint = EndpointNode({"params": {"abc": "def"}})
+
+            request = RequestNode({"params": {"ghi": "jkl"}}, endpoint=endpoint)
+            request.params
+            calls = [mocker.call({"abc": "def", "ghi": "jkl"})]
+
+            mock_evaluate.assert_has_calls(calls)
+
+    class TestBody:
         def test_when_request_has_no_body(self):
             request = RequestNode({}, endpoint=EndpointNode({}))
             assert request.body == {}
@@ -141,6 +154,7 @@ class TestRequestNode:
                 request.http_method,
                 request.full_url_path,
                 headers=request.headers,
+                params=request.params,
                 json=request.body,
                 allow_redirects=False,
             )

@@ -22,7 +22,7 @@ class TestEndpointNode:
         @pytest.fixture
         def mock_evaluate(self, mocker):
             mock_func = mocker.patch(
-                "scanapi.refactor.tree.endpoint_node.StringEvaluator.evaluate"
+                "scanapi.refactor.tree.endpoint_node.SpecEvaluator.evaluate"
             )
             mock_func.return_value = ""
 
@@ -79,6 +79,31 @@ class TestEndpointNode:
                 {"headers": headers}, parent=EndpointNode({"headers": parent_headers})
             )
             assert node.headers == {"abc": "def", "xxx": "www"}
+
+    class TestParams:
+        def test_when_node_is_empty(self, empty_node):
+            assert empty_node.params == {}
+
+        def test_when_parent_has_no_params(self):
+            params = {"abc": "def"}
+            node = EndpointNode({"params": params}, parent=EndpointNode({}))
+            assert node.params == params
+
+        def test_when_parent_has_params(self):
+            params = {"abc": "def"}
+            parent_params = {"xxx": "www"}
+            node = EndpointNode(
+                {"params": params}, parent=EndpointNode({"params": parent_params})
+            )
+            assert node.params == {"abc": "def", "xxx": "www"}
+
+        def test_when_parent_has_repeated_keys(self):
+            params = {"abc": "def"}
+            parent_params = {"xxx": "www", "abc": "zxc"}
+            node = EndpointNode(
+                {"params": params}, parent=EndpointNode({"params": parent_params})
+            )
+            assert node.params == {"abc": "def", "xxx": "www"}
 
     class TestGetRequests:
         def test_when_node_is_empty(self, empty_node):
