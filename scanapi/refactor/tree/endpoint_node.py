@@ -12,6 +12,7 @@ class EndpointNode:
         self.parent = parent
         self.child_nodes = []
         self.__build()
+        self.vars = SpecEvaluator(self, spec.get("vars", {}))
 
     def __build(self):
         self.child_nodes = [
@@ -30,29 +31,28 @@ class EndpointNode:
         path = self.spec.get("path", "").strip()
         url = join_urls(self.parent.path, path) if self.parent else path
 
-        return SpecEvaluator.evaluate(url)
+        return self.vars.evaluate(url)
 
     @property
     def headers(self):
-        headers = self.spec.get("headers", {})
-
-        if self.parent and self.parent.headers:
-            return {**self.parent.headers, **headers}
-
-        return headers
+        return self._get_specs("headers")
 
     @property
     def params(self):
-        params = self.spec.get("params", {})
-
-        if self.parent and self.parent.params:
-            return {**self.parent.params, **params}
-
-        return params
+        return self._get_specs("params")
 
     def run(self):
         for request in self._get_requests():
             yield request.run()
+
+    def _get_specs(self, field_name):
+        values = self.spec.get(field_name, {})
+        parent_values = getattr(self.parent, field_name, None)
+
+        if parent_values:
+            return {**parent_values, **values}
+
+        return values
 
     def _get_requests(self):
         return chain(

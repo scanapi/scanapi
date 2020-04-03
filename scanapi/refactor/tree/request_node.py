@@ -29,27 +29,27 @@ class RequestNode:
         path = self.spec.get("path", "")
         full_url = join_urls(base_path, path)
 
-        return SpecEvaluator.evaluate(full_url)
+        return self.endpoint.vars.evaluate(full_url)
 
     @property
     def headers(self):
         endpoint_headers = self.endpoint.headers
         headers = self.spec.get("headers", {})
 
-        return SpecEvaluator.evaluate({**endpoint_headers, **headers})
+        return self.endpoint.vars.evaluate({**endpoint_headers, **headers})
 
     @property
     def params(self):
         endpoint_params = self.endpoint.params
         params = self.spec.get("params", {})
 
-        return SpecEvaluator.evaluate({**endpoint_params, **params})
+        return self.endpoint.vars.evaluate({**endpoint_params, **params})
 
     @property
     def body(self):
         body = self.spec.get("body", {})
 
-        return SpecEvaluator.evaluate(body)
+        return self.endpoint.vars.evaluate(body)
 
     def run(self):
         response = requests.request(
@@ -59,6 +59,10 @@ class RequestNode:
             params=self.params,
             json=self.body,
             allow_redirects=False,
+        )
+
+        self.endpoint.vars.update(
+            self.spec.get("vars", {}), extras={"response": response}, preevaluate=True
         )
 
         hide_sensitive_info(response)

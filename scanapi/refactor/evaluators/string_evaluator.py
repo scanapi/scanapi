@@ -15,15 +15,17 @@ class StringEvaluator:
     )  # ${<variable>}
 
     @classmethod
-    def evaluate(cls, sequence):
+    def evaluate(cls, sequence, vars):
         try:
             sequence = cls._evaluate_env_var(sequence)
         except BadConfigurationError as e:
             logger.error(e)
             sys.exit()
 
+        sequence = cls._evaluate_custom_var(sequence, vars)
+
         try:
-            return CodeEvaluator.evaluate(sequence)
+            return CodeEvaluator.evaluate(sequence, vars)
         except InvalidPythonCodeError as e:
             logger.error(e)
             sys.exit()
@@ -45,6 +47,30 @@ class StringEvaluator:
                 variable_value = os.environ[variable_name]
             except KeyError as e:
                 raise BadConfigurationError(e)
+
+            sequence = cls.replace_var_with_value(
+                sequence, match.group(), variable_value
+            )
+
+        return sequence
+
+    @classmethod
+    def _evaluate_custom_var(cls, sequence, vars):
+        matches = cls.variable_pattern.finditer(sequence)
+
+        if not matches:
+            return sequence
+
+        for match in matches:
+            variable_name = match.group("variable")
+
+            if variable_name.isupper():
+                continue
+
+            if not vars.get(variable_name):
+                continue
+
+            variable_value = vars.get(variable_name)
 
             sequence = cls.replace_var_with_value(
                 sequence, match.group(), variable_value

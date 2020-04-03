@@ -1,3 +1,4 @@
+from functools import singledispatch
 import logging
 
 from scanapi.refactor.evaluators.string_evaluator import StringEvaluator
@@ -6,31 +7,59 @@ logger = logging.getLogger(__name__)
 
 
 class SpecEvaluator:
-    @classmethod
-    def evaluate(cls, element):
-        if isinstance(element, dict):
-            return cls._evaluate_dict(element)
+    def __init__(self, endpoint, vars={}):
+        self.endpoint = endpoint
+        self.registry = {}
+        self.update(vars)
 
-        if isinstance(element, list):
-            return cls._evaluate_list(element)
+    def evaluate(self, element):
+        return evaluate(element, self)
 
-        if not isinstance(element, str):
-            return element
+    def update(self, vars, extras=None, preevaluate=False):
+        if preevaluate:
+            values = {key: evaluate(value, extras) for key, value in vars.items()}
+            self.registry.update(values)
+        else:
+            self.registry.update(vars)
 
-        return StringEvaluator.evaluate(element)
+    def get(self, key, default=None):
+        try:
+            return self[key]
+        except KeyError:
+            return default
 
-    @classmethod
-    def _evaluate_dict(cls, element):
-        evaluated_dict = {}
-        for key, value in element.items():
-            evaluated_dict[key] = cls.evaluate(value)
+    def __repr__(self):
+        return self.registry.__repr__()
 
-        return evaluated_dict
+    def __getitem__(self, key):
+        if key in self:
+            return self.registry[key]
 
-    @classmethod
-    def _evaluate_list(cls, elements):
-        evaluated_list = []
-        for item in elements:
-            evaluated_list.append(cls.evaluate(item))
+        if key in self.endpoint.parent.vars:
+            return self.endpoint.parent.vars[key]
 
-        return evaluated_list
+        raise KeyError(key)
+
+    def __contains__(self, key):
+        return key in self.registry
+
+
+@singledispatch
+def evaluate(expression, vars):
+    return expression
+
+
+@evaluate.register(str)
+def _evaluate_str(element, vars):
+    return StringEvaluator.evaluate(element, vars)
+
+
+@evaluate.register(dict)
+def _evaluate_dict(element, vars):
+    return {key: evaluate(value, vars) for key, value in element.items()}
+
+
+@evaluate.register(list)
+@evaluate.register(tuple)
+def _evaluate_collection(elements, vars):
+    return [evaluate(item, vars) for item in elements]

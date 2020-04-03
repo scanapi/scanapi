@@ -12,7 +12,7 @@ class CodeEvaluator:
     )  # ${{<python_code>}}
 
     @classmethod
-    def evaluate(cls, sequence):
+    def evaluate(cls, sequence, vars):
         # To avoid circular imports
         from scanapi.refactor.evaluators.string_evaluator import StringEvaluator
 
@@ -31,6 +31,7 @@ class CodeEvaluator:
         code = match.group("python_code")
 
         try:
+            response = vars.get("response")
             python_code_value = str(eval(code))
             return StringEvaluator.replace_var_with_value(
                 sequence, match.group(), python_code_value

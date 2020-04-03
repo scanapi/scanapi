@@ -24,11 +24,11 @@ class TestStringEvaluator:
             return mock_func
 
         def test_calls_code_evaluate(self, mock_code_evaluate):
-            StringEvaluator.evaluate("boo")
-            mock_code_evaluate.assert_called_once_with("boo")
+            StringEvaluator.evaluate("boo", {})
+            mock_code_evaluate.assert_called_once_with("boo", {})
 
         def test_calls__evaluate_env_var(self, mock__evaluate_env_var):
-            StringEvaluator.evaluate("boo")
+            StringEvaluator.evaluate("boo", {})
             mock__evaluate_env_var.assert_called_once_with("boo")
 
     class TestEvaluateEnvVar:
@@ -76,6 +76,48 @@ class TestStringEvaluator:
                     assert (
                         str(excinfo.value)
                         == "'BASE_URL' environment variable not set or badly configured"
+                    )
+
+    class TestEvaluateCustomVar:
+        class TestWhenDoesNotMatchThePattern:
+            test_data = ["no var", "${ENV_VAR}", "${{code}}"]
+
+            @pytest.mark.parametrize("sequence", test_data)
+            def test_should_return_sequence(self, sequence):
+                assert StringEvaluator._evaluate_custom_var(sequence, {}) == sequence
+
+        class TestWhenMatchesThePattern:
+            class TestWhenCodeDoesNotContainThePreSavedCustomVar:
+                test_data = [
+                    ("${user_id}"),
+                    ("something before ${user_id} something after"),
+                    ("something before ${user_id}"),
+                    ("${user_id} something after"),
+                ]
+
+                @pytest.mark.parametrize("sequence", test_data)
+                def test_should_return_sequence(self, sequence):
+                    assert (
+                        StringEvaluator._evaluate_custom_var(sequence, {}) == sequence
+                    )
+
+            class TestWhenCodeContainsThePreSavedCustomVar:
+                test_data = [
+                    ("${user_id}", "10"),
+                    ("${apiKey}", "abc123"),
+                    ("something before ${user_id}", "something before 10"),
+                    (
+                        "something before ${user_id} something after",
+                        "something before 10 something after",
+                    ),
+                    ("${user_id} something after", "10 something after"),
+                ]
+
+                @pytest.mark.parametrize("sequence, expected", test_data)
+                def test_should_return_sequence(self, sequence, expected):
+                    vars = {"user_id": "10", "apiKey": "abc123"}
+                    assert (
+                        StringEvaluator._evaluate_custom_var(sequence, vars) == expected
                     )
 
     class TestReplaceVarWithValue:
