@@ -4,7 +4,7 @@ import click
 import logging
 
 from scanapi.errors import InvalidKeyError
-from scanapi.refactor.tree import EndpointNode
+from scanapi.tree import EndpointNode
 from scanapi.reporter import Reporter
 from scanapi.settings import SETTINGS
 from scanapi.yaml_loader import load_yaml

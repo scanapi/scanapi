@@ -1,6 +1,6 @@
 import pytest
 
-from scanapi.refactor.tree import EndpointNode
+from scanapi.tree import EndpointNode
 
 
 class TestEndpointNode:
@@ -22,7 +22,7 @@ class TestEndpointNode:
         @pytest.fixture
         def mock_evaluate(self, mocker):
             mock_func = mocker.patch(
-                "scanapi.refactor.tree.endpoint_node.SpecEvaluator.evaluate"
+                "scanapi.tree.endpoint_node.SpecEvaluator.evaluate"
             )
             mock_func.return_value = ""
 
@@ -111,7 +111,7 @@ class TestEndpointNode:
     class TestValidate:
         @pytest.fixture()
         def mock_validate_keys(self, mocker):
-            return mocker.patch("scanapi.refactor.tree.endpoint_node.validate_keys")
+            return mocker.patch("scanapi.tree.endpoint_node.validate_keys")
 
         def test_should_call_validate_keys(self, mock_validate_keys):
             spec = {"headers": {"foo": "bar"}, "name": "foo", "path": "foo.bar"}

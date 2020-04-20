@@ -2,8 +2,8 @@ from itertools import chain
 import logging
 
 
-from scanapi.refactor.evaluators import SpecEvaluator
-from scanapi.refactor.tree.tree_keys import (
+from scanapi.evaluators import SpecEvaluator
+from scanapi.tree.tree_keys import (
     ENDPOINTS_KEY,
     HEADERS_KEY,
     NAME_KEY,
@@ -11,8 +11,8 @@ from scanapi.refactor.tree.tree_keys import (
     PATH_KEY,
     REQUESTS_KEY,
 )
-from scanapi.refactor.tree.request_node import RequestNode
-from scanapi.refactor.utils import join_urls, validate_keys
+from scanapi.tree.request_node import RequestNode
+from scanapi.utils import join_urls, validate_keys
 
 logger = logging.getLogger(__name__)
 

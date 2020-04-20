@@ -3,7 +3,7 @@ import pytest
 import requests
 
 from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
-from scanapi.refactor.evaluators import CodeEvaluator, SpecEvaluator, StringEvaluator
+from scanapi.evaluators import CodeEvaluator, SpecEvaluator, StringEvaluator
 
 
 class TestCodeEvaluator:

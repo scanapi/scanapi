@@ -2,15 +2,15 @@ import os
 import pytest
 
 from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
-from scanapi.refactor.evaluators.spec_evaluator import SpecEvaluator
-from scanapi.refactor.tree import EndpointNode
+from scanapi.evaluators.spec_evaluator import SpecEvaluator
+from scanapi.tree import EndpointNode
 
 
 class TestSpecEvaluator:
     @pytest.fixture
     def mock_string_evaluate(self, mocker):
         return mocker.patch(
-            "scanapi.refactor.evaluators.spec_evaluator.StringEvaluator.evaluate"
+            "scanapi.evaluators.spec_evaluator.StringEvaluator.evaluate"
         )
 
     @pytest.fixture

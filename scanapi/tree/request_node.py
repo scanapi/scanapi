@@ -1,8 +1,8 @@
 import requests
 
 from scanapi.errors import HTTPMethodNotAllowedError
-from scanapi.refactor.evaluators import SpecEvaluator
-from scanapi.refactor.tree.tree_keys import (
+from scanapi.evaluators import SpecEvaluator
+from scanapi.tree.tree_keys import (
     BODY_KEY,
     HEADERS_KEY,
     METHOD_KEY,
@@ -11,7 +11,7 @@ from scanapi.refactor.tree.tree_keys import (
     PATH_KEY,
     VARS_KEY,
 )
-from scanapi.refactor.utils import join_urls, hide_sensitive_info, validate_keys
+from scanapi.utils import join_urls, hide_sensitive_info, validate_keys
 
 
 class RequestNode:

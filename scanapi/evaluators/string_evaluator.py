@@ -4,7 +4,7 @@ import re
 import sys
 
 from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
-from scanapi.refactor.evaluators.code_evaluator import CodeEvaluator
+from scanapi.evaluators.code_evaluator import CodeEvaluator
 
 logger = logging.getLogger(__name__)
 

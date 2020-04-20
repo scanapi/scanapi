@@ -1,7 +1,7 @@
 from functools import singledispatch
 import logging
 
-from scanapi.refactor.evaluators.string_evaluator import StringEvaluator
+from scanapi.evaluators.string_evaluator import StringEvaluator
 
 logger = logging.getLogger(__name__)
 

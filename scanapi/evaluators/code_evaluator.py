@@ -14,7 +14,7 @@ class CodeEvaluator:
     @classmethod
     def evaluate(cls, sequence, vars):
         # To avoid circular imports
-        from scanapi.refactor.evaluators.string_evaluator import StringEvaluator
+        from scanapi.evaluators.string_evaluator import StringEvaluator
 
         # Available imports to be used dinamically in the API spec
         import datetime

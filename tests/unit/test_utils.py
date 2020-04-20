@@ -2,7 +2,7 @@ import pytest
 import requests
 
 from scanapi.errors import InvalidKeyError
-from scanapi.refactor.utils import (
+from scanapi.utils import (
     _hide,
     _override_info,
     hide_sensitive_info,
@@ -90,7 +90,7 @@ class TestValidateKeys:
 class TestHideSensitiveInfo:
     @pytest.fixture
     def mock__hide(self, mocker):
-        return mocker.patch("scanapi.refactor.utils._hide")
+        return mocker.patch("scanapi.utils._hide")
 
     test_data = [
         ({}, {}, {}),
@@ -109,7 +109,7 @@ class TestHideSensitiveInfo:
         response,
         mock__hide,
     ):
-        mocker.patch("scanapi.refactor.utils.SETTINGS", settings)
+        mocker.patch("scanapi.utils.SETTINGS", settings)
         hide_sensitive_info(response)
 
         calls = [
@@ -123,7 +123,7 @@ class TestHideSensitiveInfo:
 class TestHide:
     @pytest.fixture
     def mock__override_info(self, mocker):
-        return mocker.patch("scanapi.refactor.utils._override_info")
+        return mocker.patch("scanapi.utils._override_info")
 
     test_data = [
         ({}, []),
@@ -152,7 +152,7 @@ class TestOverrideInfo:
         assert response.headers["abc"] == "<sensitive_information>"
 
     def test_when_http_attr_is_not_allowed(self, response, mocker):
-        mocker.patch("scanapi.refactor.utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
+        mocker.patch("scanapi.utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
         response.headers = {"abc": "123"}
         http_attr = "headers"
         secret_field = "abc"
@@ -162,7 +162,7 @@ class TestOverrideInfo:
         assert response.headers["abc"] == "123"
 
     def test_when_http_attr_does_not_have_the_field(self, response, mocker):
-        mocker.patch("scanapi.refactor.utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
+        mocker.patch("scanapi.utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
         response.headers = {"abc": "123"}
         http_attr = "headers"
         secret_field = "def"

@@ -1,15 +1,13 @@
 import pytest
 
 from scanapi.errors import HTTPMethodNotAllowedError
-from scanapi.refactor.tree import EndpointNode, RequestNode
+from scanapi.tree import EndpointNode, RequestNode
 
 
 class TestRequestNode:
     @pytest.fixture
     def mock_evaluate(self, mocker):
-        mock_func = mocker.patch(
-            "scanapi.refactor.tree.request_node.SpecEvaluator.evaluate"
-        )
+        mock_func = mocker.patch("scanapi.tree.request_node.SpecEvaluator.evaluate")
         mock_func.return_value = ""
 
         return mock_func
@@ -155,7 +153,7 @@ class TestRequestNode:
     class TestRun:
         @pytest.fixture
         def mock_request(self, mocker):
-            return mocker.patch("scanapi.refactor.tree.request_node.requests.request")
+            return mocker.patch("scanapi.tree.request_node.requests.request")
 
         def test_calls_request(self, mock_request):
             request = RequestNode({}, endpoint=EndpointNode({}))
@@ -173,7 +171,7 @@ class TestRequestNode:
     class TestValidate:
         @pytest.fixture()
         def mock_validate_keys(self, mocker):
-            return mocker.patch("scanapi.refactor.tree.request_node.validate_keys")
+            return mocker.patch("scanapi.tree.request_node.validate_keys")
 
         def test_should_call_validate_keys(self, mock_validate_keys):
             spec = {"headers": {"foo": "bar"}, "name": "foo", "path": "foo.bar"}

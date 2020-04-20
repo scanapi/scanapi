@@ -2,7 +2,7 @@ import os
 import pytest
 
 from scanapi.errors import BadConfigurationError
-from scanapi.refactor.evaluators import StringEvaluator
+from scanapi.evaluators import StringEvaluator
 
 
 class TestStringEvaluator:
@@ -10,7 +10,7 @@ class TestStringEvaluator:
         @pytest.fixture
         def mock__evaluate_env_var(self, mocker):
             mock_func = mocker.patch(
-                "scanapi.refactor.evaluators.string_evaluator.StringEvaluator._evaluate_env_var"
+                "scanapi.evaluators.string_evaluator.StringEvaluator._evaluate_env_var"
             )
             mock_func.return_value = ""
             return mock_func
@@ -18,7 +18,7 @@ class TestStringEvaluator:
         @pytest.fixture
         def mock_code_evaluate(self, mocker):
             mock_func = mocker.patch(
-                "scanapi.refactor.evaluators.code_evaluator.CodeEvaluator.evaluate"
+                "scanapi.evaluators.code_evaluator.CodeEvaluator.evaluate"
             )
             mock_func.return_value = ""
             return mock_func
