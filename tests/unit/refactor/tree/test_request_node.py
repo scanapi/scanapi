@@ -1,5 +1,6 @@
 import pytest
 
+from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.refactor.tree import EndpointNode, RequestNode
 
 
@@ -16,11 +17,21 @@ class TestRequestNode:
     class TestHTTPMethod:
         def test_when_request_has_method(self):
             request = RequestNode({"method": "put"}, endpoint=EndpointNode({}))
-            assert request.http_method == "put"
+            assert request.http_method == "PUT"
 
         def test_when_request_has_no_method(self):
             request = RequestNode({}, endpoint=EndpointNode({}))
-            assert request.http_method == "get"
+            assert request.http_method == "GET"
+
+        def test_when_method_is_invalid(self):
+            request = RequestNode({"method": "xxx"}, endpoint=EndpointNode({}))
+            with pytest.raises(HTTPMethodNotAllowedError) as excinfo:
+                request.http_method
+
+            assert (
+                str(excinfo.value) == "HTTP method not supported: XXX. "
+                "Supported methods: ('GET', 'POST', 'PUT', 'PATCH', 'DELETE')."
+            )
 
     class TestName:
         def test_when_request_has_name(self):

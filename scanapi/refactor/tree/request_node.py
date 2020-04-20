@@ -1,10 +1,13 @@
 import requests
 
+from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.refactor.evaluators import SpecEvaluator
 from scanapi.refactor.utils import join_urls, hide_sensitive_info
 
 
 class RequestNode:
+    ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
+
     def __init__(self, spec, endpoint):
         self.spec = spec
         self.endpoint = endpoint
@@ -17,7 +20,11 @@ class RequestNode:
 
     @property
     def http_method(self):
-        return self.spec.get("method", "get")
+        method = self.spec.get("method", "get").upper()
+        if method not in self.ALLOWED_HTTP_METHODS:
+            raise HTTPMethodNotAllowedError(method, self.ALLOWED_HTTP_METHODS)
+
+        return method
 
     @property
     def name(self):
