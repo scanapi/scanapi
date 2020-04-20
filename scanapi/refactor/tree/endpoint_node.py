@@ -1,9 +1,12 @@
 from itertools import chain
+import logging
 
 
 from scanapi.refactor.evaluators import SpecEvaluator
 from scanapi.refactor.tree.request_node import RequestNode
 from scanapi.refactor.utils import join_urls
+
+logger = logging.getLogger(__name__)
 
 
 class EndpointNode:
@@ -43,7 +46,14 @@ class EndpointNode:
 
     def run(self):
         for request in self._get_requests():
-            yield request.run()
+            try:
+                yield request.run()
+            except Exception as e:
+                error_message = (
+                    f"Error to make request `{request.full_url_path}`. {str(e)}"
+                )
+                logger.error(error_message)
+                continue
 
     def _get_specs(self, field_name):
         values = self.spec.get(field_name, {})

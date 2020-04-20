@@ -105,6 +105,12 @@ class TestEndpointNode:
             )
             assert node.params == {"abc": "def", "xxx": "www"}
 
+    class TestRun:
+        pass  # TODO
+
+    class TestGetSpecs:
+        pass  # TODO
+
     class TestGetRequests:
         def test_when_node_is_empty(self, empty_node):
             requests = list(empty_node._get_requests())
