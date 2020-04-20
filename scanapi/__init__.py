@@ -3,6 +3,7 @@ name = "scanapi"
 import click
 import logging
 
+from scanapi.errors import InvalidKeyError
 from scanapi.refactor.tree import EndpointNode
 from scanapi.reporter import Reporter
 from scanapi.settings import SETTINGS
@@ -50,5 +51,11 @@ def scan(spec_path, output_path, reporter, template, log_level):
         logger.error(error_message)
         return
 
-    root_node = EndpointNode(api_spec["api"])
-    Reporter(output_path, reporter, template).write(root_node.run())
+    try:
+        root_node = EndpointNode(api_spec["api"])
+        Reporter(output_path, reporter, template).write(root_node.run())
+    except InvalidKeyError as e:
+        error_message = "Error loading API spec."
+        error_message = "{} {}".format(error_message, str(e))
+        logger.error(error_message)
+        return

@@ -108,6 +108,27 @@ class TestEndpointNode:
     class TestRun:
         pass  # TODO
 
+    class TestValidate:
+        @pytest.fixture()
+        def mock_validate_keys(self, mocker):
+            return mocker.patch("scanapi.refactor.tree.endpoint_node.validate_keys")
+
+        def test_should_call_validate_keys(self, mock_validate_keys):
+            spec = {"headers": {"foo": "bar"}, "name": "foo", "path": "foo.bar"}
+            node = EndpointNode(spec)
+            keys = spec.keys()
+            node._validate()
+
+            mock_validate_keys.assert_called_with(
+                keys,
+                ("endpoints", "headers", "name", "params", "path", "requests"),
+                "endpoint",
+            )
+            assert len(keys) == 3
+            assert "headers" in keys
+            assert "name" in keys
+            assert "path" in keys
+
     class TestGetSpecs:
         pass  # TODO
 

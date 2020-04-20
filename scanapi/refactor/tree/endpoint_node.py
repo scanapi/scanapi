@@ -3,13 +3,31 @@ import logging
 
 
 from scanapi.refactor.evaluators import SpecEvaluator
+from scanapi.refactor.tree.tree_keys import (
+    ENDPOINTS_KEY,
+    HEADERS_KEY,
+    NAME_KEY,
+    PARAMS,
+    PATH_KEY,
+    REQUESTS_KEY,
+)
 from scanapi.refactor.tree.request_node import RequestNode
-from scanapi.refactor.utils import join_urls
+from scanapi.refactor.utils import join_urls, validate_keys
 
 logger = logging.getLogger(__name__)
 
 
 class EndpointNode:
+    SCOPE = "endpoint"
+    ALLOWED_KEYS = (
+        ENDPOINTS_KEY,
+        HEADERS_KEY,
+        NAME_KEY,
+        PARAMS,
+        PATH_KEY,
+        REQUESTS_KEY,
+    )
+
     def __init__(self, spec, parent=None):
         self.spec = spec
         self.parent = parent
@@ -18,6 +36,8 @@ class EndpointNode:
         self.vars = SpecEvaluator(self, spec.get("vars", {}))
 
     def __build(self):
+        self._validate()
+
         self.child_nodes = [
             EndpointNode(spec, parent=self) for spec in self.spec.get("endpoints", [])
         ]
@@ -54,6 +74,9 @@ class EndpointNode:
                 )
                 logger.error(error_message)
                 continue
+
+    def _validate(self):
+        validate_keys(self.spec.keys(), self.ALLOWED_KEYS, self.SCOPE)
 
     def _get_specs(self, field_name):
         values = self.spec.get(field_name, {})

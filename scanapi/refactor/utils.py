@@ -1,3 +1,4 @@
+from scanapi.errors import InvalidKeyError
 from scanapi.settings import SETTINGS
 
 ALLOWED_ATTRS_TO_HIDE = ("headers body").split()
@@ -14,6 +15,12 @@ def join_urls(first_url, second_url):
     second_url = second_url.lstrip("/")
 
     return "/".join([first_url, second_url])
+
+
+def validate_keys(keys, available_keys, scope):
+    for key in keys:
+        if not key in available_keys:
+            raise InvalidKeyError(key, scope, available_keys)
 
 
 def hide_sensitive_info(response):

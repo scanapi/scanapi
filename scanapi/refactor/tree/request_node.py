@@ -2,15 +2,35 @@ import requests
 
 from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.refactor.evaluators import SpecEvaluator
-from scanapi.refactor.utils import join_urls, hide_sensitive_info
+from scanapi.refactor.tree.tree_keys import (
+    BODY_KEY,
+    HEADERS_KEY,
+    METHOD_KEY,
+    NAME_KEY,
+    PARAMS,
+    PATH_KEY,
+    VARS_KEY,
+)
+from scanapi.refactor.utils import join_urls, hide_sensitive_info, validate_keys
 
 
 class RequestNode:
+    SCOPE = "request"
+    ALLOWED_KEYS = (
+        BODY_KEY,
+        HEADERS_KEY,
+        METHOD_KEY,
+        NAME_KEY,
+        PARAMS,
+        PATH_KEY,
+        VARS_KEY,
+    )
     ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
 
     def __init__(self, spec, endpoint):
         self.spec = spec
         self.endpoint = endpoint
+        self._validate()
 
     def __repr__(self):
         return f"<{self.__class__.__name__} {self.full_url_path}>"
@@ -74,3 +94,6 @@ class RequestNode:
 
         hide_sensitive_info(response)
         return response
+
+    def _validate(self):
+        validate_keys(self.spec.keys(), self.ALLOWED_KEYS, self.SCOPE)
