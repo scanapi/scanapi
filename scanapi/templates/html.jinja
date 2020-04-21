@@ -10,9 +10,9 @@
 </head>
 
 <body>
-  {% for response in responses %}
+  {% for response in responses -%}
     <div>
-        <h2>{{ response.request.url }}</h2>
+        <h2>{{ response.request.method }} {{ response.request.url }}</h2>
         <p>{{ response.status_code }}</p>
     </div>
   {% endfor %}

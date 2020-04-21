@@ -11,7 +11,7 @@
 {% if request.headers|length > 0 %}
 | Header    | Value       |
 |-----------|-------------|
-{% for key, value in request.headers.items() %}
+{% for key, value in request.headers.items() -%}
 | {{ key }} | {{ value }} |
 {% endfor %}
 {% else %}
@@ -32,7 +32,7 @@ None
 {% if response.headers|length > 0 %}
 | Header    | Value       |
 |-----------|-------------|
-{% for key, value in response.headers.items() %}
+{% for key, value in response.headers.items() -%}
 | {{ key }} | {{ value }} |
 {% endfor %}
 {% else %}
