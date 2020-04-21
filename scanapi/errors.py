@@ -1,8 +1,3 @@
-ROOT_SCOPE = "root"
-ENDPOINT_SCOPE = "endpoint"
-REQUEST_SCOPE = "request"
-
-
 class MalformedSpecError(Exception):
     pass
 

@@ -1,3 +1,4 @@
+import logging
 import requests
 
 from scanapi.errors import HTTPMethodNotAllowedError
@@ -12,6 +13,8 @@ from scanapi.tree.tree_keys import (
     VARS_KEY,
 )
 from scanapi.utils import join_urls, hide_sensitive_info, validate_keys
+
+logger = logging.getLogger(__name__)
 
 
 class RequestNode:
@@ -79,9 +82,13 @@ class RequestNode:
         return self.endpoint.vars.evaluate(body)
 
     def run(self):
+        method = self.http_method
+        url = self.full_url_path
+        logger.info("Making request %s %s", method, url)
+
         response = requests.request(
-            self.http_method,
-            self.full_url_path,
+            method,
+            url,
             headers=self.headers,
             params=self.params,
             json=self.body,
