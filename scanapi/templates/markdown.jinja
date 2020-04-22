@@ -20,6 +20,19 @@ Full URL: {{ request.url }}
 None
 {% endif %}
 
+{% if ( request.body and request.body.decode("UTF-8") != "{}" ) %}
+
+#### Body
+<details><summary></summary><p>
+
+```json
+{{ request.body }}
+```
+
+{% endif %}
+
+</p></details>
+
 #### cURL
 
 <details><summary></summary><p>
