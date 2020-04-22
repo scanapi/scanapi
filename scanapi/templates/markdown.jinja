@@ -2,9 +2,11 @@
 
 {% for response in responses %}
 {% set request = response.request %}
-## {{ request.method }} {{ request.url }}
+## {{ request.method }} `{{ request.path_url }}`
 
 ### Request
+
+Full URL: {{ request.url }}
 
 #### Headers
 
@@ -18,14 +20,38 @@
 None
 {% endif %}
 
+{% if ( request.body and request.body.decode("UTF-8") != "{}" ) %}
+
+#### Body
+<details><summary></summary><p>
+
+```json
+{{ request.body }}
+```
+
+{% endif %}
+
+</p></details>
+
+#### cURL
+
+<details><summary></summary><p>
+
+```
+{{request|curlify}}
+```
+
+</p></details>
+
 ### Response
 
 #### Metadata
 
-|             |                            |
-|-------------|----------------------------|
-| status code | {{ response.status_code }} |
-| redirect    | {{ response.is_redirect }} |
+|               |                                          |
+|---------------|------------------------------------------|
+| response time | {{ response.elapsed.total_seconds() }} s |
+| status code   | {{ response.status_code }}               |
+| redirect      | {{ response.is_redirect }}               |
 
 #### Headers
 

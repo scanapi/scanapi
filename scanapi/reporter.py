@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import logging
+import curlify
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
@@ -19,6 +20,7 @@ class Reporter:
 
         # self.hide_headers_info(responses) TODO: Move to RequestNode.run
         env = Environment(loader=PackageLoader("scanapi", "templates"))
+        env.filters["curlify"] = curlify.to_curl
         template = env.get_template(f"{self.reporter}.jinja")
         content = template.render(responses=responses)
 
