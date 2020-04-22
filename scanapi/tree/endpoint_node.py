@@ -1,66 +1,94 @@
-from scanapi.errors import ENDPOINT_SCOPE
-from scanapi.tree.api_node import APINode
-from scanapi.tree.tree_keys import ENDPOINT_NODE_KEYS
+from itertools import chain
+import logging
 
 
-class EndpointNode(APINode):
-    def __init__(self, api_tree, node_spec, parent):
-        super().__init__(api_tree, node_spec)
+from scanapi.evaluators import SpecEvaluator
+from scanapi.tree.tree_keys import (
+    ENDPOINTS_KEY,
+    HEADERS_KEY,
+    NAME_KEY,
+    PARAMS,
+    PATH_KEY,
+    REQUESTS_KEY,
+)
+from scanapi.tree.request_node import RequestNode
+from scanapi.utils import join_urls, validate_keys
 
+logger = logging.getLogger(__name__)
+
+
+class EndpointNode:
+    SCOPE = "endpoint"
+    ALLOWED_KEYS = (
+        ENDPOINTS_KEY,
+        HEADERS_KEY,
+        NAME_KEY,
+        PARAMS,
+        PATH_KEY,
+        REQUESTS_KEY,
+    )
+
+    def __init__(self, spec, parent=None):
+        self.spec = spec
         self.parent = parent
-        self.url = self.define_url()
-        self.headers = self.define_headers()
-        self.params = self.define_params()
-        self.namespace = self.define_namespace()
+        self.child_nodes = []
+        self.__build()
+        self.vars = SpecEvaluator(self, spec.get("vars", {}))
 
-    def define_url(self):
-        parent_url = self.parent.url
+    def __build(self):
+        self._validate()
 
-        if "path" not in self.spec:
-            return parent_url
+        self.child_nodes = [
+            EndpointNode(spec, parent=self) for spec in self.spec.get("endpoints", [])
+        ]
 
-        populated_node_path = str(self.spec_evaluator.evaluate(self.spec["path"]))
+    def __repr__(self):
+        return f"<{self.__class__.__name__} {self.name}>"
 
-        return join_urls(parent_url, populated_node_path)
+    @property
+    def name(self):
+        return self.spec.get("name", "root")
 
-    def define_headers(self):
-        parent_headers = self.parent.headers
+    @property
+    def path(self):
+        path = self.spec.get("path", "").strip()
+        url = join_urls(self.parent.path, path) if self.parent else path
 
-        if "headers" not in self.spec:
-            return parent_headers
+        return self.vars.evaluate(url)
 
-        if not parent_headers:
-            parent_headers = {}
+    @property
+    def headers(self):
+        return self._get_specs("headers")
 
-        return {**parent_headers, **self.spec_evaluator.evaluate(self.spec["headers"])}
+    @property
+    def params(self):
+        return self._get_specs("params")
 
-    def define_params(self):
-        parent_params = self.parent.params
+    def run(self):
+        for request in self._get_requests():
+            try:
+                yield request.run()
+            except Exception as e:
+                error_message = (
+                    f"Error to make request `{request.full_url_path}`. {str(e)}"
+                )
+                logger.error(error_message)
+                continue
 
-        if "params" not in self.spec:
-            return parent_params
+    def _validate(self):
+        validate_keys(self.spec.keys(), self.ALLOWED_KEYS, self.SCOPE)
 
-        if not parent_params:
-            parent_params = {}
+    def _get_specs(self, field_name):
+        values = self.spec.get(field_name, {})
+        parent_values = getattr(self.parent, field_name, None)
 
-        return {**parent_params, **self.spec_evaluator.evaluate(self.spec["params"])}
+        if parent_values:
+            return {**parent_values, **values}
 
-    def define_namespace(self):
-        parent_namespace = self.parent.namespace
+        return values
 
-        if "namespace" not in self.spec:
-            return parent_namespace
-
-        populated_node_namespace = self.spec_evaluator.evaluate(self.spec["namespace"])
-
-        return "_".join(filter(None, [parent_namespace, populated_node_namespace]))
-
-    def validate(self):
-        APINode.validate_keys(self.spec.keys(), ENDPOINT_NODE_KEYS, ENDPOINT_SCOPE)
-
-
-def join_urls(first_url, second_url):
-    first_url = first_url.strip("/")
-    second_url = second_url.lstrip("/")
-
-    return "/".join([first_url, second_url])
+    def _get_requests(self):
+        return chain(
+            (RequestNode(spec, self) for spec in self.spec.get("requests", [])),
+            *(child._get_requests() for child in self.child_nodes),
+        )

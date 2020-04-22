@@ -1,78 +1,54 @@
 import os
 import pytest
+import requests
 
 from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
-from scanapi.evaluators.spec_evaluator import SpecEvaluator
-from scanapi.evaluators.string_evaluator import StringEvaluator
-from scanapi.evaluators.code_evaluator import CodeEvaluator
+from scanapi.evaluators import CodeEvaluator, SpecEvaluator, StringEvaluator
 
 
 class TestCodeEvaluator:
-    @pytest.fixture
-    def spec_evaluator(self):
-        return SpecEvaluator({})
-
-    @pytest.fixture
-    def string_evaluator(self, spec_evaluator):
-        return StringEvaluator(spec_evaluator)
-
-    @pytest.fixture
-    def code_evaluator(self, string_evaluator):
-        return CodeEvaluator(string_evaluator)
-
     class TestEvaluate:
-        @pytest.fixture
-        def spec_evaluator(self):
-            class APITreeMock:
-                def __init__(self):
-                    self.responses = {}
-
-            return SpecEvaluator(APITreeMock())
-
         class TestWhenDoesNotMatchThePattern:
             test_data = ["no code", "${CODE}", "${code}", "{{code}}"]
 
             @pytest.mark.parametrize("sequence", test_data)
-            def test_should_return_sequence(self, code_evaluator, sequence):
-                assert code_evaluator.evaluate(sequence) == sequence
+            def test_should_return_sequence(self, sequence):
+                assert CodeEvaluator.evaluate(sequence, {}) == sequence
 
         class TestWhenMatchesThePattern:
             test_data = [("${{1 + 1}}", "2"), ("${{'hi'*4}}", "hihihihi")]
 
             @pytest.mark.parametrize("sequence, expected", test_data)
-            def test_should_return_evaluated_code(
-                self, code_evaluator, sequence, expected
-            ):
-                assert code_evaluator.evaluate(sequence) == expected
+            def test_should_return_evaluated_code(self, sequence, expected):
+                assert CodeEvaluator.evaluate(sequence, {}) == expected
 
-            class TestWhenCodeContainsPreSavedRequest:
+            class TestWhenCodeContainsPreSavedResponse:
                 @pytest.fixture
-                def spec_evaluator(self):
-                    class MockResponse:
-                        def json(self):
-                            return [{"id": 1, "name": "John"}]
-
-                    class APITreeMock:
-                        def __init__(self):
-                            self.responses = {"user_details": MockResponse()}
-
-                    return SpecEvaluator(APITreeMock())
+                def response(self, requests_mock):
+                    requests_mock.get("http://test.com", text="abcde")
+                    return requests.get("http://test.com")
 
                 test_data = [
-                    ("${{responses.user_details.json()[0]['id']}}", "1"),
-                    ("${{responses.user_details.json()[0]['name']}}", "John"),
+                    ("${{response.text}}", "abcde"),
+                    ("${{response.status_code}}", "200"),
+                    ("${{response.text + 'xpto'}}", "abcdexpto"),
+                    ("${{'xpto' + response.text}}", "xptoabcde"),
+                    ("${{1+1}}", "2"),
                 ]
 
                 @pytest.mark.parametrize("sequence, expected", test_data)
-                def test_should_return_response(
-                    self, code_evaluator, mocker, sequence, expected
+                def test_should_return_evaluated_code(
+                    self, sequence, expected, response
                 ):
-                    assert code_evaluator.evaluate(sequence) == expected
+                    assert (
+                        CodeEvaluator.evaluate(sequence, {"response": response})
+                        == expected
+                    )
 
             class TestWhenCodeBreaks:
-                def test_should_raises_invalid_python_code_error(self, code_evaluator):
+                def test_should_raises_invalid_python_code_error(self):
                     with pytest.raises(InvalidPythonCodeError) as excinfo:
-                        code_evaluator.evaluate("${{1/0}}")
+                        CodeEvaluator.evaluate("${{1/0}}", {})
 
                     assert (
                         str(excinfo.value)

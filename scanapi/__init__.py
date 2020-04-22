@@ -3,9 +3,9 @@ name = "scanapi"
 import click
 import logging
 
-from scanapi.tree.api_tree import APITree
+from scanapi.errors import InvalidKeyError
+from scanapi.tree import EndpointNode
 from scanapi.reporter import Reporter
-from scanapi.requests_maker import RequestsMaker
 from scanapi.settings import SETTINGS
 from scanapi.yaml_loader import load_yaml
 
@@ -35,7 +35,6 @@ from scanapi.yaml_loader import load_yaml
 )
 def scan(spec_path, output_path, reporter, template, log_level):
     """Automated Testing and Documentation for your REST API."""
-
     logging.basicConfig(level=log_level)
     logger = logging.getLogger(__name__)
     SETTINGS.update({"spec_path": spec_path, "output_path": output_path})
@@ -53,12 +52,10 @@ def scan(spec_path, output_path, reporter, template, log_level):
         return
 
     try:
-        api_tree = APITree(api_spec)
-    except Exception as e:
+        root_node = EndpointNode(api_spec["api"])
+        Reporter(output_path, reporter, template).write(root_node.run())
+    except InvalidKeyError as e:
         error_message = "Error loading API spec."
         error_message = "{} {}".format(error_message, str(e))
         logger.error(error_message)
         return
-
-    RequestsMaker(api_tree).make_all()
-    Reporter(output_path, reporter, template).write(api_tree.responses.values())

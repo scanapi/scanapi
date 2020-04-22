@@ -10,17 +10,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added PATCH HTTP method - [#77](https://github.com/scanapi/scanapi/issues/77)
 
 ### Changed
-- Make markdown report a bit better - [#96](https://github.com/scanapi/scanapi/issues/60)
+- Make markdown report a bit better - [#96](https://github.com/scanapi/scanapi/issues/96)
+- `base_url` keyword to `path` [#116](https://github.com/scanapi/scanapi/issues/116)
+- `namespace` keyword to `name` [#116](https://github.com/scanapi/scanapi/issues/116)
+- `method` keyword is not mandatory anymore for requests. Default is `get` [#116](https://github.com/scanapi/scanapi/issues/116)
+- Replaced `hide` key on report config by `hide-request` and `hide-response` [#116](https://github.com/scanapi/scanapi/issues/116)
 
 ### Fixed
-- Cases where custom var has upper case letters #99
+- Cases where custom var has upper case letters [#99](https://github.com/scanapi/scanapi/issues/99)
+
+### Removed
+- Request with no endpoints [#116](https://github.com/scanapi/scanapi/issues/116)
 
 ## [0.0.18] - 2020-01-02
 ### Changed
-- Return params/headers None when request doesn't have params/headers #87
+- Return params/headers None when request doesn't have params/headers [#87](https://github.com/scanapi/scanapi/issues/87)
 
 ### Fixed
-- Report-example image not loading on PyPi #86
+- Report-example image not loading on PyPi [#86](https://github.com/scanapi/scanapi/issues/86)
 
 ## [0.0.17] - 2019-12-19
 ### Added

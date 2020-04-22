@@ -6,12 +6,10 @@ requirements = [
     "pyyaml >= 5.1.1",
     "requests >= 2.22.0",
 ]
-dev_requirements = ["black >= 19.10b0", "pre-commit >= 1.20.0"]
+dev_requirements = ["black >= 19.10b0", "ipdb >= 0.13.2", "pre-commit >= 1.20.0"]
 test_requirements = [
     "codecov >= 2.0.15",
-    "factory-boy >= 2.12.0",
     "pytest >= 5.2.4",
-    "pytest-bdd >= 3.2.1",
     "pytest-cov >= 2.8.1",
     "pytest-mock >= 1.11.2",
     "requests-mock >= 1.7.0",

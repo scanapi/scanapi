@@ -1,31 +1,43 @@
 import os
 import pytest
 
-from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
-from scanapi.evaluators.spec_evaluator import SpecEvaluator
-from scanapi.evaluators.string_evaluator import StringEvaluator
+from scanapi.errors import BadConfigurationError
+from scanapi.evaluators import StringEvaluator
 
 
 class TestStringEvaluator:
-    @pytest.fixture
-    def spec_evaluator(self):
-        return SpecEvaluator({})
-
-    @pytest.fixture
-    def string_evaluator(self, spec_evaluator):
-        return StringEvaluator(spec_evaluator)
-
     class TestEvaluate:
-        # TODO
-        pass
+        @pytest.fixture
+        def mock__evaluate_env_var(self, mocker):
+            mock_func = mocker.patch(
+                "scanapi.evaluators.string_evaluator.StringEvaluator._evaluate_env_var"
+            )
+            mock_func.return_value = ""
+            return mock_func
+
+        @pytest.fixture
+        def mock_code_evaluate(self, mocker):
+            mock_func = mocker.patch(
+                "scanapi.evaluators.code_evaluator.CodeEvaluator.evaluate"
+            )
+            mock_func.return_value = ""
+            return mock_func
+
+        def test_calls_code_evaluate(self, mock_code_evaluate):
+            StringEvaluator.evaluate("boo", {})
+            mock_code_evaluate.assert_called_once_with("boo", {})
+
+        def test_calls__evaluate_env_var(self, mock__evaluate_env_var):
+            StringEvaluator.evaluate("boo", {})
+            mock__evaluate_env_var.assert_called_once_with("boo")
 
     class TestEvaluateEnvVar:
         class TestWhenDoesNotMatchThePattern:
             test_data = ["no env var", "${var}", "${MyVar}", "${{var}}", "${{VAR}}"]
 
             @pytest.mark.parametrize("sequence", test_data)
-            def test_should_return_sequence(self, string_evaluator, sequence):
-                assert string_evaluator.evaluate_env_var(sequence) == sequence
+            def test_should_return_sequence(self, sequence):
+                assert StringEvaluator._evaluate_env_var(sequence) == sequence
 
         class TestWhenMatchesThePattern:
             class TestWhenEnvVarIsSetProperly:
@@ -48,10 +60,8 @@ class TestStringEvaluator:
                 ]
 
                 @pytest.mark.parametrize("sequence, expected", test_data)
-                def test_should_return_evaluated_var(
-                    self, string_evaluator, sequence, expected
-                ):
-                    assert string_evaluator.evaluate_env_var(sequence) == expected
+                def test_should_return_evaluated_var(self, sequence, expected):
+                    assert StringEvaluator._evaluate_env_var(sequence) == expected
 
             class TestWhenThereIsNoCorrespondingEnvVar:
                 @pytest.fixture(autouse=True)
@@ -59,9 +69,9 @@ class TestStringEvaluator:
                     if os.environ.get("BASE_URL"):
                         del os.environ["BASE_URL"]
 
-                def test_should_raise_bad_configuration_error(self, string_evaluator):
+                def test_should_raise_bad_configuration_error(self):
                     with pytest.raises(BadConfigurationError) as excinfo:
-                        string_evaluator.evaluate_env_var("${BASE_URL}")
+                        StringEvaluator._evaluate_env_var("${BASE_URL}")
 
                     assert (
                         str(excinfo.value)
@@ -73,20 +83,11 @@ class TestStringEvaluator:
             test_data = ["no var", "${ENV_VAR}", "${{code}}"]
 
             @pytest.mark.parametrize("sequence", test_data)
-            def test_should_return_sequence(self, string_evaluator, sequence):
-                assert string_evaluator.evaluate_custom_var(sequence) == sequence
+            def test_should_return_sequence(self, sequence):
+                assert StringEvaluator._evaluate_custom_var(sequence, {}) == sequence
 
         class TestWhenMatchesThePattern:
             class TestWhenCodeDoesNotContainThePreSavedCustomVar:
-                @pytest.fixture
-                def spec_evaluator(self):
-                    class APITreeMock:
-                        def __init__(self):
-                            self.responses = {}
-                            self.custom_vars = {}
-
-                    return SpecEvaluator(APITreeMock())
-
                 test_data = [
                     ("${user_id}"),
                     ("something before ${user_id} something after"),
@@ -95,21 +96,12 @@ class TestStringEvaluator:
                 ]
 
                 @pytest.mark.parametrize("sequence", test_data)
-                def test_should_return_response(
-                    self, string_evaluator, mocker, sequence
-                ):
-                    assert string_evaluator.evaluate_custom_var(sequence) == sequence
+                def test_should_return_sequence(self, sequence):
+                    assert (
+                        StringEvaluator._evaluate_custom_var(sequence, {}) == sequence
+                    )
 
             class TestWhenCodeContainsThePreSavedCustomVar:
-                @pytest.fixture
-                def spec_evaluator(self):
-                    class APITreeMock:
-                        def __init__(self):
-                            self.responses = {}
-                            self.custom_vars = {"user_id": "10", "apiKey": "abc123"}
-
-                    return SpecEvaluator(APITreeMock())
-
                 test_data = [
                     ("${user_id}", "10"),
                     ("${apiKey}", "abc123"),
@@ -122,10 +114,11 @@ class TestStringEvaluator:
                 ]
 
                 @pytest.mark.parametrize("sequence, expected", test_data)
-                def test_should_return_response(
-                    self, string_evaluator, mocker, sequence, expected
-                ):
-                    assert string_evaluator.evaluate_custom_var(sequence) == expected
+                def test_should_return_sequence(self, sequence, expected):
+                    vars = {"user_id": "10", "apiKey": "abc123"}
+                    assert (
+                        StringEvaluator._evaluate_custom_var(sequence, vars) == expected
+                    )
 
     class TestReplaceVarWithValue:
         test_data = [
@@ -148,11 +141,9 @@ class TestStringEvaluator:
         @pytest.mark.parametrize(
             "sequence, variable, variable_value, expected", test_data
         )
-        def test_should_replace(
-            self, string_evaluator, sequence, variable, variable_value, expected
-        ):
+        def test_should_replace(self, sequence, variable, variable_value, expected):
             assert (
-                string_evaluator.replace_var_with_value(
+                StringEvaluator.replace_var_with_value(
                     sequence, variable, variable_value
                 )
                 == expected

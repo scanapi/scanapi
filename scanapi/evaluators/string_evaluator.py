@@ -7,37 +7,32 @@ from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
 from scanapi.evaluators.code_evaluator import CodeEvaluator
 
 logger = logging.getLogger(__name__)
-variable_pattern = re.compile(
-    r"(?P<something_before>\w*)(?P<start>\${)(?P<variable>\w*)(?P<end>})(?P<something_after>\w*)"
-)  # ${<variable>}
 
 
 class StringEvaluator:
-    def __init__(self, spec_evaluator):
-        self.spec_evaluator = spec_evaluator
-        self.api_tree = spec_evaluator.api_tree
-        self.code_evaluator = CodeEvaluator(self)
+    variable_pattern = re.compile(
+        r"(?P<something_before>\w*)(?P<start>\${)(?P<variable>\w*)(?P<end>})(?P<something_after>\w*)"
+    )  # ${<variable>}
 
-    def evaluate(self, sequence):
+    @classmethod
+    def evaluate(cls, sequence, vars):
         try:
-            sequence = self.evaluate_env_var(sequence)
+            sequence = cls._evaluate_env_var(sequence)
         except BadConfigurationError as e:
             logger.error(e)
             sys.exit()
 
-        sequence = self.evaluate_custom_var(sequence)
-
-        if not self.api_tree.responses:
-            return sequence
+        sequence = cls._evaluate_custom_var(sequence, vars)
 
         try:
-            return self.code_evaluator.evaluate(sequence)
+            return CodeEvaluator.evaluate(sequence, vars)
         except InvalidPythonCodeError as e:
             logger.error(e)
             sys.exit()
 
-    def evaluate_env_var(self, sequence):
-        matches = variable_pattern.finditer(sequence)
+    @classmethod
+    def _evaluate_env_var(cls, sequence):
+        matches = cls.variable_pattern.finditer(sequence)
 
         if not matches:
             return sequence
@@ -53,14 +48,15 @@ class StringEvaluator:
             except KeyError as e:
                 raise BadConfigurationError(e)
 
-            sequence = self.replace_var_with_value(
+            sequence = cls.replace_var_with_value(
                 sequence, match.group(), variable_value
             )
 
         return sequence
 
-    def evaluate_custom_var(self, sequence):
-        matches = variable_pattern.finditer(sequence)
+    @classmethod
+    def _evaluate_custom_var(cls, sequence, vars):
+        matches = cls.variable_pattern.finditer(sequence)
 
         if not matches:
             return sequence
@@ -71,18 +67,18 @@ class StringEvaluator:
             if variable_name.isupper():
                 continue
 
-            if not self.api_tree.custom_vars.get(variable_name):
+            if not vars.get(variable_name):
                 continue
 
-            variable_value = self.spec_evaluator.evaluate(
-                self.api_tree.custom_vars[variable_name]
-            )
-            sequence = self.replace_var_with_value(
+            variable_value = vars.get(variable_name)
+
+            sequence = cls.replace_var_with_value(
                 sequence, match.group(), variable_value
             )
 
         return sequence
 
-    def replace_var_with_value(self, sequence, variable, variable_value):
+    @classmethod
+    def replace_var_with_value(cls, sequence, variable, variable_value):
         variable = re.escape(variable)
         return re.sub(variable, variable_value, sequence)

@@ -42,11 +42,13 @@ You will need to write the API's specification and save it as `api.yaml`.
 
 ```yaml
 api:
-  base_url: http://scanapi.dev/demo/api/
-  requests:
-    - name: list_all_devs
-      path: devs
-      method: get
+  endpoints:
+    - name: scanapi-demo
+      path: http://demo.scanapi.dev/api/
+      requests:
+        - name: list_all_devs
+          path: devs/
+          method: get
 ```
 
 And run the scanapi command
@@ -58,7 +60,7 @@ $ scanapi
 Then, the lib will hit the specified endpoints and generate a `scanapi-report.md` file with the report results
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/camilamaia/scanapi/master/images/scanapi-report-example.png" width="700">
+  <img src="https://user-images.githubusercontent.com/2728804/79781007-3846c200-8313-11ea-919e-d5491432a13a.png" width="700">
 </p>
 
 You can find a complete example of a demo project using ScanAPI at [scanapi-demo][scanapi-demo]!
@@ -88,17 +90,16 @@ Options:
 | ---------------- | --------------------------------------------------------------------------------------------------- | ------ | --------------------------------- |
 | api              | It is reserver word that marks the root of the specification and must not appear in any other place | dict   | root                              |
 | body             | The HTTP body of the request                                                                        | dict   | request                           |
-| base_url         | The API’s base URL                                                                                  | string | api                               |
-| endpoints        | It represents a list of API endpoints                                                               | list   | api, endpoint                     |
-| headers          | The HTTP headers                                                                                    | dict   | api, endpoint, request            |
-| method           | The HTTP method of the request (GET, POST, PUT, PATCH or DELETE)                                           | string | request                           |
+| endpoints        | It represents a list of API endpoints                                                               | list   | endpoint                          |
+| headers          | The HTTP headers                                                                                    | dict   | endpoint, request                 |
+| method           | The HTTP method of the request (GET, POST, PUT, PATCH or DELETE). If not set, GET will be used      | string | request                           |
 | name             | An identifier                                                                                       | string | endpoint, request                 |
-| path             | A part of the URL path that will be concatenated with the base URL and possible other paths         | string | endpoint, request                 |
-| requests         | It represents a list of HTTP requests                                                               | list   | api, endpoint                     |
-| vars             | Key used to define your custom variables to be used along the specification                         | dict   | request                           |
+| path             | A part of the URL path that will be concatenated with possible other paths                          | string | endpoint, request                 |
+| requests         | It represents a list of HTTP requests                                                               | list   | endpoint                          |
+| vars             | Key used to define your custom variables to be used along the specification                         | dict   | endpoint, request                 |
 | ${custom var}    | A syntax to get the value of the custom variables defined at key `vars`                             | string | request - after `vars` definition |
-| ${ENV_VAR}       | A syntax to get the value of the environment variables defined at `.scanapi` file                   | string | api, endpoint, request            |
-| ${{python_code}} | A syntax to get the value of a Python code expression                                               | string | requests                          |
+| ${ENV_VAR}       | A syntax to get the value of an environment variable                                                | string | endpoint, request                 |
+| ${{python_code}} | A syntax to get the value of a Python code expression                                               | string | request                           |
 
 
 ### Environment Variables
@@ -117,11 +118,13 @@ $ export BASE_URL="http://demo.scanapi.dev/api/"
 
 ```yaml
 api:
-  base_url: ${BASE_URL}
-  requests:
-    - name: health
-      method: get
-      path: /health/
+  endpoints:
+    - name: scanapi-demo
+      path: ${BASE_URL}
+      requests:
+        - name: health
+          method: get
+          path: /health/
 ```
 
 ScanAPI would call the following `http://demo.scanapi.dev/api/health/` then.
@@ -130,7 +133,7 @@ ScanAPI would call the following `http://demo.scanapi.dev/api/health/` then.
 
 ### Custom Variables
 
-Inside the request scope, you can create custom variables using the syntax:
+You can create custom variables using the syntax:
 
 ```yaml
 requests:
@@ -177,7 +180,7 @@ requests:
   - name: list_all
     method: get
     vars:
-      dev_id: ${{responses.devs_list_all.json()[2]["uuid"]}}
+      dev_id: ${{response.json()[2]["uuid"]}}
 ```
 
 The dev_id variable will receive the `uuid` value of the 3rd result from the devs_list_all request
@@ -231,16 +234,25 @@ reporter: console
 
 ### Hiding sensitive information
 
-If you want to omit sensitive information in the report, you can configure it in the `.scanapi.yaml` file. For now, it is only working for request headers.
+If you want to omit sensitive information in the report, you can configure it in the `.scanapi.yaml` file.
 
 ```yaml
 report:
-  hide:
+  hide-request:
     headers:
       - Authorization
 ```
 
 The following configuration will print all the headers values for the `Authorization` key for all the request as `<sensitive_information>` in the report.
+
+In the same way you can omit sensitive information from response.
+
+```yaml
+report:
+  hide-response:
+    headers:
+      - Authorization
+```
 
 ## Contributing
 

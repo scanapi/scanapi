@@ -5,8 +5,7 @@ Create a [virtualenv][virtualenv] for scanapi and activate it.
 ```bash
 $ git clone git@github.com:camilamaia/scanapi.git
 $ cd scanapi
-$ python setup.py develop
-$ pip install -e .[dev] .[test]
+$ pip install -e .
 $ pre-commit install
 ```
 
