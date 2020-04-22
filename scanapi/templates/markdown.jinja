@@ -34,10 +34,11 @@ None
 
 #### Metadata
 
-|             |                            |
-|-------------|----------------------------|
-| status code | {{ response.status_code }} |
-| redirect    | {{ response.is_redirect }} |
+|               |                                          |
+|---------------|------------------------------------------|
+| response time | {{ response.elapsed.total_seconds() }} s |
+| status code   | {{ response.status_code }}               |
+| redirect      | {{ response.is_redirect }}               |
 
 #### Headers
 
