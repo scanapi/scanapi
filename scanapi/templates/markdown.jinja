@@ -2,9 +2,11 @@
 
 {% for response in responses %}
 {% set request = response.request %}
-## {{ request.method }} {{ request.url }}
+## {{ request.method }} `{{ request.path_url }}`
 
 ### Request
+
+Full URL: {{ request.url }}
 
 #### Headers
 
@@ -17,6 +19,16 @@
 {% else %}
 None
 {% endif %}
+
+#### cURL
+
+<details><summary></summary><p>
+
+```
+{{request|curlify}}
+```
+
+</p></details>
 
 ### Response
 

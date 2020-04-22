@@ -2,6 +2,7 @@ import setuptools
 
 requirements = [
     "click >= 7.0",
+    "curlify >= 2.2.1",
     "jinja2 >= 2.10.3",
     "pyyaml >= 5.1.1",
     "requests >= 2.22.0",
