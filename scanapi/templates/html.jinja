@@ -1,20 +1,145 @@
 <!doctype html>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
 
-  <title>ScanAPI Report</title>
-  <meta name="description" content="ScanAPI Report">
-  <meta name="author" content="camilamaia/scanapi">
+<head>
+    <meta charset="utf-8">
+
+    <title>ScanAPI Report</title>
+    <meta name="description" content="ScanAPI Report">
+    <meta name="author" content="camilamaia/scanapi">
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
+<header>
+    <img src="./assets/scanAPI-logo.jpg">
+    <a href="https://github.com/scanapi/scanapi">
+        <img class="SmallIcon" src="./assets/github-logo.svg"></a>
+</header>
+
 <body>
-  {% for response in responses -%}
-    <div>
-        <h2>{{ response.request.method }} {{ response.request.url }}</h2>
-        <p>{{ response.status_code }}</p>
+    <div class="Content">
+
+        <h1> ScanAPI Report</h1>
+
+        {% for response in responses -%} {% set request = response.request %}
+
+        <div class="Endpoint">
+            <h2> <span class="{{request.method}}">{{ request.method }} </span> {{ request.path_url }}</h2>
+
+            <section class="Request">
+                <h2>Request </h2>
+                <p> Full URL:
+                    <a href="{{request.url}}"> {{request.url}}</a>
+                </p>
+
+                {% if request.headers|length > 0 %}
+                <table>
+                    <tr>
+                        <th>
+                            Header
+                        </th>
+                        <th>
+                            Value
+                        </th>
+                    </tr>
+                    {% for key, value in request.headers.items() -%}
+
+                    <tr>
+                        <td>
+                            {{ key }}
+                        </td>
+                        <td>
+                            {{value}}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% endif %} {% if ( request.body and request.body.decode("UTF-8") != "{}" ) %}
+                <details>
+                    <summary>Body</summary>
+                    <p>
+                        {{ request.body }}
+                    </p>
+                </details>
+                {% endif %}
+
+                <details>
+                    <summary>cURL</summary>
+                    <div>
+                        {{request|curlify}}
+                    </div>
+                </details>
+            </section>
+
+            <section class="Response">
+
+                <h2>Response</h2>
+                <table>
+                    <tr>
+                        <td>
+                            status code
+                        </td>
+                        <td>
+                            {{ response.status_code }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            response time
+                        </td>
+                        <td>
+                            {{ response.elapsed.total_seconds() }} s
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            redirect
+                        </td>
+                        <td>
+                            {{ response.is_redirect }}
+                        </td>
+                    </tr>
+                </table>
+
+                {% if response.headers|length > 0 %}
+
+                <details>
+                    <summary>Headers</summary>
+                    <table>
+                        <tr>
+                            <th>
+                                Header
+                            </th>
+                            <th>
+                                Value
+                            </th>
+                        </tr>
+                        {% for key, value in response.headers.items() -%}
+                        <tr>
+                            <td>
+                                {{ key }}
+                            </td>
+                            <td>
+                                {{value}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </details>
+                {% endif %}
+
+                <details>
+                    <summary>Content</summary>
+                    <p>
+                        {% if response.text %} {{ response.text }} {% else %} {{ response.content }} {% endif %}
+                    </p>
+                </details>
+
+            </section>
+        </div>
+        {% endfor %}
     </div>
-  {% endfor %}
 </body>
+
 </html>
