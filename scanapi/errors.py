@@ -2,6 +2,13 @@ class MalformedSpecError(Exception):
     pass
 
 
+class EmptySpecError(MalformedSpecError):
+    """Raised when the API spec is empty"""
+
+    def __init__(self, *args):
+        super(EmptySpecError, self).__init__("API spec is empty.", *args)
+
+
 class HTTPMethodNotAllowedError(MalformedSpecError):
     """Raised when the HTTP method in the API spec is invalid"""
 

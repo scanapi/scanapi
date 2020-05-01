@@ -2,8 +2,9 @@ name = "scanapi"
 
 import click
 import logging
+import yaml
 
-from scanapi.errors import InvalidKeyError
+from scanapi.errors import EmptySpecError, InvalidKeyError
 from scanapi.tree import EndpointNode
 from scanapi.reporter import Reporter
 from scanapi.settings import SETTINGS
@@ -44,11 +45,15 @@ def scan(spec_path, output_path, reporter, template, log_level):
         logger.warn("Custom templates are not supported yet. Soon to be. Hang tight.")
 
     spec_path = SETTINGS["spec_path"]
+
     try:
         api_spec = load_yaml(spec_path)
     except FileNotFoundError as e:
         error_message = f"Could not find spec file: {spec_path}. {str(e)}"
         logger.error(error_message)
+        return
+    except (EmptySpecError, yaml.YAMLError) as e:
+        logger.error(e)
         return
 
     try:
