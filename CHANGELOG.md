@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Added PATCH HTTP method - [#77](https://github.com/scanapi/scanapi/issues/77)
+- Enable to have API spec in multiples files - [#125](https://github.com/scanapi/scanapi/issues/125)
 
 ### Changed
 - Make markdown report a bit better - [#96](https://github.com/scanapi/scanapi/issues/96)
