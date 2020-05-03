@@ -22,7 +22,7 @@ from scanapi.config_loader import load_config_file
 @click.option(
     "-r", "--reporter", "reporter", type=click.Choice(["console", "markdown", "html"])
 )
-@click.option("-t", "--template", "template")
+@click.option("-t", "--template", "template", type=click.Path(exists=True))
 @click.option(
     "--log-level",
     "log_level",
