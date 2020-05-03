@@ -2,7 +2,7 @@
 import logging
 import curlify
 
-from jinja2 import Environment, PackageLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader, PackageLoader, select_autoescape
 
 from scanapi.settings import settings
 
@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class Reporter:
-    def __init__(self, output_path, reporter, template):
+    def __init__(self, output_path, reporter, template=None):
         self.output_path = output_path
         self.reporter = reporter
         self.template = template
@@ -18,11 +18,14 @@ class Reporter:
     def write(self, responses):
         logger.info("Writing documentation")
 
-        # self.hide_headers_info(responses) TODO: Move to RequestNode.run
-        env = Environment(loader=PackageLoader("scanapi", "templates"))
-        env.filters["curlify"] = curlify.to_curl
-        template = env.get_template(f"{self.reporter}.jinja")
-        content = template.render(responses=responses)
+        if self.template:
+            loader = FileSystemLoader(searchpath="./")
+            template_path = self.template
+        else:
+            loader = PackageLoader("scanapi", "templates")
+            template_path = f"{self.reporter}.jinja"
+
+        content = self._render_content(loader, template_path, responses)
 
         if self.reporter == "console":
             print(f"\n{content}")
@@ -30,7 +33,7 @@ class Reporter:
 
         if self.output_path is None:
             outputs = {"html": "scanapi-report.html", "markdown": "scanapi-report.md"}
-            self.output_path = outputs.get(self.reporter)
+            self.output_path = outputs.get(self.reporter) or "scanapi-report"
 
         with open(self.output_path, "w", newline="\n") as doc:
             doc.write(content)
@@ -38,26 +41,8 @@ class Reporter:
         logger.info("The documentation was generated successfully.")
         logger.info(f"It is available at {self.output_path}")
 
-    def hide_headers_info(self, responses):
-        hide_keys = self.hide_keys()
-
-        if not hide_keys:
-            return
-
-        [
-            self.hide_request_headers_info(response.request, hide_keys)
-            for response in responses
-        ]
-
-    def hide_request_headers_info(self, request, hide_keys):
-        request_headers = request.headers
-
-        for key in hide_keys:
-            if key in request_headers:
-                request_headers[key] = "<sensitive_information>"
-
-    def hide_keys(self):
-        if not settings.get("report") or not settings["report"].get("hide"):
-            return
-
-        return settings["report"]["hide"].get("headers")
+    def _render_content(self, loader, template_path, responses):
+        env = Environment(loader=loader)
+        env.filters["curlify"] = curlify.to_curl
+        chosen_template = env.get_template(template_path)
+        return chosen_template.render(responses=responses)

@@ -12,19 +12,21 @@ A library for **your API** that provides:
 
 ## Contents
 
-* [Requirements](#requirements)
-* [How to install](#how-to-install)
-* [Basic Usage](#basic-usage)
-* [Documentation](#documentation)
-  + [ScanAPI CLI](#scanapi-cli)
-  + [API Specification Keys](#api-specification-keys)
-  + [Environment Variables](#environment-variables)
-  + [Custom Variables](#custom-variables)
-  + [Python Code](#python-code)
-  + [Chaining Requests](#chaining-requests)
-  + [Configuration File](#configuration-file)
-  + [Hiding sensitive information](#hiding-sensitive-information)
-* [Contributing](#contributing)
+- [Contents](#contents)
+- [Requirements](#requirements)
+- [How to install](#how-to-install)
+- [Basic Usage](#basic-usage)
+- [Documentation](#documentation)
+  - [ScanAPI CLI](#scanapi-cli)
+  - [API Specification Keys](#api-specification-keys)
+  - [Environment Variables](#environment-variables)
+  - [Custom Variables](#custom-variables)
+  - [Python Code](#python-code)
+  - [Chaining Requests](#chaining-requests)
+  - [API specification in multiple files](#api-specification-in-multiple-files)
+  - [Configuration File](#configuration-file)
+  - [Hiding sensitive information](#hiding-sensitive-information)
+- [Contributing](#contributing)
 
 ## Requirements
 
@@ -81,7 +83,7 @@ Options:
   -o, --output-path PATH
   -c, --config-path PATH
   -r, --reporter [console|markdown|html]
-  -t, --template TEXT
+  -t, --template PATH
   --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]
   --help                          Show this message and exit.
 ```
