@@ -2,20 +2,19 @@
 Code based on solution https://gist.github.com/joshbode/569627ced3076931b02f
 """
 
+from typing import Any, IO
+import json
 import logging
+import os
 import yaml
 
-import os
-import json
-from typing import Any, IO
-
-from scanapi.errors import EmptySpecError
+from scanapi.errors import EmptyConfigFileError, FileFormatNotSupportedError
 
 logger = logging.getLogger(__name__)
 
 
 class Loader(yaml.SafeLoader):
-    """YAML Loader with `!include` constructor."""
+    """YAML/JSON Loader with `!include` constructor."""
 
     def __init__(self, stream: IO) -> None:
         """Initialise Loader."""
@@ -31,29 +30,33 @@ class Loader(yaml.SafeLoader):
 def construct_include(loader: Loader, node: yaml.Node) -> Any:
     """Include file referenced at node."""
 
-    filename = os.path.abspath(
-        os.path.join(loader._root, loader.construct_scalar(node))
-    )
-    extension = os.path.splitext(filename)[1].lstrip(".")
+    relative_path = os.path.join(loader._root, loader.construct_scalar(node))
+    full_path = os.path.abspath(relative_path)
+    extension = os.path.splitext(full_path)[1].lstrip(".")
 
-    with open(filename, "r") as f:
+    with open(full_path, "r") as f:
         if extension in ("yaml", "yml"):
             return yaml.load(f, Loader)
         elif extension in ("json",):
             return json.load(f)
         else:
-            return "".join(f.readlines())
+            raise FileFormatNotSupportedError(f".{extension}", relative_path)
 
 
-yaml.add_constructor("!include", construct_include, Loader)
+def load_config_file(file_path):
+    extension = os.path.splitext(file_path)[-1]
 
+    if extension not in (".yaml", ".yml", ".json"):
+        raise FileFormatNotSupportedError(extension, file_path)
 
-def load_yaml(file_path):
     with open(file_path, "r") as stream:
         logger.info(f"Loading file {file_path}")
         data = yaml.load(stream, Loader)
 
         if not data:
-            raise EmptySpecError
+            raise EmptyConfigFileError(file_path)
 
         return data
+
+
+yaml.add_constructor("!include", construct_include, Loader)

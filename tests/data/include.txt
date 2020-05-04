@@ -1,0 +1,6 @@
+[
+  {
+    "name": "health",
+    "path": "/health/"
+  }
+]
