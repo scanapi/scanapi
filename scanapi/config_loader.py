@@ -9,13 +9,13 @@ import os
 import json
 from typing import Any, IO
 
-from scanapi.errors import EmptySpecError
+from scanapi.errors import EmptyConfigFileError
 
 logger = logging.getLogger(__name__)
 
 
 class Loader(yaml.SafeLoader):
-    """YAML Loader with `!include` constructor."""
+    """YAML/JSON Loader with `!include` constructor."""
 
     def __init__(self, stream: IO) -> None:
         """Initialise Loader."""
@@ -45,15 +45,15 @@ def construct_include(loader: Loader, node: yaml.Node) -> Any:
             return "".join(f.readlines())
 
 
-yaml.add_constructor("!include", construct_include, Loader)
-
-
-def load_yaml(file_path):
+def load_config_file(file_path):
     with open(file_path, "r") as stream:
         logger.info(f"Loading file {file_path}")
         data = yaml.load(stream, Loader)
 
         if not data:
-            raise EmptySpecError
+            raise EmptyConfigFileError(file_path)
 
         return data
+
+
+yaml.add_constructor("!include", construct_include, Loader)

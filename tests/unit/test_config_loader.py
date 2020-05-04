@@ -1,13 +1,13 @@
 import pytest
 import yaml
 
-from scanapi.errors import EmptySpecError
-from scanapi.yaml_loader import load_yaml
+from scanapi.errors import EmptyConfigFileError
+from scanapi.config_loader import load_config_file
 
 
 class TestLoadYaml:
     def test_should_load(self):
-        data = load_yaml("tests/data/api.yaml")
+        data = load_config_file("tests/data/api.yaml")
         assert data == {
             "api": {
                 "endpoints": [
@@ -22,7 +22,7 @@ class TestLoadYaml:
 
     class TestLoadJson:
         def test_should_load(self):
-            data = load_yaml("tests/data/jsonfile.json")
+            data = load_config_file("tests/data/jsonfile.json")
             assert data == {
                 "api": {
                     "endpoints": [
@@ -39,7 +39,7 @@ class TestLoadYaml:
         def test_should_raise_exception(self):
 
             with pytest.raises(FileNotFoundError) as excinfo:
-                load_yaml("invalid/path.yaml")
+                load_config_file("invalid/path.yaml")
 
             assert (
                 str(excinfo.value)
@@ -48,7 +48,7 @@ class TestLoadYaml:
 
     class TestWhenFileIsEmpty:
         def test_should_raise_exception(self):
-            with pytest.raises(EmptySpecError) as excinfo:
-                load_yaml("tests/data/empty.yaml")
+            with pytest.raises(EmptyConfigFileError) as excinfo:
+                load_config_file("tests/data/empty.yaml")
 
-            assert str(excinfo.value) == "API spec is empty."
+            assert str(excinfo.value) == "File 'tests/data/empty.yaml' is empty."

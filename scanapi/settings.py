@@ -1,6 +1,6 @@
 import os
 
-from scanapi.yaml_loader import load_yaml
+from scanapi.config_loader import load_config_file
 
 SETTINGS_FILE = ".scanapi.yaml"
 DEFAULT_SETTINGS = {"spec_path": "api.yaml", "reporter": "markdown"}
@@ -10,7 +10,7 @@ def settings():
     if not os.path.isfile(SETTINGS_FILE):
         return DEFAULT_SETTINGS
 
-    user_config = load_yaml(SETTINGS_FILE)
+    user_config = load_config_file(SETTINGS_FILE)
     return {**DEFAULT_SETTINGS, **user_config}
 
 

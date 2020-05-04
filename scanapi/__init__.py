@@ -4,11 +4,11 @@ import click
 import logging
 import yaml
 
-from scanapi.errors import EmptySpecError, InvalidKeyError
+from scanapi.errors import EmptyConfigFileError, InvalidKeyError
 from scanapi.tree import EndpointNode
 from scanapi.reporter import Reporter
 from scanapi.settings import SETTINGS
-from scanapi.yaml_loader import load_yaml
+from scanapi.config_loader import load_config_file
 
 
 @click.command()
@@ -47,12 +47,16 @@ def scan(spec_path, output_path, reporter, template, log_level):
     spec_path = SETTINGS["spec_path"]
 
     try:
-        api_spec = load_yaml(spec_path)
+        api_spec = load_config_file(spec_path)
     except FileNotFoundError as e:
-        error_message = f"Could not find spec file: {spec_path}. {str(e)}"
+        error_message = f"Could not find API spec file: {spec_path}. {str(e)}"
         logger.error(error_message)
         return
-    except (EmptySpecError, yaml.YAMLError) as e:
+    except EmptyConfigFileError as e:
+        error_message = f"API spec file is empty. {str(e)}"
+        logger.error(error_message)
+        return
+    except yaml.YAMLError as e:
         logger.error(e)
         return
 

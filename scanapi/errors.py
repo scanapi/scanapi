@@ -2,13 +2,6 @@ class MalformedSpecError(Exception):
     pass
 
 
-class EmptySpecError(MalformedSpecError):
-    """Raised when the API spec is empty"""
-
-    def __init__(self, *args):
-        super(EmptySpecError, self).__init__("API spec is empty.", *args)
-
-
 class HTTPMethodNotAllowedError(MalformedSpecError):
     """Raised when the HTTP method in the API spec is invalid"""
 
@@ -50,3 +43,11 @@ class BadConfigurationError(Exception):
         super(BadConfigurationError, self).__init__(
             f"{env_var} environment variable not set or badly configured", *args
         )
+
+
+class EmptyConfigFileError(Exception):
+    """Raised when the Config File loaded is empty"""
+
+    def __init__(self, file_path, *args):
+        message = f"File '{file_path}' is empty."
+        super(EmptyConfigFileError, self).__init__(message, *args)
