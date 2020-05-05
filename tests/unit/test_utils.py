@@ -75,7 +75,7 @@ class TestValidateKeys:
 
             assert (
                 str(excinfo.value)
-                == "Invalid key `key2` at `endpoint` scope. Available keys are: ('key1', 'key3')"
+                == "Invalid key 'key2' at 'endpoint' scope. Available keys are: ('key1', 'key3')"
             )
 
     class TestThereIsNotAnInvalidKeys:

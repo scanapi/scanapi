@@ -1,0 +1,2 @@
+- name: health
+  path: /health/

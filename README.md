@@ -38,7 +38,7 @@ $ pip install scanapi
 
 ## Basic Usage
 
-You will need to write the API's specification and save it as `api.yaml`.
+You will need to write the API's specification and save it as an **YAML** or **JSON** file.
 
 ```yaml
 api:
@@ -54,7 +54,7 @@ api:
 And run the scanapi command
 
 ```bash
-$ scanapi
+$ scanapi -s <file_path>
 ```
 
 Then, the lib will hit the specified endpoints and generate a `scanapi-report.md` file with the report results
@@ -222,6 +222,39 @@ It the response is
 ```
 
 The dev_id variable will receive the value `129e8cb2-d19c-41ad-9921-cea329bed7f0`
+
+### API specification in multiple files
+
+With `!include`, it is possible to build your API specification in multiple files.
+
+For example, these two files
+
+```yaml
+# api.yaml
+api:
+  endpoints:
+    - name: scanapi-demo
+      path: ${BASE_URL}
+      requests: !include include.yaml
+```
+
+```yaml
+# include.yaml
+- name: health
+  path: /health/
+```
+
+would generate:
+
+```yaml
+api:
+  endpoints:
+    - name: scanapi-demo
+      path: ${BASE_URL}
+      requests:
+        - name: health
+          path: /health/
+```
 
 ### Configuration File
 
