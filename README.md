@@ -78,7 +78,8 @@ Usage: scanapi [OPTIONS]
 
 Options:
   -s, --spec-path PATH
-  -o, --output-path TEXT
+  -o, --output-path PATH
+  -c, --config-path PATH
   -r, --reporter [console|markdown|html]
   -t, --template TEXT
   --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]

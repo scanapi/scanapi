@@ -4,7 +4,7 @@ import curlify
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-from scanapi.settings import SETTINGS
+from scanapi.settings import settings
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +57,7 @@ class Reporter:
                 request_headers[key] = "<sensitive_information>"
 
     def hide_keys(self):
-        if not SETTINGS.get("report") or not SETTINGS["report"].get("hide"):
+        if not settings.get("report") or not settings["report"].get("hide"):
             return
 
-        return SETTINGS["report"]["hide"].get("headers")
+        return settings["report"]["hide"].get("headers")

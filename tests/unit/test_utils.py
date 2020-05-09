@@ -109,7 +109,7 @@ class TestHideSensitiveInfo:
         response,
         mock__hide,
     ):
-        mocker.patch("scanapi.utils.SETTINGS", settings)
+        mocker.patch("scanapi.utils.settings", settings)
         hide_sensitive_info(response)
 
         calls = [

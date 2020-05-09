@@ -1,5 +1,5 @@
 from scanapi.errors import InvalidKeyError
-from scanapi.settings import SETTINGS
+from scanapi.settings import settings
 
 ALLOWED_ATTRS_TO_HIDE = ("headers body").split()
 
@@ -24,7 +24,7 @@ def validate_keys(keys, available_keys, scope):
 
 
 def hide_sensitive_info(response):
-    report_settings = SETTINGS.get("report", {})
+    report_settings = settings.get("report", {})
     request = response.request
     request_settings = report_settings.get("hide-request", {})
     response_settings = report_settings.get("hide-response", {})
