@@ -17,7 +17,7 @@ from scanapi.config_loader import load_config_file
 
 @click.command()
 @click.option("-s", "--spec-path", "spec_path", type=click.Path(exists=True))
-@click.option("-o", "--output-path", "output_path", type=click.Path(exists=True))
+@click.option("-o", "--output-path", "output_path", type=click.Path())
 @click.option("-c", "--config-path", "config_path", type=click.Path(exists=True))
 @click.option(
     "-r", "--reporter", "reporter", type=click.Choice(["console", "markdown", "html"])
