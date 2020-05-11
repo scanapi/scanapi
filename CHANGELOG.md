@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `namespace` keyword to `name` [#116](https://github.com/scanapi/scanapi/issues/116)
 - `method` keyword is not mandatory anymore for requests. Default is `get` [#116](https://github.com/scanapi/scanapi/issues/116)
 - Replaced `hide` key on report config by `hide-request` and `hide-response` [#116](https://github.com/scanapi/scanapi/issues/116)
+- Moved black check from CircleCI to github actions [#136](https://github.com/scanapi/scanapi/pull/136)
 
 ### Fixed
 - Cases where custom var has upper case letters [#99](https://github.com/scanapi/scanapi/issues/99)
