@@ -1,0 +1,12 @@
+on: pull_request
+name: Lint check
+jobs:
+  black:
+    name: Lint check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: "Black Code Formatter"
+        uses: "lgeiger/black-action@v1.0.1"
+        with:
+          args: ". --check"

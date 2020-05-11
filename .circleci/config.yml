@@ -7,28 +7,6 @@ executors:
       - image: circleci/golang:1.9.6
 
 jobs:
-  check-black:
-    docker:
-      - image: circleci/python:3.7.3
-    steps:
-      - checkout
-      - restore_cache:
-          key: v3-python-requirements-black
-      - run:
-          name: Install Black
-          command: |
-            virtualenv ~/venv-black
-            . ~/venv-black/bin/activate
-            pip install black==19.10b0
-      - save_cache:
-          key: v3-python-requirements-black
-          paths:
-            - "~/venv-black"
-      - run:
-          name: Run Black check
-          command: |
-            . ~/venv-black/bin/activate
-            black --check .
   changelog-lint:
     executor: changelog-linter
     steps:
@@ -71,6 +49,5 @@ workflows:
   version: 2
   master:
     jobs:
-      - check-black
       - changelog-lint
       - build
