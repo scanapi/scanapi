@@ -42,14 +42,12 @@ Requirements:
 - [twine][twine]
 - [PyPI Test][pypi-test] credentials
 - [PyPI][pypi] credentials
-- DockerHub credentials
 
 Steps:
 1. Release PR
 2. Deploy on GitHub
 3. Deploy on PyPI
-4. Deploy on DockerHub
-5. Upgrade ScanAPI on ScanAPI Demo
+4. Upgrade ScanAPI on ScanAPI Demo
 
 ### 1. Release PR
 
@@ -114,17 +112,7 @@ $ python3 setup.py sdist bdist_wheel
 $ twine upload dist/*
 ```
 
-### 4. Deploy on DockerHub
-
-```bash
-$ docker build -f Dockerfile -t camilamaia/scanapi:<version> -t camilamaia/scanapi:latest . --no-cache # for example $ docker build -f Dockerfile -t camilamaia/scanapi:0.0.18 -t camilamaia/scanapi:latest . --no-cache
-$ docker tag camilamaia/scanapi:<version> camilamaia/scanapi:<version> # for example $ docker tag camilamaia/scanapi:0.0.18 camilamaia/scanapi:0.0.18
-$ docker tag camilamaia/scanapi:latest camilamaia/scanapi:latest
-$ docker push camilamaia/scanapi:<version> # for example $ docker push camilamaia/scanapi:0.0.18
-$ docker push camilamaia/scanapi:latest
-```
-
-### 5. Upgrade ScanAPI on ScanAPI Demo
+### 4. Upgrade ScanAPI on ScanAPI Demo
 
 Upgrade version of ScanAPI on [ScanAPI Demo Project][scanapi-demo].
 
