@@ -44,10 +44,6 @@ def scan(spec_path, output_path, config_path, reporter, template, log_level):
         }
     )
 
-    # custom templates to be implemented later
-    if settings["template"] is not None:
-        logger.warn("Custom templates are not supported yet. Soon to be. Hang tight.")
-
     spec_path = settings["spec_path"]
 
     try:
