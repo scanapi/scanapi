@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.0.19] - 2020-05-11
 ### Added
 - PATCH HTTP method - [#77](https://github.com/scanapi/scanapi/issues/77)
 - Ability to have API spec in multiples files - [#125](https://github.com/scanapi/scanapi/issues/125)
@@ -86,7 +88,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v0.0.18...HEAD
+[Unreleased]: https://github.com/camilamaia/scanapi/compare/v0.0.19...HEAD
+[0.0.19]: https://github.com/camilamaia/scanapi/compare/v0.0.18...v0.0.19
 [0.0.18]: https://github.com/camilamaia/scanapi/compare/v0.0.17...v0.0.18
 [0.0.17]: https://github.com/camilamaia/scanapi/compare/v0.0.16...v0.0.17
 [0.0.16]: https://github.com/camilamaia/scanapi/compare/v0.0.15...v0.0.16
