@@ -6,44 +6,46 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Automated pypi deploy - [#144](https://github.com/scanapi/scanapi/pull/144)
 
 ## [0.0.19] - 2020-05-11
 ### Added
-- PATCH HTTP method - [#77](https://github.com/scanapi/scanapi/issues/77)
-- Ability to have API spec in multiples files - [#125](https://github.com/scanapi/scanapi/issues/125)
-- CLI `--config-path` option - [#128](https://github.com/scanapi/scanapi/issues/128)
+- PATCH HTTP method - [#113](https://github.com/scanapi/scanapi/pull/113)
+- Ability to have API spec in multiples files - [#125](https://github.com/scanapi/scanapi/pull/125)
+- CLI `--config-path` option - [#128](https://github.com/scanapi/scanapi/pull/128)
 - CLI `--template-path` option - [#126](https://github.com/scanapi/scanapi/pull/126)
 - GitHub Action checking for missing changelog entry - [#134](https://github.com/scanapi/scanapi/pull/134)
 
 ### Changed
-- Make markdown report a bit better - [#96](https://github.com/scanapi/scanapi/issues/96)
-- `base_url` keyword to `path` [#116](https://github.com/scanapi/scanapi/issues/116)
-- `namespace` keyword to `name` [#116](https://github.com/scanapi/scanapi/issues/116)
-- `method` keyword is not mandatory anymore for requests. Default is `get` [#116](https://github.com/scanapi/scanapi/issues/116)
-- Replaced `hide` key on report config by `hide-request` and `hide-response` [#116](https://github.com/scanapi/scanapi/issues/116)
+- Make markdown report a bit better - [#96](https://github.com/scanapi/scanapi/pull/96)
+- `base_url` keyword to `path` [#116](https://github.com/scanapi/scanapi/pull/116)
+- `namespace` keyword to `name` [#116](https://github.com/scanapi/scanapi/pull/116)
+- `method` keyword is not mandatory anymore for requests. Default is `get` [#116](https://github.com/scanapi/scanapi/pull/116)
+- Replaced `hide` key on report config by `hide-request` and `hide-response` [#116](https://github.com/scanapi/scanapi/pull/116)
 - Moved black check from CircleCI to github actions [#136](https://github.com/scanapi/scanapi/pull/136)
 
 ### Fixed
-- Cases where custom var has upper case letters [#99](https://github.com/scanapi/scanapi/issues/99)
+- Cases where custom var has upper case letters [#99](https://github.com/scanapi/scanapi/pull/99)
 
 ### Removed
-- Request with no endpoints [#116](https://github.com/scanapi/scanapi/issues/116)
+- Request with no endpoints [#116](https://github.com/scanapi/scanapi/pull/116)
 
 ## [0.0.18] - 2020-01-02
 ### Changed
-- Return params/headers None when request doesn't have params/headers [#87](https://github.com/scanapi/scanapi/issues/87)
+- Return params/headers None when request doesn't have params/headers [#87](https://github.com/scanapi/scanapi/pull/87)
 
 ### Fixed
-- Report-example image not loading on PyPi [#86](https://github.com/scanapi/scanapi/issues/86)
+- Report-example image not loading on PyPi [#86](https://github.com/scanapi/scanapi/pull/86)
 
 ## [0.0.17] - 2019-12-19
 ### Added
 - Added PyPI Test section to CONTRIBUTING.md
-- Added templates to pypi package - fix [#84](https://github.com/camilamaia/scanapi/issues/84)
+- Added templates to pypi package - fix [#85](https://github.com/scanapi/scanapi/pull/85)
 
 ## [0.0.16] - 2019-12-18
 ### Fixed
-- Fixed No module named 'scanapi.tree' [#82](https://github.com/camilamaia/scanapi/issues/82)
+- Fixed No module named 'scanapi.tree' [#83](https://github.com/scanapi/scanapi/pull/83)
 
 ## [0.0.15] - 2019-12-14
 ### Added
