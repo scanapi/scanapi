@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.1.0] - 2020-05-14
 ### Added
 - Automated pypi deploy - [#144](https://github.com/scanapi/scanapi/pull/144)
 
@@ -90,7 +92,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v0.0.19...HEAD
+[Unreleased]: https://github.com/camilamaia/scanapi/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/camilamaia/scanapi/compare/v0.0.19...v0.1.0
 [0.0.19]: https://github.com/camilamaia/scanapi/compare/v0.0.18...v0.0.19
 [0.0.18]: https://github.com/camilamaia/scanapi/compare/v0.0.17...v0.0.18
 [0.0.17]: https://github.com/camilamaia/scanapi/compare/v0.0.16...v0.0.17
