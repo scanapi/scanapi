@@ -12,7 +12,7 @@ from scanapi.tree.tree_keys import (
     REQUESTS_KEY,
 )
 from scanapi.tree.request_node import RequestNode
-from scanapi.utils import join_urls, validate_keys
+from scanapi.utils import join_urls, validate_keys, validate_required_keys
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +25,10 @@ class EndpointNode:
         NAME_KEY,
         PARAMS,
         PATH_KEY,
+        REQUESTS_KEY,
+    )
+    REQUIRED_KEYS = (
+        NAME_KEY,
         REQUESTS_KEY,
     )
 
@@ -77,6 +81,7 @@ class EndpointNode:
 
     def _validate(self):
         validate_keys(self.spec.keys(), self.ALLOWED_KEYS, self.SCOPE)
+        validate_required_keys(self.spec.keys(), self.REQUIRED_KEYS, self.SCOPE)
 
     def _get_specs(self, field_name):
         values = self.spec.get(field_name, {})

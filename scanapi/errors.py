@@ -28,6 +28,15 @@ class InvalidKeyError(MalformedSpecError):
         super(InvalidKeyError, self).__init__(message, *args)
 
 
+class MissingMandatoryKeyError(MalformedSpecError):
+    """Raised when one or more mandatory keys are missing"""
+
+    def __init__(self, missing_keys, scope, *args):
+        missing_keys_str = ", ".join(sorted(missing_keys))
+        message = f"Missing {missing_keys_str} at '{scope}'"
+        super(MissingMandatoryKeyError, self).__init__(message, *args)
+
+
 class InvalidPythonCodeError(MalformedSpecError):
     """Raised when python code defined in the API spec raises an error"""
 

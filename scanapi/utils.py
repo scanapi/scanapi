@@ -1,4 +1,4 @@
-from scanapi.errors import InvalidKeyError
+from scanapi.errors import InvalidKeyError, MissingMandatoryKeyError
 from scanapi.settings import settings
 
 ALLOWED_ATTRS_TO_HIDE = ("headers body").split()
@@ -21,6 +21,12 @@ def validate_keys(keys, available_keys, scope):
     for key in keys:
         if not key in available_keys:
             raise InvalidKeyError(key, scope, available_keys)
+
+
+def validate_required_keys(keys, required_keys, scope):
+    if not set(required_keys) <= set(keys):
+        missing_keys = list(set(required_keys) - set(keys))
+        raise MissingMandatoryKeyError(missing_keys, scope)
 
 
 def hide_sensitive_info(response):

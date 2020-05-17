@@ -1,6 +1,6 @@
 import pytest
 
-from scanapi.errors import HTTPMethodNotAllowedError
+from scanapi.errors import HTTPMethodNotAllowedError, MissingMandatoryKeyError
 from scanapi.tree import EndpointNode, RequestNode
 
 
@@ -12,17 +12,35 @@ class TestRequestNode:
 
         return mock_func
 
+    class TestInit:
+        def test_missing_required_keys(self):
+            with pytest.raises(MissingMandatoryKeyError) as excinfo:
+                request = RequestNode(
+                    spec={}, endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+                )
+
+            assert str(excinfo.value) == "Missing name, path at 'request'"
+
     class TestHTTPMethod:
         def test_when_request_has_method(self):
-            request = RequestNode({"method": "put"}, endpoint=EndpointNode({}))
+            request = RequestNode(
+                {"method": "put", "name": "foo", "path": "http:foo.com"},
+                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+            )
             assert request.http_method == "PUT"
 
         def test_when_request_has_no_method(self):
-            request = RequestNode({}, endpoint=EndpointNode({}))
+            request = RequestNode(
+                {"name": "foo", "path": "http:foo.com"},
+                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+            )
             assert request.http_method == "GET"
 
         def test_when_method_is_invalid(self):
-            request = RequestNode({"method": "xxx"}, endpoint=EndpointNode({}))
+            request = RequestNode(
+                {"method": "xxx", "name": "foo", "path": "http:foo.com"},
+                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+            )
             with pytest.raises(HTTPMethodNotAllowedError) as excinfo:
                 request.http_method
 
@@ -33,38 +51,61 @@ class TestRequestNode:
 
     class TestName:
         def test_when_request_has_name(self):
-            request = RequestNode({"name": "list-users"}, endpoint=EndpointNode({}))
+            request = RequestNode(
+                {"name": "list-users", "path": "http:foo.com"},
+                endpoint=EndpointNode({"name": "foo", "requests": []}),
+            )
             assert request.name == "list-users"
 
         @pytest.mark.skip("it should validate mandatory `name` key before")
         def test_when_request_has_no_name(self):
-            request = RequestNode({}, endpoint=EndpointNode({}))
+            with pytest.raises(MissingMandatoryKeyError) as excinfo:
+                request = RequestNode(
+                    {}, endpoint=EndpointNode({"name": "foo", "requests": []})
+                )
+
+            assert str(excinfo.value) == "Missing name, path at 'request'"
 
     class TestFullPathUrl:
         def test_request_with_no_path(self):
-            base_path = "http://foo.com/"
-            request = RequestNode({}, endpoint=EndpointNode({"path": base_path}))
-            assert request.full_url_path == base_path
+            with pytest.raises(MissingMandatoryKeyError) as excinfo:
+                base_path = "http://foo.com/"
+                request = RequestNode(
+                    {"name": "foo"},
+                    endpoint=EndpointNode(
+                        {"name": "foo", "requests": [{}], "path": base_path}
+                    ),
+                )
+            assert str(excinfo.value) == "Missing path at 'request'"
 
         def test_when_endpoint_has_no_url(self):
             path = "http://foo.com"
-            request = RequestNode({"path": path}, endpoint=EndpointNode({}))
+            request = RequestNode(
+                {"name": "foo", "path": path},
+                endpoint=EndpointNode({"name": "foo", "requests": [{}], "path": ""}),
+            )
             assert request.full_url_path == path
 
         def test_when_endpoint_has_url(self):
             endpoint_path = "http://foo.com/api"
-            endpoint = EndpointNode({"path": endpoint_path})
-            request = RequestNode({"path": "/foo"}, endpoint=endpoint)
+            endpoint = EndpointNode(
+                {"name": "foo", "requests": [{}], "path": endpoint_path}
+            )
+            request = RequestNode({"path": "/foo", "name": "foo"}, endpoint=endpoint)
             assert request.full_url_path == f"http://foo.com/api/foo"
 
         def test_with_trailing_slashes(self):
-            endpoint = EndpointNode({"path": "http://foo.com/"})
-            request = RequestNode({"path": "/foo/"}, endpoint=endpoint)
+            endpoint = EndpointNode(
+                {"name": "foo", "requests": [{}], "path": "http://foo.com/"}
+            )
+            request = RequestNode({"name": "foo", "path": "/foo/"}, endpoint=endpoint)
             assert request.full_url_path == "http://foo.com/foo/"
 
         def test_calls_evaluate(self, mocker, mock_evaluate):
-            endpoint = EndpointNode({"path": "http://foo.com/"})
-            request = RequestNode({"path": "/foo/"}, endpoint=endpoint)
+            endpoint = EndpointNode(
+                {"name": "foo", "requests": [{}], "path": "http://foo.com/"}
+            )
+            request = RequestNode({"path": "/foo/", "name": "foo"}, endpoint=endpoint)
             request.full_url_path
             calls = [mocker.call("http://foo.com/"), mocker.call("/foo/")]
 
@@ -73,15 +114,20 @@ class TestRequestNode:
     class TestHeaders:
         def test_when_endpoint_has_no_headers(self):
             headers = {"abc": "def"}
-            request = RequestNode({"headers": headers}, endpoint=EndpointNode({}))
+            request = RequestNode(
+                {"headers": headers, "path": "http://foo.com", "name": "foo"},
+                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+            )
             assert request.headers == headers
 
         def test_when_endpoint_has_headers(self):
             headers = {"abc": "def"}
             endpoint_headers = {"xxx": "www"}
             request = RequestNode(
-                {"headers": headers},
-                endpoint=EndpointNode({"headers": endpoint_headers}),
+                {"headers": headers, "path": "http://foo.com", "name": "foo"},
+                endpoint=EndpointNode(
+                    {"headers": endpoint_headers, "name": "foo", "requests": [{}]}
+                ),
             )
             assert request.headers == {"abc": "def", "xxx": "www"}
 
@@ -89,15 +135,22 @@ class TestRequestNode:
             headers = {"abc": "def"}
             endpoint_headers = {"xxx": "www", "abc": "zxc"}
             request = RequestNode(
-                {"headers": headers},
-                endpoint=EndpointNode({"headers": endpoint_headers}),
+                {"headers": headers, "path": "http://foo.com", "name": "foo"},
+                endpoint=EndpointNode(
+                    {"headers": endpoint_headers, "name": "foo", "requests": [{}]}
+                ),
             )
             assert request.headers == {"abc": "def", "xxx": "www"}
 
         def test_calls_evaluate(self, mocker, mock_evaluate):
-            endpoint = EndpointNode({"headers": {"abc": "def"}})
+            endpoint = EndpointNode(
+                {"headers": {"abc": "def"}, "name": "foo", "requests": [{}]}
+            )
 
-            request = RequestNode({"headers": {"ghi": "jkl"}}, endpoint=endpoint)
+            request = RequestNode(
+                {"headers": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo"},
+                endpoint=endpoint,
+            )
             request.headers
             calls = [mocker.call({"abc": "def", "ghi": "jkl"})]
 
@@ -106,14 +159,20 @@ class TestRequestNode:
     class TestParams:
         def test_when_endpoint_has_no_params(self):
             params = {"abc": "def"}
-            request = RequestNode({"params": params}, endpoint=EndpointNode({}))
+            request = RequestNode(
+                {"params": params, "path": "http://foo.com", "name": "foo"},
+                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+            )
             assert request.params == params
 
         def test_when_endpoint_has_params(self):
             params = {"abc": "def"}
             endpoint_params = {"xxx": "www"}
             request = RequestNode(
-                {"params": params}, endpoint=EndpointNode({"params": endpoint_params})
+                {"params": params, "path": "http://foo.com", "name": "foo"},
+                endpoint=EndpointNode(
+                    {"params": endpoint_params, "name": "foo", "requests": [{}]}
+                ),
             )
             assert request.params == {"abc": "def", "xxx": "www"}
 
@@ -121,14 +180,22 @@ class TestRequestNode:
             params = {"abc": "def"}
             endpoint_params = {"xxx": "www", "abc": "zxc"}
             request = RequestNode(
-                {"params": params}, endpoint=EndpointNode({"params": endpoint_params})
+                {"params": params, "path": "http://foo.com", "name": "foo"},
+                endpoint=EndpointNode(
+                    {"params": endpoint_params, "name": "foo", "requests": [{}]}
+                ),
             )
             assert request.params == {"abc": "def", "xxx": "www"}
 
         def test_calls_evaluate(self, mocker, mock_evaluate):
-            endpoint = EndpointNode({"params": {"abc": "def"}})
+            endpoint = EndpointNode(
+                {"params": {"abc": "def"}, "name": "foo", "requests": [{}]}
+            )
 
-            request = RequestNode({"params": {"ghi": "jkl"}}, endpoint=endpoint)
+            request = RequestNode(
+                {"params": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo"},
+                endpoint=endpoint,
+            )
             request.params
             calls = [mocker.call({"abc": "def", "ghi": "jkl"})]
 
@@ -136,15 +203,24 @@ class TestRequestNode:
 
     class TestBody:
         def test_when_request_has_no_body(self):
-            request = RequestNode({}, endpoint=EndpointNode({}))
+            request = RequestNode(
+                {"path": "http://foo.com", "name": "foo"},
+                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+            )
             assert request.body == {}
 
         def test_when_request_has_no_body(self):
-            request = RequestNode({"body": {"abc": "def"}}, endpoint=EndpointNode({}))
+            request = RequestNode(
+                {"body": {"abc": "def"}, "path": "http://foo.com", "name": "foo"},
+                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+            )
             assert request.body == {"abc": "def"}
 
         def test_calls_evaluate(self, mocker, mock_evaluate):
-            request = RequestNode({"body": {"ghi": "jkl"}}, endpoint=EndpointNode({}))
+            request = RequestNode(
+                {"body": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo"},
+                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+            )
             request.body
             calls = [mocker.call({"ghi": "jkl"})]
 
@@ -156,7 +232,10 @@ class TestRequestNode:
             return mocker.patch("scanapi.tree.request_node.requests.request")
 
         def test_calls_request(self, mock_request):
-            request = RequestNode({}, endpoint=EndpointNode({}))
+            request = RequestNode(
+                {"path": "http://foo.com", "name": "foo"},
+                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+            )
             request.run()
 
             mock_request.assert_called_once_with(
@@ -175,7 +254,9 @@ class TestRequestNode:
 
         def test_should_call_validate_keys(self, mock_validate_keys):
             spec = {"headers": {"foo": "bar"}, "name": "foo", "path": "foo.bar"}
-            node = RequestNode(spec, endpoint=EndpointNode({}))
+            node = RequestNode(
+                spec, endpoint=EndpointNode({"name": "foo", "requests": [{}]})
+            )
             keys = spec.keys()
             node._validate()
 
