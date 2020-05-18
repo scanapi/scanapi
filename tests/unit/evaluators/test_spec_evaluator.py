@@ -15,7 +15,7 @@ class TestSpecEvaluator:
 
     @pytest.fixture
     def spec_evaluator(self):
-        endpoint = EndpointNode({})
+        endpoint = EndpointNode({"name": "foo", "requests": [{}]})
         return SpecEvaluator(endpoint)
 
     class TestEvaluateString:

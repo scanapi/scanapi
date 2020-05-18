@@ -12,7 +12,12 @@ from scanapi.tree.tree_keys import (
     PATH_KEY,
     VARS_KEY,
 )
-from scanapi.utils import join_urls, hide_sensitive_info, validate_keys
+from scanapi.utils import (
+    join_urls,
+    hide_sensitive_info,
+    validate_keys,
+    validate_required_keys,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +34,7 @@ class RequestNode:
         VARS_KEY,
     )
     ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
+    REQUIRED_KEYS = (NAME_KEY, PATH_KEY)
 
     def __init__(self, spec, endpoint):
         self.spec = spec
@@ -104,3 +110,4 @@ class RequestNode:
 
     def _validate(self):
         validate_keys(self.spec.keys(), self.ALLOWED_KEYS, self.SCOPE)
+        validate_required_keys(self.spec.keys(), self.REQUIRED_KEYS, self.SCOPE)
