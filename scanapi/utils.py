@@ -25,7 +25,7 @@ def validate_keys(keys, available_keys, scope):
 
 def validate_required_keys(keys, required_keys, scope):
     if not set(required_keys) <= set(keys):
-        missing_keys = list(set(required_keys) - set(keys))
+        missing_keys = set(required_keys) - set(keys)
         raise MissingMandatoryKeyError(missing_keys, scope)
 
 
