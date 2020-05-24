@@ -1,37 +1,112 @@
+# Contributing
+
+Thanks for taking the time to contribute! 🙇‍♀️🙇‍♂️ Every little bit of help counts!
+
 ## Install
 
-Create a [virtualenv][virtualenv] for scanapi and activate it.
+### Requirements:
+- [Python 3][python]
 
-```bash
-$ git clone git@github.com:camilamaia/scanapi.git
+Clone the repository and enter into the project's folder:
+
+```shell
+$ git clone git@github.com:scanapi/scanapi.git
 $ cd scanapi
+```
+
+Create a [virtualenv][virtualenv] for ScanAPI and activate it:
+
+```shell
+$ python3 -m venv venv
+$ . venv/bin/activate
+```
+
+Install the dependencies:
+
+```shell
+$ pip install -e .[dev] .[test]
 $ pip install -e .
+$ pre-commit install
+```
+
+If the last three commands have failed, please try directly these:
+
+```shell
+$ python setup.py develop
+$ pip install click==7.0 curlify==2.2.1 jinja2==2.10.3 pyyaml==5.1.1 requests==2.22.0 black==19.10b0 ipdb==0.13.2 pre-commit==1.20.0 codecov==2.0.15 pytest==5.2.4 pytest-cov==2.8.1 pytest-mock==1.11.2 requests-mock==1.7.0
 $ pre-commit install
 ```
 
 ## Run
 
-```bash
+Run the ScanAPI:
+
+```shell
 $ scanapi
 ```
 
 For help, run:
 
-```bash
+```shell
 $ scanapi --help
 ```
 
-### Tests
+But as you may noticed, you need an API specification file to run ScanAPI properly.
+Otherwise you will receive this error:
 
-
+```shell
+$ scanapi
+ERROR:scanapi:Could not find API spec file: api.yaml. [Errno 2] No such file or directory: 'api.yaml'
 ```
+
+For that, we have the [ScanAPI Examples][scanapi-examples] repository, with some API specification
+examples that could be used.
+
+### Clone ScanAPI Examples
+
+In another terminal tab, outside `scanapi` folder, clone the [ScanAPI examples][scanapi-examples]
+ project:
+
+```shell
+$ git clone git@github.com:scanapi/scanapi-examples.git
+```
+
+Your workspace should have these both folders now:
+
+```shell
+▶ ls
+scanapi               scanapi-examples
+```
+
+Activate the virtualenv created before:
+
+```shell
+. scanapi/venv/bin/activate
+```
+
+Enter on `scanapi-examples` folder:
+
+```shell
+$ cd scanapi-examples
+```
+
+Select the example you want to run (`scanapi-demo` for instance):
+
+```shell
+$ cd scanapi-demo
+```
+Run the ScanAPI:
+
+```shell
+$ scanapi
+```
+
+## Tests
+
+```shell
+$ cd scanapi
+$ . venv/bin/activate
 $ pytest
-```
-
-To have the BDD reports on terminal, run:
-
-```
-$ pytest --gherkin-terminal-reporter
 ```
 
 ## Deploy
@@ -39,7 +114,6 @@ $ pytest --gherkin-terminal-reporter
 Steps:
 1. Release PR
 2. Deploy on GitHub
-3. Upgrade ScanAPI on ScanAPI Demo
 
 ### 1. Release PR
 
@@ -62,7 +136,7 @@ Create a PR named `Release <version>` containing these two changes above.
 
 ### Merge the PR
 
-Once the PR was accepted, merge it.
+Once the PR was accepted and passed on all checks, merge it.
 
 ### 2. Deploy on GitHub
 
@@ -70,31 +144,18 @@ Deploy on GitHub is done when a [new release is created][creating-releases].
 
 - The `tag version` should be `v<version>`, like for example `v0.0.18`.
 - The `release title` should be the same as tag version,(e.g `v0.0.18`).
-- The `release description` should be the content copied from the CHANGELOG.md file from the corresponding version section.
+- The `release description` should be the content copied from the CHANGELOG.md file from the
+corresponding version section.
 
-Real examples are available at: https://github.com/camilamaia/scanapi/releases.
+Real examples are available at: https://github.com/scanapi/scanapi/releases.
 
-When GitHub Deploy is done, the new version will be automatically deployed on Docker Hub and PyPI
-
-### 3. Upgrade ScanAPI on ScanAPI Demo
-
-Upgrade version of ScanAPI on [ScanAPI Demo Project][scanapi-demo].
-
-First, create a new branch, edit the [requirements.txt file][scanapi-demo-requirements] and change the ScanAPI version:
-
-```txt
-scanapi==<version>
-```
-
-For instance:
-
-```txt
-scanapi==0.0.18
-```
-
-Commit the change and open a Pull Request with it.
+When the Deploy on GitHub is done, the new version will be automatically deployed on [Docker Hub][scanapi-on-docker-hub] and [PyPI][scanapi-on-pypi].
+Check if everything run as expected for both and that is it, the deploy is done 🎉
 
 
+[creating-releases]: https://help.github.com/en/enterprise/2.13/user/articles/creating-releases
+[python]: https://www.python.org/downloads/
+[scanapi-examples]: https://github.com/scanapi/scanapi-examples
+[scanapi-on-docker-hub]: https://hub.docker.com/r/camilamaia/scanapi
+[scanapi-on-pypi]: https://pypi.org/project/scanapi/
 [virtualenv]: https://virtualenv.pypa.io/en/latest/
-[scanapi-demo]: https://github.com/camilamaia/scanapi-demo
-[scanapi-demo-requirements]: https://github.com/camilamaia/scanapi-demo/blob/master/requirements.txt
