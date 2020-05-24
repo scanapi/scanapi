@@ -7,12 +7,14 @@ from scanapi.tree.tree_keys import (
     ENDPOINTS_KEY,
     HEADERS_KEY,
     NAME_KEY,
-    PARAMS,
+    PARAMS_KEY,
     PATH_KEY,
     REQUESTS_KEY,
+    ROOT_SCOPE,
+    VARS_KEY,
 )
 from scanapi.tree.request_node import RequestNode
-from scanapi.utils import join_urls, validate_keys, validate_required_keys
+from scanapi.utils import join_urls, validate_keys
 
 logger = logging.getLogger(__name__)
 
@@ -23,27 +25,25 @@ class EndpointNode:
         ENDPOINTS_KEY,
         HEADERS_KEY,
         NAME_KEY,
-        PARAMS,
+        PARAMS_KEY,
         PATH_KEY,
         REQUESTS_KEY,
     )
-    REQUIRED_KEYS = (
-        NAME_KEY,
-        REQUESTS_KEY,
-    )
+    REQUIRED_KEYS = (NAME_KEY,)
+    ROOT_REQUIRED_KEYS = ()
 
     def __init__(self, spec, parent=None):
         self.spec = spec
         self.parent = parent
         self.child_nodes = []
         self.__build()
-        self.vars = SpecEvaluator(self, spec.get("vars", {}))
+        self.vars = SpecEvaluator(self, spec.get(VARS_KEY, {}))
 
     def __build(self):
         self._validate()
 
         self.child_nodes = [
-            EndpointNode(spec, parent=self) for spec in self.spec.get("endpoints", [])
+            EndpointNode(spec, parent=self) for spec in self.spec.get(ENDPOINTS_KEY, [])
         ]
 
     def __repr__(self):
@@ -51,22 +51,26 @@ class EndpointNode:
 
     @property
     def name(self):
-        return self.spec.get("name", "root")
+        return self.spec.get(NAME_KEY, ROOT_SCOPE)
 
     @property
     def path(self):
-        path = self.spec.get("path", "").strip()
+        path = self.spec.get(PATH_KEY, "").strip()
         url = join_urls(self.parent.path, path) if self.parent else path
 
         return self.vars.evaluate(url)
 
     @property
     def headers(self):
-        return self._get_specs("headers")
+        return self._get_specs(HEADERS_KEY)
 
     @property
     def params(self):
-        return self._get_specs("params")
+        return self._get_specs(PARAMS_KEY)
+
+    @property
+    def is_root(self):
+        return not self.parent
 
     def run(self):
         for request in self._get_requests():
@@ -80,8 +84,14 @@ class EndpointNode:
                 continue
 
     def _validate(self):
-        validate_keys(self.spec.keys(), self.ALLOWED_KEYS, self.SCOPE)
-        validate_required_keys(self.spec.keys(), self.REQUIRED_KEYS, self.SCOPE)
+        if self.is_root:
+            return validate_keys(
+                self.spec.keys(), self.ALLOWED_KEYS, self.ROOT_REQUIRED_KEYS, ROOT_SCOPE
+            )
+
+        validate_keys(
+            self.spec.keys(), self.ALLOWED_KEYS, self.REQUIRED_KEYS, self.SCOPE
+        )
 
     def _get_specs(self, field_name):
         values = self.spec.get(field_name, {})
@@ -94,6 +104,6 @@ class EndpointNode:
 
     def _get_requests(self):
         return chain(
-            (RequestNode(spec, self) for spec in self.spec.get("requests", [])),
+            (RequestNode(spec, self) for spec in self.spec.get(REQUESTS_KEY, [])),
             *(child._get_requests() for child in self.child_nodes),
         )

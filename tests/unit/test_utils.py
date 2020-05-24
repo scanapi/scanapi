@@ -1,7 +1,7 @@
 import pytest
 import requests
 
-from scanapi.errors import InvalidKeyError
+from scanapi.errors import InvalidKeyError, MissingMandatoryKeyError
 from scanapi.utils import (
     _hide,
     _override_info,
@@ -68,23 +68,37 @@ class TestValidateKeys:
         def test_should_raise_an_exception(self):
             keys = ["key1", "key2"]
             available_keys = ("key1", "key3")
+            mandatory_keys = ("key1", "key2")
             scope = "endpoint"
 
             with pytest.raises(InvalidKeyError) as excinfo:
-                validate_keys(keys, available_keys, scope)
+                validate_keys(keys, available_keys, mandatory_keys, scope)
 
             assert (
                 str(excinfo.value)
                 == "Invalid key 'key2' at 'endpoint' scope. Available keys are: ('key1', 'key3')"
             )
 
-    class TestThereIsNotAnInvalidKeys:
+    class TestMissingMandatoryKey:
+        def test_should_raise_an_exception(self):
+            keys = ["key1"]
+            available_keys = ("key1", "key3")
+            mandatory_keys = ("key1", "key2")
+            scope = "endpoint"
+
+            with pytest.raises(MissingMandatoryKeyError) as excinfo:
+                validate_keys(keys, available_keys, mandatory_keys, scope)
+
+            assert str(excinfo.value) == "Missing 'key2' key(s) at 'endpoint' scope"
+
+    class TestThereIsNotAnInvalidKeysOrMissingMandotoryKeys:
         def test_should_not_raise_an_exception(self):
             keys = ["key1"]
             available_keys = ("key1", "key3")
+            mandatory_keys = ("key1",)
             scope = "endpoint"
 
-            validate_keys(keys, available_keys, scope)
+            validate_keys(keys, available_keys, mandatory_keys, scope)
 
 
 class TestHideSensitiveInfo:

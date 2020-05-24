@@ -17,16 +17,9 @@ def join_urls(first_url, second_url):
     return "/".join([first_url, second_url])
 
 
-def validate_keys(keys, available_keys, scope):
-    for key in keys:
-        if not key in available_keys:
-            raise InvalidKeyError(key, scope, available_keys)
-
-
-def validate_required_keys(keys, required_keys, scope):
-    if not set(required_keys) <= set(keys):
-        missing_keys = set(required_keys) - set(keys)
-        raise MissingMandatoryKeyError(missing_keys, scope)
+def validate_keys(keys, available_keys, required_keys, scope):
+    _validate_allowed_keys(keys, available_keys, scope)
+    _validate_required_keys(keys, required_keys, scope)
 
 
 def hide_sensitive_info(response):
@@ -37,6 +30,18 @@ def hide_sensitive_info(response):
 
     _hide(request, request_settings)
     _hide(response, response_settings)
+
+
+def _validate_allowed_keys(keys, available_keys, scope):
+    for key in keys:
+        if not key in available_keys:
+            raise InvalidKeyError(key, scope, available_keys)
+
+
+def _validate_required_keys(keys, required_keys, scope):
+    if not set(required_keys) <= set(keys):
+        missing_keys = set(required_keys) - set(keys)
+        raise MissingMandatoryKeyError(missing_keys, scope)
 
 
 def _hide(http_msg, hide_settings):

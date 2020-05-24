@@ -16,10 +16,10 @@ class TestRequestNode:
         def test_missing_required_keys(self):
             with pytest.raises(MissingMandatoryKeyError) as excinfo:
                 request = RequestNode(
-                    spec={}, endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+                    spec={}, endpoint=EndpointNode({"name": "foo", "requests": [{}]})
                 )
 
-            assert str(excinfo.value) == "Missing name, path at 'request'"
+            assert str(excinfo.value) == "Missing 'name' key(s) at 'request' scope"
 
     class TestHTTPMethod:
         def test_when_request_has_method(self):
@@ -67,17 +67,6 @@ class TestRequestNode:
             assert str(excinfo.value) == "Missing name, path at 'request'"
 
     class TestFullPathUrl:
-        def test_request_with_no_path(self):
-            with pytest.raises(MissingMandatoryKeyError) as excinfo:
-                base_path = "http://foo.com/"
-                request = RequestNode(
-                    {"name": "foo"},
-                    endpoint=EndpointNode(
-                        {"name": "foo", "requests": [{}], "path": base_path}
-                    ),
-                )
-            assert str(excinfo.value) == "Missing path at 'request'"
-
         def test_when_endpoint_has_no_url(self):
             path = "http://foo.com"
             request = RequestNode(
@@ -263,6 +252,7 @@ class TestRequestNode:
             mock_validate_keys.assert_called_with(
                 keys,
                 ("body", "headers", "method", "name", "params", "path", "vars"),
+                ("name",),
                 "request",
             )
             assert len(keys) == 3

@@ -21,7 +21,10 @@ class TestEndpointNode:
                 endpoints = [{}, {}]
                 node = EndpointNode({"endpoints": endpoints})
 
-            assert str(excinfo.value) == "Missing name, requests at 'endpoint'"
+            assert str(excinfo.value) == "Missing 'name' key(s) at 'endpoint' scope"
+
+        def test_no_required_keys_for_root(self):
+            assert EndpointNode({})
 
     class TestPath:
         @pytest.fixture
@@ -149,13 +152,14 @@ class TestEndpointNode:
                 "path": "foo.bar",
                 "requests": [],
             }
-            node = EndpointNode(spec)
+            node = EndpointNode(spec, parent=EndpointNode({}))
             keys = spec.keys()
             node._validate()
 
             mock_validate_keys.assert_called_with(
                 keys,
                 ("endpoints", "headers", "name", "params", "path", "requests"),
+                ("name",),
                 "endpoint",
             )
             assert len(keys) == 4
