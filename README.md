@@ -66,7 +66,7 @@ Then, the lib will hit the specified endpoints and generate a `scanapi-report.md
   <img src="https://user-images.githubusercontent.com/2728804/80041110-f7e17280-84d1-11ea-8290-2c09eefe6134.png" width="700">
 </p>
 
-You can find a complete example of a demo project using ScanAPI at [scanapi-demo][scanapi-demo]!
+You can find complete examples at [scanapi-examples][scanapi-examples]!
 
 ## Documentation
 
@@ -293,8 +293,12 @@ report:
 
 ## Contributing
 
-Collaboration is super welcome! We prepared the [CONTRIBUTING.md][contributing-file] file to help you in the first steps. Feel free to create new GitHub issues and interact here :)
+Collaboration is super welcome! We prepared the [CONTRIBUTING.md][contributing-file] file to help
+you in the first steps. Every little bit of help counts! Feel free to create new GitHub issues and
+interact here.
 
+Let's built it together 🚀
+
+[contributing-file]: https://github.com/scanapi/scanapi/blob/master/CONTRIBUTING.md
 [pip-installation]: https://pip.pypa.io/en/stable/installing/
-[scanapi-demo]: https://github.com/camilamaia/scanapi-demo
-[contributing-file]: https://github.com/camilamaia/scanapi/blob/master/CONTRIBUTING.md
+[scanapi-examples]: https://github.com/scanapi/scanapi-examples
