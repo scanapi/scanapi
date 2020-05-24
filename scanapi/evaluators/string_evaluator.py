@@ -15,7 +15,7 @@ class StringEvaluator:
     )  # ${<variable>}
 
     @classmethod
-    def evaluate(cls, sequence, vars):
+    def evaluate(cls, sequence, vars, is_a_test_case=False):
         try:
             sequence = cls._evaluate_env_var(sequence)
         except BadConfigurationError as e:
@@ -25,7 +25,7 @@ class StringEvaluator:
         sequence = cls._evaluate_custom_var(sequence, vars)
 
         try:
-            return CodeEvaluator.evaluate(sequence, vars)
+            return CodeEvaluator.evaluate(sequence, vars, is_a_test_case)
         except InvalidPythonCodeError as e:
             logger.error(e)
             sys.exit()

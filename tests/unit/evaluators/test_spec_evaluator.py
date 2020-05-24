@@ -42,8 +42,8 @@ class TestSpecEvaluator:
 
                 mock_string_evaluate.assert_has_calls(
                     [
-                        mocker.call("foo", spec_evaluator),
-                        mocker.call("bar", spec_evaluator),
+                        mocker.call("foo", spec_evaluator, False),
+                        mocker.call("bar", spec_evaluator, False),
                     ]
                 )
 
@@ -63,7 +63,7 @@ class TestSpecEvaluator:
 
                 mock_string_evaluate.assert_has_calls(
                     [
-                        mocker.call("foo", spec_evaluator),
-                        mocker.call("bar", spec_evaluator),
+                        mocker.call("foo", spec_evaluator, False),
+                        mocker.call("bar", spec_evaluator, False),
                     ]
                 )
