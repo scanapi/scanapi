@@ -12,13 +12,14 @@ class SpecEvaluator:
         self.registry = {}
         self.update(vars)
 
-    def evaluate(self, element):
-        return evaluate(element, self)
+    def evaluate(self, element, is_a_test_case=False):
+        return evaluate(element, self, is_a_test_case)
 
     def update(self, vars, extras=None, preevaluate=False):
         if preevaluate:
             values = {key: evaluate(value, extras) for key, value in vars.items()}
             self.registry.update(values)
+            self.registry.update(extras)
         else:
             self.registry.update(vars)
 
@@ -45,21 +46,23 @@ class SpecEvaluator:
 
 
 @singledispatch
-def evaluate(expression, vars):
+def evaluate(expression, vars, is_a_test_case=False):
     return expression
 
 
 @evaluate.register(str)
-def _evaluate_str(element, vars):
-    return StringEvaluator.evaluate(element, vars)
+def _evaluate_str(element, vars, is_a_test_case=False):
+    return StringEvaluator.evaluate(element, vars, is_a_test_case)
 
 
 @evaluate.register(dict)
-def _evaluate_dict(element, vars):
-    return {key: evaluate(value, vars) for key, value in element.items()}
+def _evaluate_dict(element, vars, is_a_test_case=False):
+    return {
+        key: evaluate(value, vars, is_a_test_case) for key, value in element.items()
+    }
 
 
 @evaluate.register(list)
 @evaluate.register(tuple)
-def _evaluate_collection(elements, vars):
-    return [evaluate(item, vars) for item in elements]
+def _evaluate_collection(elements, vars, is_a_test_case=False):
+    return [evaluate(item, vars, is_a_test_case) for item in elements]

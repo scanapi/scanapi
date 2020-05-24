@@ -33,7 +33,7 @@ from scanapi.tree.tree_keys import API_KEY, ROOT_SCOPE
 )
 def scan(spec_path, output_path, config_path, reporter, template, log_level):
     """Automated Testing and Documentation for your REST API."""
-    logging.basicConfig(level=log_level)
+    logging.basicConfig(level=log_level, format="%(message)s")
     logger = logging.getLogger(__name__)
 
     settings.save_preferences(

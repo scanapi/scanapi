@@ -3,6 +3,13 @@ import re
 
 from scanapi.errors import InvalidPythonCodeError
 
+# Available imports to be used dinamically in the API spec
+import datetime
+import math
+import random
+import time
+import uuid
+
 logger = logging.getLogger(__name__)
 
 
@@ -12,29 +19,45 @@ class CodeEvaluator:
     )  # ${{<python_code>}}
 
     @classmethod
-    def evaluate(cls, sequence, vars):
-        # To avoid circular imports
-        from scanapi.evaluators.string_evaluator import StringEvaluator
-
-        # Available imports to be used dinamically in the API spec
-        import datetime
-        import math
-        import random
-        import time
-        import uuid
-
+    def evaluate(cls, sequence, vars, is_a_test_case=False):
         match = cls.python_code_pattern.search(sequence)
 
         if not match:
             return sequence
 
         code = match.group("python_code")
+        response = vars.get("response")
 
         try:
-            response = vars.get("response")
-            python_code_value = str(eval(code))
-            return StringEvaluator.replace_var_with_value(
-                sequence, match.group(), python_code_value
-            )
+            if is_a_test_case:
+                return cls._assert_code(code, response)
+
+            return cls._evaluate_sequence(sequence, match, code, response)
         except Exception as e:
             raise InvalidPythonCodeError(str(e))
+
+    @classmethod
+    def _assert_code(cls, code, response):
+        """Assert a Python code statement
+
+        :param code: python code that ScanAPI needs to assert
+        :type code: string
+        :param response: the response for the current request that is being tested
+        :type response: requests.Response
+        :return: A boolean that indicates if assert is True/False and, if False, the code tested.
+        :rtype: (boolean, string)
+        """
+        try:
+            assert eval(code)
+            return (True, None)
+        except AssertionError as ae:
+            return (False, code.strip())
+
+    @classmethod
+    def _evaluate_sequence(cls, sequence, match, code, response):
+        # To avoid circular imports
+        from scanapi.evaluators.string_evaluator import StringEvaluator
+
+        return StringEvaluator.replace_var_with_value(
+            sequence, match.group(), str(eval(code))
+        )

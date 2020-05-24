@@ -251,7 +251,16 @@ class TestRequestNode:
 
             mock_validate_keys.assert_called_with(
                 keys,
-                ("body", "headers", "method", "name", "params", "path", "vars"),
+                (
+                    "body",
+                    "headers",
+                    "method",
+                    "name",
+                    "params",
+                    "path",
+                    "tests",
+                    "vars",
+                ),
                 ("name",),
                 "request",
             )

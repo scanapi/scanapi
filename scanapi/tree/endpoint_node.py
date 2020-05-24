@@ -51,7 +51,12 @@ class EndpointNode:
 
     @property
     def name(self):
-        return self.spec.get(NAME_KEY, ROOT_SCOPE)
+        name = self.spec.get(NAME_KEY, "")
+
+        if self.is_root or not self.parent.name:
+            return name
+
+        return "::".join((self.parent.name, name))
 
     @property
     def path(self):

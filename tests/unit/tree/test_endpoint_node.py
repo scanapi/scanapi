@@ -26,6 +26,17 @@ class TestEndpointNode:
         def test_no_required_keys_for_root(self):
             assert EndpointNode({})
 
+    class TestName:
+        def test_when_parent_has_no_name(self):
+            base_path = "http://foo.com"
+            node = EndpointNode({"name": "child-node"}, parent=EndpointNode({}))
+            assert node.name == "child-node"
+
+        def test_when_parent_has_name(self):
+            parent = EndpointNode({"name": "root"})
+            node = EndpointNode({"name": "child-node"}, parent=parent)
+            assert node.name == "root::child-node"
+
     class TestPath:
         @pytest.fixture
         def mock_evaluate(self, mocker):
