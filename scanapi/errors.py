@@ -32,8 +32,8 @@ class MissingMandatoryKeyError(MalformedSpecError):
     """Raised when one or more mandatory keys are missing"""
 
     def __init__(self, missing_keys, scope, *args):
-        missing_keys_str = ", ".join(sorted(missing_keys))
-        message = f"Missing {missing_keys_str} at '{scope}'"
+        missing_keys_str = ", ".join(f"'{k}'" for k in sorted(missing_keys))
+        message = f"Missing {missing_keys_str} key(s) at '{scope}' scope"
         super(MissingMandatoryKeyError, self).__init__(message, *args)
 
 

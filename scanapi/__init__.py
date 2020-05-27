@@ -8,11 +8,13 @@ from scanapi.errors import (
     EmptyConfigFileError,
     FileFormatNotSupportedError,
     InvalidKeyError,
+    MissingMandatoryKeyError,
 )
-from scanapi.tree import EndpointNode
+from scanapi.config_loader import load_config_file
 from scanapi.reporter import Reporter
 from scanapi.settings import settings
-from scanapi.config_loader import load_config_file
+from scanapi.tree import EndpointNode
+from scanapi.tree.tree_keys import API_KEY, ROOT_SCOPE
 
 
 @click.command()
@@ -61,11 +63,14 @@ def scan(spec_path, output_path, config_path, reporter, template, log_level):
         return
 
     try:
-        root_node = EndpointNode(api_spec["api"])
+        if API_KEY not in api_spec:
+            raise MissingMandatoryKeyError({API_KEY}, ROOT_SCOPE)
+
+        root_node = EndpointNode(api_spec[API_KEY])
         Reporter(
             settings["output_path"], settings["reporter"], settings["template"]
         ).write(root_node.run())
-    except InvalidKeyError as e:
+    except (InvalidKeyError, MissingMandatoryKeyError, KeyError) as e:
         error_message = "Error loading API spec."
         error_message = "{} {}".format(error_message, str(e))
         logger.error(error_message)
