@@ -4,7 +4,7 @@ executors:
   changelog-linter:
     working_directory: /home/circleci/project
     docker:
-      - image: circleci/golang:1.9.6
+      - image: rcmachado/changelog:0.6.0
 
 jobs:
   changelog-lint:
@@ -12,19 +12,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install rcmachado/changelog
-          command: |
-            curl -s https://api.github.com/repos/rcmachado/changelog/releases/latest \
-            | grep "browser_download_url.*linux_amd64" \
-            | cut -d : -f 2,3 \
-            | tr -d \" \
-            | wget -qi -
-            tar xvf changelog_*_linux_amd64.tar.gz changelog
-            mv changelog /go/bin/
-      - run:
           name: Lint changelog
           command: |
-            diff CHANGELOG.md <(changelog fmt CHANGELOG.md) --color -u
+            diff CHANGELOG.md <(/changelog fmt CHANGELOG.md) --color -u
   build:
     working_directory: ~/scanapi
     docker:
