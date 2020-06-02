@@ -25,7 +25,7 @@ class TestStringEvaluator:
 
         def test_calls_code_evaluate(self, mock_code_evaluate):
             StringEvaluator.evaluate("boo", {})
-            mock_code_evaluate.assert_called_once_with("boo", {})
+            mock_code_evaluate.assert_called_once_with("boo", {}, False)
 
         def test_calls__evaluate_env_var(self, mock__evaluate_env_var):
             StringEvaluator.evaluate("boo", {})

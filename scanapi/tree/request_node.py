@@ -2,7 +2,8 @@ import logging
 import requests
 
 from scanapi.errors import HTTPMethodNotAllowedError
-from scanapi.evaluators import SpecEvaluator
+from scanapi.evaluators.spec_evaluator import SpecEvaluator
+from scanapi.tree.testing_node import TestingNode
 from scanapi.tree.tree_keys import (
     BODY_KEY,
     HEADERS_KEY,
@@ -10,6 +11,7 @@ from scanapi.tree.tree_keys import (
     NAME_KEY,
     PARAMS_KEY,
     PATH_KEY,
+    TESTS_KEY,
     VARS_KEY,
 )
 from scanapi.utils import join_urls, hide_sensitive_info, validate_keys
@@ -26,6 +28,7 @@ class RequestNode:
         NAME_KEY,
         PARAMS_KEY,
         PATH_KEY,
+        TESTS_KEY,
         VARS_KEY,
     )
     ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
@@ -82,6 +85,10 @@ class RequestNode:
 
         return self.endpoint.vars.evaluate(body)
 
+    @property
+    def tests(self):
+        return (TestingNode(spec, self) for spec in self.spec.get("tests", []))
+
     def run(self):
         method = self.http_method
         url = self.full_url_path
@@ -99,6 +106,9 @@ class RequestNode:
         self.endpoint.vars.update(
             self.spec.get(VARS_KEY, {}), extras={"response": response}, preevaluate=True
         )
+
+        for test in self.tests:
+            test.run()
 
         hide_sensitive_info(response)
         return response

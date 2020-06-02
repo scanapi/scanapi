@@ -38,7 +38,7 @@ class Reporter:
         with open(self.output_path, "w", newline="\n") as doc:
             doc.write(content)
 
-        logger.info("The documentation was generated successfully.")
+        logger.info("\nThe documentation was generated successfully.")
         logger.info(f"It is available at {self.output_path}")
 
     def _render_content(self, loader, template_path, responses):

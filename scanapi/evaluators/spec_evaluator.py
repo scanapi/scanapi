@@ -15,10 +15,14 @@ class SpecEvaluator:
     def evaluate(self, element):
         return evaluate(element, self)
 
+    def evaluate_assertion(self, element):
+        return _evaluate_str(element, self, is_a_test_case=True)
+
     def update(self, vars, extras=None, preevaluate=False):
         if preevaluate:
             values = {key: evaluate(value, extras) for key, value in vars.items()}
             self.registry.update(values)
+            self.registry.update(extras)
         else:
             self.registry.update(vars)
 
@@ -50,8 +54,8 @@ def evaluate(expression, vars):
 
 
 @evaluate.register(str)
-def _evaluate_str(element, vars):
-    return StringEvaluator.evaluate(element, vars)
+def _evaluate_str(element, vars, is_a_test_case=False):
+    return StringEvaluator.evaluate(element, vars, is_a_test_case)
 
 
 @evaluate.register(dict)
