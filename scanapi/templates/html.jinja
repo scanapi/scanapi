@@ -246,8 +246,12 @@
 
     <div class="wrapper">
         <header class="title">
-            <h1 class="title__name">Report generated for <span class="title__project">Alice</span></h1>
-            <p class="title__overview">Generated at: 2020-02-02 12:54:22</p>
+            {% if project_name %}
+                <h1 class="title__name">Report generated for <span class="title__project">{{ project_name }}</span></h1>
+            {% else %}
+                <h1 class="title__name">Report generated for your API</h1>
+            {% endif %}
+            <p class="title__overview">Generated at: {{now}}</p>
         </header>
 
         {% for response in responses -%} {% set request = response.request %}
@@ -289,7 +293,7 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                        {% endif %} 
+                        {% endif %}
 
                         {% if ( request.body and request.body.decode("UTF-8") != "{}" ) %}
                             <details>
