@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-import logging
 import curlify
+import datetime
+import logging
 
 from jinja2 import Environment, FileSystemLoader, PackageLoader, select_autoescape
 
@@ -44,5 +45,7 @@ class Reporter:
     def _render_content(self, loader, template_path, responses):
         env = Environment(loader=loader)
         env.filters["curlify"] = curlify.to_curl
+        env.globals["now"] = datetime.datetime.now().replace(microsecond=0)
+        env.globals["project_name"] = settings.get("project-name", "")
         chosen_template = env.get_template(template_path)
         return chosen_template.render(responses=responses)

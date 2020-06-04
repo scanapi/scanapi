@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Add new HTML template [#157](https://github.com/scanapi/scanapi/pull/157)
 - Tests key [#152](https://github.com/scanapi/scanapi/pull/152)
 
 ### Changed
