@@ -15,11 +15,13 @@ class TestSettings:
     class TestSavePreferences:
         @pytest.fixture
         def mock_save_click_preferences(self, mocker):
-            return mocker.patch("scanapi.settings.save_click_preferences")
+            return mocker.patch("scanapi.settings.Settings.save_click_preferences")
 
         @pytest.fixture
         def mock_save_config_file_preferences(self, mocker):
-            return mocker.patch("scanapi.settings.save_config_file_preferences")
+            return mocker.patch(
+                "scanapi.settings.Settings.save_config_file_preferences"
+            )
 
         class TestWhenConfigPathIsInClickPreferences:
             def test_should_pass_config_path(
