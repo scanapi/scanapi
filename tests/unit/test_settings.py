@@ -8,7 +8,7 @@ class TestSettings:
     class TestInit:
         def test_should_init_with_default_values(self):
             assert settings["spec_path"] == "api.yaml"
-            assert settings["reporter"] == "markdown"
+            assert settings["reporter"] == "html"
             assert settings["output_path"] is None
             assert settings["template"] is None
 
@@ -53,7 +53,7 @@ class TestSettings:
 
             assert settings == {
                 "spec_path": "path/spec-path",
-                "reporter": "markdown",
+                "reporter": "html",
                 "output_path": "path/output-path",
                 "template": None,
                 "config_path": "path/config-path",
