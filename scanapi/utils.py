@@ -1,7 +1,7 @@
 from scanapi.errors import InvalidKeyError, MissingMandatoryKeyError
 from scanapi.settings import settings
 
-ALLOWED_ATTRS_TO_HIDE = ("headers body").split()
+ALLOWED_ATTRS_TO_HIDE = ("headers body url").split()
 
 
 def join_urls(first_url, second_url):

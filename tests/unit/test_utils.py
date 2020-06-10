@@ -109,6 +109,7 @@ class TestHideSensitiveInfo:
     test_data = [
         ({}, {}, {}),
         ({"report": {"abc": "def"}}, {}, {}),
+        ({"report": {"hide-request": {"url": ["abc"]}}}, {"url": ["abc"]}, {}),
         ({"report": {"hide-request": {"headers": ["abc"]}}}, {"headers": ["abc"]}, {}),
         ({"report": {"hide-response": {"headers": ["abc"]}}}, {}, {"headers": ["abc"]}),
     ]
@@ -143,6 +144,7 @@ class TestHide:
         ({}, []),
         ({"headers": ["abc", "def"]}, [("headers", "abc"), ("headers", "def")]),
         ({"headers": ["abc"]}, [("headers", "abc")]),
+        ({"url": ["abc"]}, []),
     ]
 
     @pytest.mark.parametrize("settings, calls", test_data)
