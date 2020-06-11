@@ -12,7 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Unified keys validation in a single method [#151](https://github.com/scanapi/scanapi/pull/151)
-- Change default template to html [#173](https://github.com/scanapi/scanapi/pull/173)
+- Default template to html [#173](https://github.com/scanapi/scanapi/pull/173)
+- Project name color on html reporter to match ScanAPI brand [#172](https://github.com/scanapi/scanapi/pull/172)
+- Entry Point to `scanapi:main`[#172](https://github.com/scanapi/scanapi/pull/172)
 
 ## [0.1.0] - 2020-05-14
 ### Added
