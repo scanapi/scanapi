@@ -8,7 +8,7 @@ DEFAULT_CONFIG_PATH = ".scanapi.yaml"
 class Settings(dict):
     def __init__(self):
         self["spec_path"] = "api.yaml"
-        self["reporter"] = "markdown"
+        self["reporter"] = "html"
         self["output_path"] = None
         self["template"] = None
 
