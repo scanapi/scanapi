@@ -4,16 +4,17 @@ import logging
 from scanapi.scan import scan
 from scanapi.settings import settings
 
+CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
-@click.command()
-@click.option("-s", "--spec-path", "spec_path", type=click.Path(exists=True))
+
+@click.command(context_settings=CONTEXT_SETTINGS)
+@click.argument("spec_path", type=click.Path(exists=True), required=False)
 @click.option("-o", "--output-path", "output_path", type=click.Path())
 @click.option("-c", "--config-path", "config_path", type=click.Path(exists=True))
-@click.option(
-    "-r", "--reporter", "reporter", type=click.Choice(["console", "markdown", "html"])
-)
+@click.option("-r", "--reporter", "reporter", type=click.Choice(["html", "markdown"]))
 @click.option("-t", "--template", "template", type=click.Path(exists=True))
 @click.option(
+    "-ll",
     "--log-level",
     "log_level",
     type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]),
