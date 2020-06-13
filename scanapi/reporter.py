@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-import curlify
 import datetime
 import logging
 
-from jinja2 import Environment, FileSystemLoader, PackageLoader, select_autoescape
-
+from scanapi.session import session
 from scanapi.settings import settings
+from scanapi.template_render import render
 
 logger = logging.getLogger(__name__)
 
@@ -15,17 +14,14 @@ class Reporter:
         self.output_path = output_path or "scanapi-report.html"
         self.template = template
 
-    def write(self, responses):
+    def write(self, results):
         logger.info("Writing documentation")
 
-        if self.template:
-            loader = FileSystemLoader(searchpath="./")
-            template_path = self.template
-        else:
-            loader = PackageLoader("scanapi", "templates")
-            template_path = "html.jinja"
+        template_path = self.template if self.template else "html.jinja"
+        has_external_template = True if self.template else False
+        context = self._build_context(results)
 
-        content = self._render_content(loader, template_path, responses)
+        content = render(template_path, context, has_external_template)
 
         with open(self.output_path, "w", newline="\n") as doc:
             doc.write(content)
@@ -33,10 +29,10 @@ class Reporter:
         logger.info("\nThe documentation was generated successfully.")
         logger.info(f"It is available at {self.output_path}")
 
-    def _render_content(self, loader, template_path, responses):
-        env = Environment(loader=loader)
-        env.filters["curlify"] = curlify.to_curl
-        env.globals["now"] = datetime.datetime.now().replace(microsecond=0)
-        env.globals["project_name"] = settings.get("project-name", "")
-        chosen_template = env.get_template(template_path)
-        return chosen_template.render(responses=responses)
+    def _build_context(self, results):
+        return {
+            "now": datetime.datetime.now().replace(microsecond=0),
+            "project_name": settings.get("project-name", ""),
+            "results": results,
+            "session": session,
+        }

@@ -38,16 +38,17 @@ def scan():
             raise MissingMandatoryKeyError({API_KEY}, ROOT_SCOPE)
 
         root_node = EndpointNode(api_spec[API_KEY])
-        responses = root_node.run()
+        results = root_node.run()
+
     except (InvalidKeyError, MissingMandatoryKeyError, KeyError) as e:
         error_message = "Error loading API spec."
         error_message = "{} {}".format(error_message, str(e))
         logger.error(error_message)
         return
 
-    write_report(responses)
+    write_report(results)
 
 
-def write_report(responses):
+def write_report(results):
     reporter = Reporter(settings["output_path"], settings["template"])
-    reporter.write(responses)
+    reporter.write(results)

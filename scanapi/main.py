@@ -3,6 +3,7 @@ import logging
 
 from scanapi.scan import scan
 from scanapi.settings import settings
+from scanapi.session import session
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
@@ -21,6 +22,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 )
 def main(spec_path, output_path, config_path, template, log_level):
     """Automated Testing and Documentation for your REST API."""
+    session.start()
     logging.basicConfig(level=log_level, format="%(message)s")
     logger = logging.getLogger(__name__)
 

@@ -13,6 +13,13 @@ class TestRequestNode:
         return mock_func
 
     class TestInit:
+        def test_init_spec_and_endpoint(self):
+            endpoint = EndpointNode({"name": "foo", "requests": [{}]})
+            request = RequestNode(spec={"name": "bar"}, endpoint=endpoint)
+
+            assert request.endpoint == endpoint
+            assert request.spec == {"name": "bar"}
+
         def test_missing_required_keys(self):
             with pytest.raises(MissingMandatoryKeyError) as excinfo:
                 request = RequestNode(
@@ -220,12 +227,16 @@ class TestRequestNode:
         def mock_request(self, mocker):
             return mocker.patch("scanapi.tree.request_node.requests.request")
 
+        @pytest.fixture
+        def mock_run_tests(self, mocker):
+            return mocker.patch("scanapi.tree.request_node.RequestNode._run_tests")
+
         def test_calls_request(self, mock_request):
             request = RequestNode(
                 {"path": "http://foo.com", "name": "foo"},
                 endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
             )
-            request.run()
+            result = request.run()
 
             mock_request.assert_called_once_with(
                 request.http_method,
@@ -235,6 +246,35 @@ class TestRequestNode:
                 json=request.body,
                 allow_redirects=False,
             )
+
+            assert result == {
+                "response": mock_request(),
+                "tests_results": [],
+                "no_failure": True,
+            }
+
+        test_data = [
+            ([{"passed": True}, {"passed": False}], False,),
+            ([{"passed": True}, {"passed": True}], True,),
+        ]
+
+        @pytest.mark.parametrize("test_results, expected_no_failure", test_data)
+        def test_build_result(
+            self, test_results, expected_no_failure, mock_request, mock_run_tests
+        ):
+            mock_run_tests.return_value = test_results
+            request = RequestNode(
+                {"name": "foo"},
+                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+            )
+
+            result = request.run()
+
+            assert result == {
+                "response": mock_request(),
+                "tests_results": test_results,
+                "no_failure": expected_no_failure,
+            }
 
     class TestValidate:
         @pytest.fixture()
