@@ -8,7 +8,6 @@ class TestSettings:
     class TestInit:
         def test_should_init_with_default_values(self):
             assert settings["spec_path"] == "api.yaml"
-            assert settings["reporter"] == "html"
             assert settings["output_path"] is None
             assert settings["template"] is None
 
@@ -55,7 +54,6 @@ class TestSettings:
 
             assert settings == {
                 "spec_path": "path/spec-path",
-                "reporter": "html",
                 "output_path": "path/output-path",
                 "template": None,
                 "config_path": "path/config-path",
@@ -64,37 +62,36 @@ class TestSettings:
     class TestSaveConfigFilePreferences:
         @pytest.fixture(autouse=True)
         def define_settings(self):
-            settings["spec_path"] = "path/spec-path"
-            settings["reporter"] = "markdown"
-            settings["output_path"] = "path/output-path"
+            settings["spec_path"] = "path/spec-path.yaml"
+            settings["output_path"] = "path/output-path.yaml"
             settings["template"] = None
-            settings["config_path"] = "path/config-path"
+            settings["config_path"] = "path/config-path.yaml"
 
         class TestWithoutCustomConfigPath:
             class TestWithDefaultConfigFile:
                 def test_should_save_preferences(self):
                     with open(DEFAULT_CONFIG_PATH, "w") as out_file:
-                        out_file.write("reporter: html")
+                        out_file.write("template: path/template.jinja")
 
                     settings.save_config_file_preferences()
-                    assert settings["reporter"] == "html"
+                    assert settings["template"] == "path/template.jinja"
 
                     os.remove(DEFAULT_CONFIG_PATH)
 
             class TestWithoutDefaultConfigFile:
                 def test_should_not_change_preferences(self):
                     settings.save_config_file_preferences()
-                    assert settings["reporter"] == "markdown"
+                    assert settings["spec_path"] == "path/spec-path.yaml"
 
         class TestWithCustomConfigPath:
             class TestWithConfigFile:
                 def test_should_save_preferences(self):
                     config_path = "my_config_file.yaml"
                     with open(config_path, "w") as out_file:
-                        out_file.write("reporter: html")
+                        out_file.write("template: template.jinja")
 
                     settings.save_config_file_preferences(config_path)
-                    assert settings["reporter"] == "html"
+                    assert settings["template"] == "template.jinja"
 
                     os.remove(config_path)
 

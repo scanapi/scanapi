@@ -11,7 +11,6 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 @click.argument("spec_path", type=click.Path(exists=True), required=False)
 @click.option("-o", "--output-path", "output_path", type=click.Path())
 @click.option("-c", "--config-path", "config_path", type=click.Path(exists=True))
-@click.option("-r", "--reporter", "reporter", type=click.Choice(["html", "markdown"]))
 @click.option("-t", "--template", "template", type=click.Path(exists=True))
 @click.option(
     "-ll",
@@ -20,7 +19,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
     type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]),
     default="INFO",
 )
-def main(spec_path, output_path, config_path, reporter, template, log_level):
+def main(spec_path, output_path, config_path, template, log_level):
     """Automated Testing and Documentation for your REST API."""
     logging.basicConfig(level=log_level, format="%(message)s")
     logger = logging.getLogger(__name__)
@@ -29,7 +28,6 @@ def main(spec_path, output_path, config_path, reporter, template, log_level):
         "spec_path": spec_path,
         "output_path": output_path,
         "config_path": config_path,
-        "reporter": reporter,
         "template": template,
     }
 

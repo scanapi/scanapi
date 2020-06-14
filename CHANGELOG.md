@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - Console Report [#175](https://github.com/scanapi/scanapi/pull/175)
+- Markdown Report [#179](https://github.com/scanapi/scanapi/pull/179)
+- `--reporter` option [#179](https://github.com/scanapi/scanapi/pull/179)
 
 ## [0.1.0] - 2020-05-14
 ### Added
