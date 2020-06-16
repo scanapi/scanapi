@@ -1,9 +1,19 @@
-<img src="https://user-images.githubusercontent.com/2728804/73694724-6d019080-46b7-11ea-8960-70db8f9b0a29.png"/>
+![](https://github.com/scanapi/design/raw/master/images/github-hero-dark.png)
 
-[![CircleCI](https://circleci.com/gh/scanapi/scanapi.svg?style=svg)](https://circleci.com/gh/scanapi/scanapi)
-[![codecov](https://codecov.io/gh/scanapi/scanapi/branch/master/graph/badge.svg)](https://codecov.io/gh/scanapi/scanapi)
-[![PyPI version](https://badge.fury.io/py/scanapi.svg)](https://badge.fury.io/py/scanapi)
-[![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scanapi/community)
+<p align="center">
+  <a href="https://app.circleci.com/pipelines/github/scanapi/scanapi?branch=master">
+    <img alt="CircleCI" src="https://img.shields.io/circleci/build/github/scanapi/scanapi">
+  </a>
+  <a href="https://codecov.io/gh/scanapi/scanapi">
+    <img alt="Codecov" src="https://img.shields.io/codecov/c/github/scanapi/scanapi">
+  </a>
+  <a href="https://badge.fury.io/py/scanapi">
+    <img alt="PyPI version" src="https://badge.fury.io/py/scanapi.svg">
+  </a>
+  <a href="https://gitter.im/scanapi/community">
+    <img alt="Gitter chat" src="https://badges.gitter.im/Join%20Chat.svg">
+  </a>
+</p>
 
 A library for **your API** that provides:
 
