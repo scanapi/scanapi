@@ -84,18 +84,17 @@ You can find complete examples at [scanapi-examples][scanapi-examples]!
 
 ```bash
 $ scanapi --help
-Usage: scanapi [OPTIONS]
+Usage: scanapi [OPTIONS] [SPEC_PATH]
 
   Automated Testing and Documentation for your REST API.
 
 Options:
-  -s, --spec-path PATH
   -o, --output-path PATH
   -c, --config-path PATH
-  -r, --reporter [console|markdown|html]
+  -r, --reporter [html|markdown]
   -t, --template PATH
-  --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]
-  --help                          Show this message and exit.
+  -ll, --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]
+  -h, --help                      Show this message and exit.
 ```
 
 ### API Specification Keys
@@ -276,7 +275,7 @@ If you want to configure the ScanAPI with a file, you can create a `.scanapi.yam
 ```yaml
 spec_path: my_path/api.yaml
 output_path: my_path/scanapi-report.md
-reporter: console
+reporter: markdown
 ```
 
 ### Hiding sensitive information

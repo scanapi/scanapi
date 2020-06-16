@@ -7,29 +7,7 @@ fake_responses = [
 ]
 
 
-class TestConsoleReport:
-    @pytest.fixture
-    def mocked_print(self, mocker):
-        return mocker.patch("builtins.print")
-
-    def test_should_print(self, mocker, mocked_print):
-        console_reporter = Reporter(None, "console")
-        console_reporter.write(fake_responses)
-
-        expected_content = "\n".join(
-            (
-                "ScanAPI Report: Console",
-                "=======================",
-                "",
-                "GET http://test.com - 200",
-                "",
-            )
-        )
-
-        mocked_print.assert_called_once_with(f"\n{expected_content}")
-
-
-class TestReporterOtherThanConsole:
+class TestReporter:
     @pytest.fixture
     def mocked__render_content(self, mocker):
         return mocker.patch("scanapi.reporter.Reporter._render_content")
@@ -37,7 +15,7 @@ class TestReporterOtherThanConsole:
     @pytest.fixture
     def mocked_open(self, mocker):
         mock = mocker.mock_open()
-        mocker.patch("builtins.open", mock)
+        mocker.patch("scanapi.reporter.open", mock)
         return mock
 
     @pytest.mark.parametrize("reporter_type", ["html", "markdown"])

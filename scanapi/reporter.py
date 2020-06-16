@@ -28,10 +28,6 @@ class Reporter:
 
         content = self._render_content(loader, template_path, responses)
 
-        if self.reporter == "console":
-            print(f"\n{content}")
-            return
-
         if self.output_path is None:
             outputs = {"html": "scanapi-report.html", "markdown": "scanapi-report.md"}
             self.output_path = outputs.get(self.reporter) or "scanapi-report"
