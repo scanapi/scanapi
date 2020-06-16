@@ -49,7 +49,5 @@ def scan():
 
 
 def write_report(responses):
-    reporter = Reporter(
-        settings["output_path"], settings["reporter"], settings["template"]
-    )
+    reporter = Reporter(settings["output_path"], settings["template"])
     reporter.write(responses)

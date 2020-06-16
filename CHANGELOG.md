@@ -16,11 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Default template to html [#173](https://github.com/scanapi/scanapi/pull/173)
 - Project name color on html reporter to match ScanAPI brand [#172](https://github.com/scanapi/scanapi/pull/172)
 - Hero banner on README [#180](https://github.com/scanapi/scanapi/pull/180)
-- Entry Point to `scanapi:main` [#172](https://github.com/scanapi/scanapi/pull/172)
+- Entry point to `scanapi:main` [#172](https://github.com/scanapi/scanapi/pull/172)
 - `--spec-path` option to argument [#172](https://github.com/scanapi/scanapi/pull/172)
 
 ### Removed
 - Console Report [#175](https://github.com/scanapi/scanapi/pull/175)
+- Markdown Report [#179](https://github.com/scanapi/scanapi/pull/179)
+- `--reporter` option [#179](https://github.com/scanapi/scanapi/pull/179)
 
 ## [0.1.0] - 2020-05-14
 ### Added

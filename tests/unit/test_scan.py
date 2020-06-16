@@ -171,6 +171,6 @@ class TestWriteReporter:
         write_report([response])
 
         mock_reporter_init.assert_called_once_with(
-            "out/my-report.md", "markdown", "my-template.jinja"
+            "out/my-report.md", "my-template.jinja"
         )
         mock_write.assert_called_once_with([response])

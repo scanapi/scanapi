@@ -91,7 +91,6 @@ Usage: scanapi [OPTIONS] [SPEC_PATH]
 Options:
   -o, --output-path PATH
   -c, --config-path PATH
-  -r, --reporter [html|markdown]
   -t, --template PATH
   -ll, --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]
   -h, --help                      Show this message and exit.
