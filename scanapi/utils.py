@@ -56,4 +56,4 @@ def _override_info(http_msg, http_attr, secret_field):
         secret_field in getattr(http_msg, http_attr)
         and http_attr in ALLOWED_ATTRS_TO_HIDE
     ):
-        getattr(http_msg, http_attr)[secret_field] = "<sensitive_information>"
+        getattr(http_msg, http_attr)[secret_field] = "SENSITIVE_INFORMATION"
