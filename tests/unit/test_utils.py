@@ -163,7 +163,7 @@ class TestOverrideInfo:
 
         _override_info(response, http_attr, secret_field)
 
-        assert response.headers["abc"] == "<sensitive_information>"
+        assert response.headers["abc"] == "SENSITIVE_INFORMATION"
 
     def test_when_http_attr_is_not_allowed(self, response, mocker):
         mocker.patch("scanapi.utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
