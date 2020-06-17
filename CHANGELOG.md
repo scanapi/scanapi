@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Entry point to `scanapi:main` [#172](https://github.com/scanapi/scanapi/pull/172)
 - `--spec-path` option to argument [#172](https://github.com/scanapi/scanapi/pull/172)
 
+### Fixed
+- Duplicated status code row from report [#183](https://github.com/scanapi/scanapi/pull/183)
+- Sensitive information render on report [#183](https://github.com/scanapi/scanapi/pull/183)
+
 ### Removed
 - Console Report [#175](https://github.com/scanapi/scanapi/pull/175)
 - Markdown Report [#179](https://github.com/scanapi/scanapi/pull/179)
