@@ -167,6 +167,16 @@ class TestOverrideInfo:
 
         assert response.headers["abc"] == "SENSITIVE_INFORMATION"
 
+    def test_overrides_sensitive_info_url(self, response):
+        secret_key = "secret-key"
+        response.url = f"http://test.com/users/{secret_key}"
+        http_attr = "url"
+        secret_field = secret_key
+
+        _override_info(response, http_attr, secret_field)
+
+        assert response.url == "http://test.com/users/SENSITIVE_INFORMATION"
+
     def test_when_http_attr_is_not_allowed(self, response, mocker):
         mocker.patch("scanapi.utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
         response.headers = {"abc": "123"}

@@ -1,7 +1,12 @@
 from scanapi.errors import InvalidKeyError, MissingMandatoryKeyError
 from scanapi.settings import settings
 
-ALLOWED_ATTRS_TO_HIDE = ("headers body url").split()
+HEADERS = "headers"
+BODY = "body"
+URL = "url"
+
+ALLOWED_ATTRS_TO_HIDE = (HEADERS, BODY, URL)
+SENSITIVE_INFO_SUBSTITUTION_FLAG = "SENSITIVE_INFORMATION"
 
 
 def join_urls(first_url, second_url):
@@ -56,4 +61,12 @@ def _override_info(http_msg, http_attr, secret_field):
         secret_field in getattr(http_msg, http_attr)
         and http_attr in ALLOWED_ATTRS_TO_HIDE
     ):
-        getattr(http_msg, http_attr)[secret_field] = "SENSITIVE_INFORMATION"
+        if http_attr == URL:
+            new_url = getattr(http_msg, http_attr).replace(
+                secret_field, SENSITIVE_INFO_SUBSTITUTION_FLAG
+            )
+            setattr(http_msg, http_attr, new_url)
+        else:
+            getattr(http_msg, http_attr)[
+                secret_field
+            ] = SENSITIVE_INFO_SUBSTITUTION_FLAG
