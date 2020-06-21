@@ -187,8 +187,24 @@
         justify-content: space-between;
         }
 
+        .http_method {
+        font-weight: bold;
+        }
+
         .endpoint__titleInfo {
         display: flex;
+        }
+
+        .endpoint__status {
+        padding-left: 5px;
+        }
+
+        .endpoint__status--P {
+        color: green;
+        }
+
+        .endpoint__status--F {
+        color: red;
         }
 
         .endpoint__titleInfo::after {
@@ -247,45 +263,26 @@
         color: red;
         }
 
-
-
         /* END -- ENDPOINT */
-
-        /* STATUS */
-        .status {
-        font-weight: bold;
-        }
-
-        .status--GET {
-        color: #e0bee4;
-        }
-
-        .status--POST {
-        color: #d291b6;
-        }
-
-        .status--DELETE {
-        color: #fec8d8;
-        }
-
-        .status--PUT {
-        color: #957dad;
-        }
-
-        .status-PATCH {
-        color: #ffdfd3;
-        }
-
-        /* END -- STATUS */
 
         /* TESTS SUMMARY */
         .tests__summary {
         background: #f9f9f9;
         padding: 10px 12px;
-        border-radius: 10px;
         margin: 0 20px;
         display: flex;
         flex-direction: column;
+        border-radius: 10px;
+        border-style: outset;
+        border-width: thin;
+        }
+
+        .tests__summary--passed {
+        border-color: green;
+        }
+
+        .tests__summary--failed {
+        border-color: red;
         }
 
         .tests__summaryResults{
@@ -313,14 +310,19 @@
         {% for result in results -%}
             {% set response = result["response"] %}
             {% set tests = result["tests_results"] %}
-            {% set status = "passed" if result["no_failure"] else "failed"%}
+            {% set endpoint_status_label = "P" if result["no_failure"] else "F" %}
             {% set request = response.request %}
 
             <div class="endpoint">
                 <input type="checkbox" class="endpoint__checkbox" id="chck_{{ loop.index | string }}" />
                 <label class="endpoint__title" for="chck_{{ loop.index | string }}">
-                    <span><span class="status status--{{request.method}}">{{request.method}}</span> {{ request.path_url }}</span>
-                    <span class="endpoint__titleInfo">{{ response.status_code }}</span>
+                    <span><span class="http_method">{{request.method}}</span> {{ request.path_url }}</span>
+                    <span class="endpoint__titleInfo">
+                        {{ response.status_code }}
+                        <span class="endpoint__status endpoint__status--{{endpoint_status_label}}">
+                            [{{endpoint_status_label}}]
+                        </span>
+                    </span>
                 </label>
 
                 <div class="endpoint__content">
@@ -463,7 +465,9 @@
             </div>
         {% endfor %}
 
-        <div class="tests__summary">
+        {% set final_status = "passed" if not session.failed else "failed" %}
+
+        <div class="tests__summary tests__summary--{{final_status}}">
             <h3>Tests Summary</h3>
             <div class="tests__summaryResults">
                 <span>PASSED: {{session.successes}}</span>

@@ -6,6 +6,10 @@ class Session:
         self.successes = 0
         self.failures = 0
 
+    @property
+    def failed(self):
+        return self.failures != 0
+
     def start(self):
         self.started_at = datetime.now()
 

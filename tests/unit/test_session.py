@@ -13,6 +13,15 @@ class TestSession:
             assert session.successes == 0
             assert session.failures == 0
 
+    class TestFailed:
+        @pytest.mark.parametrize(
+            "failures, expected", [(0, False), (1, True), (2, True)]
+        )
+        def test_failed_when_there_is_failure(self, failures, expected):
+            session = Session()
+            session.failures = failures
+            assert session.failed == expected
+
     class TestStart:
         @pytest.mark.freeze_time("2020-06-15 18:54:57")
         def test_init_started_at(self):
