@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hero banner on README [#180](https://github.com/scanapi/scanapi/pull/180)
 - Entry point to `scanapi:main` [#172](https://github.com/scanapi/scanapi/pull/172)
 - `--spec-path` option to argument [#172](https://github.com/scanapi/scanapi/pull/172)
+- Improve test results on report [#186](https://github.com/scanapi/scanapi/pull/186)
 
 ### Fixed
 - Duplicated status code row from report [#183](https://github.com/scanapi/scanapi/pull/183)
