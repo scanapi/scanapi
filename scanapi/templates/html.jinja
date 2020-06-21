@@ -162,11 +162,11 @@
         }
 
         .endpoint__response h3,
-        .endpoint__request h3 {
+        .endpoint__request h3,
+        .endpoint__tests h3 {
+        text-transform: uppercase;
         margin: 20px 0;
-        background: #f9f9f9;
         display: inline-block;
-        padding: 10px 12px;
         border-radius: 10px;
         }
 
@@ -214,6 +214,41 @@
         .endpoint__checkbox:checked ~ .endpoint__content {
         height: auto;
         }
+
+        .endpoint__tests {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .endpoint__testcase {
+            display: flex;
+            flex-direction: row;
+            padding: 10px 0;
+        }
+
+        .endpoint__testcase-status {
+            width: 10%;
+        }
+
+        .endpoint__testcase-label {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .endpoint__testcase-failure{
+            padding: 10px 0;
+        }
+
+        .endpoint__testcase-passed {
+        color: green;
+        }
+
+        .endpoint__testcase-failed {
+        color: red;
+        }
+
+
+
         /* END -- ENDPOINT */
 
         /* STATUS */
@@ -222,22 +257,43 @@
         }
 
         .status--GET {
-        color: #28a745;
+        color: #e0bee4;
         }
 
         .status--POST {
-        color: #ffc107;
+        color: #d291b6;
         }
 
         .status--DELETE {
-        color: #dc3545;
+        color: #fec8d8;
         }
 
         .status--PUT {
-        color: #4a90e2;
+        color: #957dad;
+        }
+
+        .status-PATCH {
+        color: #ffdfd3;
         }
 
         /* END -- STATUS */
+
+        /* TESTS SUMMARY */
+        .tests__summary {
+        background: #f9f9f9;
+        padding: 10px 12px;
+        border-radius: 10px;
+        margin: 0 20px;
+        display: flex;
+        flex-direction: column;
+        }
+
+        .tests__summaryResults{
+        margin-bottom: 21px;
+        display: flex;
+        justify-content: space-between;
+        }
+        /* END TESTS SUMMARY */
     </style>
 
     <div class="header">
@@ -254,7 +310,12 @@
             <p class="title__overview">Generated at: {{now}}</p>
         </header>
 
-        {% for response in responses -%} {% set request = response.request %}
+        {% for result in results -%}
+            {% set response = result["response"] %}
+            {% set tests = result["tests_results"] %}
+            {% set status = "passed" if result["no_failure"] else "failed"%}
+            {% set request = response.request %}
+
             <div class="endpoint">
                 <input type="checkbox" class="endpoint__checkbox" id="chck_{{ loop.index | string }}" />
                 <label class="endpoint__title" for="chck_{{ loop.index | string }}">
@@ -376,9 +437,40 @@
                             </details>
                         {% endif %}
                     </section>
+
+                    <section class="endpoint__tests">
+                        <h3>Tests</h3>
+                        {% for test in tests -%}
+                            {% set status_label = "passed" if test.passed else "failed" %}
+                            <div class="endpoint__testcase">
+                                <div class="endpoint__testcase-status">
+                                    <strong class="endpoint__testcase-{{status_label}}">
+                                        [{{status_label|upper}}]
+                                    </strong>
+                                </div>
+                                <div class="endpoint__testcase-label">
+                                    <span>
+                                        {{test.name}}
+                                    </span>
+                                    {% if test.failure %}
+                                        <span class="endpoint__testcase-failure">{{test.failure}} is false</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    <section>
                 </div>
             </div>
         {% endfor %}
+
+        <div class="tests__summary">
+            <h3>Tests Summary</h3>
+            <div class="tests__summaryResults">
+                <span>PASSED: {{session.successes}}</span>
+                <span>FAILURES: {{session.failures}}</span>
+                <span>Total Time: {{session.elapsed_time()}}</span>
+            </div>
+        </div>
 
         <a class="github" href="https://github.com/scanapi/scanapi"><img class="github__svg" src="https://scanapi.s3.us-east-2.amazonaws.com/assets/images/github/github-logo.svg" /></a>
 </body>

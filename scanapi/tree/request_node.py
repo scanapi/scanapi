@@ -107,11 +107,17 @@ class RequestNode:
             self.spec.get(VARS_KEY, {}), extras={"response": response}, preevaluate=True
         )
 
-        for test in self.tests:
-            test.run()
-
+        tests_results = self._run_tests()
         hide_sensitive_info(response)
-        return response
+
+        return {
+            "response": response,
+            "tests_results": tests_results,
+            "no_failure": all([test_result["passed"] for test_result in tests_results]),
+        }
+
+    def _run_tests(self):
+        return [test.run() for test in self.tests]
 
     def _validate(self):
         validate_keys(

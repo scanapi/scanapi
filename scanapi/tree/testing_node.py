@@ -1,6 +1,7 @@
 import logging
 import requests
 
+from scanapi.session import session
 from scanapi.tree.tree_keys import NAME_KEY, ASSERT_KEY
 from scanapi.utils import validate_keys
 
@@ -34,14 +35,25 @@ class TestingNode:
         return f"{self.request.endpoint.name}::{self.request.name}::{self.name}"
 
     def run(self):
-        passed, error = self.request.endpoint.vars.evaluate_assertion(self.assertion)
-        self._log_result(passed, error)
+        passed, failure = self.request.endpoint.vars.evaluate_assertion(self.assertion)
+        self._process_result(passed)
+        self._log_result(passed, failure)
 
-    def _log_result(self, passed, error):
-        passed = "PASSED" if passed else "FAILED"
-        logger.info("\a [%s] %s", passed, self.full_name)
-        if error:
-            logger.info("\t  %s is false", error)
+        return {"name": self.full_name, "passed": passed, "failure": failure}
+
+    def _process_result(self, passed):
+        if not passed:
+            session.increment_failures()
+            return
+
+        session.increment_successes()
+
+    def _log_result(self, passed, failure):
+        status_label = "PASSED" if passed else "FAILED"
+
+        logger.debug("\a [%s] %s", status_label, self.full_name)
+        if failure:
+            logger.debug("\t  %s is false", failure)
 
     def _validate(self):
         validate_keys(

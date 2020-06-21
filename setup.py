@@ -12,6 +12,7 @@ test_requirements = [
     "codecov >= 2.0.15",
     "pytest >= 5.2.4",
     "pytest-cov >= 2.8.1",
+    "pytest-freezegun >= 0.4.1",
     "pytest-mock >= 1.11.2",
     "requests-mock >= 1.7.0",
 ]

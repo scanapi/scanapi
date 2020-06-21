@@ -49,19 +49,77 @@ class TestTestingNode:
                 "scanapi.evaluators.spec_evaluator.SpecEvaluator.evaluate_assertion"
             )
 
+        @pytest.fixture
+        def mock_increment_successes(self, mocker):
+            return mocker.patch("scanapi.tree.testing_node.session.increment_successes")
+
+        @pytest.fixture
+        def mock_increment_failures(self, mocker):
+            return mocker.patch("scanapi.tree.testing_node.session.increment_failures")
+
         class TestWhenTestPassed:
+            def test_build_result(
+                self, mock_evaluate, testing_node,
+            ):
+                mock_evaluate.return_value = (True, None)
+
+                result = testing_node.run()
+                assert result == {
+                    "name": "foo::bar::status_is_200",
+                    "passed": True,
+                    "failure": None,
+                }
+
+            def test_increment_successes(
+                self,
+                mock_evaluate,
+                mock_increment_successes,
+                mock_increment_failures,
+                testing_node,
+            ):
+                mock_evaluate.return_value = (True, None)
+
+                testing_node.run()
+                assert mock_increment_successes.call_count == 1
+                assert not mock_increment_failures.called
+
             def test_logs_test_results(self, mock_evaluate, caplog, testing_node):
                 mock_evaluate.return_value = (True, None)
 
-                with caplog.at_level(logging.INFO):
+                with caplog.at_level(logging.DEBUG):
                     testing_node.run()
                 assert "\x07 [PASSED] foo::bar::status_is_200" in caplog.text
 
         class TestWhenTestFailed:
+            def test_build_result(
+                self, mock_evaluate, testing_node,
+            ):
+                mock_evaluate.return_value = (False, "response.status_code == 200")
+
+                result = testing_node.run()
+                assert result == {
+                    "name": "foo::bar::status_is_200",
+                    "passed": False,
+                    "failure": "response.status_code == 200",
+                }
+
+            def test_increment_failures(
+                self,
+                mock_evaluate,
+                mock_increment_successes,
+                mock_increment_failures,
+                testing_node,
+            ):
+                mock_evaluate.return_value = (False, "response.status_code == 200")
+
+                testing_node.run()
+                assert mock_increment_failures.call_count == 1
+                assert not mock_increment_successes.called
+
             def test_logs_test_results(self, mock_evaluate, caplog, testing_node):
                 mock_evaluate.return_value = (False, "response.status_code == 200")
 
-                with caplog.at_level(logging.INFO):
+                with caplog.at_level(logging.DEBUG):
                     testing_node.run()
 
                 assert "\x07 [FAILED] foo::bar::status_is_200" in caplog.text

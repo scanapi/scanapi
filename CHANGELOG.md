@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add new HTML template [#157](https://github.com/scanapi/scanapi/pull/157)
 - Tests key [#152](https://github.com/scanapi/scanapi/pull/152)
 - `-h` alias for `--help` option [#172](https://github.com/scanapi/scanapi/pull/172)
+- Test results to report [#177](https://github.com/scanapi/scanapi/pull/177)
 
 ### Changed
 - Unified keys validation in a single method [#151](https://github.com/scanapi/scanapi/pull/151)
