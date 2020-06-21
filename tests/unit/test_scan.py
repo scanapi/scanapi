@@ -56,7 +56,11 @@ class TestScan:
             )
             mocker.patch("scanapi.scan.load_config_file", side_effect=file_not_found)
             with caplog.at_level(logging.INFO):
-                scan()
+                with pytest.raises(SystemExit) as excinfo:
+                    scan()
+
+                assert excinfo.type == SystemExit
+                assert excinfo.value.code == 4
 
             assert (
                 "Could not find API spec file: invalid_path/api.yaml. [Errno 2] No such file "
@@ -68,7 +72,11 @@ class TestScan:
             mocker.patch("scanapi.scan.load_config_file", side_effect=empty_config_file)
 
             with caplog.at_level(logging.INFO):
-                scan()
+                with pytest.raises(SystemExit) as excinfo:
+                    scan()
+
+                assert excinfo.type == SystemExit
+                assert excinfo.value.code == 4
 
             assert (
                 "API spec file is empty. File 'valid_path/api.yaml' is empty."
@@ -79,7 +87,11 @@ class TestScan:
         def test_should_log_error(self, mocker, caplog):
             mocker.patch("scanapi.scan.load_config_file", side_effect=yaml_error)
             with caplog.at_level(logging.INFO):
-                scan()
+                with pytest.raises(SystemExit) as excinfo:
+                    scan()
+
+                assert excinfo.type == SystemExit
+                assert excinfo.value.code == 4
 
             assert "error foo" in caplog.text
 
@@ -89,7 +101,11 @@ class TestScan:
                 "scanapi.scan.load_config_file", side_effect=file_format_not_supported
             )
             with caplog.at_level(logging.INFO):
-                scan()
+                with pytest.raises(SystemExit) as excinfo:
+                    scan()
+
+                assert excinfo.type == SystemExit
+                assert excinfo.value.code == 4
 
             assert (
                 "The format .txt is not supported. Supported formats: '.yaml', '.yml', "
@@ -102,7 +118,11 @@ class TestScan:
             mock_load_config_file.return_value = {"api": "blah"}
             mocker.patch("scanapi.scan.EndpointNode.__init__", side_effect=invalid_key)
             with caplog.at_level(logging.INFO):
-                scan()
+                with pytest.raises(SystemExit) as excinfo:
+                    scan()
+
+                assert excinfo.type == SystemExit
+                assert excinfo.value.code == 4
 
             assert (
                 "Error loading API spec. Invalid key 'foo' at 'endpoint' scope. Available keys "
@@ -118,7 +138,11 @@ class TestScan:
                 "scanapi.scan.EndpointNode.__init__", side_effect=missing_mandatory_key
             )
             with caplog.at_level(logging.INFO):
-                scan()
+                with pytest.raises(SystemExit) as excinfo:
+                    scan()
+
+                assert excinfo.type == SystemExit
+                assert excinfo.value.code == 4
 
             assert (
                 "Error loading API spec. Missing 'bar', 'foo' key(s) at 'endpoint' scope"
@@ -130,7 +154,11 @@ class TestScan:
             mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
 
             with caplog.at_level(logging.INFO):
-                scan()
+                with pytest.raises(SystemExit) as excinfo:
+                    scan()
+
+                assert excinfo.type == SystemExit
+                assert excinfo.value.code == 4
 
             assert (
                 "Error loading API spec. Missing 'api' key(s) at 'root' scope"
@@ -147,7 +175,11 @@ class TestScan:
             mock_endpoint_run.return_value = [response]
             mock_write_report = mocker.patch("scanapi.scan.write_report")
 
-            scan()
+            with pytest.raises(SystemExit) as excinfo:
+                scan()
+
+            assert excinfo.type == SystemExit
+            assert excinfo.value.code == 0
 
             mock_endpoint_init.assert_called_once_with({"endpoints": []})
             assert mock_endpoint_run.called

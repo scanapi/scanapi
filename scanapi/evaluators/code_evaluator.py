@@ -34,7 +34,7 @@ class CodeEvaluator:
 
             return cls._evaluate_sequence(sequence, match, code, response)
         except Exception as e:
-            raise InvalidPythonCodeError(str(e))
+            raise InvalidPythonCodeError(str(e), code)
 
     @classmethod
     def _assert_code(cls, code, response):

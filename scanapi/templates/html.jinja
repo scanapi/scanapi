@@ -196,15 +196,23 @@
         }
 
         .endpoint__status {
-        padding-left: 5px;
+        margin-left: 10px;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 100px;
+        text-align: center;
+        color: white;
+        font-size: 14px;
+        line-height: 20px;
         }
 
         .endpoint__status--P {
-        color: green;
+        background-color: green;
         }
 
         .endpoint__status--F {
-        color: red;
+        background-color: red;
         }
 
         .endpoint__titleInfo::after {
@@ -232,34 +240,34 @@
         }
 
         .endpoint__tests {
-            display: flex;
-            flex-direction: column;
+        display: flex;
+        flex-direction: column;
         }
 
         .endpoint__testcase {
-            display: flex;
-            flex-direction: row;
-            padding: 10px 0;
+        display: flex;
+        flex-direction: row;
+        padding: 10px 0;
         }
 
-        .endpoint__testcase-status {
-            width: 10%;
+        .endpoint__testcaseStatus {
+        width: 10%;
         }
 
-        .endpoint__testcase-label {
-            display: flex;
-            flex-direction: column;
+        .endpoint__testcaseLabel {
+        display: flex;
+        flex-direction: column;
         }
 
-        .endpoint__testcase-failure{
-            padding: 10px 0;
+        .endpoint__testcase-failure {
+        padding: 10px 0;
         }
 
         .endpoint__testcase-passed {
         color: green;
         }
 
-        .endpoint__testcase-failed {
+        .endpoint__testcase-failed, .endpoint__testcase-error {
         color: red;
         }
 
@@ -273,8 +281,8 @@
         display: flex;
         flex-direction: column;
         border-radius: 10px;
-        border-style: outset;
-        border-width: thin;
+        border: solid;
+        border-width: 1px;
         }
 
         .tests__summary--passed {
@@ -283,6 +291,11 @@
 
         .tests__summary--failed {
         border-color: red;
+        }
+
+        .tests__summaryTitle {
+        text-align: center;
+        margin-bottom: 30px;
         }
 
         .tests__summaryResults{
@@ -307,6 +320,8 @@
             <p class="title__overview">Generated at: {{now}}</p>
         </header>
 
+        <!-- summary_box -->
+
         {% for result in results -%}
             {% set response = result["response"] %}
             {% set tests = result["tests_results"] %}
@@ -320,7 +335,7 @@
                     <span class="endpoint__titleInfo">
                         {{ response.status_code }}
                         <span class="endpoint__status endpoint__status--{{endpoint_status_label}}">
-                            [{{endpoint_status_label}}]
+                            {{endpoint_status_label}}
                         </span>
                     </span>
                 </label>
@@ -443,19 +458,21 @@
                     <section class="endpoint__tests">
                         <h3>Tests</h3>
                         {% for test in tests -%}
-                            {% set status_label = "passed" if test.passed else "failed" %}
                             <div class="endpoint__testcase">
-                                <div class="endpoint__testcase-status">
-                                    <strong class="endpoint__testcase-{{status_label}}">
-                                        [{{status_label|upper}}]
+                                <div class="endpoint__testcaseStatus">
+                                    <strong class="endpoint__testcase-{{test.status}}">
+                                        [{{test.status|upper}}]
                                     </strong>
                                 </div>
-                                <div class="endpoint__testcase-label">
+                                <div class="endpoint__testcaseLabel">
                                     <span>
                                         {{test.name}}
                                     </span>
                                     {% if test.failure %}
                                         <span class="endpoint__testcase-failure">{{test.failure}} is false</span>
+                                    {% endif %}
+                                    {% if test.error %}
+                                        <span class="endpoint__testcase-failure">{{test.error}}</span>
                                     {% endif %}
                                 </div>
                             </div>
@@ -465,14 +482,16 @@
             </div>
         {% endfor %}
 
-        {% set final_status = "passed" if not session.failed else "failed" %}
+        {% set final_status = "passed" if session.succeed else "failed" %}
+        {% set total_time = session.elapsed_time()|string %}
 
         <div class="tests__summary tests__summary--{{final_status}}">
-            <h3>Tests Summary</h3>
+            <h3 class="tests__summaryTitle">Tests Summary</h3>
             <div class="tests__summaryResults">
-                <span>PASSED: {{session.successes}}</span>
-                <span>FAILURES: {{session.failures}}</span>
-                <span>Total Time: {{session.elapsed_time()}}</span>
+                <span><strong>PASSED:</strong> {{session.successes}}</span>
+                <span><strong>FAILURES:</strong> {{session.failures}}</span>
+                <span><strong>ERRORS:</strong> {{session.errors}}</span>
+                <span><strong>Total Time:</strong> {{ total_time.split(".")[0] }}</span>
             </div>
         </div>
 

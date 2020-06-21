@@ -1,8 +1,9 @@
 from itertools import chain
 import logging
 
-
 from scanapi.evaluators import SpecEvaluator
+from scanapi.exit_code import ExitCode
+from scanapi.session import session
 from scanapi.tree.tree_keys import (
     ENDPOINTS_KEY,
     HEADERS_KEY,
@@ -83,9 +84,10 @@ class EndpointNode:
                 yield request.run()
             except Exception as e:
                 error_message = (
-                    f"Error to make request `{request.full_url_path}`. {str(e)}"
+                    f"\nError to make request `{request.full_url_path}`. \n{str(e)}\n"
                 )
                 logger.error(error_message)
+                session.exit_code = ExitCode.REQUEST_ERROR
                 continue
 
     def _validate(self):

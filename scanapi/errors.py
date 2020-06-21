@@ -40,8 +40,12 @@ class MissingMandatoryKeyError(MalformedSpecError):
 class InvalidPythonCodeError(MalformedSpecError):
     """Raised when python code defined in the API spec raises an error"""
 
-    def __init__(self, error_message, *args):
-        error_message = f"Invalid Python code defined in the API spec: {error_message}"
+    def __init__(self, error_message, code, *args):
+        error_message = (
+            f"Invalid Python code defined in the API spec. "
+            f"Exception: {error_message}. "
+            f"Code: {code}."
+        )
         super(InvalidPythonCodeError, self).__init__(error_message, *args)
 
 

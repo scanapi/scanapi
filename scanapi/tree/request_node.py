@@ -3,6 +3,7 @@ import requests
 
 from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.evaluators.spec_evaluator import SpecEvaluator
+from scanapi.test_status import TestStatus
 from scanapi.tree.testing_node import TestingNode
 from scanapi.tree.tree_keys import (
     BODY_KEY,
@@ -113,7 +114,12 @@ class RequestNode:
         return {
             "response": response,
             "tests_results": tests_results,
-            "no_failure": all([test_result["passed"] for test_result in tests_results]),
+            "no_failure": all(
+                [
+                    test_result["status"] == TestStatus.PASSED
+                    for test_result in tests_results
+                ]
+            ),
         }
 
     def _run_tests(self):
