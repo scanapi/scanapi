@@ -66,8 +66,9 @@ class TestTestingNode:
                 result = testing_node.run()
                 assert result == {
                     "name": "foo::bar::status_is_200",
-                    "passed": True,
+                    "status": "passed",
                     "failure": None,
+                    "error": None,
                 }
 
             def test_increment_successes(
@@ -99,8 +100,9 @@ class TestTestingNode:
                 result = testing_node.run()
                 assert result == {
                     "name": "foo::bar::status_is_200",
-                    "passed": False,
+                    "status": "failed",
                     "failure": "response.status_code == 200",
+                    "error": None,
                 }
 
             def test_increment_failures(

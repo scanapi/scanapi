@@ -68,8 +68,9 @@ class TestCodeEvaluator:
 
                         assert (
                             str(excinfo.value)
-                            == "Invalid Python code defined in the API spec: 'NoneType' object has "
-                            "no attribute 'url'"
+                            == "Invalid Python code defined in the API spec. "
+                            "Exception: 'NoneType' object has no attribute 'url'. "
+                            "Code: response.url == 'abc'."
                         )
 
             class TestWhenItIsNotATestCase:
@@ -109,5 +110,6 @@ class TestCodeEvaluator:
 
                         assert (
                             str(excinfo.value)
-                            == "Invalid Python code defined in the API spec: division by zero"
+                            == "Invalid Python code defined in the API spec. "
+                            "Exception: division by zero. Code: 1/0."
                         )

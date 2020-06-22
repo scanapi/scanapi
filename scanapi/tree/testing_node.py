@@ -1,6 +1,7 @@
 import logging
 import requests
 
+from scanapi.test_status import TestStatus
 from scanapi.session import session
 from scanapi.tree.tree_keys import NAME_KEY, ASSERT_KEY
 from scanapi.utils import validate_keys
@@ -35,23 +36,42 @@ class TestingNode:
         return f"{self.request.endpoint.name}::{self.request.name}::{self.name}"
 
     def run(self):
-        passed, failure = self.request.endpoint.vars.evaluate_assertion(self.assertion)
-        self._process_result(passed)
-        self._log_result(passed, failure)
+        try:
+            passed, failure = self.request.endpoint.vars.evaluate_assertion(
+                self.assertion
+            )
 
-        return {"name": self.full_name, "passed": passed, "failure": failure}
+            status = TestStatus.PASSED if passed else TestStatus.FAILED
+            error = None
+        except Exception as e:
+            status = TestStatus.ERROR
+            failure = None
+            error = str(e)
 
-    def _process_result(self, passed):
-        if not passed:
+        self._process_result(status)
+        self._log_result(status, failure)
+
+        return {
+            "name": self.full_name,
+            "status": status,
+            "failure": failure,
+            "error": error,
+        }
+
+    def _process_result(self, status):
+        if status == TestStatus.ERROR:
+            session.increment_errors()
+            return
+
+        if status == TestStatus.FAILED:
             session.increment_failures()
             return
 
-        session.increment_successes()
+        if status == TestStatus.PASSED:
+            session.increment_successes()
 
-    def _log_result(self, passed, failure):
-        status_label = "PASSED" if passed else "FAILED"
-
-        logger.debug("\a [%s] %s", status_label, self.full_name)
+    def _log_result(self, status, failure):
+        logger.debug("\a [%s] %s", status.upper(), self.full_name)
         if failure:
             logger.debug("\t  %s is false", failure)
 

@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tests key [#152](https://github.com/scanapi/scanapi/pull/152)
 - `-h` alias for `--help` option [#172](https://github.com/scanapi/scanapi/pull/172)
 - Test results to report [#177](https://github.com/scanapi/scanapi/pull/177)
+- Add test errors to the report [#187](https://github.com/scanapi/scanapi/pull/187)
 
 ### Changed
 - Unified keys validation in a single method [#151](https://github.com/scanapi/scanapi/pull/151)
@@ -20,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Entry point to `scanapi:main` [#172](https://github.com/scanapi/scanapi/pull/172)
 - `--spec-path` option to argument [#172](https://github.com/scanapi/scanapi/pull/172)
 - Improve test results on report [#186](https://github.com/scanapi/scanapi/pull/186)
+- Improve Error Message for Invalid Python code error [#187](https://github.com/scanapi/scanapi/pull/187)
+- Handle properly exit errors [#187](https://github.com/scanapi/scanapi/pull/187)
 
 ### Fixed
 - Duplicated status code row from report [#183](https://github.com/scanapi/scanapi/pull/183)

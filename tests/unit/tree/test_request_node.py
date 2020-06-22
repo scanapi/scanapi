@@ -254,8 +254,8 @@ class TestRequestNode:
             }
 
         test_data = [
-            ([{"passed": True}, {"passed": False}], False,),
-            ([{"passed": True}, {"passed": True}], True,),
+            ([{"status": "passed"}, {"status": "failed"}], False,),
+            ([{"status": "passed"}, {"status": "passed"}], True,),
         ]
 
         @pytest.mark.parametrize("test_results, expected_no_failure", test_data)
