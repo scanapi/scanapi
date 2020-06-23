@@ -3,12 +3,10 @@ import requests
 
 from scanapi.errors import InvalidKeyError, MissingMandatoryKeyError
 from scanapi.utils import (
-    _hide,
-    _override_info,
-    hide_sensitive_info,
     join_urls,
     validate_keys,
 )
+from scanapi.hide_utils import hide_sensitive_info, _hide, _override_info
 
 
 @pytest.fixture
@@ -104,7 +102,7 @@ class TestValidateKeys:
 class TestHideSensitiveInfo:
     @pytest.fixture
     def mock__hide(self, mocker):
-        return mocker.patch("scanapi.utils._hide")
+        return mocker.patch("scanapi.hide_utils._hide")
 
     test_data = [
         ({}, {}, {}),
@@ -124,7 +122,7 @@ class TestHideSensitiveInfo:
         response,
         mock__hide,
     ):
-        mocker.patch("scanapi.utils.settings", settings)
+        mocker.patch("scanapi.hide_utils.settings", settings)
         hide_sensitive_info(response)
 
         calls = [
@@ -138,7 +136,7 @@ class TestHideSensitiveInfo:
 class TestHide:
     @pytest.fixture
     def mock__override_info(self, mocker):
-        return mocker.patch("scanapi.utils._override_info")
+        return mocker.patch("scanapi.hide_utils._override_info")
 
     test_data = [
         ({}, []),
@@ -174,16 +172,13 @@ class TestOverrideInfo:
         )
         http_attr = "url"
         secret_field = secret_key
-        import pdb
-
-        pdb.set_trace()
 
         _override_info(response, http_attr, secret_field)
 
         assert response.url == "http://test.com/users/SENSITIVE_INFORMATION/details"
 
     def test_when_http_attr_is_not_allowed(self, response, mocker):
-        mocker.patch("scanapi.utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
+        mocker.patch("scanapi.hide_utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
         response.headers = {"abc": "123"}
         http_attr = "headers"
         secret_field = "abc"
@@ -193,7 +188,7 @@ class TestOverrideInfo:
         assert response.headers["abc"] == "123"
 
     def test_when_http_attr_does_not_have_the_field(self, response, mocker):
-        mocker.patch("scanapi.utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
+        mocker.patch("scanapi.hide_utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
         response.headers = {"abc": "123"}
         http_attr = "headers"
         secret_field = "def"
