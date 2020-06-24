@@ -15,7 +15,8 @@ from scanapi.tree.tree_keys import (
     TESTS_KEY,
     VARS_KEY,
 )
-from scanapi.utils import join_urls, hide_sensitive_info, validate_keys
+from scanapi.utils import join_urls, validate_keys
+from scanapi.hide_utils import hide_sensitive_info
 
 logger = logging.getLogger(__name__)
 
