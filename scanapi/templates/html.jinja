@@ -483,7 +483,6 @@
         {% endfor %}
 
         {% set final_status = "passed" if session.succeed else "failed" %}
-        {% set total_time = session.elapsed_time()|string %}
 
         <div class="tests__summary tests__summary--{{final_status}}">
             <h3 class="tests__summaryTitle">Tests Summary</h3>
@@ -491,7 +490,7 @@
                 <span><strong>PASSED:</strong> {{session.successes}}</span>
                 <span><strong>FAILURES:</strong> {{session.failures}}</span>
                 <span><strong>ERRORS:</strong> {{session.errors}}</span>
-                <span><strong>Total Time:</strong> {{ total_time.split(".")[0] }}</span>
+                <span><strong>Total Time:</strong> {{ session.elapsed_time() }}</span>
             </div>
         </div>
 

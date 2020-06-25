@@ -25,7 +25,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
     "--template",
     "template",
     type=click.Path(exists=True),
-    help="Custom report template path.",
+    help="Custom report template path. The template must be a .jinja file.",
 )
 @click.option(
     "-ll",
