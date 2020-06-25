@@ -22,7 +22,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="scanapi",
-    version="1.0.1",
+    version="1.0.2",
     author="Camila Maia",
     author_email="cmaiacd@gmail.com",
     description="Automated Testing and Documentation for your REST API",
