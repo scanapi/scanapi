@@ -82,17 +82,19 @@ You can find complete examples at [scanapi-examples][scanapi-examples]!
 
 ### ScanAPI CLI
 
-```bash
+```
 $ scanapi --help
 Usage: scanapi [OPTIONS] [SPEC_PATH]
 
-  Automated Testing and Documentation for your REST API.
+  Automated Testing and Documentation for your REST API. SPEC_PATH argument
+  is the API specification file path.
 
 Options:
-  -o, --output-path PATH
-  -c, --config-path PATH
-  -t, --template PATH
+  -o, --output-path PATH          Report output path.
+  -c, --config-path PATH          Configuration file path.
+  -t, --template PATH             Custom report template path.
   -ll, --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]
+                                  Set the debug logging level for the program.
   -h, --help                      Show this message and exit.
 ```
 

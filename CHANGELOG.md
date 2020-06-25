@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test results to report [#177](https://github.com/scanapi/scanapi/pull/177)
 - Add test errors to the report [#187](https://github.com/scanapi/scanapi/pull/187)
 - Hides sensitive info in URL [#185](https://github.com/scanapi/scanapi/pull/185)
+- CLI options explanation [#189](https://github.com/scanapi/scanapi/pull/189)
 
 ### Changed
 - Unified keys validation in a single method [#151](https://github.com/scanapi/scanapi/pull/151)
