@@ -82,17 +82,17 @@ report results.
 
 <p align="center">
   <img
-    src="https://github.com/scanapi/scanapi/blob/master/images/report-print-closed.png"
+    src="https://raw.githubusercontent.com/scanapi/scanapi/master/images/report-print-closed.png"
     width="700",
     alt="An overview screenshot of the report."
   >
   <img
-    src="https://github.com/scanapi/scanapi/blob/master/images/report-print-request.png"
+    src="https://raw.githubusercontent.com/scanapi/scanapi/master/images/report-print-request.png"
     width="700"
     alt="A screenshot of the report showing the request details."
   >
   <img
-    src="https://github.com/scanapi/scanapi/blob/master/images/report-print-response.png"
+    src="https://raw.githubusercontent.com/scanapi/scanapi/master/images/report-print-response.png"
     width="700",
     alt="A screenshot of the report showing the response and test details"
   >
