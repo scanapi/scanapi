@@ -42,6 +42,5 @@ setuptools.setup(
         scanapi = scanapi:main
     """,
     zip_safe=False,
-    include_package_data=True,
-    package_data={"scanapi": ["scanapi/templates/*"]},
+    package_data={"scanapi": ["scanapi/templates/html.jinja"]},
 )
