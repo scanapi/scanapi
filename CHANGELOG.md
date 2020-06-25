@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve test results on report [#186](https://github.com/scanapi/scanapi/pull/186)
 - Improve Error Message for Invalid Python code error [#187](https://github.com/scanapi/scanapi/pull/187)
 - Handle properly exit errors [#187](https://github.com/scanapi/scanapi/pull/187)
+- Update README.md [#191](https://github.com/scanapi/scanapi/pull/191)
 
 ### Fixed
 - Duplicated status code row from report [#183](https://github.com/scanapi/scanapi/pull/183)

@@ -10,15 +10,19 @@
   <a href="https://badge.fury.io/py/scanapi">
     <img alt="PyPI version" src="https://badge.fury.io/py/scanapi.svg">
   </a>
-  <a href="https://gitter.im/scanapi/community">
-    <img alt="Gitter chat" src="https://badges.gitter.im/Join%20Chat.svg">
-  </a>
 </p>
 
 A library for **your API** that provides:
 
 - Automated Integration Testing
 - Automated Live Documentation
+
+Given an API specification, written in YAML/JSON format, ScanAPI hits the specified
+endpoints, runs the test cases, and generates a detailed report of this execution - that can be
+also used as the API documentation itself.
+
+With almost none Python knowledge, the user can define endpoints to be hit, the expected behaviors
+for each response, and, as a result, receives a full real-time diagnostic of the API!
 
 ## Contents
 
@@ -51,32 +55,50 @@ $ pip install scanapi
 ## Basic Usage
 
 You will need to write the API's specification and save it as an **YAML** or **JSON** file.
+For example:
 
 ```yaml
 api:
   endpoints:
-    - name: scanapi-demo
-      path: http://demo.scanapi.dev/api/
+    - name: scanapi-demo # The API's name of your API
+      path: http://demo.scanapi.dev/api/ # The API's base url
       requests:
-        - name: list_all_devs
-          path: devs/
-          method: get
+        - name: list_all_devs # The name of the fist request
+          path: devs/ # The path of the fist request
+          method: get # The HTTP method of the fist request
+          tests:
+            - name: status_code_is_200 # The name of the first test for this request
+              assert: ${{ response.status_code == 200 }} # The assertion
 ```
 
 And run the scanapi command
 
 ```bash
-$ scanapi -s <file_path>
+$ scanapi <file_path>
 ```
 
-Then, the lib will hit the specified endpoints and generate a `scanapi-report.md` file with the report results
+Then, the lib will hit the specified endpoints and generate a `scanapi-report.html` file with the
+report results.
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/2728804/80041097-ed26dd80-84d1-11ea-9c12-16d4a2a15183.png" width="700">
-  <img src="https://user-images.githubusercontent.com/2728804/80041110-f7e17280-84d1-11ea-8290-2c09eefe6134.png" width="700">
+  <img
+    src="https://github.com/scanapi/scanapi/blob/master/images/report-print-closed.png"
+    width="700",
+    alt="An overview screenshot of the report."
+  >
+  <img
+    src="https://github.com/scanapi/scanapi/blob/master/images/report-print-request.png"
+    width="700"
+    alt="A screenshot of the report showing the request details."
+  >
+  <img
+    src="https://github.com/scanapi/scanapi/blob/master/images/report-print-response.png"
+    width="700",
+    alt="A screenshot of the report showing the response and test details"
+  >
 </p>
 
-You can find complete examples at [scanapi-examples][scanapi-examples]!
+You can find complete examples at [scanapi/examples][scanapi-examples]!
 
 ## Documentation
 
@@ -98,18 +120,21 @@ Options:
   -h, --help                      Show this message and exit.
 ```
 
-### API Specification Keys
+### Syntax - API Specification Keys
 
 | KEY              | Description                                                                                         | Type   | Scopes                            |
 | ---------------- | --------------------------------------------------------------------------------------------------- | ------ | --------------------------------- |
 | api              | It is reserver word that marks the root of the specification and must not appear in any other place | dict   | root                              |
+| assert           | The test assertion                                                                                  | dict   | tests                             |
 | body             | The HTTP body of the request                                                                        | dict   | request                           |
 | endpoints        | It represents a list of API endpoints                                                               | list   | endpoint                          |
 | headers          | The HTTP headers                                                                                    | dict   | endpoint, request                 |
 | method           | The HTTP method of the request (GET, POST, PUT, PATCH or DELETE). If not set, GET will be used      | string | request                           |
-| name             | An identifier                                                                                       | string | endpoint, request                 |
+| name             | An identifier                                                                                       | string | endpoint, request, test           |
+| params           | The HTTP query parameters                                                                           | dict   | endpoint, request                 |
 | path             | A part of the URL path that will be concatenated with possible other paths                          | string | endpoint, request                 |
 | requests         | It represents a list of HTTP requests                                                               | list   | endpoint                          |
+| tests            | It represents a list of tests to run against a HTTP response of a request                           | list   | request                           |
 | vars             | Key used to define your custom variables to be used along the specification                         | dict   | endpoint, request                 |
 | ${custom var}    | A syntax to get the value of the custom variables defined at key `vars`                             | string | request - after `vars` definition |
 | ${ENV_VAR}       | A syntax to get the value of an environment variable                                                | string | endpoint, request                 |
@@ -185,9 +210,15 @@ body:
   newOpportunities: false
 ```
 
+What I can use inside the `${{}}` syntax?
+Basically any python code that **can run inside an `eval` python command**.
+A short list of modules will be already available for you. They are all the imports of
+[this file](https://github.com/scanapi/scanapi/blob/master/scanapi/evaluators/code_evaluator.py#L1).
+
 ### Chaining Requests
 
-Inside the request scope, you can save the results of the resulted response to use in the next requests
+Inside the request scope, you can save the results of the resulted response to use in the next
+requests. For example:
 
 ```yaml
 requests:
@@ -271,17 +302,20 @@ api:
 
 ### Configuration File
 
-If you want to configure the ScanAPI with a file, you can create a `.scanapi.yaml` file in the root of your project
+If you want to configure the ScanAPI with a file, you can create a `.scanapi.yaml` file in the root
+of your project
 
 ```yaml
-spec_path: my_path/api.yaml
-output_path: my_path/scanapi-report.md
-reporter: markdown
+project_name: DemoAPI # This will be rendered in the Report Title.
+spec_path: my_path/api.yaml # API specification file path
+output_path: my_path/my-report.html # Report output path.
+template: my_template.jinja # Custom report template path.
 ```
 
 ### Hiding sensitive information
 
-If you want to omit sensitive information in the report, you can configure it in the `.scanapi.yaml` file.
+If you want to omit sensitive information in the report, you can configure it in the `.scanapi.yaml`
+file.
 
 ```yaml
 report:
@@ -290,7 +324,8 @@ report:
       - Authorization
 ```
 
-The following configuration will print all the headers values for the `Authorization` key for all the request as `<sensitive_information>` in the report.
+The following configuration will print all the headers values for the `Authorization` key for all
+the request as `SENSITIVE_INFORMATION` in the report.
 
 In the same way you can omit sensitive information from response.
 
@@ -300,6 +335,8 @@ report:
     headers:
       - Authorization
 ```
+
+Available attributes to hide: `headers`, `body` and `url`.
 
 ## Contributing
 
@@ -311,4 +348,4 @@ Let's built it together 🚀
 
 [contributing-file]: https://github.com/scanapi/scanapi/blob/master/CONTRIBUTING.md
 [pip-installation]: https://pip.pypa.io/en/stable/installing/
-[scanapi-examples]: https://github.com/scanapi/scanapi-examples
+[scanapi-examples]: https://github.com/scanapi/examples
