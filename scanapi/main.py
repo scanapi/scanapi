@@ -4,11 +4,20 @@ import logging
 from scanapi.scan import scan
 from scanapi.settings import settings
 from scanapi.session import session
+from scanapi.openapi_to_yaml import openapi_to_yaml
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 
-@click.command(context_settings=CONTEXT_SETTINGS)
+@click.group()
+def main():
+    """
+    Automated Testing and Documentation for your REST API.
+    """
+    pass
+
+
+@main.command(context_settings=CONTEXT_SETTINGS)
 @click.argument("spec_path", type=click.Path(exists=True), required=False)
 @click.option(
     "-o", "--output-path", "output_path", type=click.Path(), help="Report output path.",
@@ -35,7 +44,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
     default="INFO",
     help="Set the debug logging level for the program.",
 )
-def main(spec_path, output_path, config_path, template, log_level):
+def run(spec_path, output_path, config_path, template, log_level):
     """
     Automated Testing and Documentation for your REST API.
     SPEC_PATH argument is the API specification file path.
@@ -53,3 +62,13 @@ def main(spec_path, output_path, config_path, template, log_level):
 
     settings.save_preferences(**click_preferences)
     scan()
+
+@main.command(context_settings=CONTEXT_SETTINGS)
+@click.argument("openapi_path", type=click.Path(exists=True), required=True)
+def convert(openapi_path):
+    """
+    Converts a OpenAPI JSON file into a ScanAPI friendly YAML file.
+    OPENAPI_PATH argument is the OpenAPI JSON file path.
+    """
+    openapi_to_yaml(openapi_path)
+    print("File succefully converted and exported as \"api.yaml\"!")
