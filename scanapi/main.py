@@ -1,10 +1,10 @@
 import click
 import logging
 
-from scanapi.scan import scan
-from scanapi.settings import settings
-from scanapi.session import session
 from scanapi.openapi_to_yaml import openapi_to_yaml
+from scanapi.scan import scan
+from scanapi.session import session
+from scanapi.settings import settings
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
@@ -62,6 +62,7 @@ def run(spec_path, output_path, config_path, template, log_level):
 
     settings.save_preferences(**click_preferences)
     scan()
+
 
 @main.command(context_settings=CONTEXT_SETTINGS)
 @click.argument("openapi_path", type=click.Path(exists=True), required=True)
