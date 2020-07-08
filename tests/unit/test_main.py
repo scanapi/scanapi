@@ -1,3 +1,5 @@
+import os
+
 from click.testing import CliRunner
 
 from scanapi.main import run, convert
@@ -27,8 +29,8 @@ class TestMain:
             runner = CliRunner()
             mock_openapi_to_yaml = mocker.patch("scanapi.main.openapi_to_yaml")
             result = runner.invoke(convert, '../data/openapi.json')
+            os.remove('./api.yaml')
 
             assert result.exit_code == 0
 
             mock_openapi_to_yaml.assert_called_once_with('../data/openapi.json')
-
