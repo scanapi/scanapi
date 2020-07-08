@@ -1,0 +1,6 @@
+{
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/v1"
+}
