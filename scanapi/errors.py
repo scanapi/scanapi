@@ -72,3 +72,19 @@ class FileFormatNotSupportedError(Exception):
     def __init__(self, file_format, file_path, *args):
         message = f"The format {file_format} is not supported. Supported formats: '.yaml', '.yml', '.json'. File path: '{file_path}'."
         super(FileFormatNotSupportedError, self).__init__(message, *args)
+
+
+class EmptyOpenAPIFileError(Exception):
+    """Raised when the OpenAPI JSON file is empty"""
+
+    def __init__(self, file_path, *args):
+        message = f"File '{file_path}' is empty."
+        super(EmptyOpenAPIFileError, self).__init__(message, *args)
+
+
+class InvalidOpenAPIFileError(Exception):
+    """Raised when the OpenAPI JSON file is invalid"""
+
+    def __init__(self, file_path, *args):
+        message = f"File '{file_path}' is not a valid OpenAPI JSON spec file."
+        super(InvalidOpenAPIFileError, self).__init__(message, *args)
