@@ -19,11 +19,7 @@ class TestHideSensitiveInfo:
         ({}, {}, {}),
         ({"report": {"abc": "def"}}, {}, {}),
         ({"report": {"hide-request": {"url": ["abc"]}}}, {"url": ["abc"]}, {}),
-        (
-            {"report": {"hide-request": {"headers": ["abc"]}}},
-            {"headers": ["abc"]},
-            {},
-        ),
+        ({"report": {"hide-request": {"headers": ["abc"]}}}, {"headers": ["abc"]}, {},),
         (
             {"report": {"hide-response": {"headers": ["abc"]}}},
             {},
@@ -31,9 +27,7 @@ class TestHideSensitiveInfo:
         ),
     ]
 
-    @pytest.mark.parametrize(
-        "settings, request_settings, response_settings", test_data
-    )
+    @pytest.mark.parametrize("settings, request_settings, response_settings", test_data)
     def test_calls__hide(
         self,
         settings,
@@ -88,16 +82,15 @@ class TestOverrideInfo:
 
     def test_overrides_sensitive_info_url(self, response):
         secret_key = "129e8cb2-d19c-51ad-9921-cea329bed7fa"
-        response.url = f"http://test.com/users/129e8cb2-d19c-51ad-9921-cea329bed7fa/details"
+        response.url = (
+            f"http://test.com/users/129e8cb2-d19c-51ad-9921-cea329bed7fa/details"
+        )
         http_attr = "url"
         secret_field = secret_key
 
         _override_info(response, http_attr, secret_field)
 
-        assert (
-            response.url
-            == "http://test.com/users/SENSITIVE_INFORMATION/details"
-        )
+        assert response.url == "http://test.com/users/SENSITIVE_INFORMATION/details"
 
     def test_when_http_attr_is_not_allowed(self, response, mocker):
         mocker.patch("scanapi.hide_utils.ALLOWED_ATTRS_TO_HIDE", ["body"])

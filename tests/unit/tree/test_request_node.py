@@ -7,9 +7,7 @@ from scanapi.tree import EndpointNode, RequestNode
 class TestRequestNode:
     @pytest.fixture
     def mock_evaluate(self, mocker):
-        mock_func = mocker.patch(
-            "scanapi.tree.request_node.SpecEvaluator.evaluate"
-        )
+        mock_func = mocker.patch("scanapi.tree.request_node.SpecEvaluator.evaluate")
         mock_func.return_value = ""
 
         return mock_func
@@ -25,13 +23,10 @@ class TestRequestNode:
         def test_missing_required_keys(self):
             with pytest.raises(MissingMandatoryKeyError) as excinfo:
                 request = RequestNode(
-                    spec={},
-                    endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+                    spec={}, endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
                 )
 
-            assert (
-                str(excinfo.value) == "Missing 'name' key(s) at 'request' scope"
-            )
+            assert str(excinfo.value) == "Missing 'name' key(s) at 'request' scope"
 
     class TestHTTPMethod:
         def test_when_request_has_method(self):
@@ -83,9 +78,7 @@ class TestRequestNode:
             path = "http://foo.com"
             request = RequestNode(
                 {"name": "foo", "path": path},
-                endpoint=EndpointNode(
-                    {"name": "foo", "requests": [{}], "path": ""}
-                ),
+                endpoint=EndpointNode({"name": "foo", "requests": [{}], "path": ""}),
             )
             assert request.full_url_path == path
 
@@ -94,27 +87,21 @@ class TestRequestNode:
             endpoint = EndpointNode(
                 {"name": "foo", "requests": [{}], "path": endpoint_path}
             )
-            request = RequestNode(
-                {"path": "/foo", "name": "foo"}, endpoint=endpoint
-            )
+            request = RequestNode({"path": "/foo", "name": "foo"}, endpoint=endpoint)
             assert request.full_url_path == f"http://foo.com/api/foo"
 
         def test_with_trailing_slashes(self):
             endpoint = EndpointNode(
                 {"name": "foo", "requests": [{}], "path": "http://foo.com/"}
             )
-            request = RequestNode(
-                {"name": "foo", "path": "/foo/"}, endpoint=endpoint
-            )
+            request = RequestNode({"name": "foo", "path": "/foo/"}, endpoint=endpoint)
             assert request.full_url_path == "http://foo.com/foo/"
 
         def test_calls_evaluate(self, mocker, mock_evaluate):
             endpoint = EndpointNode(
                 {"name": "foo", "requests": [{}], "path": "http://foo.com/"}
             )
-            request = RequestNode(
-                {"path": "/foo/", "name": "foo"}, endpoint=endpoint
-            )
+            request = RequestNode({"path": "/foo/", "name": "foo"}, endpoint=endpoint)
             request.full_url_path
             calls = [mocker.call("http://foo.com/"), mocker.call("/foo/")]
 
@@ -135,11 +122,7 @@ class TestRequestNode:
             request = RequestNode(
                 {"headers": headers, "path": "http://foo.com", "name": "foo"},
                 endpoint=EndpointNode(
-                    {
-                        "headers": endpoint_headers,
-                        "name": "foo",
-                        "requests": [{}],
-                    }
+                    {"headers": endpoint_headers, "name": "foo", "requests": [{}],}
                 ),
             )
             assert request.headers == {"abc": "def", "xxx": "www"}
@@ -150,11 +133,7 @@ class TestRequestNode:
             request = RequestNode(
                 {"headers": headers, "path": "http://foo.com", "name": "foo"},
                 endpoint=EndpointNode(
-                    {
-                        "headers": endpoint_headers,
-                        "name": "foo",
-                        "requests": [{}],
-                    }
+                    {"headers": endpoint_headers, "name": "foo", "requests": [{}],}
                 ),
             )
             assert request.headers == {"abc": "def", "xxx": "www"}
@@ -165,11 +144,7 @@ class TestRequestNode:
             )
 
             request = RequestNode(
-                {
-                    "headers": {"ghi": "jkl"},
-                    "path": "http://foo.com",
-                    "name": "foo",
-                },
+                {"headers": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo",},
                 endpoint=endpoint,
             )
             request.headers
@@ -214,11 +189,7 @@ class TestRequestNode:
             )
 
             request = RequestNode(
-                {
-                    "params": {"ghi": "jkl"},
-                    "path": "http://foo.com",
-                    "name": "foo",
-                },
+                {"params": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo",},
                 endpoint=endpoint,
             )
             request.params
@@ -236,22 +207,14 @@ class TestRequestNode:
 
         def test_when_request_has_no_body(self):
             request = RequestNode(
-                {
-                    "body": {"abc": "def"},
-                    "path": "http://foo.com",
-                    "name": "foo",
-                },
+                {"body": {"abc": "def"}, "path": "http://foo.com", "name": "foo",},
                 endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
             )
             assert request.body == {"abc": "def"}
 
         def test_calls_evaluate(self, mocker, mock_evaluate):
             request = RequestNode(
-                {
-                    "body": {"ghi": "jkl"},
-                    "path": "http://foo.com",
-                    "name": "foo",
-                },
+                {"body": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo",},
                 endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
             )
             request.body
@@ -266,9 +229,7 @@ class TestRequestNode:
 
         @pytest.fixture
         def mock_run_tests(self, mocker):
-            return mocker.patch(
-                "scanapi.tree.request_node.RequestNode._run_tests"
-            )
+            return mocker.patch("scanapi.tree.request_node.RequestNode._run_tests")
 
         def test_calls_request(self, mock_request):
             request = RequestNode(
@@ -299,11 +260,7 @@ class TestRequestNode:
 
         @pytest.mark.parametrize("test_results, expected_no_failure", test_data)
         def test_build_result(
-            self,
-            test_results,
-            expected_no_failure,
-            mock_request,
-            mock_run_tests,
+            self, test_results, expected_no_failure, mock_request, mock_run_tests,
         ):
             mock_run_tests.return_value = test_results
             request = RequestNode(
