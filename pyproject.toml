@@ -8,7 +8,7 @@ readme = "README.md"
 
 repository = "https://github.com/scanapi/scanapi"
 homepage = "https://scanapi.dev/"
-keywords = ["python", "scanapi", "tests", "end2end", "endtoend", "integrated tests", "json", "apis", "api rest"]
+keywords = ["python", "scanapi", "tests", "end2end", "endtoend", "integration tests", "json", "apis", "api rest"]
 
 [tool.poetry.dependencies]
 python = "3.6"
