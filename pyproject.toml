@@ -1,3 +1,32 @@
+[tool.poetry]
+name = "scanapi"
+version = "1.0.4"
+description = "Automated Testing and Documentation for your REST API
+authors = ["Camila Maia <cmaiacd@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+repository = "https://github.com/scanapi/scanapi"
+homepage = "https://scanapi.dev/"
+keywords = ["python", "scanapi", "tests", "end2end", "endtoend", "integrated tests", "json", "apis", "api rest"]
+
+
+[tool.poetry.dependencies]
+python = "3.6"
+click = "7.1.2"
+curlify = "2.2.1"
+jinja2 = "2.11.2"
+pyyaml = "5.3.1"
+requests = "2.24.0"
+
+[tool.poetry.dev-dependencies]
+codecov = "2.1.7"
+pytest = "5.4.3"
+pytest-cov = "2.10.0"
+pytest-freezegun = "0.4.1"
+pytest-mock = "3.2.0"
+requests-mock = "1.8.0"
+
 [build-system]
-requires = ["setuptools >= 46.1.3", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
