@@ -20,7 +20,7 @@ def main():
 @main.command(context_settings=CONTEXT_SETTINGS)
 @click.argument("spec_path", type=click.Path(exists=True), required=False)
 @click.option(
-    "-o", "--output-path", "output_path", type=click.Path(), help="Report output path.",
+    "-o", "--output-path", "output_path", type=click.Path(), help="Report output path."
 )
 @click.option(
     "-c",
@@ -72,4 +72,4 @@ def convert(openapi_path):
     OPENAPI_PATH argument is the OpenAPI JSON file path.
     """
     openapi_to_yaml(openapi_path)
-    print("File succefully converted and exported as \"api.yaml\"!")
+    print('File succefully converted and exported as "api.yaml"!')
