@@ -11,7 +11,11 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 @click.command(context_settings=CONTEXT_SETTINGS)
 @click.argument("spec_path", type=click.Path(exists=True), required=False)
 @click.option(
-    "-o", "--output-path", "output_path", type=click.Path(), help="Report output path.",
+    "-o",
+    "--output-path",
+    "output_path",
+    type=click.Path(),
+    help="Report output path.",
 )
 @click.option(
     "-c",

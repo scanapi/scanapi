@@ -27,7 +27,9 @@ class Settings(dict):
         self.update(**user_config)
 
     def save_click_preferences(self, **preferences):
-        cleaned_preferences = {k: v for k, v in preferences.items() if v is not None}
+        cleaned_preferences = {
+            k: v for k, v in preferences.items() if v is not None
+        }
         self.update(**cleaned_preferences)
 
     def save_preferences(self, **click_preferences):

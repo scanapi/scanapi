@@ -33,7 +33,13 @@ class TestStringEvaluator:
 
     class TestEvaluateEnvVar:
         class TestWhenDoesNotMatchThePattern:
-            test_data = ["no env var", "${var}", "${MyVar}", "${{var}}", "${{VAR}}"]
+            test_data = [
+                "no env var",
+                "${var}",
+                "${MyVar}",
+                "${{var}}",
+                "${{VAR}}",
+            ]
 
             @pytest.mark.parametrize("sequence", test_data)
             def test_should_return_sequence(self, sequence):
@@ -43,12 +49,17 @@ class TestStringEvaluator:
             class TestWhenEnvVarIsSetProperly:
                 @pytest.fixture(autouse=True)
                 def base_url_env(self):
-                    os.environ["BASE_URL"] = "https://jsonplaceholder.typicode.com"
+                    os.environ[
+                        "BASE_URL"
+                    ] = "https://jsonplaceholder.typicode.com"
                     os.environ["POST_ID"] = "2"
 
                 test_data = [
                     ("${BASE_URL}", "https://jsonplaceholder.typicode.com"),
-                    ("${BASE_URL}/posts", "https://jsonplaceholder.typicode.com/posts"),
+                    (
+                        "${BASE_URL}/posts",
+                        "https://jsonplaceholder.typicode.com/posts",
+                    ),
                     (
                         "https://jsonplaceholder.typicode.com/posts/${POST_ID}",
                         "https://jsonplaceholder.typicode.com/posts/2",
@@ -61,7 +72,9 @@ class TestStringEvaluator:
 
                 @pytest.mark.parametrize("sequence, expected", test_data)
                 def test_should_return_evaluated_var(self, sequence, expected):
-                    assert StringEvaluator._evaluate_env_var(sequence) == expected
+                    assert (
+                        StringEvaluator._evaluate_env_var(sequence) == expected
+                    )
 
             class TestWhenThereIsNoCorrespondingEnvVar:
                 @pytest.fixture(autouse=True)
@@ -84,7 +97,10 @@ class TestStringEvaluator:
 
             @pytest.mark.parametrize("sequence", test_data)
             def test_should_return_sequence(self, sequence):
-                assert StringEvaluator._evaluate_custom_var(sequence, {}) == sequence
+                assert (
+                    StringEvaluator._evaluate_custom_var(sequence, {})
+                    == sequence
+                )
 
         class TestWhenMatchesThePattern:
             class TestWhenCodeDoesNotContainThePreSavedCustomVar:
@@ -98,7 +114,8 @@ class TestStringEvaluator:
                 @pytest.mark.parametrize("sequence", test_data)
                 def test_should_return_sequence(self, sequence):
                     assert (
-                        StringEvaluator._evaluate_custom_var(sequence, {}) == sequence
+                        StringEvaluator._evaluate_custom_var(sequence, {})
+                        == sequence
                     )
 
             class TestWhenCodeContainsThePreSavedCustomVar:
@@ -117,7 +134,8 @@ class TestStringEvaluator:
                 def test_should_return_sequence(self, sequence, expected):
                     vars = {"user_id": "10", "apiKey": "abc123"}
                     assert (
-                        StringEvaluator._evaluate_custom_var(sequence, vars) == expected
+                        StringEvaluator._evaluate_custom_var(sequence, vars)
+                        == expected
                     )
 
     class TestReplaceVarWithValue:
@@ -141,7 +159,9 @@ class TestStringEvaluator:
         @pytest.mark.parametrize(
             "sequence, variable, variable_value, expected", test_data
         )
-        def test_should_replace(self, sequence, variable, variable_value, expected):
+        def test_should_replace(
+            self, sequence, variable, variable_value, expected
+        ):
             assert (
                 StringEvaluator.replace_var_with_value(
                     sequence, variable, variable_value

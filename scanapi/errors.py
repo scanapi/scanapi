@@ -6,9 +6,7 @@ class HTTPMethodNotAllowedError(MalformedSpecError):
     """Raised when the HTTP method in the API spec is invalid"""
 
     def __init__(self, method, allowed_methos, *args):
-        message = (
-            f"HTTP method not supported: {method}. Supported methods: {allowed_methos}."
-        )
+        message = f"HTTP method not supported: {method}. Supported methods: {allowed_methos}."
         super(HTTPMethodNotAllowedError, self).__init__(message, *args)
 
 

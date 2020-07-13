@@ -18,13 +18,16 @@ class TestTestingNode:
                 test_node = TestingNode(spec={}, request=request_node)
 
             assert (
-                str(excinfo.value) == "Missing 'assert', 'name' key(s) at 'test' scope"
+                str(excinfo.value)
+                == "Missing 'assert', 'name' key(s) at 'test' scope"
             )
 
     class TestFullName:
         def test_full_name(self):
             endpoint_node = EndpointNode({"name": "foo"})
-            request_node = RequestNode(spec={"name": "bar"}, endpoint=endpoint_node)
+            request_node = RequestNode(
+                spec={"name": "bar"}, endpoint=endpoint_node
+            )
             test_node = TestingNode(
                 spec={"name": "lol", "assert": "okay"}, request=request_node
             )
@@ -36,7 +39,9 @@ class TestTestingNode:
         def testing_node(self):
             __test__ = False
             endpoint_node = EndpointNode(spec={"name": "foo"})
-            request_node = RequestNode(spec={"name": "bar"}, endpoint=endpoint_node)
+            request_node = RequestNode(
+                spec={"name": "bar"}, endpoint=endpoint_node
+            )
             spec = {
                 "name": "status_is_200",
                 "assert": "${{ response.status_code == 200 }}",
@@ -51,11 +56,15 @@ class TestTestingNode:
 
         @pytest.fixture
         def mock_increment_successes(self, mocker):
-            return mocker.patch("scanapi.tree.testing_node.session.increment_successes")
+            return mocker.patch(
+                "scanapi.tree.testing_node.session.increment_successes"
+            )
 
         @pytest.fixture
         def mock_increment_failures(self, mocker):
-            return mocker.patch("scanapi.tree.testing_node.session.increment_failures")
+            return mocker.patch(
+                "scanapi.tree.testing_node.session.increment_failures"
+            )
 
         class TestWhenTestPassed:
             def test_build_result(
@@ -84,7 +93,9 @@ class TestTestingNode:
                 assert mock_increment_successes.call_count == 1
                 assert not mock_increment_failures.called
 
-            def test_logs_test_results(self, mock_evaluate, caplog, testing_node):
+            def test_logs_test_results(
+                self, mock_evaluate, caplog, testing_node
+            ):
                 mock_evaluate.return_value = (True, None)
 
                 with caplog.at_level(logging.DEBUG):
@@ -95,7 +106,10 @@ class TestTestingNode:
             def test_build_result(
                 self, mock_evaluate, testing_node,
             ):
-                mock_evaluate.return_value = (False, "response.status_code == 200")
+                mock_evaluate.return_value = (
+                    False,
+                    "response.status_code == 200",
+                )
 
                 result = testing_node.run()
                 assert result == {
@@ -112,14 +126,22 @@ class TestTestingNode:
                 mock_increment_failures,
                 testing_node,
             ):
-                mock_evaluate.return_value = (False, "response.status_code == 200")
+                mock_evaluate.return_value = (
+                    False,
+                    "response.status_code == 200",
+                )
 
                 testing_node.run()
                 assert mock_increment_failures.call_count == 1
                 assert not mock_increment_successes.called
 
-            def test_logs_test_results(self, mock_evaluate, caplog, testing_node):
-                mock_evaluate.return_value = (False, "response.status_code == 200")
+            def test_logs_test_results(
+                self, mock_evaluate, caplog, testing_node
+            ):
+                mock_evaluate.return_value = (
+                    False,
+                    "response.status_code == 200",
+                )
 
                 with caplog.at_level(logging.DEBUG):
                     testing_node.run()

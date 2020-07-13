@@ -8,7 +8,9 @@ class TestTemplateRender:
     class TestRender:
         @pytest.fixture
         def mocked__get_template(self, mocker):
-            return mocker.patch("scanapi.template_render.Environment.get_template")
+            return mocker.patch(
+                "scanapi.template_render.Environment.get_template"
+            )
 
         def test_should_call_jinja_render(self, mocked__get_template):
             context = {"my_context": "foo"}

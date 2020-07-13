@@ -7,7 +7,11 @@ requirements = [
     "pyyaml >= 5.1.1",
     "requests >= 2.22.0",
 ]
-dev_requirements = ["black >= 19.10b0", "ipdb >= 0.13.2", "pre-commit >= 1.20.0"]
+dev_requirements = [
+    "black >= 19.10b0",
+    "ipdb >= 0.13.2",
+    "pre-commit >= 1.20.0",
+]
 test_requirements = [
     "codecov >= 2.0.15",
     "pytest >= 5.2.4",

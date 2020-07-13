@@ -20,7 +20,9 @@ class SpecEvaluator:
 
     def update(self, vars, extras=None, preevaluate=False):
         if preevaluate:
-            values = {key: evaluate(value, extras) for key, value in vars.items()}
+            values = {
+                key: evaluate(value, extras) for key, value in vars.items()
+            }
             self.registry.update(values)
             self.registry.update(extras)
         else:

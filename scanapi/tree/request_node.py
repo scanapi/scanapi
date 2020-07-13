@@ -106,7 +106,9 @@ class RequestNode:
         )
 
         self.endpoint.vars.update(
-            self.spec.get(VARS_KEY, {}), extras={"response": response}, preevaluate=True
+            self.spec.get(VARS_KEY, {}),
+            extras={"response": response},
+            preevaluate=True,
         )
 
         tests_results = self._run_tests()
