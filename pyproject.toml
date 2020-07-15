@@ -11,7 +11,7 @@ homepage = "https://scanapi.dev/"
 keywords = ["python", "scanapi", "tests", "end2end", "endtoend", "integration tests", "json", "apis", "api rest"]
 
 [tool.poetry.dependencies]
-python = "3.6"
+python = "^3.6"
 click = "7.1.2"
 curlify = "2.2.1"
 jinja2 = "2.11.2"
