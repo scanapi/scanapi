@@ -13,7 +13,13 @@ jobs:
       - name: Build and publish to pypi
         uses: JRubics/poetry-publish@v1
         with:
-          python_version: '^3.6'
+          python_version: '3.6'
           poetry_version: '>=0.12'
           pypi_token: ${{ secrets.PYPI_TOKEN }}
 
+      - name: Publish distribution 📦 to PyPI
+        if: startsWith(github.event.ref, 'refs/tags')
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_password }}
