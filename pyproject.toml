@@ -10,6 +10,9 @@ repository = "https://github.com/scanapi/scanapi"
 homepage = "https://scanapi.dev/"
 keywords = ["python", "scanapi", "tests", "end2end", "endtoend", "integration tests", "json", "apis", "api rest"]
 
+[tool.poetry.scripts]
+scanapi = "scanapi:main"
+
 [tool.poetry.dependencies]
 python = "^3.6"
 click = "7.1.2"
