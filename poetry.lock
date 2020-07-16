@@ -361,8 +361,8 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "484fb25e1dc57d670dffed8f6b606761488503809582e8e38f19ae8aa800b4a2"
-python-versions = "3.6"
+content-hash = "f6ed4e9e71267ebbecd0b7f5d439a90ab3405dfd7989aab51916b00482015ef9"
+python-versions = "^3.6"
 
 [metadata.files]
 atomicwrites = [

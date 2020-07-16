@@ -32,13 +32,13 @@ $ poetry install
 Run the ScanAPI:
 
 ```shell
-$ scanapi
+$ poetry run scanapi
 ```
 
 For help, run:
 
 ```shell
-$ scanapi --help
+$ poetry run scanapi --help
 ```
 
 But as you may noticed, you need an API specification file to run ScanAPI properly.
@@ -58,45 +58,48 @@ In another terminal tab, outside `scanapi` folder, clone the [ScanAPI examples][
  project:
 
 ```shell
-$ git clone git@github.com:scanapi/scanapi-examples.git
+$ git clone git@github.com:scanapi/examples.git
 ```
 
 Your workspace should have these both folders now:
 
 ```shell
 ▶ ls
-scanapi               scanapi-examples
+scanapi               examples
 ```
 
 Activate the virtualenv created before:
 
 ```shell
-. scanapi/venv/bin/activate
+$ cd scanapi
+$ poetry shell
 ```
 
-Enter on `scanapi-examples` folder:
+Run the ScanAPI for the API example you prefer (`pokeapi`, for instance):
 
 ```shell
-$ cd scanapi-examples
-```
-
-Select the example you want to run (`scanapi-demo` for instance):
-
-```shell
-$ cd scanapi-demo
-```
-Run the ScanAPI:
-
-```shell
-$ scanapi
+$ poetry run scanapi ../examples/pokeapi/api.yaml -c ../examples/pokeapi/.scanapi.yaml -o ../examples/pokeapi/scanapi-report.html
 ```
 
 ## Tests
 
+To run the tests, run:
+
 ```shell
 $ cd scanapi
-$ . venv/bin/activate
+$ poetry shell
 $ pytest
+```
+
+For testing, we use [pytest](https://docs.pytest.org/en/stable/). We also use classes to give some
+context about the tests, something inspired in [BDD](https://www.departmentofproduct.com/blog/writing-bdd-test-scenarios/):
+
+```python
+class TestFileName: # example: TestRegistration
+   class TestFunctionName: # example TestRegisterAccount
+      class TestContext: # example TestWhenDataIsIncomplete
+         def test_expect_behavior(self): # example test_should_return_422
+            pass
 ```
 
 ## Deploy
@@ -146,7 +149,7 @@ Check if everything run as expected for both and that is it, the deploy is done 
 [creating-releases]: https://help.github.com/en/enterprise/2.13/user/articles/creating-releases
 [poetry]: https://python-poetry.org/docs/#installation
 [python]: https://www.python.org/downloads/
-[scanapi-examples]: https://github.com/scanapi/scanapi-examples
+[scanapi-examples]: https://github.com/scanapi/examples
 [scanapi-on-docker-hub]: https://hub.docker.com/r/camilamaia/scanapi
 [scanapi-on-pypi]: https://pypi.org/project/scanapi/
 [virtualenv]: https://virtualenv.pypa.io/en/latest/
