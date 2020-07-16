@@ -15,29 +15,9 @@ jobs:
           name: Lint changelog
           command: |
             diff CHANGELOG.md <(/changelog fmt CHANGELOG.md) --color -u
-  build:
-    working_directory: ~/scanapi
-    docker:
-      - image: circleci/python:3.7.3
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            python setup.py develop
-            pip install -e .[dev] .[test]
-      - run:
-          name: Run tests
-          command: ./venv/bin/pytest --cov=./scanapi --cov-report=xml
-      - run:
-          name: Upload coverage report to codecov.io
-          command: ./venv/bin/codecov
 
 workflows:
   version: 2
   master:
     jobs:
       - changelog-lint
-      - build
