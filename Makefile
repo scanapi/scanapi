@@ -1,4 +1,4 @@
-.PHONY: test format check
+.PHONY: test format check install sh run
 
 test:
 	@pytest --cov=./scanapi --cov-report=xml
@@ -12,3 +12,9 @@ format:
 install:
 	@poetry install
 	@pre-commit install
+
+sh:
+	@poetry shell
+
+run:
+	@poetry run scanapi

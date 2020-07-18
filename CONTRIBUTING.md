@@ -18,13 +18,13 @@ $ cd scanapi
 Create a [virtualenv][virtualenv] for ScanAPI and activate it:
 
 ```shell
-$ poetry shell
+$ make sh
 ```
 
 Install the dependencies:
 
 ```shell
-$ poetry install
+$ make install
 ```
 
 ## Run
@@ -32,13 +32,13 @@ $ poetry install
 Run the ScanAPI:
 
 ```shell
-$ poetry run scanapi
+$ make run
 ```
 
 For help, run:
 
 ```shell
-$ poetry run scanapi --help
+$ make run --help
 ```
 
 But as you may noticed, you need an API specification file to run ScanAPI properly.
@@ -72,7 +72,7 @@ Activate the virtualenv created before:
 
 ```shell
 $ cd scanapi
-$ poetry shell
+$ make sh
 ```
 
 Run the ScanAPI for the API example you prefer (`pokeapi`, for instance):
@@ -86,9 +86,7 @@ $ poetry run scanapi ../examples/pokeapi/api.yaml -c ../examples/pokeapi/.scanap
 To run the tests, run:
 
 ```shell
-$ cd scanapi
-$ poetry shell
-$ pytest
+$ make test
 ```
 
 For testing, we use [pytest](https://docs.pytest.org/en/stable/). We also use classes to give some
