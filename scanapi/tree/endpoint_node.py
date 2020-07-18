@@ -93,7 +93,10 @@ class EndpointNode:
     def _validate(self):
         if self.is_root:
             return validate_keys(
-                self.spec.keys(), self.ALLOWED_KEYS, self.ROOT_REQUIRED_KEYS, ROOT_SCOPE
+                self.spec.keys(),
+                self.ALLOWED_KEYS,
+                self.ROOT_REQUIRED_KEYS,
+                ROOT_SCOPE,
             )
 
         validate_keys(

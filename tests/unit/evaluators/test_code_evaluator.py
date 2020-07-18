@@ -37,7 +37,7 @@ class TestCodeEvaluator:
 
                     test_data = [
                         ("${{response.text == 'abcde'}}", (True, None)),
-                        ("${{response.url == 'http://test.com/'}}", (True, None)),
+                        ("${{response.url == 'http://test.com/'}}", (True, None),),
                         (
                             "${{response.status_code == 300}}",
                             (False, "response.status_code == 300"),
@@ -54,7 +54,7 @@ class TestCodeEvaluator:
                     ):
                         assert (
                             CodeEvaluator.evaluate(
-                                sequence, {"response": response}, is_a_test_case=True
+                                sequence, {"response": response}, is_a_test_case=True,
                             )
                             == expected
                         )
@@ -63,7 +63,7 @@ class TestCodeEvaluator:
                     def test_should_raises_invalid_python_code_error(self):
                         with pytest.raises(InvalidPythonCodeError) as excinfo:
                             CodeEvaluator.evaluate(
-                                "${{response.url == 'abc'}}", {}, is_a_test_case=True
+                                "${{response.url == 'abc'}}", {}, is_a_test_case=True,
                             )
 
                         assert (

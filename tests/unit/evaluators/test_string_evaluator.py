@@ -33,7 +33,13 @@ class TestStringEvaluator:
 
     class TestEvaluateEnvVar:
         class TestWhenDoesNotMatchThePattern:
-            test_data = ["no env var", "${var}", "${MyVar}", "${{var}}", "${{VAR}}"]
+            test_data = [
+                "no env var",
+                "${var}",
+                "${MyVar}",
+                "${{var}}",
+                "${{VAR}}",
+            ]
 
             @pytest.mark.parametrize("sequence", test_data)
             def test_should_return_sequence(self, sequence):
@@ -48,7 +54,10 @@ class TestStringEvaluator:
 
                 test_data = [
                     ("${BASE_URL}", "https://jsonplaceholder.typicode.com"),
-                    ("${BASE_URL}/posts", "https://jsonplaceholder.typicode.com/posts"),
+                    (
+                        "${BASE_URL}/posts",
+                        "https://jsonplaceholder.typicode.com/posts",
+                    ),
                     (
                         "https://jsonplaceholder.typicode.com/posts/${POST_ID}",
                         "https://jsonplaceholder.typicode.com/posts/2",

@@ -98,7 +98,7 @@ class TestScan:
     class TestWhenAPISpecFileFormatIsNotSupported:
         def test_should_log_error(self, mocker, caplog):
             mocker.patch(
-                "scanapi.scan.load_config_file", side_effect=file_format_not_supported
+                "scanapi.scan.load_config_file", side_effect=file_format_not_supported,
             )
             with caplog.at_level(logging.INFO):
                 with pytest.raises(SystemExit) as excinfo:
@@ -135,7 +135,7 @@ class TestScan:
             mock_load_config_file.return_value = {"api": "blah"}
 
             mocker.patch(
-                "scanapi.scan.EndpointNode.__init__", side_effect=missing_mandatory_key
+                "scanapi.scan.EndpointNode.__init__", side_effect=missing_mandatory_key,
             )
             with caplog.at_level(logging.INFO):
                 with pytest.raises(SystemExit) as excinfo:

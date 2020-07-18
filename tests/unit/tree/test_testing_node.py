@@ -108,14 +108,20 @@ class TestTestingNode:
                 mock_increment_failures,
                 testing_node,
             ):
-                mock_evaluate.return_value = (False, "response.status_code == 200")
+                mock_evaluate.return_value = (
+                    False,
+                    "response.status_code == 200",
+                )
 
                 testing_node.run()
                 assert mock_increment_failures.call_count == 1
                 assert not mock_increment_successes.called
 
             def test_logs_test_results(self, mock_evaluate, caplog, testing_node):
-                mock_evaluate.return_value = (False, "response.status_code == 200")
+                mock_evaluate.return_value = (
+                    False,
+                    "response.status_code == 200",
+                )
 
                 with caplog.at_level(logging.DEBUG):
                     testing_node.run()
