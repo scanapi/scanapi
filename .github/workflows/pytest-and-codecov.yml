@@ -21,11 +21,9 @@ jobs:
           poetry install
         env:
           POETRY_VIRTUALENVS_CREATE: false
-      - name: Generate coverage report
+      - name: Run Test and generate coverage report
         run: |
-          pip install pytest
-          pip install pytest-cov
-          pytest --cov=./ --cov-report=xml
+          make test
       - name: Upload coverage report to codecov.io
         uses: codecov/codecov-action@v1
         with:
