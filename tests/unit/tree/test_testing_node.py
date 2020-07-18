@@ -58,9 +58,7 @@ class TestTestingNode:
             return mocker.patch("scanapi.tree.testing_node.session.increment_failures")
 
         class TestWhenTestPassed:
-            def test_build_result(
-                self, mock_evaluate, testing_node,
-            ):
+            def test_build_result(self, mock_evaluate, testing_node):
                 mock_evaluate.return_value = (True, None)
 
                 result = testing_node.run()
@@ -92,9 +90,7 @@ class TestTestingNode:
                 assert "\x07 [PASSED] foo::bar::status_is_200" in caplog.text
 
         class TestWhenTestFailed:
-            def test_build_result(
-                self, mock_evaluate, testing_node,
-            ):
+            def test_build_result(self, mock_evaluate, testing_node):
                 mock_evaluate.return_value = (False, "response.status_code == 200")
 
                 result = testing_node.run()
