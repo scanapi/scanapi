@@ -23,7 +23,7 @@ class TestRequestNode:
         def test_missing_required_keys(self):
             with pytest.raises(MissingMandatoryKeyError) as excinfo:
                 request = RequestNode(
-                    spec={}, endpoint=EndpointNode({"name": "foo", "requests": [{}]})
+                    spec={}, endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
                 )
 
             assert str(excinfo.value) == "Missing 'name' key(s) at 'request' scope"
@@ -122,7 +122,7 @@ class TestRequestNode:
             request = RequestNode(
                 {"headers": headers, "path": "http://foo.com", "name": "foo"},
                 endpoint=EndpointNode(
-                    {"headers": endpoint_headers, "name": "foo", "requests": [{}]}
+                    {"headers": endpoint_headers, "name": "foo", "requests": [{}],}
                 ),
             )
             assert request.headers == {"abc": "def", "xxx": "www"}
@@ -133,7 +133,7 @@ class TestRequestNode:
             request = RequestNode(
                 {"headers": headers, "path": "http://foo.com", "name": "foo"},
                 endpoint=EndpointNode(
-                    {"headers": endpoint_headers, "name": "foo", "requests": [{}]}
+                    {"headers": endpoint_headers, "name": "foo", "requests": [{}],}
                 ),
             )
             assert request.headers == {"abc": "def", "xxx": "www"}
@@ -144,7 +144,7 @@ class TestRequestNode:
             )
 
             request = RequestNode(
-                {"headers": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo"},
+                {"headers": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo",},
                 endpoint=endpoint,
             )
             request.headers
@@ -189,7 +189,7 @@ class TestRequestNode:
             )
 
             request = RequestNode(
-                {"params": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo"},
+                {"params": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo",},
                 endpoint=endpoint,
             )
             request.params
@@ -207,14 +207,14 @@ class TestRequestNode:
 
         def test_when_request_has_no_body(self):
             request = RequestNode(
-                {"body": {"abc": "def"}, "path": "http://foo.com", "name": "foo"},
+                {"body": {"abc": "def"}, "path": "http://foo.com", "name": "foo",},
                 endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
             )
             assert request.body == {"abc": "def"}
 
         def test_calls_evaluate(self, mocker, mock_evaluate):
             request = RequestNode(
-                {"body": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo"},
+                {"body": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo",},
                 endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
             )
             request.body
@@ -260,7 +260,7 @@ class TestRequestNode:
 
         @pytest.mark.parametrize("test_results, expected_no_failure", test_data)
         def test_build_result(
-            self, test_results, expected_no_failure, mock_request, mock_run_tests
+            self, test_results, expected_no_failure, mock_request, mock_run_tests,
         ):
             mock_run_tests.return_value = test_results
             request = RequestNode(

@@ -6,6 +6,7 @@ Thanks for taking the time to contribute! 🙇‍♀️🙇‍♂️ Every littl
 
 ### Requirements:
 - [Python 3][python]
+- [Poetry][poetry]
 
 Clone the repository and enter into the project's folder:
 
@@ -17,24 +18,13 @@ $ cd scanapi
 Create a [virtualenv][virtualenv] for ScanAPI and activate it:
 
 ```shell
-$ python3 -m venv venv
-$ . venv/bin/activate
+$ poetry shell
 ```
 
 Install the dependencies:
 
 ```shell
-$ pip install -e .[dev] .[test]
-$ pip install -e .
-$ pre-commit install
-```
-
-If the last three commands have failed, please try directly these:
-
-```shell
-$ python setup.py develop
-$ pip install click==7.0 curlify==2.2.1 jinja2==2.10.3 pyyaml==5.1.1 requests==2.22.0 black==19.10b0 ipdb==0.13.2 pre-commit==1.20.0 codecov==2.0.15 pytest==5.2.4 pytest-cov==2.8.1 pytest-mock==1.11.2 requests-mock==1.7.0
-$ pre-commit install
+$ poetry install
 ```
 
 ## Run
@@ -42,13 +32,13 @@ $ pre-commit install
 Run the ScanAPI:
 
 ```shell
-$ scanapi
+$ poetry run scanapi
 ```
 
 For help, run:
 
 ```shell
-$ scanapi --help
+$ poetry run scanapi --help
 ```
 
 But as you may noticed, you need an API specification file to run ScanAPI properly.
@@ -68,45 +58,48 @@ In another terminal tab, outside `scanapi` folder, clone the [ScanAPI examples][
  project:
 
 ```shell
-$ git clone git@github.com:scanapi/scanapi-examples.git
+$ git clone git@github.com:scanapi/examples.git
 ```
 
 Your workspace should have these both folders now:
 
 ```shell
 ▶ ls
-scanapi               scanapi-examples
+scanapi               examples
 ```
 
 Activate the virtualenv created before:
 
 ```shell
-. scanapi/venv/bin/activate
+$ cd scanapi
+$ poetry shell
 ```
 
-Enter on `scanapi-examples` folder:
+Run the ScanAPI for the API example you prefer (`pokeapi`, for instance):
 
 ```shell
-$ cd scanapi-examples
-```
-
-Select the example you want to run (`scanapi-demo` for instance):
-
-```shell
-$ cd scanapi-demo
-```
-Run the ScanAPI:
-
-```shell
-$ scanapi
+$ poetry run scanapi ../examples/pokeapi/api.yaml -c ../examples/pokeapi/.scanapi.yaml -o ../examples/pokeapi/scanapi-report.html
 ```
 
 ## Tests
 
+To run the tests, run:
+
 ```shell
 $ cd scanapi
-$ . venv/bin/activate
+$ poetry shell
 $ pytest
+```
+
+For testing, we use [pytest](https://docs.pytest.org/en/stable/). We also use classes to give some
+context about the tests, something inspired in [BDD](https://www.departmentofproduct.com/blog/writing-bdd-test-scenarios/):
+
+```python
+class TestFileName: # example: TestRegistration
+   class TestFunctionName: # example TestRegisterAccount
+      class TestContext: # example TestWhenDataIsIncomplete
+         def test_expect_behavior(self): # example test_should_return_422
+            pass
 ```
 
 ## Deploy
@@ -154,8 +147,9 @@ Check if everything run as expected for both and that is it, the deploy is done 
 
 
 [creating-releases]: https://help.github.com/en/enterprise/2.13/user/articles/creating-releases
+[poetry]: https://python-poetry.org/docs/#installation
 [python]: https://www.python.org/downloads/
-[scanapi-examples]: https://github.com/scanapi/scanapi-examples
+[scanapi-examples]: https://github.com/scanapi/examples
 [scanapi-on-docker-hub]: https://hub.docker.com/r/camilamaia/scanapi
 [scanapi-on-pypi]: https://pypi.org/project/scanapi/
 [virtualenv]: https://virtualenv.pypa.io/en/latest/
