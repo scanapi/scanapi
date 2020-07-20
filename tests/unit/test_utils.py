@@ -32,7 +32,11 @@ class TestJoinUrls:
             "/health/",
             "http://demo.scanapi.dev/api/health/",
         ),
-        ("http://demo.scanapi.dev/api", "health", "http://demo.scanapi.dev/api/health"),
+        (
+            "http://demo.scanapi.dev/api",
+            "health",
+            "http://demo.scanapi.dev/api/health",
+        ),
         (
             "http://demo.scanapi.dev/api",
             "/health",

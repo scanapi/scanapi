@@ -1,0 +1,30 @@
+name: Pytest and Codecov
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      OS: ubuntu-latest
+      PYTHON: "3.7"
+      working_directory: ~/scanapi
+    steps:
+      - uses: actions/checkout@master
+      - uses: codecov/codecov-action@v1
+      - name: Setup Python
+        uses: actions/setup-python@master
+        with:
+          python-version: 3.7
+      - name: Poetry install
+        run: |
+          pip install -U pip
+          pip install poetry
+          poetry install
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
+      - name: Run Test and generate coverage report
+        run: |
+          make test
+      - name: Upload coverage report to codecov.io
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true

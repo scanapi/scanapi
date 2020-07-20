@@ -6,11 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Added
-- Command convert, to convert a OpenAPI JSON file to a ScanAPI YAML friendly file [#12](https://github.com/scanapi/scanapi/issues/12)
-### Changed
-- Command `scanapi` to `scanapi run` [#12](https://github.com/scanapi/scanapi/issues/12)
-- Updated documentation to include changes and the new feature [#12](https://github.com/scanapi/scanapi/issues/12)
+
+## [1.0.5] - 2020-07-18
 ### Fixed
 - Status icons on report were not vertically centered [#195](https://github.com/scanapi/scanapi/pull/195)
 
@@ -144,7 +141,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v1.0.4...HEAD
+[Unreleased]: https://github.com/camilamaia/scanapi/compare/v1.0.5...HEAD
+[1.0.5]: https://github.com/camilamaia/scanapi/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/camilamaia/scanapi/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/camilamaia/scanapi/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/camilamaia/scanapi/compare/v1.0.1...v1.0.2
