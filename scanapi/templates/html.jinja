@@ -1,145 +1,149 @@
 <!doctype html>
 
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
 
     <title>ScanAPI Report</title>
     <meta name="description" content="ScanAPI Report" />
     <meta name="author" content="scanapi/scanapi" />
-  </head>
+</head>
 
 <body>
     <style type="text/css">
         html,
         body {
-        margin: 0;
-        padding: 0;
-        background-color: #eeeeee;
-        font-size: 18px;
-        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-            "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eeeeee;
+            font-size: 18px;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+                "Helvetica Neue", Arial, sans-serif;
         }
+
         h1,
         h2,
         h3,
         h4,
         h5,
         h6 {
-        color: #636c73;
-        font-weight: bold;
+            color: #636c73;
+            font-weight: bold;
         }
 
         h1 {
-        text-align: center;
+            text-align: center;
         }
 
         h3 {
-        font-size: 21px;
+            font-size: 21px;
         }
 
         details {
-        margin-top: 20px;
+            margin-top: 20px;
         }
 
         details div {
-        background-color: #f5f5f5;
-        padding: 20px 20px;
-        border-radius: 10px;
+            background-color: #f5f5f5;
+            padding: 20px 20px;
+            border-radius: 10px;
         }
 
         summary {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
 
         table {
-        border-radius: 20px;
+            border-radius: 20px;
         }
 
         table,
         td,
         th {
-        border: 1px solid #ccc;
-        text-align: left;
-        border-collapse: collapse;
+            border: 1px solid #ccc;
+            text-align: left;
+            border-collapse: collapse;
         }
 
         th {
-        background-color: #f5f5f5;
-        text-align: center;
-        padding: 8px 10px;
+            background-color: #f5f5f5;
+            text-align: center;
+            padding: 8px 10px;
         }
 
         td {
-        text-align: left;
-        padding: 8px 10px;
+            text-align: left;
+            padding: 8px 10px;
         }
 
         /* Wrapper */
         .wrapper {
-        background-color: white;
-        border-radius: 8px;
-        padding-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            padding-bottom: 20px;
         }
+
         /* END -- Wrapper */
 
         /* Title */
         .title {
-        border-bottom: 8px solid #eeeeee;
-        margin-bottom: 20px;
-        padding: 20px;
+            border-bottom: 8px solid #eeeeee;
+            margin-bottom: 20px;
+            padding: 20px;
         }
 
         .title__name {
-        margin: 0 0 10px 0;
-        padding: 0;
-        font-size: 36px;
-        font-weight: 300;
+            margin: 0 0 10px 0;
+            padding: 0;
+            font-size: 36px;
+            font-weight: 300;
         }
 
         .title__project {
-        font-weight: bold;
-        color: #F67164;
+            font-weight: bold;
+            color: #F67164;
         }
 
         .title__overview {
-        padding: 0;
-        margin: 0;
-        font-size: 16px;
-        color: #636c73;
-        text-align: center;
+            padding: 0;
+            margin: 0;
+            font-size: 16px;
+            color: #636c73;
+            text-align: center;
         }
+
         /* END -- Title */
 
         /* HEADER */
         .header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .header__image {
-        width: 250px;
-        margin: 20px 0;
+            width: 250px;
+            margin: 20px 0;
         }
 
         .github {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
         }
 
         .github__svg {
-        width: 30px;
+            width: 30px;
         }
 
         .wrapper,
         .header {
-        width: 1150px;
-        margin: auto;
+            width: 1150px;
+            margin: auto;
         }
 
         @media only screen and (max-width: 767px) {
@@ -148,177 +152,192 @@
                 padding: 0 20px;
             }
         }
+
         /* END -- HEADER */
 
         /* Endpoint */
         .endpoint {
-        overflow: hidden;
-        margin-bottom: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
         }
 
         .endpoint__content {
-        padding: 0 30px;
-        height: 0;
+            padding: 0 30px;
+            height: 0;
         }
 
         .endpoint__response h3,
         .endpoint__request h3,
         .endpoint__tests h3 {
-        text-transform: uppercase;
-        margin: 20px 0;
-        display: inline-block;
-        border-radius: 10px;
+            text-transform: uppercase;
+            margin: 20px 0;
+            display: inline-block;
+            border-radius: 10px;
         }
 
         .endpoint__operationTitle {
-        margin: 20px 0;
+            margin: 20px 0;
         }
 
         .endpoint__title {
-        background-color: #f5f5f5;
-        padding: 10px 12px;
-        border-radius: 10px;
-        font-size: 20px;
-        display: block;
-        cursor: pointer;
-        margin: 0 20px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+            background-color: #f5f5f5;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 20px;
+            display: block;
+            cursor: pointer;
+            margin: 0 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
         }
 
         .http_method {
-        font-weight: bold;
+            font-weight: bold;
         }
 
         .endpoint__titleInfo {
-        display: flex;
+            display: flex;
         }
 
         .endpoint__status {
-        margin-left: 10px;
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border-radius: 100px;
-        text-align: center;
-        color: white;
-        font-size: 14px;
-        line-height: 20px;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
+            margin-left: 10px;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 100px;
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            line-height: 20px;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .endpoint__status--P {
-        background-color: green;
+            background-color: green;
         }
 
         .endpoint__status--F {
-        background-color: red;
+            background-color: red;
         }
 
         .endpoint__titleInfo::after {
-        content: "\276F";
-        width: 1em;
-        height: 1em;
-        margin-left: 5px;
-        text-align: right;
-        transition: all 0.35s;
-        color: #636c73;
+            content: "\276F";
+            width: 1em;
+            height: 1em;
+            margin-left: 5px;
+            text-align: right;
+            transition: all 0.35s;
+            color: #636c73;
         }
 
         .endpoint__checkbox {
-        position: absolute;
-        opacity: 0;
-        z-index: -1;
+            position: absolute;
+            opacity: 0;
+            z-index: -1;
         }
 
-        .endpoint__checkbox:checked + .endpoint__title .endpoint__titleInfo::after {
-        transform: rotate(90deg);
+        .endpoint__checkbox:checked+.endpoint__title .endpoint__titleInfo::after {
+            transform: rotate(90deg);
         }
 
-        .endpoint__checkbox:checked ~ .endpoint__content {
-        height: auto;
+        .endpoint__checkbox:checked~.endpoint__content {
+            height: auto;
         }
 
         .endpoint__tests {
-        display: flex;
-        flex-direction: column;
+            display: flex;
+            flex-direction: column;
         }
 
         .endpoint__testcase {
-        display: flex;
-        flex-direction: row;
-        padding: 10px 0;
+            display: flex;
+            flex-direction: row;
+            padding: 10px 0;
         }
 
         .endpoint__testcaseStatus {
-        width: 10%;
+            width: 10%;
         }
 
         .endpoint__testcaseLabel {
-        display: flex;
-        flex-direction: column;
+            display: flex;
+            flex-direction: column;
         }
 
         .endpoint__testcase-failure {
-        padding: 10px 0;
+            padding: 10px 0;
         }
 
         .endpoint__testcase-passed {
-        color: green;
+            color: green;
         }
 
-        .endpoint__testcase-failed, .endpoint__testcase-error {
-        color: red;
+        .endpoint__testcase-failed,
+        .endpoint__testcase-error {
+            color: red;
         }
 
         /* END -- ENDPOINT */
 
         /* TESTS SUMMARY */
         .tests__summary {
-        background: #f9f9f9;
-        padding: 10px 12px;
-        margin: 0 20px;
-        display: flex;
-        flex-direction: column;
-        border-radius: 10px;
-        border: solid;
-        border-width: 1px;
+            background: #f9f9f9;
+            padding: 10px 12px;
+            margin: 0 20px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            border: solid;
+            border-width: 1px;
         }
 
         .tests__summary--passed {
-        border-color: green;
+            border-color: green;
         }
 
         .tests__summary--failed {
-        border-color: red;
+            border-color: red;
         }
 
         .tests__summaryTitle {
-        text-align: center;
-        margin-bottom: 30px;
+            text-align: center;
+            margin-bottom: 30px;
         }
 
-        .tests__summaryResults{
-        margin-bottom: 21px;
-        display: flex;
-        justify-content: space-between;
+        .tests__summaryResults {
+            margin-bottom: 21px;
+            display: flex;
+            justify-content: space-between;
         }
+
         /* END TESTS SUMMARY */
+        /* START RENDERJSON */
+        .renderjson {
+            background-color: #eeeeee;
+            white-space: break-spaces;
+        }
+
+        .renderjson a {
+            text-decoration: none;
+        }
+
+        /* END RENDERJSON */
     </style>
 
     <div class="header">
-      <img class="header__image" src="https://scanapi.s3.us-east-2.amazonaws.com/assets/images/logos/scanapi-no-background.png" />
+        <img class="header__image"
+            src="https://scanapi.s3.us-east-2.amazonaws.com/assets/images/logos/scanapi-no-background.png" />
     </div>
 
     <div class="wrapper">
         <header class="title">
             {% if project_name %}
-                <h1 class="title__name">Report generated for <span class="title__project">{{ project_name }}</span></h1>
+            <h1 class="title__name">Report generated for <span class="title__project">{{ project_name }}</span></h1>
             {% else %}
-                <h1 class="title__name">Report generated for your API</h1>
+            <h1 class="title__name">Report generated for your API</h1>
             {% endif %}
             <p class="title__overview">Generated at: {{now}}</p>
         </header>
@@ -326,163 +345,163 @@
         <!-- summary_box -->
 
         {% for result in results -%}
-            {% set response = result["response"] %}
-            {% set tests = result["tests_results"] %}
-            {% set endpoint_status_label = "P" if result["no_failure"] else "F" %}
-            {% set request = response.request %}
+        {% set response = result["response"] %}
+        {% set tests = result["tests_results"] %}
+        {% set endpoint_status_label = "P" if result["no_failure"] else "F" %}
+        {% set request = response.request %}
 
-            <div class="endpoint">
-                <input type="checkbox" class="endpoint__checkbox" id="chck_{{ loop.index | string }}" />
-                <label class="endpoint__title" for="chck_{{ loop.index | string }}">
-                    <span><span class="http_method">{{request.method}}</span> {{ request.path_url }}</span>
-                    <span class="endpoint__titleInfo">
-                        {{ response.status_code }}
-                        <span class="endpoint__status endpoint__status--{{endpoint_status_label}}">
-                            {{endpoint_status_label}}
-                        </span>
+        <div class="endpoint">
+            <input type="checkbox" class="endpoint__checkbox" id="chck_{{ loop.index | string }}" />
+            <label class="endpoint__title" for="chck_{{ loop.index | string }}">
+                <span><span class="http_method">{{request.method}}</span> {{ request.path_url }}</span>
+                <span class="endpoint__titleInfo">
+                    {{ response.status_code }}
+                    <span class="endpoint__status endpoint__status--{{endpoint_status_label}}">
+                        {{endpoint_status_label}}
                     </span>
-                </label>
+                </span>
+            </label>
 
-                <div class="endpoint__content">
-                    <section class="endpoint__request">
-                        <h3>Request</h3>
-                        <p>Full URL: <a href="{{request.url}}"> {{request.url}}</a></p>
+            <div class="endpoint__content">
+                <section class="endpoint__request">
+                    <h3>Request</h3>
+                    <p>Full URL: <a href="{{request.url}}"> {{request.url}}</a></p>
 
-                        {% if request.headers|length > 0 %}
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Header
-                                        </th>
-                                        <th>
-                                            Value
-                                        </th>
-                                    </tr>
-                                </thead>
+                    {% if request.headers|length > 0 %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Header
+                                </th>
+                                <th>
+                                    Value
+                                </th>
+                            </tr>
+                        </thead>
 
-                                <tbody>
-                                    {% for key, value in request.headers.items() -%}
-                                        <tr>
-                                            <td>
-                                                {{ key }}
-                                            </td>
-                                            <td>
-                                                {{value}}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        {% endif %}
+                        <tbody>
+                            {% for key, value in request.headers.items() -%}
+                            <tr>
+                                <td>
+                                    {{ key }}
+                                </td>
+                                <td>
+                                    {{value}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
 
-                        {% if ( request.body and request.body.decode("UTF-8") != "{}" ) %}
-                            <details>
-                                <summary>Body</summary>
-                                <p>{{ request.body }}</p>
-                            </details>
-                        {% endif %}
+                    {% if ( request.body and request.body.decode("UTF-8") != "{}" ) %}
+                    <details>
+                        <summary>Body</summary>
+                        <p>{{ request.body }}</p>
+                    </details>
+                    {% endif %}
 
-                        <details>
-                            <summary>cURL</summary>
-                            <p>{{request|curlify}}</p>
-                        </details>
-                    </section>
+                    <details>
+                        <summary>cURL</summary>
+                        <p>{{request|curlify}}</p>
+                    </details>
+                </section>
 
-                    <section class="endpoint__response">
-                        <h3>Response</h3>
+                <section class="endpoint__response">
+                    <h3>Response</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    status code
+                                </td>
+                                <td>
+                                    {{ response.status_code }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    response time
+                                </td>
+                                <td>
+                                    {{ response.elapsed.total_seconds() }} s
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    redirect
+                                </td>
+                                <td>
+                                    {{ response.is_redirect }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    {% if response.headers|length > 0 %}
+                    <details>
+                        <summary>Headers</summary>
                         <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Header
+                                    </th>
+                                    <th>
+                                        Value
+                                    </th>
+                                </tr>
+                            </thead>
+                            {% for key, value in response.headers.items() -%}
                             <tbody>
                                 <tr>
                                     <td>
-                                        status code
+                                        {{ key }}
                                     </td>
                                     <td>
-                                        {{ response.status_code }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        response time
-                                    </td>
-                                    <td>
-                                        {{ response.elapsed.total_seconds() }} s
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        redirect
-                                    </td>
-                                    <td>
-                                        {{ response.is_redirect }}
+                                        {{value}}
                                     </td>
                                 </tr>
                             </tbody>
+                            {% endfor %}
                         </table>
+                    </details>
 
-                        {% if response.headers|length > 0 %}
-                            <details>
-                                <summary>Headers</summary>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                Header
-                                            </th>
-                                            <th>
-                                                Value
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    {% for key, value in response.headers.items() -%}
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                {{ key }}
-                                            </td>
-                                            <td>
-                                                {{value}}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    {% endfor %}
-                                </table>
-                            </details>
+                    <details id="test">
+                        <summary>Content</summary>
+                        <p class="json_body">
+                            {% if response.text %} {{ response.text }} {% else %} {{ response.content }} {% endif %}
+                        </p>
+                    </details>
+                    {% endif %}
+                </section>
 
-                            <details>
-                                <summary>Content</summary>
-                                <p>
-                                    {% if response.text %} {{ response.text }} {% else %} {{ response.content }} {% endif %}
-                                </p>
-                            </details>
-                        {% endif %}
-                    </section>
-
-                    <section class="endpoint__tests">
-                        <h3>Tests</h3>
-                        {% for test in tests -%}
-                            <div class="endpoint__testcase">
-                                <div class="endpoint__testcaseStatus">
-                                    <strong class="endpoint__testcase-{{test.status}}">
-                                        [{{test.status|upper}}]
-                                    </strong>
-                                </div>
-                                <div class="endpoint__testcaseLabel">
-                                    <span>
-                                        {{test.name}}
-                                    </span>
-                                    {% if test.failure %}
-                                        <span class="endpoint__testcase-failure">{{test.failure}} is false</span>
-                                    {% endif %}
-                                    {% if test.error %}
-                                        <span class="endpoint__testcase-failure">{{test.error}}</span>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    <section>
-                </div>
+                <section class="endpoint__tests">
+                    <h3>Tests</h3>
+                    {% for test in tests -%}
+                    <div class="endpoint__testcase">
+                        <div class="endpoint__testcaseStatus">
+                            <strong class="endpoint__testcase-{{test.status}}">
+                                [{{test.status|upper}}]
+                            </strong>
+                        </div>
+                        <div class="endpoint__testcaseLabel">
+                            <span>
+                                {{test.name}}
+                            </span>
+                            {% if test.failure %}
+                            <span class="endpoint__testcase-failure">{{test.failure}} is false</span>
+                            {% endif %}
+                            {% if test.error %}
+                            <span class="endpoint__testcase-failure">{{test.error}}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </section>
             </div>
+        </div>
         {% endfor %}
 
         {% set final_status = "passed" if session.succeed else "failed" %}
@@ -497,7 +516,22 @@
             </div>
         </div>
 
-        <a class="github" href="https://github.com/scanapi/scanapi"><img class="github__svg" src="https://scanapi.s3.us-east-2.amazonaws.com/assets/images/github/github-logo.svg" /></a>
+        <a class="github" href="https://github.com/scanapi/scanapi"><img class="github__svg"
+                src="https://scanapi.s3.us-east-2.amazonaws.com/assets/images/github/github-logo.svg" /></a>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/renderjson"></script>
+        <script>
+
+            const all_json_bodies = document.getElementsByClassName("json_body");
+            renderjson.set_show_to_level(1);
+            renderjson.set_max_string_length(65);
+            for (var i = 0; i < all_json_bodies.length; i++) {
+                raw_json = all_json_bodies[i].innerText;
+                all_json_bodies[i].innerText = '';
+                all_json_bodies[i].appendChild(renderjson(JSON.parse(raw_json)));
+
+            }
+
+        </script>
 </body>
 
 </html>
