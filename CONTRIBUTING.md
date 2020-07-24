@@ -32,20 +32,20 @@ $ make install
 Run the ScanAPI:
 
 ```shell
-$ make run
+$ poetry run scanapi
 ```
 
 For help, run:
 
 ```shell
-$ make run --help
+$ poetry run scanapi --help
 ```
 
 But as you may noticed, you need an API specification file to run ScanAPI properly.
 Otherwise you will receive this error:
 
 ```shell
-$ scanapi
+$ poetry run scanapi
 ERROR:scanapi:Could not find API spec file: api.yaml. [Errno 2] No such file or directory: 'api.yaml'
 ```
 
@@ -54,8 +54,7 @@ examples that could be used.
 
 ### Clone ScanAPI Examples
 
-In another terminal tab, outside `scanapi` folder, clone the [ScanAPI examples][scanapi-examples]
- project:
+In another terminal tab, outside `scanapi` folder, clone the [ScanAPI examples][scanapi-examples] project:
 
 ```shell
 $ git clone git@github.com:scanapi/examples.git
@@ -75,10 +74,19 @@ $ cd scanapi
 $ make sh
 ```
 
-Run the ScanAPI for the API example you prefer (`pokeapi`, for instance):
+Run the ScanAPI for the API example you prefer:
+
+**PokèAPI**
 
 ```shell
 $ poetry run scanapi ../examples/pokeapi/api.yaml -c ../examples/pokeapi/.scanapi.yaml -o ../examples/pokeapi/scanapi-report.html
+```
+
+**Demo-API**
+
+```shell
+$ source ../examples/demo-api/.env
+$ poetry run scanapi ../examples/demo-api/api.yaml -c ../examples/demo-api/.scanapi.yaml -o ../examples/demo-api/scanapi-report.html
 ```
 
 ## Tests
