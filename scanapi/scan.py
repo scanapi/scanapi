@@ -1,5 +1,4 @@
 import logging
-import sys
 import yaml
 
 from scanapi.config_loader import load_config_file

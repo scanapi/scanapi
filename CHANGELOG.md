@@ -12,10 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Updated language use in README.md and CONTRIBUTING.md plus fix broken links.
+- Removed unused sys import in scan.py and cleaned for PEP8 and spelling errors [#217](https://github.com/scanapi/scanapi/pull/217)
 
 ### Removed
 - APIKeyMissingError
-
+ 
 ## [1.0.5] - 2020-07-18
 ### Fixed
 - Status icons on report were not vertically centered [#195](https://github.com/scanapi/scanapi/pull/195)

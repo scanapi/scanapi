@@ -29,7 +29,8 @@ class Reporter:
         logger.info("\nThe documentation was generated successfully.")
         logger.info(f"It is available at {self.output_path}")
 
-    def _build_context(self, results):
+    @staticmethod
+    def _build_context(results):
         return {
             "now": datetime.datetime.now().replace(microsecond=0),
             "project_name": settings.get("project-name", ""),
