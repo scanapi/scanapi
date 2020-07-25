@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- The report page now has a favicon [#223](https://github.com/scanapi/scanapi/pull/223)
 - Bandit security audit tool
 
 ### Removed
