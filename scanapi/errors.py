@@ -5,9 +5,9 @@ class MalformedSpecError(Exception):
 class HTTPMethodNotAllowedError(MalformedSpecError):
     """Raised when the HTTP method in the API spec is invalid"""
 
-    def __init__(self, method, allowed_methos, *args):
+    def __init__(self, method, allowed_methods, *args):
         message = (
-            f"HTTP method not supported: {method}. Supported methods: {allowed_methos}."
+            f"HTTP method not supported: {method}. Supported methods: {allowed_methods}."
         )
         super(HTTPMethodNotAllowedError, self).__init__(message, *args)
 
@@ -70,5 +70,6 @@ class FileFormatNotSupportedError(Exception):
     """Raised when the Config File format is not supported"""
 
     def __init__(self, file_format, file_path, *args):
-        message = f"The format {file_format} is not supported. Supported formats: '.yaml', '.yml', '.json'. File path: '{file_path}'."
+        message = f"The format {file_format} is not supported. " \
+                  f"Supported formats: '.yaml', '.yml', '.json'. File path: '{file_path}'."
         super(FileFormatNotSupportedError, self).__init__(message, *args)
