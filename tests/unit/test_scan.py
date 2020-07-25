@@ -7,7 +7,6 @@ import yaml
 
 from scanapi.errors import (
     EmptyConfigFileError,
-    FileFormatNotSupportedError,
     InvalidKeyError,
     MissingMandatoryKeyError,
 )
@@ -28,10 +27,6 @@ def empty_config_file(*args, **kwargs):
 
 def yaml_error(*args, **kwargs):
     raise yaml.YAMLError("error foo")
-
-
-def file_format_not_supported(*args, **kwargs):
-    raise FileFormatNotSupportedError(".txt", "foo/api.txt")
 
 
 def invalid_key(*args, **kwargs):
@@ -94,23 +89,6 @@ class TestScan:
                 assert excinfo.value.code == 4
 
             assert "error foo" in caplog.text
-
-    class TestWhenAPISpecFileFormatIsNotSupported:
-        def test_should_log_error(self, mocker, caplog):
-            mocker.patch(
-                "scanapi.scan.load_config_file", side_effect=file_format_not_supported,
-            )
-            with caplog.at_level(logging.INFO):
-                with pytest.raises(SystemExit) as excinfo:
-                    scan()
-
-                assert excinfo.type == SystemExit
-                assert excinfo.value.code == 4
-
-            assert (
-                "The format .txt is not supported. Supported formats: '.yaml', '.yml', "
-                "'.json'. File path: 'foo/api.txt'." in caplog.text
-            )
 
     class TestWhenAPISpecHasAnInvalidKey:
         def test_should_log_error(self, mocker, caplog):

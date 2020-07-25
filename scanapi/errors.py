@@ -55,13 +55,3 @@ class EmptyConfigFileError(Exception):
         message = f"File '{file_path}' is empty."
         super(EmptyConfigFileError, self).__init__(message, *args)
 
-
-class FileFormatNotSupportedError(Exception):
-    """Raised when the Config File format is not supported"""
-
-    def __init__(self, file_format, file_path, *args):
-        message = (
-            f"The format {file_format} is not supported. "
-            f"Supported formats: '.yaml', '.yml', '.json'. File path: '{file_path}'."
-        )
-        super(FileFormatNotSupportedError, self).__init__(message, *args)
