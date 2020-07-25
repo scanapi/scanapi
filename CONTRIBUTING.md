@@ -41,7 +41,7 @@ For help, run:
 $ poetry run scanapi --help
 ```
 
-But as you may noticed, you need an API specification file to run ScanAPI properly.
+As you may noticed, you need an API specification file to run ScanAPI properly.
 Otherwise you will receive this error:
 
 ```shell
@@ -50,7 +50,7 @@ ERROR:scanapi:Could not find API spec file: api.yaml. [Errno 2] No such file or 
 ```
 
 For that, we have the [ScanAPI Examples][scanapi-examples] repository, with some API specification
-examples that could be used.
+examples that you can use.
 
 ### Clone ScanAPI Examples
 
@@ -98,7 +98,7 @@ $ make test
 ```
 
 For testing, we use [pytest](https://docs.pytest.org/en/stable/). We also use classes to give some
-context about the tests, something inspired in [BDD](https://www.departmentofproduct.com/blog/writing-bdd-test-scenarios/):
+context to the tests, something inspired in [BDD](https://www.departmentofproduct.com/blog/writing-bdd-test-scenarios/):
 
 ```python
 class TestFileName: # example: TestRegistration
@@ -118,8 +118,8 @@ Steps:
 
 ### Bump the lib Version
 
-Check the last release number at https://pypi.org/manage/project/scanapi/releases/
-Increment the version number at `setup.py` according to the version you have just got.
+Check the last release number at https://pypi.org/project/scanapi/#history
+Increment the version number in `pyproject.toml` according to the version you have just got.
 
 ### Update the CHANGELOG.md
 
@@ -135,7 +135,7 @@ Create a PR named `Release <version>` containing these two changes above.
 
 ### Merge the PR
 
-Once the PR was accepted and passed on all checks, merge it.
+Once the PR has been accepted and passed on all checks, merge it.
 
 ### 2. Deploy on GitHub
 
