@@ -14,7 +14,7 @@ keywords = ["python", "scanapi", "tests", "end2end", "endtoend", "integration te
 scanapi = "scanapi:main"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.6.1"
 click = "7.1.2"
 curlify = "2.2.1"
 jinja2 = "2.11.2"
@@ -32,6 +32,7 @@ requests-mock = "1.8.0"
 black = "19.10b0"
 sphinx = "3.1.2"
 sphinx_rtd_theme = "^0.5.0"
+pre-commit = "2.6.0"
 
 [build-system]
 requires = ["poetry>=1.0.9"]
