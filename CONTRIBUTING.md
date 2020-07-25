@@ -110,7 +110,7 @@ Steps:
 
 ### Bump the lib Version
 
-Check the last release number at https://pypi.org/manage/project/scanapi/releases/
+Check the last release number at
 Increment the version number at `setup.py` according to the version you have just got.
 
 ### Update the CHANGELOG.md
