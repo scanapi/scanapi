@@ -274,7 +274,7 @@ With `!include`, it is possible to build your API specification in multiple file
 For example, these two files
 
 ```yaml
-# api.yaml
+# Scanfile
 api:
   endpoints:
     - name: scanapi-demo
@@ -307,7 +307,7 @@ of your project
 
 ```yaml
 project_name: DemoAPI # This will be rendered in the Report Title.
-spec_path: my_path/api.yaml # API specification file path
+spec_path: my_path/Scanfile # API specification file path
 output_path: my_path/my-report.html # Report output path.
 template: my_template.jinja # Custom report template path.
 ```
