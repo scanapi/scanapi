@@ -1,8 +1,15 @@
 import os
+import appdirs
 
 from scanapi.config_loader import load_config_file
 
-DEFAULT_CONFIG_PATH = ".scanapi.yaml"
+
+GLOBAL_CONFIG_PATH = os.path.join(
+    appdirs.site_config_dir("scanapi"),
+    "scanapi.conf",
+)
+
+LOCAL_CONFIG_PATH = "./scanapi.conf"
 
 
 class Settings(dict):
@@ -18,12 +25,16 @@ class Settings(dict):
 
     def save_config_file_preferences(self, config_path=None):
         """ Saves the Settings object config file preferences. """
-        if not config_path and not self.has_default_config_file:
+        if not config_path and not self.has_local_config_file:
             return
 
+        if os.path.isfile(GLOBAL_CONFIG_PATH):
+            global_config = load_config_file(GLOBAL_CONFIG_PATH)
+            self.update(**global_config)
+
         if not config_path:
-            user_config = load_config_file(DEFAULT_CONFIG_PATH)
-            self["config_path"] = DEFAULT_CONFIG_PATH
+            user_config = load_config_file(LOCAL_CONFIG_PATH)
+            self["config_path"] = LOCAL_CONFIG_PATH
             self.update(**user_config)
             return
 
@@ -46,9 +57,12 @@ class Settings(dict):
         self.save_click_preferences(**click_preferences)
 
     @property
-    def has_default_config_file(self):
-        """ Helper property that returns whether the default config path exists. """
-        return os.path.isfile(DEFAULT_CONFIG_PATH)
+    def has_global_config_file(self):
+        return os.path.isfile(GLOBAL_CONFIG_PATH)
+
+    @property
+    def has_local_config_file(self):
+        return os.path.isfile(LOCAL_CONFIG_PATH)
 
 
 settings = Settings()

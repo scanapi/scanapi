@@ -1,7 +1,7 @@
 import pytest
 import os
 
-from scanapi.settings import settings, DEFAULT_CONFIG_PATH
+from scanapi.settings import settings, LOCAL_CONFIG_PATH
 
 
 class TestSettings:
@@ -70,13 +70,13 @@ class TestSettings:
         class TestWithoutCustomConfigPath:
             class TestWithDefaultConfigFile:
                 def test_should_save_preferences(self):
-                    with open(DEFAULT_CONFIG_PATH, "w") as out_file:
+                    with open(LOCAL_CONFIG_PATH, "w") as out_file:
                         out_file.write("template: path/template.jinja")
 
                     settings.save_config_file_preferences()
                     assert settings["template"] == "path/template.jinja"
 
-                    os.remove(DEFAULT_CONFIG_PATH)
+                    os.remove(LOCAL_CONFIG_PATH)
 
             class TestWithoutDefaultConfigFile:
                 def test_should_not_change_preferences(self):
