@@ -7,7 +7,6 @@ import yaml
 
 from scanapi.errors import (
     EmptyConfigFileError,
-    FileFormatNotSupportedError,
     InvalidKeyError,
     MissingMandatoryKeyError,
 )
@@ -18,20 +17,16 @@ log = logging.getLogger(__name__)
 
 def file_not_found(*args, **kwargs):
     raise FileNotFoundError(
-        errno.ENOENT, os.strerror(errno.ENOENT), "invalid_path/api.yaml"
+        errno.ENOENT, os.strerror(errno.ENOENT), "invalid_path/scanapi.yaml"
     )
 
 
 def empty_config_file(*args, **kwargs):
-    raise EmptyConfigFileError("valid_path/api.yaml")
+    raise EmptyConfigFileError("valid_path/scanapi.yaml")
 
 
 def yaml_error(*args, **kwargs):
     raise yaml.YAMLError("error foo")
-
-
-def file_format_not_supported(*args, **kwargs):
-    raise FileFormatNotSupportedError(".txt", "foo/api.txt")
 
 
 def invalid_key(*args, **kwargs):
@@ -52,7 +47,7 @@ class TestScan:
     class TestWhenCouldNotFindAPISpecFile:
         def test_should_log_error(self, mocker, caplog):
             mock_settings = mocker.patch(
-                "scanapi.scan.settings", {"spec_path": "invalid_path/api.yaml"}
+                "scanapi.scan.settings", {"spec_path": "invalid_path/scanapi.yaml"}
             )
             mocker.patch("scanapi.scan.load_config_file", side_effect=file_not_found)
             with caplog.at_level(logging.INFO):
@@ -63,8 +58,8 @@ class TestScan:
                 assert excinfo.value.code == 4
 
             assert (
-                "Could not find API spec file: invalid_path/api.yaml. [Errno 2] No such file "
-                "or directory: 'invalid_path/api.yaml" in caplog.text
+                "Could not find API spec file: invalid_path/scanapi.yaml. [Errno 2] No such file "
+                "or directory: 'invalid_path/scanapi.yaml" in caplog.text
             )
 
     class TestWhenAPISpecFileIsEmpty:
@@ -79,7 +74,7 @@ class TestScan:
                 assert excinfo.value.code == 4
 
             assert (
-                "API spec file is empty. File 'valid_path/api.yaml' is empty."
+                "API spec file is empty. File 'valid_path/scanapi.yaml' is empty."
                 in caplog.text
             )
 
@@ -94,23 +89,6 @@ class TestScan:
                 assert excinfo.value.code == 4
 
             assert "error foo" in caplog.text
-
-    class TestWhenAPISpecFileFormatIsNotSupported:
-        def test_should_log_error(self, mocker, caplog):
-            mocker.patch(
-                "scanapi.scan.load_config_file", side_effect=file_format_not_supported,
-            )
-            with caplog.at_level(logging.INFO):
-                with pytest.raises(SystemExit) as excinfo:
-                    scan()
-
-                assert excinfo.type == SystemExit
-                assert excinfo.value.code == 4
-
-            assert (
-                "The format .txt is not supported. Supported formats: '.yaml', '.yml', "
-                "'.json'. File path: 'foo/api.txt'." in caplog.text
-            )
 
     class TestWhenAPISpecHasAnInvalidKey:
         def test_should_log_error(self, mocker, caplog):

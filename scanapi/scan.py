@@ -5,7 +5,6 @@ from scanapi.config_loader import load_config_file
 from scanapi.errors import (
     BadConfigurationError,
     EmptyConfigFileError,
-    FileFormatNotSupportedError,
     InvalidKeyError,
     InvalidPythonCodeError,
     MissingMandatoryKeyError,
@@ -33,7 +32,7 @@ def scan():
         error_message = f"API spec file is empty. {str(e)}"
         logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
-    except (yaml.YAMLError, FileFormatNotSupportedError) as e:
+    except yaml.YAMLError as e:
         logger.error(e)
         raise SystemExit(ExitCode.USAGE_ERROR)
 
