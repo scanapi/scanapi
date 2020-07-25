@@ -6,10 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- The report page now has a favicon [#223](https://github.com/scanapi/scanapi/pull/223)
+- Bandit security audit tool
 
-## [1.0.6] - 2020-07-25
 ### Fixed
-- Removed unused sys import in scan.pyand cleaned for PEP8 and spelling errors [#217](https://github.com/scanapi/scanapi/pull/217)
+- Updated language use in README.md and CONTRIBUTING.md plus fix broken links.
+- Removed unused sys import in scan.py and cleaned for PEP8 and spelling errors [#217](https://github.com/scanapi/scanapi/pull/217)
+
+### Removed
+- APIKeyMissingError
  
 ## [1.0.5] - 2020-07-18
 ### Fixed
