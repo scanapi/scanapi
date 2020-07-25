@@ -10,11 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The report page now has a favicon [#223](https://github.com/scanapi/scanapi/pull/223)
 - Bandit security audit tool
 
-### Removed
-- APIKeyMissingError
-
 ### Fixed
 - Updated language use in README.md and CONTRIBUTING.md plus fix broken links.
+
+### Removed
+- APIKeyMissingError
 
 ## [1.0.5] - 2020-07-18
 ### Fixed
