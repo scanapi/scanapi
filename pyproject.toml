@@ -29,6 +29,8 @@ pytest-freezegun = "0.4.1"
 pytest-mock = "3.2.0"
 requests-mock = "1.8.0"
 black = "19.10b0"
+sphinx = "3.1.2"
+sphinx_rtd_theme = "^0.5.0"
 
 [build-system]
 requires = ["poetry>=1.0.9"]
