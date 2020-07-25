@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Removed
--  Deleted APIKeyMissingError
+-  APIKeyMissingError
 
 ## [1.0.5] - 2020-07-18
 ### Fixed
