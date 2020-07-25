@@ -54,4 +54,3 @@ class EmptyConfigFileError(Exception):
     def __init__(self, file_path, *args):
         message = f"File '{file_path}' is empty."
         super(EmptyConfigFileError, self).__init__(message, *args)
-

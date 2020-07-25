@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bandit security audit tool
 
 ## Changed
-- Renamed `api.(yaml|json)` to `Scanfile` [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
+- Renamed `api.(yaml|json)` to `scanapi.yaml` [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
 
 ### Removed
 - APIKeyMissingError

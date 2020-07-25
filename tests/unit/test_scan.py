@@ -17,12 +17,12 @@ log = logging.getLogger(__name__)
 
 def file_not_found(*args, **kwargs):
     raise FileNotFoundError(
-        errno.ENOENT, os.strerror(errno.ENOENT), "invalid_path/Scanfile"
+        errno.ENOENT, os.strerror(errno.ENOENT), "invalid_path/scanapi.yaml"
     )
 
 
 def empty_config_file(*args, **kwargs):
-    raise EmptyConfigFileError("valid_path/Scanfile")
+    raise EmptyConfigFileError("valid_path/scanapi.yaml")
 
 
 def yaml_error(*args, **kwargs):
@@ -47,7 +47,7 @@ class TestScan:
     class TestWhenCouldNotFindAPISpecFile:
         def test_should_log_error(self, mocker, caplog):
             mock_settings = mocker.patch(
-                "scanapi.scan.settings", {"spec_path": "invalid_path/Scanfile"}
+                "scanapi.scan.settings", {"spec_path": "invalid_path/scanapi.yaml"}
             )
             mocker.patch("scanapi.scan.load_config_file", side_effect=file_not_found)
             with caplog.at_level(logging.INFO):
@@ -58,8 +58,8 @@ class TestScan:
                 assert excinfo.value.code == 4
 
             assert (
-                "Could not find API spec file: invalid_path/Scanfile. [Errno 2] No such file "
-                "or directory: 'invalid_path/Scanfile" in caplog.text
+                "Could not find API spec file: invalid_path/scanapi.yaml. [Errno 2] No such file "
+                "or directory: 'invalid_path/scanapi.yaml" in caplog.text
             )
 
     class TestWhenAPISpecFileIsEmpty:
@@ -74,7 +74,7 @@ class TestScan:
                 assert excinfo.value.code == 4
 
             assert (
-                "API spec file is empty. File 'valid_path/Scanfile' is empty."
+                "API spec file is empty. File 'valid_path/scanapi.yaml' is empty."
                 in caplog.text
             )
 

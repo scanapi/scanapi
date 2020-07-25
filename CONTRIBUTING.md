@@ -46,7 +46,7 @@ Otherwise you will receive this error:
 
 ```shell
 $ poetry run scanapi
-ERROR:scanapi:Could not find API spec file: Scanfile. [Errno 2] No such file or directory: 'Scanfile'
+ERROR:scanapi:Could not find API spec file: scanapi.yaml. [Errno 2] No such file or directory: 'scanapi.yaml'
 ```
 
 For that, we have the [ScanAPI Examples][scanapi-examples] repository, with some API specification
@@ -79,7 +79,7 @@ Run the ScanAPI for the API example you prefer:
 **PokèAPI**
 
 ```shell
-$ poetry run scanapi ../examples/pokeapi/Scanfile -c ../examples/pokeapi/.scanapi.yaml -o ../examples/pokeapi/scanapi-report.html
+$ poetry run scanapi ../examples/pokeapi/scanapi.yaml -c ../examples/pokeapi/.scanapi.yaml -o ../examples/pokeapi/scanapi-report.html
 ```
 
 **Demo-API**

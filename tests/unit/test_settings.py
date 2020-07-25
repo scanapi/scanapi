@@ -7,7 +7,7 @@ from scanapi.settings import settings, DEFAULT_CONFIG_PATH
 class TestSettings:
     class TestInit:
         def test_should_init_with_default_values(self):
-            assert settings["spec_path"] == "Scanfile"
+            assert settings["spec_path"] == "scanapi.yaml"
             assert settings["output_path"] is None
             assert settings["template"] is None
 

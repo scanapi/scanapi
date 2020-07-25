@@ -7,7 +7,7 @@ from scanapi.config_loader import load_config_file
 
 class TestLoadConfigFile:
     def test_should_load(self):
-        data = load_config_file("tests/data/Scanfile")
+        data = load_config_file("tests/data/scanapi.yaml")
         assert data == {
             "api": {
                 "endpoints": [
