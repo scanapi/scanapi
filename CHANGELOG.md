@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed `project-name`, `hide-request` and `hide-response` to use underscore. [#228](https://github.com/scanapi/scanapi/issues/228)
 - Changed command `scanapi spec-file.yaml` to `scanapi run spec-file.yaml`. [#247](https://github.com/scanapi/scanapi/pull/247)
 - Moved Documentation from README.md to the website [#250](https://github.com/scanapi/scanapi/pull/250)
+- Global configuration.
 
 ### Fixed
 - Updated language use in README.md and CONTRIBUTING.md plus fix broken links [#220](https://github.com/scanapi/scanapi/pull/220)

@@ -21,6 +21,7 @@ jinja2 = "2.11.2"
 pyyaml = "5.3.1"
 requests = "2.24.0"
 bandit = "^1.6.2"
+appdirs = "^1.4.4"
 
 [tool.poetry.dev-dependencies]
 codecov = "2.1.7"
