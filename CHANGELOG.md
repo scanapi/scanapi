@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The report page now has a favicon [#223](https://github.com/scanapi/scanapi/pull/223)
 - Bandit security audit tool [#219](https://github.com/scanapi/scanapi/pull/219)
 
-## Changed
+### Changed
 - Renamed `api.(yaml|json)` to `scanapi.yaml` [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
 
 ### Fixed
