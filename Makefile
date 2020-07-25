@@ -18,3 +18,7 @@ sh:
 
 run:
 	@poetry run scanapi
+
+bandit:
+	@bandit -r scanapi
+
