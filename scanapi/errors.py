@@ -12,14 +12,6 @@ class HTTPMethodNotAllowedError(MalformedSpecError):
         super(HTTPMethodNotAllowedError, self).__init__(message, *args)
 
 
-class APIKeyMissingError(MalformedSpecError):
-    """Raised when 'api' key is not specified at root scope in the API spec"""
-
-    def __init__(self, *args):
-        message = "Missing api 'key' at root scope in the API spec"
-        super(APIKeyMissingError, self).__init__(message, *args)
-
-
 class InvalidKeyError(MalformedSpecError):
     """Raised when an invalid key is specified in the API spec"""
 
