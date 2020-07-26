@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Updated language use in README.md and CONTRIBUTING.md plus fix broken links [#220](https://github.com/scanapi/scanapi/pull/220)
 - Removed unused sys import in scan.py and cleaned for PEP8 and spelling errors [#217](https://github.com/scanapi/scanapi/pull/217)
+- Hide body sensitive information [#238](https://github.com/scanapi/scanapi/pull/238)
 
 ### Removed
 - APIKeyMissingError [#218](https://github.com/scanapi/scanapi/pull/218)
