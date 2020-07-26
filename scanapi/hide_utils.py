@@ -9,6 +9,7 @@ SENSITIVE_INFO_SUBSTITUTION_FLAG = "SENSITIVE_INFORMATION"
 
 
 def hide_sensitive_info(response):
+    """ Takes response and begins the hiding of sensitive data process """
     report_settings = settings.get("report", {})
     request = response.request
     request_settings = report_settings.get("hide-request", {})
@@ -19,6 +20,9 @@ def hide_sensitive_info(response):
 
 
 def _hide(http_msg, hide_settings):
+    """ Private method that finds all sensitive information attributes and calls _override_info
+    to have sensitive data replaced
+    """
     for http_attr in hide_settings:
         secret_fields = hide_settings[http_attr]
         for field in secret_fields:
@@ -26,6 +30,7 @@ def _hide(http_msg, hide_settings):
 
 
 def _override_info(http_msg, http_attr, secret_field):
+    """ Private method that substitutes sensitive data with string 'SENSITIVE_INFORMATION' """
     if (
         secret_field in getattr(http_msg, http_attr)
         and http_attr in ALLOWED_ATTRS_TO_HIDE

@@ -44,6 +44,9 @@ def construct_include(loader: Loader, node: yaml.Node) -> Any:
 
 
 def load_config_file(file_path):
+    """ Loads config file, checks extension of file - only .yaml, .yml and .json
+    are supported. If non-empty file exists reads data and returns it
+    """
     extension = os.path.splitext(file_path)[-1]
 
     if extension not in (".yaml", ".yml", ".json"):
