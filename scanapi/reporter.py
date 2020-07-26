@@ -39,7 +39,7 @@ class Reporter:
         """
         return {
             "now": datetime.datetime.now().replace(microsecond=0),
-            "project_name": settings.get("project-name", ""),
+            "project_name": settings.get("project_name", ""),
             "results": results,
             "session": session,
         }

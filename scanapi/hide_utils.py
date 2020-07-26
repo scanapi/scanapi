@@ -12,8 +12,8 @@ def hide_sensitive_info(response):
     """ Takes response and begins the hiding of sensitive data process """
     report_settings = settings.get("report", {})
     request = response.request
-    request_settings = report_settings.get("hide-request", {})
-    response_settings = report_settings.get("hide-response", {})
+    request_settings = report_settings.get("hide_request", {})
+    response_settings = report_settings.get("hide_response", {})
 
     _hide(request, request_settings)
     _hide(response, response_settings)
