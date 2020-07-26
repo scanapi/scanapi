@@ -3,12 +3,12 @@ on: push
 jobs:
 
   build-n-publish:
-    name: Build and publish Python 🐍 distributions 📦 to PyPI
+    name: PyPI - Build and publish Python 🐍 distributions 📦
     runs-on: ubuntu-latest
+    if: startsWith(github.event.ref, 'refs/tags')
     steps:
       - uses: actions/checkout@master
       - name: Build and publish to pypi
-        if: startsWith(github.event.ref, 'refs/tags')
         uses: JRubics/poetry-publish@v1.1
         with:
           python_version: '3.6'
@@ -16,12 +16,12 @@ jobs:
           pypi_token: ${{ secrets.PYPI_TOKEN }}
 
   build-n-publish-test-pypi:
-    name: Build and publish Python 🐍 distributions 📦 to Test PyPI
+    name: Test PyPI - Build and publish Python 🐍 distributions 📦
     runs-on: ubuntu-latest
+    if: startsWith(github.event.ref, 'refs/tags')
     steps:
       - uses: actions/checkout@master
       - name: Build and publish to test pypi
-        if: startsWith(github.event.ref, 'refs/tags')
         uses: JRubics/poetry-publish@v1.1
         with:
           python_version: '3.6'
