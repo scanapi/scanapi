@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- The report page now has a favicon [#223](https://github.com/scanapi/scanapi/pull/223)
+- Bandit security audit tool [#219](https://github.com/scanapi/scanapi/pull/219)
+
+### Changed
+- Renamed `api.(yaml|json)` to `scanapi.yaml` [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
+
+### Fixed
+- Updated language use in README.md and CONTRIBUTING.md plus fix broken links [#220](https://github.com/scanapi/scanapi/pull/220)
+- Removed unused sys import in scan.py and cleaned for PEP8 and spelling errors [#217](https://github.com/scanapi/scanapi/pull/217)
+
+### Removed
+- APIKeyMissingError [#218](https://github.com/scanapi/scanapi/pull/218)
 
 ## [1.0.5] - 2020-07-18
 ### Fixed

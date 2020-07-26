@@ -18,11 +18,11 @@ A library for **your API** that provides:
 - Automated Live Documentation
 
 Given an API specification, written in YAML/JSON format, ScanAPI hits the specified
-endpoints, runs the test cases, and generates a detailed report of this execution - that can be
-also used as the API documentation itself.
+endpoints, runs the test cases, and generates a detailed report of this execution - which can also 
+be used as the API documentation itself.
 
-With almost none Python knowledge, the user can define endpoints to be hit, the expected behaviors
-for each response, and, as a result, receives a full real-time diagnostic of the API!
+With almost no Python knowledge, the user can define endpoints to be hit, the expected behavior
+for each response and will receive a full real-time diagnostic report of the API!
 
 ## Contents
 
@@ -54,7 +54,7 @@ $ pip install scanapi
 
 ## Basic Usage
 
-You will need to write the API's specification and save it as an **YAML** or **JSON** file.
+You will need to write the API's specification and save it as a **YAML** or **JSON** file.
 For example:
 
 ```yaml
@@ -63,9 +63,9 @@ api:
     - name: scanapi-demo # The API's name of your API
       path: http://demo.scanapi.dev/api/ # The API's base url
       requests:
-        - name: list_all_devs # The name of the fist request
-          path: devs/ # The path of the fist request
-          method: get # The HTTP method of the fist request
+        - name: list_all_devs # The name of the first request
+          path: devs/ # The path of the first request
+          method: get # The HTTP method of the first request
           tests:
             - name: status_code_is_200 # The name of the first test for this request
               assert: ${{ response.status_code == 200 }} # The assertion
@@ -122,23 +122,23 @@ Options:
 
 ### Syntax - API Specification Keys
 
-| KEY              | Description                                                                                         | Type   | Scopes                            |
-| ---------------- | --------------------------------------------------------------------------------------------------- | ------ | --------------------------------- |
-| api              | It is reserver word that marks the root of the specification and must not appear in any other place | dict   | root                              |
-| assert           | The test assertion                                                                                  | dict   | tests                             |
-| body             | The HTTP body of the request                                                                        | dict   | request                           |
-| endpoints        | It represents a list of API endpoints                                                               | list   | endpoint                          |
-| headers          | The HTTP headers                                                                                    | dict   | endpoint, request                 |
-| method           | The HTTP method of the request (GET, POST, PUT, PATCH or DELETE). If not set, GET will be used      | string | request                           |
-| name             | An identifier                                                                                       | string | endpoint, request, test           |
-| params           | The HTTP query parameters                                                                           | dict   | endpoint, request                 |
-| path             | A part of the URL path that will be concatenated with possible other paths                          | string | endpoint, request                 |
-| requests         | It represents a list of HTTP requests                                                               | list   | endpoint                          |
-| tests            | It represents a list of tests to run against a HTTP response of a request                           | list   | request                           |
-| vars             | Key used to define your custom variables to be used along the specification                         | dict   | endpoint, request                 |
-| ${custom var}    | A syntax to get the value of the custom variables defined at key `vars`                             | string | request - after `vars` definition |
-| ${ENV_VAR}       | A syntax to get the value of an environment variable                                                | string | endpoint, request                 |
-| ${{python_code}} | A syntax to get the value of a Python code expression                                               | string | request                           |
+| KEY              | Description                                                                                           | Type   | Scopes                            |
+| ---------------- | ----------------------------------------------------------------------------------------------------- | ------ | --------------------------------- |
+| api              | It is a reserved word that marks the root of the specification and must not appear in any other place | dict   | root                              |
+| assert           | The test assertion                                                                                    | dict   | tests                             |
+| body             | The HTTP body of the request                                                                          | dict   | request                           |
+| endpoints        | Represents a list of API endpoints                                                                    | list   | endpoint                          |
+| headers          | The HTTP headers                                                                                      | dict   | endpoint, request                 |
+| method           | The HTTP method of the request (GET, POST, PUT, PATCH or DELETE). If not set, GET will be used        | string | request                           |
+| name             | An identifier                                                                                         | string | endpoint, request, test           |
+| params           | The HTTP query parameters                                                                             | dict   | endpoint, request                 |
+| path             | A part of the URL path that will be concatenated with possible other paths                            | string | endpoint, request                 |
+| requests         | Represents a list of HTTP requests                                                                    | list   | endpoint                          |
+| tests            | Represents a list of tests to run against a HTTP response of a request                                | list   | request                           |
+| vars             | Key used to define your custom variables to be used along the specification                           | dict   | endpoint, request                 |
+| ${custom var}    | Syntax to get the value of the custom variables defined at key `vars`                                 | string | request - after `vars` definition |
+| ${ENV_VAR}       | Syntax to get the value of an environment variable                                                    | string | endpoint, request                 |
+| ${{python_code}} | Syntax to get the value of a Python code expression                                                   | string | request                           |
 
 
 ### Environment Variables
@@ -194,7 +194,7 @@ ${my_variable_name}
 You can add Python code to the API specification by using the syntax:
 
 ```yaml
-${{my_pyhon_code}}
+${{my_python_code}}
 ```
 
 For example
@@ -211,13 +211,13 @@ body:
 ```
 
 What I can use inside the `${{}}` syntax?
-Basically any python code that **can run inside an `eval` python command**.
+Any python code that **can run inside an `eval` python command**.
 A short list of modules will be already available for you. They are all the imports of
 [this file](https://github.com/scanapi/scanapi/blob/master/scanapi/evaluators/code_evaluator.py#L1).
 
 ### Chaining Requests
 
-Inside the request scope, you can save the results of the resulted response to use in the next
+Inside the request scope, you can save the results of the response to use in the next
 requests. For example:
 
 ```yaml
@@ -230,7 +230,7 @@ requests:
 
 The dev_id variable will receive the `uuid` value of the 3rd result from the devs_list_all request
 
-It the response is
+If the response is
 
 ```json
 [
@@ -274,7 +274,7 @@ With `!include`, it is possible to build your API specification in multiple file
 For example, these two files
 
 ```yaml
-# api.yaml
+# scanapi.yaml
 api:
   endpoints:
     - name: scanapi-demo
@@ -307,7 +307,7 @@ of your project
 
 ```yaml
 project_name: DemoAPI # This will be rendered in the Report Title.
-spec_path: my_path/api.yaml # API specification file path
+spec_path: my_path/scanapi.yaml # API specification file path
 output_path: my_path/my-report.html # Report output path.
 template: my_template.jinja # Custom report template path.
 ```
@@ -344,7 +344,7 @@ Collaboration is super welcome! We prepared the [CONTRIBUTING.md][contributing-f
 you in the first steps. Every little bit of help counts! Feel free to create new GitHub issues and
 interact here.
 
-Let's built it together 🚀
+Let's build it together 🚀
 
 [contributing-file]: https://github.com/scanapi/scanapi/blob/master/CONTRIBUTING.md
 [pip-installation]: https://pip.pypa.io/en/stable/installing/

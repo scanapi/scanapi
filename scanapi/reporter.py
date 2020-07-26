@@ -32,8 +32,9 @@ class Reporter:
         logger.info("\nThe documentation was generated successfully.")
         logger.info(f"It is available at {self.output_path}")
 
-    def _build_context(self, results):
-        """ Private method of Reporter instance object and returns dict containing keys datetime,
+    @staticmethod
+    def _build_context(results):
+        """ Private method of Reporter returns dict containing keys datetime,
         project_name, results and session and their corresponding values.
         """
         return {
