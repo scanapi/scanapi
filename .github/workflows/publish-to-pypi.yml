@@ -1,15 +1,12 @@
 name: Publish Python 🐍 distributions 📦 to PyPI
 on: push
 jobs:
+
   build-n-publish:
     name: Build and publish Python 🐍 distributions 📦 to PyPI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
       - name: Build and publish to pypi
         if: startsWith(github.event.ref, 'refs/tags')
         uses: JRubics/poetry-publish@v1
@@ -17,3 +14,18 @@ jobs:
           python_version: '3.6'
           poetry_version: '>=0.12'
           pypi_token: ${{ secrets.PYPI_TOKEN }}
+
+  build-n-publish-test-pypi:
+    name: Build and publish Python 🐍 distributions 📦 to Test PyPI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build and publish to test pypi
+        if: startsWith(github.event.ref, 'refs/tags')
+        uses: JRubics/poetry-publish@v1
+        with:
+          python_version: '3.6'
+          poetry_version: '>=0.12'
+          pypi_token: ${{ secrets.TEST_PYPI_TOKEN }}
+          repository_name: 'testpypi'
+          repository_url: 'https://test.pypi.org/legacy/'
