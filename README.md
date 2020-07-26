@@ -58,17 +58,16 @@ You will need to write the API's specification and save it as a **YAML** or **JS
 For example:
 
 ```yaml
-api:
-  endpoints:
-    - name: scanapi-demo # The API's name of your API
-      path: http://demo.scanapi.dev/api/ # The API's base url
-      requests:
-        - name: list_all_devs # The name of the first request
-          path: devs/ # The path of the first request
-          method: get # The HTTP method of the first request
-          tests:
-            - name: status_code_is_200 # The name of the first test for this request
-              assert: ${{ response.status_code == 200 }} # The assertion
+endpoints:
+  - name: scanapi-demo # The API's name of your API
+    path: http://demo.scanapi.dev/api/ # The API's base url
+    requests:
+      - name: list_all_devs # The name of the first request
+        path: devs/ # The path of the first request
+        method: get # The HTTP method of the first request
+        tests:
+          - name: status_code_is_200 # The name of the first test for this request
+            assert: ${{ response.status_code == 200 }} # The assertion
 ```
 
 And run the scanapi command
@@ -156,14 +155,13 @@ $ export BASE_URL="http://demo.scanapi.dev/api/"
 ```
 
 ```yaml
-api:
-  endpoints:
-    - name: scanapi-demo
-      path: ${BASE_URL}
-      requests:
-        - name: health
-          method: get
-          path: /health/
+endpoints:
+  - name: scanapi-demo
+    path: ${BASE_URL}
+    requests:
+      - name: health
+        method: get
+        path: /health/
 ```
 
 ScanAPI would call the following `http://demo.scanapi.dev/api/health/` then.
@@ -275,11 +273,10 @@ For example, these two files
 
 ```yaml
 # scanapi.yaml
-api:
-  endpoints:
-    - name: scanapi-demo
-      path: ${BASE_URL}
-      requests: !include include.yaml
+endpoints:
+  - name: scanapi-demo
+    path: ${BASE_URL}
+    requests: !include include.yaml
 ```
 
 ```yaml
@@ -291,13 +288,12 @@ api:
 would generate:
 
 ```yaml
-api:
-  endpoints:
-    - name: scanapi-demo
-      path: ${BASE_URL}
-      requests:
-        - name: health
-          path: /health/
+endpoints:
+  - name: scanapi-demo
+    path: ${BASE_URL}
+    requests:
+      - name: health
+        path: /health/
 ```
 
 ### Configuration File
