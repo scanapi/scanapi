@@ -108,6 +108,10 @@ class TestFileName: # example: TestRegistration
             pass
 ```
 
+## Add new dependencies
+
+For adding new dependencies, we use Poetry. You can check the official documentation: [https://python-poetry.org/docs/basic-usage/#specifying-dependencies](https://python-poetry.org/docs/basic-usage/#specifying-dependencies)
+
 ## Deploy
 
 Steps:
@@ -118,7 +122,8 @@ Steps:
 
 ### Bump the lib Version
 
-Check the last release number at https://pypi.org/project/scanapi/#history
+Check the last release number at [https://pypi.org/project/scanapi/#history](https://pypi.org/project/scanapi/#history)
+
 Increment the version number in `pyproject.toml` according to the version you have just got.
 
 ### Update the CHANGELOG.md
