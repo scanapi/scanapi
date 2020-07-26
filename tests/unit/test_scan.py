@@ -8,7 +8,6 @@ import yaml
 from scanapi.errors import (
     EmptyConfigFileError,
     InvalidKeyError,
-    MissingMandatoryKeyError,
 )
 from scanapi.scan import scan, write_report
 
@@ -31,10 +30,6 @@ def yaml_error(*args, **kwargs):
 
 def invalid_key(*args, **kwargs):
     raise InvalidKeyError("foo", "endpoint", ["bar", "other"])
-
-
-def missing_mandatory_key(*args, **kwargs):
-    raise MissingMandatoryKeyError(["foo", "bar"], "endpoint")
 
 
 @pytest.fixture
@@ -93,7 +88,7 @@ class TestScan:
     class TestWhenAPISpecHasAnInvalidKey:
         def test_should_log_error(self, mocker, caplog):
             mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
-            mock_load_config_file.return_value = {"api": "blah"}
+            mock_load_config_file.return_value = {"blah": "blah"}
             mocker.patch("scanapi.scan.EndpointNode.__init__", side_effect=invalid_key)
             with caplog.at_level(logging.INFO):
                 with pytest.raises(SystemExit) as excinfo:
@@ -107,46 +102,10 @@ class TestScan:
                 "are: ['bar', 'other']" in caplog.text
             )
 
-    class TestWhenAPISpecIsMissingMandatoryKey:
-        def test_should_log_error(self, mocker, caplog):
-            mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
-            mock_load_config_file.return_value = {"api": "blah"}
-
-            mocker.patch(
-                "scanapi.scan.EndpointNode.__init__", side_effect=missing_mandatory_key,
-            )
-            with caplog.at_level(logging.INFO):
-                with pytest.raises(SystemExit) as excinfo:
-                    scan()
-
-                assert excinfo.type == SystemExit
-                assert excinfo.value.code == 4
-
-            assert (
-                "Error loading API spec. Missing 'bar', 'foo' key(s) at 'endpoint' scope"
-                in caplog.text
-            )
-
-    class TestWhenAPISpecIsMissingAPIKey:
-        def test_should_log_error(self, mocker, caplog):
-            mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
-
-            with caplog.at_level(logging.INFO):
-                with pytest.raises(SystemExit) as excinfo:
-                    scan()
-
-                assert excinfo.type == SystemExit
-                assert excinfo.value.code == 4
-
-            assert (
-                "Error loading API spec. Missing 'api' key(s) at 'root' scope"
-                in caplog.text
-            )
-
     class TestWhenAPISpecIsOk:
         def test_should_call_reporter(self, mocker, response):
             mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
-            mock_load_config_file.return_value = {"api": {"endpoints": []}}
+            mock_load_config_file.return_value = {"endpoints": []}
             mock_endpoint_init = mocker.patch("scanapi.scan.EndpointNode.__init__")
             mock_endpoint_init.return_value = None
             mock_endpoint_run = mocker.patch("scanapi.scan.EndpointNode.run")

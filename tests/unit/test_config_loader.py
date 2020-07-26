@@ -9,7 +9,19 @@ class TestLoadConfigFile:
     def test_should_load(self):
         data = load_config_file("tests/data/scanapi.yaml")
         assert data == {
-            "api": {
+            "endpoints": [
+                {
+                    "name": "scanapi-demo",
+                    "path": "${BASE_URL}",
+                    "requests": [{"name": "health", "path": "/health/"}],
+                }
+            ]
+        }
+
+    class TestLoadJson:
+        def test_should_load(self):
+            data = load_config_file("tests/data/jsonfile.json")
+            assert data == {
                 "endpoints": [
                     {
                         "name": "scanapi-demo",
@@ -17,22 +29,6 @@ class TestLoadConfigFile:
                         "requests": [{"name": "health", "path": "/health/"}],
                     }
                 ]
-            }
-        }
-
-    class TestLoadJson:
-        def test_should_load(self):
-            data = load_config_file("tests/data/jsonfile.json")
-            assert data == {
-                "api": {
-                    "endpoints": [
-                        {
-                            "name": "scanapi-demo",
-                            "path": "${BASE_URL}",
-                            "requests": [{"name": "health", "path": "/health/"}],
-                        }
-                    ]
-                }
             }
 
     class TestWhenFileDoesNotExist:

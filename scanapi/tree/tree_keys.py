@@ -1,4 +1,3 @@
-API_KEY = "api"
 ASSERT_KEY = "assert"
 BODY_KEY = "body"
 ENDPOINTS_KEY = "endpoints"
