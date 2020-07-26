@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 def scan():
+    """ Caller function that tries to scans the file and write the report. """
     spec_path = settings["spec_path"]
 
     try:
@@ -55,5 +56,8 @@ def scan():
 
 
 def write_report(results):
+    """ Constructs a Reporter object and calls the write method of Reporter to push
+    the results to a file.
+    """
     reporter = Reporter(settings["output_path"], settings["template"])
     reporter.write(results)

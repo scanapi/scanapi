@@ -3,7 +3,6 @@ Code based on solution https://gist.github.com/joshbode/569627ced3076931b02f
 """
 
 from typing import Any, IO
-import json
 import logging
 import os
 import yaml
@@ -38,6 +37,14 @@ def construct_include(loader: Loader, node: yaml.Node) -> Any:
 
 
 def load_config_file(file_path):
+    """ Loads config file, checks extension of file - only .yaml, .yml and .json
+    are supported. If non-empty file exists reads data and returns it
+    """
+    extension = os.path.splitext(file_path)[-1]
+
+    if extension not in (".yaml", ".yml", ".json"):
+        raise FileFormatNotSupportedError(extension, file_path)
+
     with open(file_path, "r") as stream:
         logger.info(f"Loading file {file_path}")
         data = yaml.load(stream, Loader)
