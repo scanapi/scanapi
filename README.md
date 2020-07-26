@@ -10,6 +10,9 @@
   <a href="https://badge.fury.io/py/scanapi">
     <img alt="PyPI version" src="https://badge.fury.io/py/scanapi.svg">
   </a>
+  <a href="https://spectrum.chat/scanapi">
+    <img alt="Join the community on Spectrum" src="https://withspectrum.github.io/badge/badge.svg" />
+  </a>
 </p>
 
 A library for **your API** that provides:
@@ -18,7 +21,7 @@ A library for **your API** that provides:
 - Automated Live Documentation
 
 Given an API specification, written in YAML/JSON format, ScanAPI hits the specified
-endpoints, runs the test cases, and generates a detailed report of this execution - which can also 
+endpoints, runs the test cases, and generates a detailed report of this execution - which can also
 be used as the API documentation itself.
 
 With almost no Python knowledge, the user can define endpoints to be hit, the expected behavior
