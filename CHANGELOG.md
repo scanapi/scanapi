@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Renamed `api.(yaml|json)` to `scanapi.yaml` [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
 - Remove top-level `api` key in `scanapi.yaml`. [#231](https://github.com/scanapi/scanapi/pull/231)
+- Renamed `project-name`, `hide-request` and `hide-response` to use underscore. [#228](https://github.com/scanapi/scanapi/issues/228)
 
 ### Fixed
 - Updated language use in README.md and CONTRIBUTING.md plus fix broken links [#220](https://github.com/scanapi/scanapi/pull/220)

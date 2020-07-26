@@ -18,10 +18,10 @@ class TestHideSensitiveInfo:
     test_data = [
         ({}, {}, {}),
         ({"report": {"abc": "def"}}, {}, {}),
-        ({"report": {"hide-request": {"url": ["abc"]}}}, {"url": ["abc"]}, {}),
-        ({"report": {"hide-request": {"headers": ["abc"]}}}, {"headers": ["abc"]}, {},),
+        ({"report": {"hide_request": {"url": ["abc"]}}}, {"url": ["abc"]}, {}),
+        ({"report": {"hide_request": {"headers": ["abc"]}}}, {"headers": ["abc"]}, {},),
         (
-            {"report": {"hide-response": {"headers": ["abc"]}}},
+            {"report": {"hide_response": {"headers": ["abc"]}}},
             {},
             {"headers": ["abc"]},
         ),
