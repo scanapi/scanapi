@@ -14,15 +14,12 @@ class Session:
         self.failures = 0
         self.errors = 0
         self.exit_code = ExitCode.OK
+        self.started_at = datetime.now()
 
     @property
     def succeed(self):
         """ Property decorated method that returns success (no errors or failures. """
         return self.errors == 0 and self.failures == 0
-
-    def start(self):
-        """ Start session method that sets the time this Session object began. """
-        self.started_at = datetime.now()
 
     def exit(self):
         """ Handles the exiting of the Session """
