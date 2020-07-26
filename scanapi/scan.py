@@ -7,14 +7,13 @@ from scanapi.errors import (
     EmptyConfigFileError,
     InvalidKeyError,
     InvalidPythonCodeError,
-    MissingMandatoryKeyError,
 )
 from scanapi.exit_code import ExitCode
 from scanapi.reporter import Reporter
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.tree import EndpointNode
-from scanapi.tree.tree_keys import API_KEY, ROOT_SCOPE
+from scanapi.tree.tree_keys import ROOT_SCOPE
 
 logger = logging.getLogger(__name__)
 
@@ -38,18 +37,10 @@ def scan():
         raise SystemExit(ExitCode.USAGE_ERROR)
 
     try:
-        if API_KEY not in api_spec:
-            raise MissingMandatoryKeyError({API_KEY}, ROOT_SCOPE)
-
-        root_node = EndpointNode(api_spec[API_KEY])
+        root_node = EndpointNode(api_spec)
         results = root_node.run()
 
-    except (
-        InvalidKeyError,
-        MissingMandatoryKeyError,
-        KeyError,
-        InvalidPythonCodeError,
-    ) as e:
+    except (InvalidKeyError, KeyError, InvalidPythonCodeError,) as e:
         error_message = "Error loading API spec."
         error_message = "{} {}".format(error_message, str(e))
         logger.error(error_message)
