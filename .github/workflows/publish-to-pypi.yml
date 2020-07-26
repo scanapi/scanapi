@@ -1,11 +1,10 @@
 name: Publish Python 🐍 distributions 📦 to PyPI
-on: push
+on: release
+  types: [published]
 jobs:
-
   build-n-publish:
     name: PyPI - Build and publish Python 🐍 distributions 📦
     runs-on: ubuntu-latest
-    if: startsWith(github.event.ref, 'refs/tags')
     steps:
       - uses: actions/checkout@master
       - name: Build and publish to pypi
@@ -15,10 +14,13 @@ jobs:
           poetry_version: '>=0.12'
           pypi_token: ${{ secrets.PYPI_TOKEN }}
 
+name: Publish Python 🐍 distributions 📦 to Test PyPI
+on: push
+  branches: [master]
+jobs:
   build-n-publish-test-pypi:
     name: Test PyPI - Build and publish Python 🐍 distributions 📦
     runs-on: ubuntu-latest
-    if: startsWith(github.event.ref, 'refs/tags')
     steps:
       - uses: actions/checkout@master
       - name: Build and publish to test pypi
