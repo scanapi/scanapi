@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- JSON response is now properly rendered, instead of plain text. [#213](https://github.com/scanapi/scanapi/pull/213)
 - The report page now has a favicon [#223](https://github.com/scanapi/scanapi/pull/223)
 - Bandit security audit tool [#219](https://github.com/scanapi/scanapi/pull/219)
 - Add Sphinx auto-documentation [#230](https://github.com/scanapi/scanapi/pull/230)
