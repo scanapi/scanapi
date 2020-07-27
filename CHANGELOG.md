@@ -7,7 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- JSON response is now properly rendered, instead of plain text. [#213](https://github.com/scanapi/scanapi/pull/213)
+- The report page now has a favicon [#223](https://github.com/scanapi/scanapi/pull/223)
+- Bandit security audit tool [#219](https://github.com/scanapi/scanapi/pull/219)
+- Add Sphinx auto-documentation [#230](https://github.com/scanapi/scanapi/pull/230)
+
+### Changed
+- Renamed `api.(yaml|json)` to `scanapi.yaml` [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
+- Remove top-level `api` key in `scanapi.yaml`. [#231](https://github.com/scanapi/scanapi/pull/231)
+- Renamed `project-name`, `hide-request` and `hide-response` to use underscore. [#228](https://github.com/scanapi/scanapi/issues/228)
+
+### Fixed
+- Updated language use in README.md and CONTRIBUTING.md plus fix broken links [#220](https://github.com/scanapi/scanapi/pull/220)
+- Removed unused sys import in scan.py and cleaned for PEP8 and spelling errors [#217](https://github.com/scanapi/scanapi/pull/217)
+- Hide body sensitive information [#238](https://github.com/scanapi/scanapi/pull/238)
+
+### Removed
+- APIKeyMissingError [#218](https://github.com/scanapi/scanapi/pull/218)
 
 ## [1.0.5] - 2020-07-18
 ### Fixed

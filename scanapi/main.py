@@ -40,7 +40,6 @@ def main(spec_path, output_path, config_path, template, log_level):
     Automated Testing and Documentation for your REST API.
     SPEC_PATH argument is the API specification file path.
     """
-    session.start()
     logging.basicConfig(level=log_level, format="%(message)s")
     logger = logging.getLogger(__name__)
 

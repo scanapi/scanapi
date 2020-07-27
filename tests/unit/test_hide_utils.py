@@ -18,10 +18,10 @@ class TestHideSensitiveInfo:
     test_data = [
         ({}, {}, {}),
         ({"report": {"abc": "def"}}, {}, {}),
-        ({"report": {"hide-request": {"url": ["abc"]}}}, {"url": ["abc"]}, {}),
-        ({"report": {"hide-request": {"headers": ["abc"]}}}, {"headers": ["abc"]}, {},),
+        ({"report": {"hide_request": {"url": ["abc"]}}}, {"url": ["abc"]}, {}),
+        ({"report": {"hide_request": {"headers": ["abc"]}}}, {"headers": ["abc"]}, {},),
         (
-            {"report": {"hide-response": {"headers": ["abc"]}}},
+            {"report": {"hide_response": {"headers": ["abc"]}}},
             {},
             {"headers": ["abc"]},
         ),
@@ -71,16 +71,7 @@ class TestHide:
 
 
 class TestOverrideInfo:
-    def test_overrides(self, response):
-        response.headers = {"abc": "123"}
-        http_attr = "headers"
-        secret_field = "abc"
-
-        _override_info(response, http_attr, secret_field)
-
-        assert response.headers["abc"] == "SENSITIVE_INFORMATION"
-
-    def test_overrides_sensitive_info_url(self, response):
+    def test_overrides_url(self, response):
         secret_key = "129e8cb2-d19c-51ad-9921-cea329bed7fa"
         response.url = (
             f"http://test.com/users/129e8cb2-d19c-51ad-9921-cea329bed7fa/details"
@@ -92,18 +83,28 @@ class TestOverrideInfo:
 
         assert response.url == "http://test.com/users/SENSITIVE_INFORMATION/details"
 
-    def test_when_http_attr_is_not_allowed(self, response, mocker):
-        mocker.patch("scanapi.hide_utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
+    def test_overrides_headers(self, response):
         response.headers = {"abc": "123"}
         http_attr = "headers"
         secret_field = "abc"
 
         _override_info(response, http_attr, secret_field)
 
-        assert response.headers["abc"] == "123"
+        assert response.headers["abc"] == "SENSITIVE_INFORMATION"
+
+    def test_overrides_body(self, response):
+        response.body = b'{"id": "abc21", "name": "Tarik", "yearsOfExperience": 2}'
+        http_attr = "body"
+        secret_field = "id"
+
+        _override_info(response, http_attr, secret_field)
+
+        assert (
+            response.body
+            == b'{"id": "SENSITIVE_INFORMATION", "name": "Tarik", "yearsOfExperience": 2}'
+        )
 
     def test_when_http_attr_does_not_have_the_field(self, response, mocker):
-        mocker.patch("scanapi.hide_utils.ALLOWED_ATTRS_TO_HIDE", ["body"])
         response.headers = {"abc": "123"}
         http_attr = "headers"
         secret_field = "def"

@@ -32,30 +32,29 @@ $ make install
 Run the ScanAPI:
 
 ```shell
-$ make run
+$ poetry run scanapi
 ```
 
 For help, run:
 
 ```shell
-$ make run --help
+$ poetry run scanapi --help
 ```
 
-But as you may noticed, you need an API specification file to run ScanAPI properly.
+As you may noticed, you need an API specification file to run ScanAPI properly.
 Otherwise you will receive this error:
 
 ```shell
-$ scanapi
-ERROR:scanapi:Could not find API spec file: api.yaml. [Errno 2] No such file or directory: 'api.yaml'
+$ poetry run scanapi
+ERROR:scanapi:Could not find API spec file: scanapi.yaml. [Errno 2] No such file or directory: 'scanapi.yaml'
 ```
 
 For that, we have the [ScanAPI Examples][scanapi-examples] repository, with some API specification
-examples that could be used.
+examples that you can use.
 
 ### Clone ScanAPI Examples
 
-In another terminal tab, outside `scanapi` folder, clone the [ScanAPI examples][scanapi-examples]
- project:
+In another terminal tab, outside `scanapi` folder, clone the [ScanAPI examples][scanapi-examples] project:
 
 ```shell
 $ git clone git@github.com:scanapi/examples.git
@@ -75,10 +74,19 @@ $ cd scanapi
 $ make sh
 ```
 
-Run the ScanAPI for the API example you prefer (`pokeapi`, for instance):
+Run the ScanAPI for the API example you prefer:
+
+**PokèAPI**
 
 ```shell
-$ poetry run scanapi ../examples/pokeapi/api.yaml -c ../examples/pokeapi/.scanapi.yaml -o ../examples/pokeapi/scanapi-report.html
+$ poetry run scanapi ../examples/pokeapi/scanapi.yaml -c ../examples/pokeapi/.scanapi.yaml -o ../examples/pokeapi/scanapi-report.html
+```
+
+**Demo-API**
+
+```shell
+$ source ../examples/demo-api/.env
+$ poetry run scanapi ../examples/demo-api/api.yaml -c ../examples/demo-api/.scanapi.yaml -o ../examples/demo-api/scanapi-report.html
 ```
 
 ## Tests
@@ -90,7 +98,7 @@ $ make test
 ```
 
 For testing, we use [pytest](https://docs.pytest.org/en/stable/). We also use classes to give some
-context about the tests, something inspired in [BDD](https://www.departmentofproduct.com/blog/writing-bdd-test-scenarios/):
+context to the tests, something inspired in [BDD](https://www.departmentofproduct.com/blog/writing-bdd-test-scenarios/):
 
 ```python
 class TestFileName: # example: TestRegistration
@@ -99,6 +107,10 @@ class TestFileName: # example: TestRegistration
          def test_expect_behavior(self): # example test_should_return_422
             pass
 ```
+
+## Add new dependencies
+
+For adding new dependencies, we use Poetry. You can check the official documentation: [https://python-poetry.org/docs/basic-usage/#specifying-dependencies](https://python-poetry.org/docs/basic-usage/#specifying-dependencies)
 
 ## Deploy
 
@@ -110,8 +122,9 @@ Steps:
 
 ### Bump the lib Version
 
-Check the last release number at https://pypi.org/manage/project/scanapi/releases/
-Increment the version number at `setup.py` according to the version you have just got.
+Check the last release number at [https://pypi.org/project/scanapi/#history](https://pypi.org/project/scanapi/#history)
+
+Increment the version number in `pyproject.toml` according to the version you have just got.
 
 ### Update the CHANGELOG.md
 
@@ -127,7 +140,7 @@ Create a PR named `Release <version>` containing these two changes above.
 
 ### Merge the PR
 
-Once the PR was accepted and passed on all checks, merge it.
+Once the PR has been accepted and passed on all checks, merge it.
 
 ### 2. Deploy on GitHub
 

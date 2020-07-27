@@ -1,27 +1,25 @@
 import logging
-import sys
 import yaml
 
 from scanapi.config_loader import load_config_file
 from scanapi.errors import (
     BadConfigurationError,
     EmptyConfigFileError,
-    FileFormatNotSupportedError,
     InvalidKeyError,
     InvalidPythonCodeError,
-    MissingMandatoryKeyError,
 )
 from scanapi.exit_code import ExitCode
 from scanapi.reporter import Reporter
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.tree import EndpointNode
-from scanapi.tree.tree_keys import API_KEY, ROOT_SCOPE
+from scanapi.tree.tree_keys import ROOT_SCOPE
 
 logger = logging.getLogger(__name__)
 
 
 def scan():
+    """ Caller function that tries to scans the file and write the report. """
     spec_path = settings["spec_path"]
 
     try:
@@ -34,23 +32,15 @@ def scan():
         error_message = f"API spec file is empty. {str(e)}"
         logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
-    except (yaml.YAMLError, FileFormatNotSupportedError) as e:
+    except yaml.YAMLError as e:
         logger.error(e)
         raise SystemExit(ExitCode.USAGE_ERROR)
 
     try:
-        if API_KEY not in api_spec:
-            raise MissingMandatoryKeyError({API_KEY}, ROOT_SCOPE)
-
-        root_node = EndpointNode(api_spec[API_KEY])
+        root_node = EndpointNode(api_spec)
         results = root_node.run()
 
-    except (
-        InvalidKeyError,
-        MissingMandatoryKeyError,
-        KeyError,
-        InvalidPythonCodeError,
-    ) as e:
+    except (InvalidKeyError, KeyError, InvalidPythonCodeError,) as e:
         error_message = "Error loading API spec."
         error_message = "{} {}".format(error_message, str(e))
         logger.error(error_message)
@@ -66,5 +56,8 @@ def scan():
 
 
 def write_report(results):
+    """ Constructs a Reporter object and calls the write method of Reporter to push
+    the results to a file.
+    """
     reporter = Reporter(settings["output_path"], settings["template"])
     reporter.write(results)

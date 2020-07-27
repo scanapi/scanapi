@@ -1,11 +1,9 @@
 {
-    "api": {
-        "endpoints": [
-            {
-                "name": "scanapi-demo",
-                "path": "${BASE_URL}",
-                "requests": !include include.json
-            }
-        ]
-    }
+    "endpoints": [
+        {
+            "name": "scanapi-demo",
+            "path": "${BASE_URL}",
+            "requests": !include include.json
+        }
+    ]
 }
