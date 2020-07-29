@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - APIKeyMissingError [#218](https://github.com/scanapi/scanapi/pull/218)
+- Move Changelog Lint from CircleCI to GitHub Actions [#139](https://github.com/scanapi/scanapi/issues/139)
 
 ## [1.0.5] - 2020-07-18
 ### Fixed
