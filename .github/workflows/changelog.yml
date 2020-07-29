@@ -12,3 +12,7 @@ jobs:
           changelog_regex: "CHANGELOG.md"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Changelog Tool
+        uses: rcmachado/changelog-action@v1
+        with:
+          args: diff CHANGELOG.md <(/changelog fmt CHANGELOG.md) --color -u
