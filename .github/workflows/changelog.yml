@@ -15,4 +15,4 @@ jobs:
       - name: Changelog Tool
         uses: rcmachado/changelog-action@v1
         with:
-          args: init --output CHANGELOG.md --compare-url https://keepachangelog.com/en/1.0.0/
+          args: diff -u <(changelog fmt -f CHANGELOG.md) CHANGELOG.md
