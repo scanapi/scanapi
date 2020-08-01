@@ -13,7 +13,7 @@ class TestMain:
             )
             result = runner.invoke(run, ["--output-path", "my_output.html"])
 
-            assert result.exit_code == 0
+            assert result.exit_code == 4
             mock_save_preferences.assert_called_once_with(
                 **{
                     "spec_path": None,
