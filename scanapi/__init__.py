@@ -1,4 +1,4 @@
 name = "scanapi"
-from scanapi.main import main
+from scanapi.__main__ import main
 
 __all__ = ["main"]
