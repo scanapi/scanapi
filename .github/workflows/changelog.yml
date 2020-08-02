@@ -15,4 +15,6 @@ jobs:
       - name: Changelog Tool
         uses: rcmachado/changelog-action@v1
         with:
-          args: diff -u <(changelog fmt -f CHANGELOG.md) CHANGELOG.md
+          args: fmt -f CHANGELOG.md > fmt_CHANGELOG.md
+      - name: Check diff 
+        run: diff -u fmt_CHANGELOG.md CHANGELOG.md
