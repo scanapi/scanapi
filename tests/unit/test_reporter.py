@@ -64,7 +64,7 @@ class TestReporter:
             reporter = Reporter()
             reporter.write(fake_results)
 
-            mocked__render.assert_called_once_with("html.jinja", context, False)
+            mocked__render.assert_called_once_with("report.html", context, False)
             mocked__open.assert_called_once_with(
                 "scanapi-report.html", "w", newline="\n"
             )

@@ -346,7 +346,7 @@
         <!-- summary_box -->
 
         {% for result in results -%}
-        {% set response = result["response"] %}
+    {% set response = result["response"] %}
         {% set tests = result["tests_results"] %}
         {% set endpoint_status_label = "P" if result["no_failure"] else "F" %}
         {% set request = response.request %}
