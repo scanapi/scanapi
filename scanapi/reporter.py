@@ -20,7 +20,7 @@ class Reporter:
         """
         logger.info("Writing documentation")
 
-        template_path = self.template if self.template else "html.jinja"
+        template_path = self.template if self.template else "report.html"
         has_external_template = True if self.template else False
         context = self._build_context(results)
 
