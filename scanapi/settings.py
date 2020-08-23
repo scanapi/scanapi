@@ -49,10 +49,12 @@ class Settings(dict):
 
     @property
     def has_global_config_file(self):
+        """ Checks if there is a global config file. """
         return os.path.isfile(GLOBAL_CONFIG_PATH)
 
     @property
     def has_local_config_file(self):
+        """ Checks if there is a local config file. """
         return os.path.isfile(LOCAL_CONFIG_PATH)
 
 

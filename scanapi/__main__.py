@@ -1,6 +1,8 @@
 import click
 import logging
+import yaml
 
+from scanapi.exit_code import ExitCode
 from scanapi.scan import scan
 from scanapi.session import session
 from scanapi.settings import settings
@@ -58,5 +60,12 @@ def run(spec_path, output_path, config_path, template, log_level):
         "template": template,
     }
 
-    settings.save_preferences(**click_preferences)
+    try:
+        settings.save_preferences(**click_preferences)
+    except yaml.YAMLError as e:
+        error_message = "Error loading configuration file."
+        error_message = "{}\nPyYAML: {}".format(error_message, str(e))
+        logger.error(error_message)
+        raise SystemExit(ExitCode.USAGE_ERROR)
+
     scan()
