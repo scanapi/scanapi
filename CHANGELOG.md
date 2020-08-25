@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.0.0] - 2020-08-25
 ### Added
 - JSON response is now properly rendered, instead of plain text. [#213](https://github.com/scanapi/scanapi/pull/213)
 - The report page now has a favicon. [#223](https://github.com/scanapi/scanapi/pull/223)
@@ -168,7 +170,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v1.0.5...HEAD
+[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/camilamaia/scanapi/compare/v1.0.5...v2.0.0
 [1.0.5]: https://github.com/camilamaia/scanapi/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/camilamaia/scanapi/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/camilamaia/scanapi/compare/v1.0.2...v1.0.3
