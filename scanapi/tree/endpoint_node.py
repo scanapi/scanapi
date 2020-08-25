@@ -61,7 +61,7 @@ class EndpointNode:
 
     @property
     def path(self):
-        path = self.spec.get(PATH_KEY, "").strip()
+        path = str(self.spec.get(PATH_KEY, "")).strip()
         url = join_urls(self.parent.path, path) if self.parent else path
 
         return self.vars.evaluate(url)

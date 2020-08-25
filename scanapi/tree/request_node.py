@@ -62,7 +62,7 @@ class RequestNode:
     @property
     def full_url_path(self):
         base_path = self.endpoint.path
-        path = self.spec.get(PATH_KEY, "")
+        path = str(self.spec.get(PATH_KEY, ""))
         full_url = join_urls(base_path, path)
 
         return self.endpoint.vars.evaluate(full_url)
@@ -95,6 +95,10 @@ class RequestNode:
         method = self.http_method
         url = self.full_url_path
         logger.info("Making request %s %s", method, url)
+
+        self.endpoint.vars.update(
+            self.spec.get(VARS_KEY, {}), preevaluate=False,
+        )
 
         response = requests.request(
             method,
