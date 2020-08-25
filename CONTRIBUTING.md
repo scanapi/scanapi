@@ -124,7 +124,9 @@ Steps:
 
 Check the last release number at [https://pypi.org/project/scanapi/#history](https://pypi.org/project/scanapi/#history)
 
-Increment the version number in `pyproject.toml` according to the version you have just got.
+Increment the version number in the `pyproject.toml` according to the version you have just got: https://github.com/scanapi/scanapi/blob/master/pyproject.toml#L3
+
+Also, increment the version number in the `Dockerfile` according to the version you have just got: https://github.com/scanapi/scanapi/blob/master/Dockerfile#L9
 
 ### Update the CHANGELOG.md
 
