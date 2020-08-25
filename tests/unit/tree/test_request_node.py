@@ -97,6 +97,13 @@ class TestRequestNode:
             request = RequestNode({"name": "foo", "path": "/foo/"}, endpoint=endpoint)
             assert request.full_url_path == "http://foo.com/foo/"
 
+        def test_with_trailintest_with_path_not_stringg_slashes(self):
+            endpoint = EndpointNode(
+                {"name": "foo", "requests": [{}], "path": "http://foo.com/"}
+            )
+            request = RequestNode({"name": "foo", "path": []}, endpoint=endpoint)
+            assert request.full_url_path == "http://foo.com/[]"
+
         def test_calls_evaluate(self, mocker, mock_evaluate):
             endpoint = EndpointNode(
                 {"name": "foo", "requests": [{}], "path": "http://foo.com/"}

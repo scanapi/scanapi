@@ -71,5 +71,8 @@ class StringEvaluator:
 
     @classmethod
     def replace_var_with_value(cls, sequence, variable, variable_value):
+        if variable == sequence:
+            return variable_value
+
         variable = re.escape(variable)
-        return re.sub(variable, variable_value, sequence)
+        return re.sub(variable, str(variable_value), sequence)

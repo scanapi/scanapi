@@ -25,7 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated language use in README.md and CONTRIBUTING.md plus fix broken links. [#220](https://github.com/scanapi/scanapi/pull/220)
 - Removed unused sys import in scan.py and cleaned for PEP8 and spelling errors. [#217](https://github.com/scanapi/scanapi/pull/217)
 - Hide body sensitive information. [#238](https://github.com/scanapi/scanapi/pull/238)
-- Fix css issues with html template [#256](https://github.com/scanapi/scanapi/pull/256)
+- Fix css issues with html template. [#256](https://github.com/scanapi/scanapi/pull/256)
+- Fix when vars is declared and used in the same request.[#257](https://github.com/scanapi/scanapi/pull/257)
+- Fix when evaluated value is not string. [#257](https://github.com/scanapi/scanapi/pull/257)
 
 ### Removed
 - APIKeyMissingError. [#218](https://github.com/scanapi/scanapi/pull/218)

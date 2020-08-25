@@ -19,7 +19,7 @@ class TestEndpointNode:
         def test_missing_required_keys(self):
             with pytest.raises(MissingMandatoryKeyError) as excinfo:
                 endpoints = [{}, {}]
-                node = EndpointNode({"endpoints": endpoints})
+                EndpointNode({"endpoints": endpoints})
 
             assert str(excinfo.value) == "Missing 'name' key(s) at 'endpoint' scope"
 
@@ -28,7 +28,6 @@ class TestEndpointNode:
 
     class TestName:
         def test_when_parent_has_no_name(self):
-            base_path = "http://foo.com"
             node = EndpointNode({"name": "child-node"}, parent=EndpointNode({}))
             assert node.name == "child-node"
 
@@ -73,6 +72,15 @@ class TestEndpointNode:
                 {"path": "/foo/", "name": "node", "requests": []}, parent=parent
             )
             assert node.path == "http://foo.com/foo/"
+
+        def test_with_path_not_string(self):
+            parent = EndpointNode(
+                {"path": "http://foo.com/", "name": "parent-node", "requests": [],}
+            )
+            node = EndpointNode(
+                {"path": 2, "name": "node", "requests": []}, parent=parent
+            )
+            assert node.path == "http://foo.com/2"
 
         def test_calls_evaluate(self, mocker, mock_evaluate):
             parent = EndpointNode(
