@@ -96,6 +96,10 @@ class RequestNode:
         url = self.full_url_path
         logger.info("Making request %s %s", method, url)
 
+        self.endpoint.vars.update(
+            self.spec.get(VARS_KEY, {}), preevaluate=False,
+        )
+
         response = requests.request(
             method,
             url,
