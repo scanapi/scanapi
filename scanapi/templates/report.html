@@ -193,12 +193,17 @@
             justify-content: space-between;
         }
 
+        .endpoint__url {
+            line-break: anywhere;
+        }
+
         .http_method {
             font-weight: bold;
         }
 
         .endpoint__titleInfo {
             display: flex;
+            line-height: 22px;
         }
 
         .endpoint__status {
@@ -354,7 +359,7 @@
         <div class="endpoint">
             <input type="checkbox" class="endpoint__checkbox" id="chck_{{ loop.index | string }}" />
             <label class="endpoint__title" for="chck_{{ loop.index | string }}">
-                <span><span class="http_method">{{request.method}}</span> {{ request.path_url }}</span>
+                <span class="endpoint__url"><span class="http_method">{{request.method}}</span> {{ request.path_url }}</span>
                 <span class="endpoint__titleInfo">
                     {{ response.status_code }}
                     <span class="endpoint__status endpoint__status--{{endpoint_status_label}}">
