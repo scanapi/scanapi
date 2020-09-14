@@ -100,13 +100,12 @@ You can find complete examples at [scanapi/examples][scanapi-examples]!
 
 ## Contributing
 
-Collaboration is super welcome! We prepared the [CONTRIBUTING.md][contributing-file] file to help
-you in the first steps. Every little bit of help counts! Feel free to create new GitHub issues and
-interact here.
+Collaboration is super welcome! We prepared the [Newcomers Guide][newcomers-guide] to help you in the first steps. Every little bit of help counts! Feel free to create new [GitHub issues][github-issues] and interact here.
 
 Let's build it together 🚀
 
-[contributing-file]: https://github.com/scanapi/scanapi/blob/master/CONTRIBUTING.md
+[github-issues]: https://github.com/scanapi/scanapi/issues
+[newcomers-guide]: https://github.com/scanapi/scanapi/wiki/Newcomers
 [pip-installation]: https://pip.pypa.io/en/stable/installing/
 [scanapi-examples]: https://github.com/scanapi/examples
 [website]: https://scanapi.dev
