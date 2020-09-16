@@ -5,6 +5,7 @@ import logging
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.template_render import render
+from os.path import abspath
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +31,7 @@ class Reporter:
             doc.write(content)
 
         logger.info("\nThe documentation was generated successfully.")
-        logger.info(f"It is available at {self.output_path}")
+        logger.info(f"It is available at {abspath(self.output_path)}")
 
     @staticmethod
     def _build_context(results):
