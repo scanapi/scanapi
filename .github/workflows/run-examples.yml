@@ -1,0 +1,89 @@
+on: pull_request
+name: ScanAPI Examples
+jobs:
+  poke-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.6.12
+      - name: Poetry Setup
+        uses: dschep/install-poetry-action@v1.3
+        with:
+          version: 1.0.9
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@v2
+      - name: Checkout ScanAPI Examples repository
+        uses: actions/checkout@v2
+        with:
+          repository: scanapi/examples
+          path: examples
+      - name: Install Dependencies
+        run: poetry install
+      - name: Run ScanAPI for PokeAPI
+        run: "poetry run scanapi run ./examples/pokeapi/scanapi.yaml -c ./examples/pokeapi/scanapi.conf -o pokeapi.html"
+      - name: Upload PokeAPI ScanAPI Report
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: PokeAPI ScanAPI Report
+          path: pokeapi.html
+
+  httpbin-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.6.12
+      - name: Poetry Setup
+        uses: dschep/install-poetry-action@v1.3
+        with:
+          version: 1.0.9
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@v2
+      - name: Checkout ScanAPI Examples repository
+        uses: actions/checkout@v2
+        with:
+          repository: scanapi/examples
+          path: examples
+      - name: Install Dependencies
+        run: poetry install
+      - name: Run ScanAPI for httpbin.org
+        run: "poetry run scanapi run ./examples/httpbin-api/httpbin.yaml -c ./examples/httpbin-api/scanapi.conf -o httpbin.html"
+      - name: Upload httpbin.org ScanAPI Report
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: httpbin.org ScanAPI Report
+          path: httpbin.html
+
+  demo-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.6.12
+      - name: Poetry Setup
+        uses: dschep/install-poetry-action@v1.3
+        with:
+          version: 1.0.9
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@v2
+      - name: Checkout ScanAPI Examples repository
+        uses: actions/checkout@v2
+        with:
+          repository: scanapi/examples
+          path: examples
+      - name: Install Dependencies
+        run: poetry install
+      - name: Run ScanAPI for Demo API
+        env:
+          BASE_URL: "http://demo.scanapi.dev/api/"
+          DEMO_KEY: "demoKEY123"
+        run: "poetry run scanapi run ./examples/demo-api/scanapi.yaml -c ./examples/demo-api/scanapi.conf -o demo-api.html"
+      - name: Upload Demo API ScanAPI Report
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: Demo API ScanAPI Report
+          path: demo-api.html
