@@ -1,4 +1,5 @@
 import logging
+
 import pytest
 
 from scanapi.errors import MissingMandatoryKeyError

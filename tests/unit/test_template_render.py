@@ -1,7 +1,7 @@
-import pytest
 import jinja2
+import pytest
 
-from scanapi.template_render import render, _loader
+from scanapi.template_render import _loader, render
 
 
 class TestTemplateRender:

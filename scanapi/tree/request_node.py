@@ -1,8 +1,10 @@
 import logging
+
 import requests
 
 from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.evaluators.spec_evaluator import SpecEvaluator
+from scanapi.hide_utils import hide_sensitive_info
 from scanapi.test_status import TestStatus
 from scanapi.tree.testing_node import TestingNode
 from scanapi.tree.tree_keys import (
@@ -16,7 +18,6 @@ from scanapi.tree.tree_keys import (
     VARS_KEY,
 )
 from scanapi.utils import join_urls, validate_keys
-from scanapi.hide_utils import hide_sensitive_info
 
 logger = logging.getLogger(__name__)
 

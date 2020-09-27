@@ -1,8 +1,8 @@
 import pytest
 import yaml
 
-from scanapi.errors import EmptyConfigFileError
 from scanapi.config_loader import load_config_file
+from scanapi.errors import EmptyConfigFileError
 
 
 class TestLoadConfigFile:
