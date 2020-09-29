@@ -1,5 +1,6 @@
-import click
 import logging
+
+import click
 import yaml
 
 from scanapi.exit_code import ExitCode

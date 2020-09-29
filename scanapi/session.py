@@ -1,5 +1,4 @@
 import sys
-
 from datetime import datetime
 
 from scanapi.exit_code import ExitCode

@@ -1,6 +1,6 @@
 import pytest
-
 from freezegun.api import FakeDatetime
+
 from scanapi.reporter import Reporter
 
 fake_results = [

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "scanapi"
-version = "2.0.0-rc.7"
+version = "2.0.0-rc.8"
 description = "Automated Testing and Documentation for your REST API"
 authors = ["Camila Maia <cmaiacd@gmail.com>"]
 license = "MIT"
@@ -34,6 +34,11 @@ black = "19.10b0"
 sphinx = "3.1.2"
 sphinx_rtd_theme = "^0.5.0"
 pre-commit = "2.6.0"
+isort = "^5.5.3"
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
 
 [build-system]
 requires = ["poetry>=1.0.9"]

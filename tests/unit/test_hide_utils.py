@@ -1,7 +1,7 @@
 import pytest
 import requests
 
-from scanapi.hide_utils import hide_sensitive_info, _hide, _override_info
+from scanapi.hide_utils import _hide, _override_info, hide_sensitive_info
 
 
 @pytest.fixture

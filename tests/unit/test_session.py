@@ -1,6 +1,6 @@
-import pytest
-
 from random import randrange
+
+import pytest
 
 from scanapi.session import Session
 

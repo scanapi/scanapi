@@ -2,9 +2,10 @@
 Code based on solution https://gist.github.com/joshbode/569627ced3076931b02f
 """
 
-from typing import Any, IO
 import logging
 import os
+from typing import IO, Any
+
 import yaml
 
 from scanapi.errors import EmptyConfigFileError

@@ -1,8 +1,8 @@
 import os
+
 import appdirs
 
 from scanapi.config_loader import load_config_file
-
 
 GLOBAL_CONFIG_PATH = os.path.join(appdirs.site_config_dir("scanapi"), "scanapi.conf",)
 

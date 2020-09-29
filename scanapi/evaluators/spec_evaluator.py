@@ -1,5 +1,5 @@
-from functools import singledispatch
 import logging
+from functools import singledispatch
 
 from scanapi.evaluators.string_evaluator import StringEvaluator
 
