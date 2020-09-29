@@ -83,7 +83,7 @@ class RequestNode:
 
     @property
     def body(self):
-        body = self.spec.get(BODY_KEY, {})
+        body = self.spec.get(BODY_KEY)
 
         return self.endpoint.vars.evaluate(body)
 
