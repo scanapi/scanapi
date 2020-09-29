@@ -38,3 +38,6 @@ pre-commit = "2.6.0"
 [build-system]
 requires = ["poetry>=1.0.9"]
 build-backend = "poetry.masonry.api"
+
+[tool.pytest.ini_options]
+addopts=-svvl
