@@ -99,6 +99,7 @@ class TestStringEvaluator:
             class TestWhenCodeDoesNotContainThePreSavedCustomVar:
                 test_data = [
                     ("${user_id}"),
+                    ("${user-id}"),
                     ("something before ${user_id} something after"),
                     ("something before ${user_id}"),
                     ("${user_id} something after"),
@@ -114,6 +115,7 @@ class TestStringEvaluator:
                 test_data = [
                     ("${user_id}", "10"),
                     ("${apiKey}", "abc123"),
+                    ("${api-token}", "xwo"),
                     ("something before ${user_id}", "something before 10"),
                     (
                         "something before ${user_id} something after",
@@ -124,7 +126,7 @@ class TestStringEvaluator:
 
                 @pytest.mark.parametrize("sequence, expected", test_data)
                 def test_should_return_sequence(self, sequence, expected):
-                    vars = {"user_id": "10", "apiKey": "abc123"}
+                    vars = {"user_id": "10", "apiKey": "abc123", "api-token": "xwo"}
                     assert (
                         StringEvaluator._evaluate_custom_var(sequence, vars) == expected
                     )
@@ -132,6 +134,7 @@ class TestStringEvaluator:
     class TestReplaceVarWithValue:
         test_data = [
             ("${age}", "${age}", "45", "45"),
+            ("${USER-AGE}", "${USER-AGE}", "45", "45"),
             ("I am ${age} years old", "${age}", "60", "I am 60 years old"),
             (
                 "url/${{some['python_code']!}}",
