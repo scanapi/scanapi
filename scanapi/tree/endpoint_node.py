@@ -1,9 +1,10 @@
-from itertools import chain
 import logging
+from itertools import chain
 
 from scanapi.evaluators import SpecEvaluator
 from scanapi.exit_code import ExitCode
 from scanapi.session import session
+from scanapi.tree.request_node import RequestNode
 from scanapi.tree.tree_keys import (
     ENDPOINTS_KEY,
     HEADERS_KEY,
@@ -14,7 +15,6 @@ from scanapi.tree.tree_keys import (
     ROOT_SCOPE,
     VARS_KEY,
 )
-from scanapi.tree.request_node import RequestNode
 from scanapi.utils import join_urls, validate_keys
 
 logger = logging.getLogger(__name__)

@@ -1,14 +1,12 @@
 import errno
 import logging
 import os
+
 import pytest
 import requests
 import yaml
 
-from scanapi.errors import (
-    EmptyConfigFileError,
-    InvalidKeyError,
-)
+from scanapi.errors import EmptyConfigFileError, InvalidKeyError
 from scanapi.scan import scan, write_report
 
 log = logging.getLogger(__name__)

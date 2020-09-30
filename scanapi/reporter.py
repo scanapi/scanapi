@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 import datetime
 import logging
+from os.path import abspath
 
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.template_render import render
-from os.path import abspath
 
 logger = logging.getLogger(__name__)
 

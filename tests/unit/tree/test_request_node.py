@@ -210,9 +210,9 @@ class TestRequestNode:
                 {"path": "http://foo.com", "name": "foo"},
                 endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
             )
-            assert request.body == {}
+            assert request.body is None
 
-        def test_when_request_has_no_body(self):
+        def test_when_request_has_body(self):
             request = RequestNode(
                 {"body": {"abc": "def"}, "path": "http://foo.com", "name": "foo",},
                 endpoint=EndpointNode({"name": "foo", "requests": [{}]}),

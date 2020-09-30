@@ -1,5 +1,4 @@
 import curlify
-
 from jinja2 import Environment, FileSystemLoader, PackageLoader
 
 

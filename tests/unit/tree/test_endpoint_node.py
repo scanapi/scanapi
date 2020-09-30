@@ -1,7 +1,7 @@
 import pytest
 
-from scanapi.tree import EndpointNode
 from scanapi.errors import MissingMandatoryKeyError
+from scanapi.tree import EndpointNode
 
 
 class TestEndpointNode:

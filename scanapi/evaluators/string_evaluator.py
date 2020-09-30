@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class StringEvaluator:
     variable_pattern = re.compile(
-        r"(?P<something_before>\w*)(?P<start>\${)(?P<variable>\w*)(?P<end>})(?P<something_after>\w*)"
+        r"(?P<something_before>\w*)(?P<start>\${)(?P<variable>[\w|-]*)(?P<end>})(?P<something_after>\w*)"
     )  # ${<variable>}
 
     @classmethod

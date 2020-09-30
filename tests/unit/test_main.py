@@ -1,8 +1,9 @@
-from click.testing import CliRunner
 import logging
 import os
+
 import pytest
 import yaml
+from click.testing import CliRunner
 
 from scanapi.__main__ import run
 

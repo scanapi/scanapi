@@ -1,14 +1,13 @@
-import logging
-import re
-
-from scanapi.errors import InvalidPythonCodeError
-
 # Available imports to be used dinamically in the API spec
 import datetime
+import logging
 import math
 import random
+import re
 import time
 import uuid
+
+from scanapi.errors import InvalidPythonCodeError
 
 logger = logging.getLogger(__name__)
 
