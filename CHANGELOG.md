@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Sphinx auto-documentation. [#230](https://github.com/scanapi/scanapi/pull/230)
 - Add workflow to package/publish to Test PyPi. [#239](https://github.com/scanapi/scanapi/pull/239)
 
+
 ### Changed
 - Renamed `api.(yaml|json)` to `scanapi.yaml`. [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
 - Remove top-level `api` key in `scanapi.yaml`. [#231](https://github.com/scanapi/scanapi/pull/231)
