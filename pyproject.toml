@@ -36,6 +36,9 @@ pre-commit = "2.6.0"
 isort = "^5.5.3"
 bandit = "^1.6.2"
 
+[tool.poetry-dynamic-versioning]
+enable = true
+
 [tool.isort]
 multi_line_output = 3
 include_trailing_comma = true
@@ -44,5 +47,5 @@ include_trailing_comma = true
 addopts="-svvl"
 
 [build-system]
-requires = ["poetry>=1.0.9"]
+requires = ["poetry>=1.0.9",  "poetry-dynamic-versioning"]
 build-backend = "poetry.masonry.api"

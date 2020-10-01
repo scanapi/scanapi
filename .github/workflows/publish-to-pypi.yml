@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: "install poetry-dynamic-versioning"
+        run:
+          pip install poetry-dynamic-versioning
       - name: Build and publish to pypi
         uses: JRubics/poetry-publish@v1.2
         with:
