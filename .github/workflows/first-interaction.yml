@@ -1,0 +1,20 @@
+name: "First Time Contributor"
+on:
+  schedule:
+  - cron: "*/10 * * * *"
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: fjeremic/cron-first-interaction@0.2.0
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        pr-message: |-
+            Thank you for supporting ScanAPI, and congratulations on your first contribution! A project committer will shortly review your contribution.
+
+            In the mean time, if you haven't had a chance please skim over the [First Pull Request Guide](https://github.com/scanapi/scanapi/wiki/First-Pull-Request) which all pull requests must adhere to.
+
+          We hope to see you around!
+        pr-label:
+          - first contribution
