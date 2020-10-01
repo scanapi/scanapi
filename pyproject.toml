@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "scanapi"
-version = "2.0.0-rc.9"
+version = "2.0.0-rc.10"
 description = "Automated Testing and Documentation for your REST API"
 authors = ["Camila Maia <cmaiacd@gmail.com>"]
 license = "MIT"
@@ -20,7 +20,6 @@ curlify = "2.2.1"
 jinja2 = "2.11.2"
 pyyaml = "5.3.1"
 requests = "2.24.0"
-bandit = "^1.6.2"
 appdirs = "^1.4.4"
 
 [tool.poetry.dev-dependencies]
@@ -35,6 +34,7 @@ sphinx = "3.1.2"
 sphinx_rtd_theme = "^0.5.0"
 pre-commit = "2.6.0"
 isort = "^5.5.3"
+bandit = "^1.6.2"
 
 [tool.isort]
 multi_line_output = 3
