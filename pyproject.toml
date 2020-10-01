@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "scanapi"
-version = "2.0.0-rc.11"
+version = "2.0.0-rc.12"
 description = "Automated Testing and Documentation for your REST API"
 authors = ["Camila Maia <cmaiacd@gmail.com>"]
 license = "MIT"
@@ -46,4 +46,3 @@ addopts="-svvl"
 [build-system]
 requires = ["poetry>=1.0.9"]
 build-backend = "poetry.masonry.api"
-

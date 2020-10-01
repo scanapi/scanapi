@@ -7,7 +7,7 @@ check:
 	@black -l 80 --check . --exclude=.venv
 
 format:
-	@black -l . --exclude=.venv
+	@black -l 80 . --exclude=.venv
 
 install:
 	@poetry install
