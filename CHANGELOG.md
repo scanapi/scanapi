@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Changed relative path to show absolute path to the report in CLI. [#277](https://github.com/scanapi/scanapi/pull/277)
 - Considering `-` (dash) in variable names. [#281](https://github.com/scanapi/scanapi/pull/281)
+- Moved bandit to dev section [#285](https://github.com/scanapi/scanapi/pull/285)
 
 ### Fixed
 - When there is no `body` specified, sending it as `None` instead of `{}`. [#280](https://github.com/scanapi/scanapi/pull/280)
@@ -20,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bandit security audit tool. [#219](https://github.com/scanapi/scanapi/pull/219)
 - Add Sphinx auto-documentation. [#230](https://github.com/scanapi/scanapi/pull/230)
 - Add workflow to package/publish to Test PyPi. [#239](https://github.com/scanapi/scanapi/pull/239)
+- Add Github Action workflow for First-time contributors. [#290](https://github.com/scanapi/scanapi/pull/290)
 
 ### Changed
 - Renamed `api.(yaml|json)` to `scanapi.yaml`. [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
@@ -28,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed command `scanapi spec-file.yaml` to `scanapi run spec-file.yaml`. [#247](https://github.com/scanapi/scanapi/pull/247)
 - Moved Documentation from README.md to the website. [#250](https://github.com/scanapi/scanapi/pull/250)
 - Local and global configuration. [#254](https://github.com/scanapi/scanapi/pull/254)
+- Moved `bandit` to `dev` in `pyproject.toml`. [#286](https://github.com/scanapi/scanapi/pull/286)
 
 ### Fixed
 - Updated language use in README.md and CONTRIBUTING.md plus fix broken links. [#220](https://github.com/scanapi/scanapi/pull/220)
