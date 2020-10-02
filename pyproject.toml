@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "scanapi"
-version = "2.0.0-rc.12"
+version = "2.0.0-rc.13"
 description = "Automated Testing and Documentation for your REST API"
 authors = ["Camila Maia <cmaiacd@gmail.com>"]
 license = "MIT"
@@ -24,7 +24,7 @@ appdirs = "^1.4.4"
 
 [tool.poetry.dev-dependencies]
 codecov = "2.1.7"
-pytest = "5.4.3"
+pytest = "6.1.0"
 pytest-cov = "2.10.0"
 pytest-freezegun = "0.4.1"
 pytest-mock = "3.2.0"
