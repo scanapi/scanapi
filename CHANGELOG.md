@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - When there is no `body` specified, sending it as `None` instead of `{}`. [#280](https://github.com/scanapi/scanapi/pull/280)
-- Removed untracked imports.
+- Removed untracked imports. [#294](https://github.com/scanapi/scanapi/pull/294)
 
 ## [2.0.0] - 2020-08-25
 ### Added
