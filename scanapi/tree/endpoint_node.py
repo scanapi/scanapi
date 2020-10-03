@@ -78,6 +78,7 @@ class EndpointNode:
 
     @property
     def delay(self):
+        """Get the DELAY_KEY value converted from milliseconds to seconds."""
         delay = self.spec.get(DELAY_KEY, 0) / 1000
         return delay or getattr(self.parent, DELAY_KEY, 0)
 
