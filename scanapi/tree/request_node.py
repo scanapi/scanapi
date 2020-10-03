@@ -1,4 +1,5 @@
 import logging
+import time
 
 import requests
 
@@ -93,6 +94,8 @@ class RequestNode:
         return (TestingNode(spec, self) for spec in self.spec.get("tests", []))
 
     def run(self):
+        time.sleep(self.endpoint.delay)
+
         method = self.http_method
         url = self.full_url_path
         logger.info("Making request %s %s", method, url)
