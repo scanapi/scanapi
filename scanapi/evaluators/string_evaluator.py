@@ -1,7 +1,6 @@
 import logging
 import os
 import re
-import sys
 
 from scanapi.errors import BadConfigurationError
 from scanapi.evaluators.code_evaluator import CodeEvaluator
