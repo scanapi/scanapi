@@ -171,7 +171,7 @@ class TestEndpointNode:
             )
             assert node.delay == 0.002
 
-        def test_when_both_node_and_parent_has_delay(self):
+        def test_when_both_node_and_parent_have_delay(self):
             node = EndpointNode(
                 {"name": "node", "delay": 3},
                 parent=EndpointNode({"name": "parent", "delay": 4}),
