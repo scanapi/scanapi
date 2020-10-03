@@ -156,6 +156,28 @@ class TestEndpointNode:
             )
             assert node.params == {"abc": "def", "xxx": "www"}
 
+    class TestDelay:
+        def test_when_node_has_no_delay(self):
+            node = EndpointNode({"name": "node"})
+            assert node.delay == 0
+
+        def test_when_node_has_delay(self):
+            node = EndpointNode({"name": "node", "delay": 1})
+            assert node.delay == 0.001
+
+        def test_when_parent_has_delay(self):
+            node = EndpointNode(
+                {"name": "node"}, parent=EndpointNode({"name": "parent", "delay": 2})
+            )
+            assert node.delay == 0.002
+
+        def test_when_both_node_and_parent_has_delay(self):
+            node = EndpointNode(
+                {"name": "node", "delay": 3},
+                parent=EndpointNode({"name": "parent", "delay": 4}),
+            )
+            assert node.delay == 0.003
+
     class TestRun:
         pass  # TODO
 
@@ -177,7 +199,7 @@ class TestEndpointNode:
 
             mock_validate_keys.assert_called_with(
                 keys,
-                ("endpoints", "headers", "name", "params", "path", "requests"),
+                ("endpoints", "headers", "name", "params", "path", "requests", "delay"),
                 ("name",),
                 "endpoint",
             )

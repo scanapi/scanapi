@@ -238,12 +238,18 @@ class TestRequestNode:
         def mock_run_tests(self, mocker):
             return mocker.patch("scanapi.tree.request_node.RequestNode._run_tests")
 
-        def test_calls_request(self, mock_request):
+        @pytest.fixture
+        def mock_time_sleep(self, mocker):
+            return mocker.patch("scanapi.tree.request_node.time.sleep")
+
+        def test_calls_request(self, mock_request, mock_time_sleep):
             request = RequestNode(
                 {"path": "http://foo.com", "name": "foo"},
-                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+                endpoint=EndpointNode({"name": "foo", "requests": [{}], "delay": 1}),
             )
             result = request.run()
+
+            mock_time_sleep.assert_called_once_with(0.001)
 
             mock_request.assert_called_once_with(
                 request.http_method,
