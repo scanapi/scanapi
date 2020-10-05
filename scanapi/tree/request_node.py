@@ -1,6 +1,6 @@
 import logging
 
-import requests
+import httpx
 
 from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.evaluators.spec_evaluator import SpecEvaluator
@@ -101,7 +101,7 @@ class RequestNode:
             self.spec.get(VARS_KEY, {}), preevaluate=False,
         )
 
-        response = requests.request(
+        response = httpx.request(
             method,
             url,
             headers=self.headers,
