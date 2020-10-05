@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed relative path to show absolute path to the report in CLI. [#277](https://github.com/scanapi/scanapi/pull/277)
 - Considering `-` (dash) in variable names. [#281](https://github.com/scanapi/scanapi/pull/281)
 - Moved bandit to dev section [#285](https://github.com/scanapi/scanapi/pull/285)
+- Increased Test coverage for `/scanapi/evaluators/spec_evaluator.py` [#291](https://github.com/scanapi/scanapi/pull/291)
 
 ### Fixed
 - When there is no `body` specified, sending it as `None` instead of `{}`. [#280](https://github.com/scanapi/scanapi/pull/280)
