@@ -396,104 +396,29 @@
         <!-- summary_box -->
 
         {% for result in results -%}
-    {% set response = result["response"] %}
-        {% set tests = result["tests_results"] %}
-        {% set endpoint_status_label = "P" if result["no_failure"] else "F" %}
-        {% set request = response.request %}
+            {% set response = result["response"] %}
+            {% set tests = result["tests_results"] %}
+            {% set endpoint_status_label = "P" if result["no_failure"] else "F" %}
+            {% set request = response.request %}
 
-        <div class="endpoint">
-            <input type="checkbox" class="endpoint__checkbox" id="chck_{{ loop.index | string }}" />
-            <label class="endpoint__title" for="chck_{{ loop.index | string }}">
-                <span class="endpoint__url"><span class="http_method">{{request.method}}</span> {{ request.path_url }}</span>
-                <span class="endpoint__titleInfo">
-                    {{ response.status_code }}
-                    <span class="endpoint__status endpoint__status--{{endpoint_status_label}}">
-                        {{endpoint_status_label}}
+            <div class="endpoint">
+                <input type="checkbox" class="endpoint__checkbox" id="chck_{{ loop.index | string }}" />
+                <label class="endpoint__title" for="chck_{{ loop.index | string }}">
+                    <span class="endpoint__url"><span class="http_method">{{request.method}}</span> {{ request.path_url }}</span>
+                    <span class="endpoint__titleInfo">
+                        {{ response.status_code }}
+                        <span class="endpoint__status endpoint__status--{{endpoint_status_label}}">
+                            {{endpoint_status_label}}
+                        </span>
                     </span>
-                </span>
-            </label>
+                </label>
 
-            <div class="endpoint__content">
-                <section class="endpoint__request">
-                    <h3>Request</h3>
-                    <p>Full URL: <a href="{{request.url}}"> {{request.url}}</a></p>
+                <div class="endpoint__content">
+                    <section class="endpoint__request">
+                        <h3>Request</h3>
+                        <p>Full URL: <a href="{{request.url}}"> {{request.url}}</a></p>
 
-                    {% if request.headers|length > 0 %}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>
-                                    Header
-                                </th>
-                                <th>
-                                    Value
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {% for key, value in request.headers.items() -%}
-                            <tr>
-                                <td>
-                                    {{ key }}
-                                </td>
-                                <td>
-                                    {{value}}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% endif %}
-
-                    {% if ( request.body and request.body.decode("UTF-8") != "{}" ) %}
-                    <details>
-                        <summary>Body</summary>
-                        <p>{{ request.body }}</p>
-                    </details>
-                    {% endif %}
-
-                    <details>
-                        <summary>cURL</summary>
-                        <pre>{{request|to_curl}}</pre>
-                        <button class="copy__snippet">&#10063;</button>
-                    </details>
-                </section>
-
-                <section class="endpoint__response">
-                    <h3>Response</h3>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    status code
-                                </td>
-                                <td>
-                                    {{ response.status_code }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    response time
-                                </td>
-                                <td>
-                                    {{ response.elapsed.total_seconds() }} s
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    redirect
-                                </td>
-                                <td>
-                                    {{ response.is_redirect }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    {% if response.headers|length > 0 %}
-                    <details>
-                        <summary>Headers</summary>
+                        {% if request.headers|length > 0 %}
                         <table>
                             <thead>
                                 <tr>
@@ -505,8 +430,9 @@
                                     </th>
                                 </tr>
                             </thead>
-                            {% for key, value in response.headers.items() -%}
+
                             <tbody>
+                                {% for key, value in request.headers.items() -%}
                                 <tr>
                                     <td>
                                         {{ key }}
@@ -515,46 +441,120 @@
                                         {{value}}
                                     </td>
                                 </tr>
+                                {% endfor %}
                             </tbody>
-                            {% endfor %}
                         </table>
-                    </details>
+                        {% endif %}
 
-                    <details>
-                        <summary>Content</summary>
-                        <p class="json-body">
-                            {% if response.text %} {{ response.text }} {% else %} {{ response.content }} {% endif %}
-                        </p>
-                        <button class="copy__snippet">&#10063;</button>
-                    </details>
-                    {% endif %}
-                </section>
+                        {% if ( request.body and request.body.decode("UTF-8") != "{}" ) %}
+                        <details>
+                            <summary>Body</summary>
+                            <p>{{ request.body }}</p>
+                        </details>
+                        {% endif %}
 
-                <section class="endpoint__tests">
-                    <h3>Tests</h3>
-                    {% for test in tests -%}
-                    <div class="endpoint__testcase">
-                        <div class="endpoint__testcaseStatus">
-                            <strong class="endpoint__testcase-{{test.status}}">
-                                [{{test.status|upper}}]
-                            </strong>
+                        <details>
+                            <summary>cURL</summary>
+                            <pre>{{request|to_curl}}</pre>
+                            <button class="copy__snippet">&#10063;</button>
+                        </details>
+                    </section>
+
+                    <section class="endpoint__response">
+                        <h3>Response</h3>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        status code
+                                    </td>
+                                    <td>
+                                        {{ response.status_code }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        response time
+                                    </td>
+                                    <td>
+                                        {{ response.elapsed.total_seconds() }} s
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        redirect
+                                    </td>
+                                    <td>
+                                        {{ response.is_redirect }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {% if response.headers|length > 0 %}
+                        <details>
+                            <summary>Headers</summary>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Header
+                                        </th>
+                                        <th>
+                                            Value
+                                        </th>
+                                    </tr>
+                                </thead>
+                                {% for key, value in response.headers.items() -%}
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            {{ key }}
+                                        </td>
+                                        <td>
+                                            {{value}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                {% endfor %}
+                            </table>
+                        </details>
+
+                        <details>
+                            <summary>Content</summary>
+                            <p class="json-body">
+                                {% if response.text %} {{ response.text }} {% else %} {{ response.content }} {% endif %}
+                            </p>
+                            <button class="copy__snippet">&#10063;</button>
+                        </details>
+                        {% endif %}
+                    </section>
+
+                    <section class="endpoint__tests">
+                        <h3>Tests</h3>
+                        {% for test in tests -%}
+                        <div class="endpoint__testcase">
+                            <div class="endpoint__testcaseStatus">
+                                <strong class="endpoint__testcase-{{test.status}}">
+                                    [{{test.status|upper}}]
+                                </strong>
+                            </div>
+                            <div class="endpoint__testcaseLabel">
+                                <span>
+                                    {{test.name}}
+                                </span>
+                                {% if test.failure %}
+                                <span class="endpoint__testcase-failure">{{test.failure}} is false</span>
+                                {% endif %}
+                                {% if test.error %}
+                                <span class="endpoint__testcase-failure">{{test.error}}</span>
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="endpoint__testcaseLabel">
-                            <span>
-                                {{test.name}}
-                            </span>
-                            {% if test.failure %}
-                            <span class="endpoint__testcase-failure">{{test.failure}} is false</span>
-                            {% endif %}
-                            {% if test.error %}
-                            <span class="endpoint__testcase-failure">{{test.error}}</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                    <section>
+                        {% endfor %}
+                        <section>
+                </div>
             </div>
-        </div>
         {% endfor %}
 
         {% set final_status = "passed" if session.succeed else "failed" %}

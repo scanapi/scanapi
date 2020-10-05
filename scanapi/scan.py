@@ -19,7 +19,7 @@ from scanapi.tree.tree_keys import ROOT_SCOPE
 logger = logging.getLogger(__name__)
 
 
-def scan():
+async def scan():
     """ Caller function that tries to scans the file and write the report. """
     spec_path = settings["spec_path"]
 
@@ -41,7 +41,9 @@ def scan():
 
     try:
         root_node = EndpointNode(api_spec)
-        results = root_node.run()
+        results = []
+        async for response in root_node.run():
+            results.append(response)
 
     except (InvalidKeyError, KeyError, InvalidPythonCodeError,) as e:
         error_message = "Error loading API spec."

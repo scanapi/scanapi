@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 import click
@@ -69,4 +70,4 @@ def run(spec_path, output_path, config_path, template, log_level):
         logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
 
-    scan()
+    asyncio.run(scan())

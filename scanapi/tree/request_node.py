@@ -21,6 +21,7 @@ from scanapi.utils import join_urls, validate_keys
 
 logger = logging.getLogger(__name__)
 
+client = httpx.AsyncClient()
 
 class RequestNode:
     SCOPE = "request"
@@ -92,7 +93,7 @@ class RequestNode:
     def tests(self):
         return (TestingNode(spec, self) for spec in self.spec.get("tests", []))
 
-    def run(self):
+    async def run(self):
         method = self.http_method
         url = self.full_url_path
         logger.info("Making request %s %s", method, url)
@@ -101,7 +102,7 @@ class RequestNode:
             self.spec.get(VARS_KEY, {}), preevaluate=False,
         )
 
-        response = httpx.request(
+        response = await client.request(
             method,
             url,
             headers=self.headers,
@@ -109,6 +110,8 @@ class RequestNode:
             json=self.body,
             allow_redirects=False,
         )
+
+        await client.aclose()
 
         self.endpoint.vars.update(
             self.spec.get(VARS_KEY, {}),

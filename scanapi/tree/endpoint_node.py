@@ -78,10 +78,11 @@ class EndpointNode:
     def is_root(self):
         return not self.parent
 
-    def run(self):
+    async def run(self):
         for request in self._get_requests():
             try:
-                yield request.run()
+                response = await request.run()
+                yield response
             except Exception as e:
                 error_message = (
                     f"\nError to make request `{request.full_url_path}`. \n{str(e)}\n"
