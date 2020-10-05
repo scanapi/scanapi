@@ -204,6 +204,32 @@ class TestRequestNode:
 
             mock_evaluate.assert_has_calls(calls)
 
+    class TestDelay:
+        def test_when_request_has_no_delay(self):
+            request = RequestNode(
+                {"name": "foo"}, endpoint=EndpointNode({"name": "bar"})
+            )
+            assert request.delay == 0
+
+        def test_when_request_has_delay(self):
+            request = RequestNode(
+                {"name": "foo", "delay": 1}, endpoint=EndpointNode({"name": "bar"})
+            )
+            assert request.delay == 1
+
+        def test_when_endpoint_has_delay(self):
+            request = RequestNode(
+                {"name": "foo"}, endpoint=EndpointNode({"name": "bar", "delay": 2})
+            )
+            assert request.delay == 2
+
+        def test_when_both_request_and_endpoint_have_delay(self):
+            request = RequestNode(
+                {"name": "foo", "delay": 3},
+                endpoint=EndpointNode({"name": "bar", "delay": 4}),
+            )
+            assert request.delay == 3
+
     class TestBody:
         def test_when_request_has_no_body(self):
             request = RequestNode(
@@ -313,6 +339,7 @@ class TestRequestNode:
                     "path",
                     "tests",
                     "vars",
+                    "delay",
                 ),
                 ("name",),
                 "request",

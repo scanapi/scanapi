@@ -163,20 +163,20 @@ class TestEndpointNode:
 
         def test_when_node_has_delay(self):
             node = EndpointNode({"name": "node", "delay": 1})
-            assert node.delay == 0.001
+            assert node.delay == 1
 
         def test_when_parent_has_delay(self):
             node = EndpointNode(
                 {"name": "node"}, parent=EndpointNode({"name": "parent", "delay": 2})
             )
-            assert node.delay == 0.002
+            assert node.delay == 2
 
         def test_when_both_node_and_parent_have_delay(self):
             node = EndpointNode(
                 {"name": "node", "delay": 3},
                 parent=EndpointNode({"name": "parent", "delay": 4}),
             )
-            assert node.delay == 0.003
+            assert node.delay == 3
 
     class TestRun:
         pass  # TODO
