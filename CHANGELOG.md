@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Add a `delay` key option to the `endpoints` level to perform a delay between each request. [#266](https://github.com/scanapi/scanapi/issues/266)
+- Add a `delay` key option to perform a delay between each request. [#266](https://github.com/scanapi/scanapi/issues/266)
 
 ### Changed
 - Changed relative path to show absolute path to the report in CLI. [#277](https://github.com/scanapi/scanapi/pull/277)
