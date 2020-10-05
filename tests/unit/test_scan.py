@@ -1,3 +1,4 @@
+import asyncio
 import errno
 import logging
 import os
@@ -45,7 +46,7 @@ class TestScan:
             mocker.patch("scanapi.scan.load_config_file", side_effect=file_not_found)
             with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
-                    scan()
+                   asyncio.run(scan())
 
                 assert excinfo.type == SystemExit
                 assert excinfo.value.code == 4
@@ -61,7 +62,7 @@ class TestScan:
 
             with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
-                    scan()
+                   asyncio.run(scan())
 
                 assert excinfo.type == SystemExit
                 assert excinfo.value.code == 4
@@ -76,7 +77,7 @@ class TestScan:
             mocker.patch("scanapi.scan.load_config_file", side_effect=yaml_error)
             with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
-                    scan()
+                   asyncio.run(scan())
 
                 assert excinfo.type == SystemExit
                 assert excinfo.value.code == 4
@@ -90,7 +91,7 @@ class TestScan:
             mocker.patch("scanapi.scan.EndpointNode.__init__", side_effect=invalid_key)
             with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
-                    scan()
+                   asyncio.run(scan())
 
                 assert excinfo.type == SystemExit
                 assert excinfo.value.code == 4
@@ -111,7 +112,7 @@ class TestScan:
             mock_write_report = mocker.patch("scanapi.scan.write_report")
 
             with pytest.raises(SystemExit) as excinfo:
-                scan()
+               asyncio.run(scan())
 
             assert excinfo.type == SystemExit
             assert excinfo.value.code == 0
