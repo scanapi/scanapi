@@ -1,4 +1,3 @@
-import jinja2
 import pytest
 
 from scanapi.template_render import _loader, render

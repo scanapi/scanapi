@@ -43,6 +43,7 @@
 
         details {
             margin-top: 20px;
+            position: relative;
         }
 
         details div {
@@ -320,18 +321,62 @@
         }
 
         /* END TESTS SUMMARY */
+
         /* START RENDERJSON */
-        .renderjson {
+        .json-body{
+            padding: 0;
+            margin: 0;
+        }
+        /* END RENDERJSON */
+
+        /* START SNIPPET CONTENT */
+        .snippet__content{
             background-color: #eeeeee;
             white-space: break-spaces;
-            padding: 10px;
+            padding: 20px 40px 20px 10px;
+            font-size: 16px;
         }
 
-        .renderjson a {
+        .snippet__content a{
             text-decoration: none;
         }
 
-        /* END RENDERJSON */
+        .copy__snippet{
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+        .copy__snippet{
+            position: absolute;
+            top: 42px;
+            right: 10px;
+            background-color: #C6C4C4;
+            border-radius: 2px;
+            font-size: 18px;
+            width: 25px;
+            height: 23px;
+            cursor: pointer;
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        .copy__snippet:hover{
+            background-color: #D6D8D6;
+        }
+
+        .copy__snippet:focus{
+            outline: none;
+        }
+
+        .bg_green{
+            background-color: green!important;
+            color: white;
+        }
+        /* END SNIPPET CONTENT */
     </style>
 
     <div class="header">
@@ -410,7 +455,8 @@
 
                     <details>
                         <summary>cURL</summary>
-                        <p>{{request|curlify}}</p>
+                        <pre>{{request|curlify}}</pre>
+                        <button class="copy__snippet">&#10063;</button>
                     </details>
                 </section>
 
@@ -479,6 +525,7 @@
                         <p class="json-body">
                             {% if response.text %} {{ response.text }} {% else %} {{ response.content }} {% endif %}
                         </p>
+                        <button class="copy__snippet">&#10063;</button>
                     </details>
                     {% endif %}
                 </section>
@@ -549,8 +596,54 @@
                 if (parsed_json) {
                     all_json_bodies[i].innerText = '';
                     all_json_bodies[i].appendChild(renderjson(parsed_json));
+                    all_json_bodies[i].firstElementChild.setAttribute('data-content', raw_json);
                 }
             }
+            /*
+            * Adding class name of snippet__content to all pre elements
+            */
+            var pre_elements = document.querySelectorAll('pre');
+
+            for (var i = 0; i < pre_elements.length; i++){
+                pre_elements[i].classList.add('snippet__content');
+            }
+            /*
+            * Copying data to clipboard
+            */
+            var copy_snippet_button = document.querySelectorAll('.copy__snippet');
+
+            var copyToClipBoard = function(value, button) {
+                if ( value ){
+                    navigator.clipboard.writeText(value)
+                        .then(function(){
+                            console.log('Copied!');
+                            console.log(value)
+                            button.classList.add('bg_green')
+
+                            setTimeout(function(){
+                                button.classList.remove('bg_green')
+                            }, 180);
+                        })
+                        .catch(function(err){
+                            console.log('Something went wrong', err);
+                        })
+                }
+            }
+
+            copy_snippet_button.forEach(function(elem){
+                elem.addEventListener('click', function(evt){
+                    var sibling_element = this.previousElementSibling;
+                    var _this_button = this;
+                    if ( sibling_element.className == 'snippet__content' ){
+                        var content = sibling_element.textContent.trim();
+                        copyToClipBoard(content, _this_button)
+                    } else {
+                        var child_element = sibling_element.children[0];
+                        var content = child_element.getAttribute('data-content').trim()
+                        copyToClipBoard(content, _this_button)
+                    }
+                })
+            })
         </script>
 </body>
 

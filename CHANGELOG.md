@@ -13,9 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed relative path to show absolute path to the report in CLI. [#277](https://github.com/scanapi/scanapi/pull/277)
 - Considering `-` (dash) in variable names. [#281](https://github.com/scanapi/scanapi/pull/281)
 - Moved bandit to dev section [#285](https://github.com/scanapi/scanapi/pull/285)
+- Increased Test coverage for `/scanapi/evaluators/spec_evaluator.py` [#291](https://github.com/scanapi/scanapi/pull/291)
 
 ### Fixed
 - When there is no `body` specified, sending it as `None` instead of `{}`. [#280](https://github.com/scanapi/scanapi/pull/280)
+- Removed unused imports. [#294](https://github.com/scanapi/scanapi/pull/294)
 
 ## [2.0.0] - 2020-08-25
 ### Added
@@ -25,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Sphinx auto-documentation. [#230](https://github.com/scanapi/scanapi/pull/230)
 - Add workflow to package/publish to Test PyPi. [#239](https://github.com/scanapi/scanapi/pull/239)
 - Add Github Action workflow for First-time contributors. [#290](https://github.com/scanapi/scanapi/pull/290)
+- Add button to copy data from the report page. [#295](https://github.com/scanapi/scanapi/pull/295)
 
 ### Changed
 - Renamed `api.(yaml|json)` to `scanapi.yaml`. [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
