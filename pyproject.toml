@@ -21,6 +21,7 @@ jinja2 = "2.11.2"
 pyyaml = "5.3.1"
 requests = "2.24.0"
 appdirs = "^1.4.4"
+httpx = "^0.15.5"
 
 [tool.poetry.dev-dependencies]
 codecov = "2.1.7"
@@ -35,6 +36,8 @@ sphinx_rtd_theme = "^0.5.0"
 pre-commit = "2.6.0"
 isort = "^5.5.3"
 bandit = "^1.6.2"
+pytest-httpx = "^0.9.0"
+pytest-asyncio = "^0.14.0"
 
 [tool.isort]
 multi_line_output = 3
