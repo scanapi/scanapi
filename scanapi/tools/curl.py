@@ -1,6 +1,6 @@
 import httpx
 
-def request_to_curl(request: httpx.request) -> str:
+def convert_httpx_request_to_curl(request: httpx.request) -> str:
     body = request.read().decode()
     headers = ['"{0}: {1}"'.format(k, v) for k, v in request.headers.items()]
     headers = " -H ".join(headers)
