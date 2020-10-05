@@ -11,6 +11,7 @@ jobs:
       - name: "install poetry-dynamic-versioning"
         run:
           pip install poetry-dynamic-versioning
+          make change-version
       - name: Build and publish to pypi
         uses: JRubics/poetry-publish@v1.2
         with:
