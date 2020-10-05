@@ -38,6 +38,8 @@ bandit = "^1.6.2"
 
 [tool.poetry-dynamic-versioning]
 enable = true
+vcs = "git"
+style = "semver"
 
 [tool.isort]
 multi_line_output = 3
