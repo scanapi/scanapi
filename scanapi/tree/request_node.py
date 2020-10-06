@@ -1,4 +1,5 @@
 import logging
+import time
 
 import requests
 
@@ -9,6 +10,7 @@ from scanapi.test_status import TestStatus
 from scanapi.tree.testing_node import TestingNode
 from scanapi.tree.tree_keys import (
     BODY_KEY,
+    DELAY_KEY,
     HEADERS_KEY,
     METHOD_KEY,
     NAME_KEY,
@@ -33,6 +35,7 @@ class RequestNode:
         PATH_KEY,
         TESTS_KEY,
         VARS_KEY,
+        DELAY_KEY,
     )
     ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
     REQUIRED_KEYS = (NAME_KEY,)
@@ -83,6 +86,11 @@ class RequestNode:
         return self.endpoint.vars.evaluate({**endpoint_params, **params})
 
     @property
+    def delay(self):
+        delay = self.spec.get(DELAY_KEY, 0)
+        return delay or self.endpoint.delay
+
+    @property
     def body(self):
         body = self.spec.get(BODY_KEY)
 
@@ -93,6 +101,8 @@ class RequestNode:
         return (TestingNode(spec, self) for spec in self.spec.get("tests", []))
 
     def run(self):
+        time.sleep(self.delay / 1000)
+
         method = self.http_method
         url = self.full_url_path
         logger.info("Making request %s %s", method, url)
