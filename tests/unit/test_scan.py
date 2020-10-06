@@ -40,7 +40,8 @@ class TestScan:
     class TestWhenCouldNotFindAPISpecFile:
         def test_should_log_error(self, mocker, caplog):
             mocker.patch(
-                "scanapi.scan.settings", {"spec_path": "invalid_path/scanapi.yaml", "no_report": False}
+                "scanapi.scan.settings",
+                {"spec_path": "invalid_path/scanapi.yaml", "no_report": False},
             )
             mocker.patch("scanapi.scan.load_config_file", side_effect=file_not_found)
             with caplog.at_level(logging.ERROR):
@@ -58,7 +59,8 @@ class TestScan:
     class TestWhenAPISpecFileIsEmpty:
         def test_should_log_error(self, mocker, caplog):
             mocker.patch(
-                "scanapi.scan.settings", {"spec_path": "invalid_path/scanapi.yaml", "no_report": False}
+                "scanapi.scan.settings",
+                {"spec_path": "invalid_path/scanapi.yaml", "no_report": False},
             )
             mocker.patch("scanapi.scan.load_config_file", side_effect=empty_config_file)
 
@@ -77,7 +79,8 @@ class TestScan:
     class TestWhenAPISpecFileHasAnError:
         def test_should_log_error(self, mocker, caplog):
             mocker.patch(
-                "scanapi.scan.settings", {"spec_path": "invalid_path/scanapi.yaml", "no_report": False}
+                "scanapi.scan.settings",
+                {"spec_path": "invalid_path/scanapi.yaml", "no_report": False},
             )
             mocker.patch("scanapi.scan.load_config_file", side_effect=yaml_error)
             with caplog.at_level(logging.ERROR):
@@ -92,7 +95,8 @@ class TestScan:
     class TestWhenAPISpecHasAnInvalidKey:
         def test_should_log_error(self, mocker, caplog):
             mocker.patch(
-                "scanapi.scan.settings", {"spec_path": "invalid_path/scanapi.yaml", "no_report": False}
+                "scanapi.scan.settings",
+                {"spec_path": "invalid_path/scanapi.yaml", "no_report": False},
             )
             mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
             mock_load_config_file.return_value = {"blah": "blah"}
@@ -112,7 +116,8 @@ class TestScan:
     class TestWhenAPISpecIsOk:
         def test_should_call_reporter(self, mocker, response):
             mocker.patch(
-                "scanapi.scan.settings", {"spec_path": "invalid_path/scanapi.yaml", "no_report": False}
+                "scanapi.scan.settings",
+                {"spec_path": "invalid_path/scanapi.yaml", "no_report": False},
             )
             mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
             mock_load_config_file.return_value = {"endpoints": []}
