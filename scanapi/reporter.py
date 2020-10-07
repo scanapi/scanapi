@@ -42,7 +42,7 @@ class Reporter:
                 for test in r["tests_results"]:
                     logger.info(f" [{test['status'].upper()}] {test['name']}")
                     if test["status"] == "failed":
-                        logger.info(f"\t {test['failure']}")
+                        logger.info(f"\t {test['failure']} is false")
 
     @staticmethod
     def _build_context(results):
