@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Add --no report flag [#299](https://github.com/scanapi/scanapi/pull/299)
+- Add `--no-report` flag. [#299](https://github.com/scanapi/scanapi/pull/299)
 
 ## [2.1.0] - 2020-10-06
 ### Added
