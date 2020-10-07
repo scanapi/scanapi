@@ -29,7 +29,7 @@ def main():
     "--no-report",
     "no_report",
     is_flag=True,
-    help="Run tests without generating report.",
+    help="Run ScanAPI without generating report.",
 )
 @click.option(
     "-c",
