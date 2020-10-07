@@ -6,6 +6,9 @@ test:
 check:
 	@black -l 80 --check . --exclude=.venv
 
+change-version:
+	@poetry-dynamic-versioning
+
 format:
 	@black -l 80 . --exclude=.venv
 
