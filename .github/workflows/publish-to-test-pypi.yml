@@ -6,10 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Poetry install
-        run: |
-          pip install -U pip
-          pip install poetry
+        with:
+          python-version: 3.6.12
+      - name: Poetry Setup
+        uses: dschep/install-poetry-action@v1.3
+        with:
+          version: 1.1.1
       - name: Run poetry pre-release
         run: |
           make change-version
