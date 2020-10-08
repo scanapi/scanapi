@@ -7,7 +7,7 @@ check:
 	@black -l 80 --check . --exclude=.venv
 
 change-version:
-	@poetry-dynamic-versioning
+	@poetry version prerelease
 
 format:
 	@black -l 80 . --exclude=.venv
