@@ -1,13 +1,13 @@
 name: Publish to Test PyPI
-on: pull_request
+on:
+  push:
+    branches: [master]
 jobs:
   build-n-publish-test-pypi:
     name: Test PyPI - Build and publish Python 🐍 distributions 📦
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-        with:
-          python-version: 3.6.12
       - name: Poetry Setup
         uses: dschep/install-poetry-action@v1.3
         with:
