@@ -1,7 +1,5 @@
 name: Publish to Test PyPI
-on:
-  push:
-    branches: [master]
+on: pull_request
 jobs:
   build-n-publish-test-pypi:
     name: Test PyPI - Build and publish Python 🐍 distributions 📦
