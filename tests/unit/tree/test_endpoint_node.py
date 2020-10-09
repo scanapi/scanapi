@@ -62,7 +62,7 @@ class TestEndpointNode:
             node = EndpointNode(
                 {"path": "/foo", "name": "node", "requests": []}, parent=parent
             )
-            assert node.path == f"http://foo.com/api/foo"
+            assert node.path == "http://foo.com/api/foo"
 
         def test_with_trailing_slashes(self):
             parent = EndpointNode(

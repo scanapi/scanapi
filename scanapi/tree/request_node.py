@@ -4,7 +4,7 @@ import time
 import requests
 
 from scanapi.errors import HTTPMethodNotAllowedError
-from scanapi.evaluators.spec_evaluator import SpecEvaluator
+from scanapi.evaluators.spec_evaluator import SpecEvaluator  # noqa: F401
 from scanapi.hide_utils import hide_sensitive_info
 from scanapi.test_status import TestStatus
 from scanapi.tree.testing_node import TestingNode

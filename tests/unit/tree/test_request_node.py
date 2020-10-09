@@ -22,7 +22,7 @@ class TestRequestNode:
 
         def test_missing_required_keys(self):
             with pytest.raises(MissingMandatoryKeyError) as excinfo:
-                request = RequestNode(
+                request = RequestNode(  # noqa: F841
                     spec={}, endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
                 )
 
@@ -67,7 +67,7 @@ class TestRequestNode:
         @pytest.mark.skip("it should validate mandatory `name` key before")
         def test_when_request_has_no_name(self):
             with pytest.raises(MissingMandatoryKeyError) as excinfo:
-                request = RequestNode(
+                request = RequestNode(  # noqa: F841
                     {}, endpoint=EndpointNode({"name": "foo", "requests": []})
                 )
 
@@ -88,7 +88,7 @@ class TestRequestNode:
                 {"name": "foo", "requests": [{}], "path": endpoint_path}
             )
             request = RequestNode({"path": "/foo", "name": "foo"}, endpoint=endpoint)
-            assert request.full_url_path == f"http://foo.com/api/foo"
+            assert request.full_url_path == "http://foo.com/api/foo"
 
         def test_with_trailing_slashes(self):
             endpoint = EndpointNode(

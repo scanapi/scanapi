@@ -5,7 +5,6 @@ import yaml
 
 from scanapi.exit_code import ExitCode
 from scanapi.scan import scan
-from scanapi.session import session
 from scanapi.settings import settings
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
