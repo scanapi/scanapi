@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-Updated poetry-publish version to v1.3 [#310](https://github.com/scanapi/scanapi/pull/310)
+Updated poetry-publish version to v1.3 [#311](https://github.com/scanapi/scanapi/pull/311)
 
 ## [2.1.0] - 2020-10-06
 ### Added
