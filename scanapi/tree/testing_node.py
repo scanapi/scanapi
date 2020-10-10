@@ -24,11 +24,11 @@ class TestingNode:
 
     @property
     def name(self):
-        return self["name"]
+        return self[NAME_KEY]
 
     @property
     def assertion(self):
-        return self["assert"]
+        return self[ASSERT_KEY]
 
     @property
     def full_name(self):
