@@ -1,4 +1,5 @@
 import logging
+
 import yaml
 
 from scanapi.config_loader import load_config_file
@@ -33,7 +34,9 @@ def scan():
         logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
     except yaml.YAMLError as e:
-        logger.error(e)
+        error_message = "Error loading specification file."
+        error_message = "{}\nPyYAML: {}".format(error_message, str(e))
+        logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
 
     try:

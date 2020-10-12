@@ -1,10 +1,12 @@
-from itertools import chain
 import logging
+from itertools import chain
 
 from scanapi.evaluators import SpecEvaluator
 from scanapi.exit_code import ExitCode
 from scanapi.session import session
+from scanapi.tree.request_node import RequestNode
 from scanapi.tree.tree_keys import (
+    DELAY_KEY,
     ENDPOINTS_KEY,
     HEADERS_KEY,
     NAME_KEY,
@@ -14,7 +16,6 @@ from scanapi.tree.tree_keys import (
     ROOT_SCOPE,
     VARS_KEY,
 )
-from scanapi.tree.request_node import RequestNode
 from scanapi.utils import join_urls, validate_keys
 
 logger = logging.getLogger(__name__)
@@ -29,6 +30,7 @@ class EndpointNode:
         PARAMS_KEY,
         PATH_KEY,
         REQUESTS_KEY,
+        DELAY_KEY,
     )
     REQUIRED_KEYS = (NAME_KEY,)
     ROOT_REQUIRED_KEYS = ()
@@ -61,7 +63,7 @@ class EndpointNode:
 
     @property
     def path(self):
-        path = self.spec.get(PATH_KEY, "").strip()
+        path = str(self.spec.get(PATH_KEY, "")).strip()
         url = join_urls(self.parent.path, path) if self.parent else path
 
         return self.vars.evaluate(url)
@@ -73,6 +75,11 @@ class EndpointNode:
     @property
     def params(self):
         return self._get_specs(PARAMS_KEY)
+
+    @property
+    def delay(self):
+        delay = self.spec.get(DELAY_KEY, 0)
+        return delay or getattr(self.parent, DELAY_KEY, 0)
 
     @property
     def is_root(self):

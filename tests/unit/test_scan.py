@@ -1,14 +1,12 @@
 import errno
 import logging
 import os
+
 import pytest
 import requests
 import yaml
 
-from scanapi.errors import (
-    EmptyConfigFileError,
-    InvalidKeyError,
-)
+from scanapi.errors import EmptyConfigFileError, InvalidKeyError
 from scanapi.scan import scan, write_report
 
 log = logging.getLogger(__name__)
@@ -45,7 +43,7 @@ class TestScan:
                 "scanapi.scan.settings", {"spec_path": "invalid_path/scanapi.yaml"}
             )
             mocker.patch("scanapi.scan.load_config_file", side_effect=file_not_found)
-            with caplog.at_level(logging.INFO):
+            with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
                     scan()
 
@@ -61,7 +59,7 @@ class TestScan:
         def test_should_log_error(self, mocker, caplog):
             mocker.patch("scanapi.scan.load_config_file", side_effect=empty_config_file)
 
-            with caplog.at_level(logging.INFO):
+            with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
                     scan()
 
@@ -76,21 +74,21 @@ class TestScan:
     class TestWhenAPISpecFileHasAnError:
         def test_should_log_error(self, mocker, caplog):
             mocker.patch("scanapi.scan.load_config_file", side_effect=yaml_error)
-            with caplog.at_level(logging.INFO):
+            with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
                     scan()
 
                 assert excinfo.type == SystemExit
                 assert excinfo.value.code == 4
 
-            assert "error foo" in caplog.text
+            assert "Error loading specification file.\nPyYAML: error foo" in caplog.text
 
     class TestWhenAPISpecHasAnInvalidKey:
         def test_should_log_error(self, mocker, caplog):
             mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
             mock_load_config_file.return_value = {"blah": "blah"}
             mocker.patch("scanapi.scan.EndpointNode.__init__", side_effect=invalid_key)
-            with caplog.at_level(logging.INFO):
+            with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
                     scan()
 

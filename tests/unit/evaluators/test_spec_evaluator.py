@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
@@ -15,13 +16,23 @@ class TestSpecEvaluator:
 
     @pytest.fixture
     def spec_evaluator(self):
-        endpoint = EndpointNode({"name": "foo", "requests": [{}]})
-        return SpecEvaluator(endpoint)
+        parent = EndpointNode({"name": "bar", "requests": [{}]})
+        endpoint = EndpointNode({"name": "foo", "requests": [{}]}, parent)
+        return SpecEvaluator(endpoint, {"name": "foo"})
 
     class TestEvaluateString:
-        def test_should_call_evaluate_dict(self, spec_evaluator, mock_string_evaluate):
+        def test_should_call_evaluate_string(
+            self, spec_evaluator, mock_string_evaluate
+        ):
             string = "foo"
             spec_evaluator.evaluate(string)
+            assert mock_string_evaluate.called_once_with(string)
+
+        def test_should_call_evaluate_assertion_string(
+            self, spec_evaluator, mock_string_evaluate
+        ):
+            string = "foo"
+            spec_evaluator.evaluate_assertion(string)
             assert mock_string_evaluate.called_once_with(string)
 
     class TestEvaluateDict:
@@ -67,3 +78,14 @@ class TestSpecEvaluator:
                         mocker.call("bar", spec_evaluator, False),
                     ]
                 )
+
+    class TestSpecEvaluatorGetKey:
+        def test_should_return_none(self, spec_evaluator):
+            key = "some_key"
+            value = spec_evaluator.get(key)
+            assert value == None
+
+        def test_should_return_foo(self, spec_evaluator):
+            key = "name"
+            value = spec_evaluator.get(key)
+            assert value == "foo"

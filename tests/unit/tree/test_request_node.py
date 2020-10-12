@@ -97,6 +97,13 @@ class TestRequestNode:
             request = RequestNode({"name": "foo", "path": "/foo/"}, endpoint=endpoint)
             assert request.full_url_path == "http://foo.com/foo/"
 
+        def test_with_trailintest_with_path_not_stringg_slashes(self):
+            endpoint = EndpointNode(
+                {"name": "foo", "requests": [{}], "path": "http://foo.com/"}
+            )
+            request = RequestNode({"name": "foo", "path": []}, endpoint=endpoint)
+            assert request.full_url_path == "http://foo.com/[]"
+
         def test_calls_evaluate(self, mocker, mock_evaluate):
             endpoint = EndpointNode(
                 {"name": "foo", "requests": [{}], "path": "http://foo.com/"}
@@ -197,15 +204,41 @@ class TestRequestNode:
 
             mock_evaluate.assert_has_calls(calls)
 
+    class TestDelay:
+        def test_when_request_has_no_delay(self):
+            request = RequestNode(
+                {"name": "foo"}, endpoint=EndpointNode({"name": "bar"})
+            )
+            assert request.delay == 0
+
+        def test_when_request_has_delay(self):
+            request = RequestNode(
+                {"name": "foo", "delay": 1}, endpoint=EndpointNode({"name": "bar"})
+            )
+            assert request.delay == 1
+
+        def test_when_endpoint_has_delay(self):
+            request = RequestNode(
+                {"name": "foo"}, endpoint=EndpointNode({"name": "bar", "delay": 2})
+            )
+            assert request.delay == 2
+
+        def test_when_both_request_and_endpoint_have_delay(self):
+            request = RequestNode(
+                {"name": "foo", "delay": 3},
+                endpoint=EndpointNode({"name": "bar", "delay": 4}),
+            )
+            assert request.delay == 3
+
     class TestBody:
         def test_when_request_has_no_body(self):
             request = RequestNode(
                 {"path": "http://foo.com", "name": "foo"},
                 endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
             )
-            assert request.body == {}
+            assert request.body is None
 
-        def test_when_request_has_no_body(self):
+        def test_when_request_has_body(self):
             request = RequestNode(
                 {"body": {"abc": "def"}, "path": "http://foo.com", "name": "foo",},
                 endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
@@ -231,12 +264,18 @@ class TestRequestNode:
         def mock_run_tests(self, mocker):
             return mocker.patch("scanapi.tree.request_node.RequestNode._run_tests")
 
-        def test_calls_request(self, mock_request):
+        @pytest.fixture
+        def mock_time_sleep(self, mocker):
+            return mocker.patch("scanapi.tree.request_node.time.sleep")
+
+        def test_calls_request(self, mock_request, mock_time_sleep):
             request = RequestNode(
                 {"path": "http://foo.com", "name": "foo"},
-                endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+                endpoint=EndpointNode({"name": "foo", "requests": [{}], "delay": 1}),
             )
             result = request.run()
+
+            mock_time_sleep.assert_called_once_with(0.001)
 
             mock_request.assert_called_once_with(
                 request.http_method,
@@ -300,6 +339,7 @@ class TestRequestNode:
                     "path",
                     "tests",
                     "vars",
+                    "delay",
                 ),
                 ("name",),
                 "request",

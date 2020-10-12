@@ -1,7 +1,6 @@
 import logging
 import os
 import re
-import sys
 
 from scanapi.errors import BadConfigurationError
 from scanapi.evaluators.code_evaluator import CodeEvaluator
@@ -11,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class StringEvaluator:
     variable_pattern = re.compile(
-        r"(?P<something_before>\w*)(?P<start>\${)(?P<variable>\w*)(?P<end>})(?P<something_after>\w*)"
+        r"(?P<something_before>\w*)(?P<start>\${)(?P<variable>[\w|-]*)(?P<end>})(?P<something_after>\w*)"
     )  # ${<variable>}
 
     @classmethod
@@ -71,5 +70,8 @@ class StringEvaluator:
 
     @classmethod
     def replace_var_with_value(cls, sequence, variable, variable_value):
+        if variable == sequence:
+            return variable_value
+
         variable = re.escape(variable)
-        return re.sub(variable, variable_value, sequence)
+        return re.sub(variable, str(variable_value), sequence)

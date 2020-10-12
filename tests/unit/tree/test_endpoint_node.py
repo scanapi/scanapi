@@ -1,7 +1,7 @@
 import pytest
 
-from scanapi.tree import EndpointNode
 from scanapi.errors import MissingMandatoryKeyError
+from scanapi.tree import EndpointNode
 
 
 class TestEndpointNode:
@@ -19,7 +19,7 @@ class TestEndpointNode:
         def test_missing_required_keys(self):
             with pytest.raises(MissingMandatoryKeyError) as excinfo:
                 endpoints = [{}, {}]
-                node = EndpointNode({"endpoints": endpoints})
+                EndpointNode({"endpoints": endpoints})
 
             assert str(excinfo.value) == "Missing 'name' key(s) at 'endpoint' scope"
 
@@ -28,7 +28,6 @@ class TestEndpointNode:
 
     class TestName:
         def test_when_parent_has_no_name(self):
-            base_path = "http://foo.com"
             node = EndpointNode({"name": "child-node"}, parent=EndpointNode({}))
             assert node.name == "child-node"
 
@@ -73,6 +72,15 @@ class TestEndpointNode:
                 {"path": "/foo/", "name": "node", "requests": []}, parent=parent
             )
             assert node.path == "http://foo.com/foo/"
+
+        def test_with_path_not_string(self):
+            parent = EndpointNode(
+                {"path": "http://foo.com/", "name": "parent-node", "requests": [],}
+            )
+            node = EndpointNode(
+                {"path": 2, "name": "node", "requests": []}, parent=parent
+            )
+            assert node.path == "http://foo.com/2"
 
         def test_calls_evaluate(self, mocker, mock_evaluate):
             parent = EndpointNode(
@@ -148,6 +156,28 @@ class TestEndpointNode:
             )
             assert node.params == {"abc": "def", "xxx": "www"}
 
+    class TestDelay:
+        def test_when_node_has_no_delay(self):
+            node = EndpointNode({"name": "node"})
+            assert node.delay == 0
+
+        def test_when_node_has_delay(self):
+            node = EndpointNode({"name": "node", "delay": 1})
+            assert node.delay == 1
+
+        def test_when_parent_has_delay(self):
+            node = EndpointNode(
+                {"name": "node"}, parent=EndpointNode({"name": "parent", "delay": 2})
+            )
+            assert node.delay == 2
+
+        def test_when_both_node_and_parent_have_delay(self):
+            node = EndpointNode(
+                {"name": "node", "delay": 3},
+                parent=EndpointNode({"name": "parent", "delay": 4}),
+            )
+            assert node.delay == 3
+
     class TestRun:
         pass  # TODO
 
@@ -169,7 +199,7 @@ class TestEndpointNode:
 
             mock_validate_keys.assert_called_with(
                 keys,
-                ("endpoints", "headers", "name", "params", "path", "requests"),
+                ("endpoints", "headers", "name", "params", "path", "requests", "delay"),
                 ("name",),
                 "endpoint",
             )

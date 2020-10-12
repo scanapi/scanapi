@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import datetime
 import logging
+from os.path import abspath
 
 from scanapi.session import session
 from scanapi.settings import settings
@@ -20,7 +21,7 @@ class Reporter:
         """
         logger.info("Writing documentation")
 
-        template_path = self.template if self.template else "html.jinja"
+        template_path = self.template if self.template else "report.html"
         has_external_template = True if self.template else False
         context = self._build_context(results)
 
@@ -30,7 +31,7 @@ class Reporter:
             doc.write(content)
 
         logger.info("\nThe documentation was generated successfully.")
-        logger.info(f"It is available at {self.output_path}")
+        logger.info(f"It is available at {abspath(self.output_path)}")
 
     @staticmethod
     def _build_context(results):

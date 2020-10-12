@@ -1,12 +1,16 @@
 import logging
+import time
+
 import requests
 
 from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.evaluators.spec_evaluator import SpecEvaluator
+from scanapi.hide_utils import hide_sensitive_info
 from scanapi.test_status import TestStatus
 from scanapi.tree.testing_node import TestingNode
 from scanapi.tree.tree_keys import (
     BODY_KEY,
+    DELAY_KEY,
     HEADERS_KEY,
     METHOD_KEY,
     NAME_KEY,
@@ -16,7 +20,6 @@ from scanapi.tree.tree_keys import (
     VARS_KEY,
 )
 from scanapi.utils import join_urls, validate_keys
-from scanapi.hide_utils import hide_sensitive_info
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +35,7 @@ class RequestNode:
         PATH_KEY,
         TESTS_KEY,
         VARS_KEY,
+        DELAY_KEY,
     )
     ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
     REQUIRED_KEYS = (NAME_KEY,)
@@ -62,7 +66,7 @@ class RequestNode:
     @property
     def full_url_path(self):
         base_path = self.endpoint.path
-        path = self.spec.get(PATH_KEY, "")
+        path = str(self.spec.get(PATH_KEY, ""))
         full_url = join_urls(base_path, path)
 
         return self.endpoint.vars.evaluate(full_url)
@@ -82,8 +86,13 @@ class RequestNode:
         return self.endpoint.vars.evaluate({**endpoint_params, **params})
 
     @property
+    def delay(self):
+        delay = self.spec.get(DELAY_KEY, 0)
+        return delay or self.endpoint.delay
+
+    @property
     def body(self):
-        body = self.spec.get(BODY_KEY, {})
+        body = self.spec.get(BODY_KEY)
 
         return self.endpoint.vars.evaluate(body)
 
@@ -92,9 +101,15 @@ class RequestNode:
         return (TestingNode(spec, self) for spec in self.spec.get("tests", []))
 
     def run(self):
+        time.sleep(self.delay / 1000)
+
         method = self.http_method
         url = self.full_url_path
         logger.info("Making request %s %s", method, url)
+
+        self.endpoint.vars.update(
+            self.spec.get(VARS_KEY, {}), preevaluate=False,
+        )
 
         response = requests.request(
             method,

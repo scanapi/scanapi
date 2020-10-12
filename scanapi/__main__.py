@@ -1,14 +1,25 @@
-import click
 import logging
 
+import click
+import yaml
+
+from scanapi.exit_code import ExitCode
 from scanapi.scan import scan
-from scanapi.settings import settings
 from scanapi.session import session
+from scanapi.settings import settings
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 
-@click.command(context_settings=CONTEXT_SETTINGS)
+@click.group()
+def main():
+    """
+    Automated Testing and Documentation for your REST API.
+    """
+    pass
+
+
+@main.command(context_settings=CONTEXT_SETTINGS)
 @click.argument("spec_path", type=click.Path(exists=True), required=False)
 @click.option(
     "-o", "--output-path", "output_path", type=click.Path(), help="Report output path.",
@@ -35,7 +46,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
     default="INFO",
     help="Set the debug logging level for the program.",
 )
-def main(spec_path, output_path, config_path, template, log_level):
+def run(spec_path, output_path, config_path, template, log_level):
     """
     Automated Testing and Documentation for your REST API.
     SPEC_PATH argument is the API specification file path.
@@ -50,5 +61,12 @@ def main(spec_path, output_path, config_path, template, log_level):
         "template": template,
     }
 
-    settings.save_preferences(**click_preferences)
+    try:
+        settings.save_preferences(**click_preferences)
+    except yaml.YAMLError as e:
+        error_message = "Error loading configuration file."
+        error_message = "{}\nPyYAML: {}".format(error_message, str(e))
+        logger.error(error_message)
+        raise SystemExit(ExitCode.USAGE_ERROR)
+
     scan()

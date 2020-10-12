@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "scanapi"
-version = "1.0.5"
+version = "2.1.0"
 description = "Automated Testing and Documentation for your REST API"
 authors = ["Camila Maia <cmaiacd@gmail.com>"]
 license = "MIT"
@@ -20,11 +20,11 @@ curlify = "2.2.1"
 jinja2 = "2.11.2"
 pyyaml = "5.3.1"
 requests = "2.24.0"
-bandit = "^1.6.2"
+appdirs = "^1.4.4"
 
 [tool.poetry.dev-dependencies]
 codecov = "2.1.7"
-pytest = "5.4.3"
+pytest = "6.1.0"
 pytest-cov = "2.10.0"
 pytest-freezegun = "0.4.1"
 pytest-mock = "3.2.0"
@@ -33,7 +33,16 @@ black = "19.10b0"
 sphinx = "3.1.2"
 sphinx_rtd_theme = "^0.5.0"
 pre-commit = "2.6.0"
+isort = "^5.5.3"
+bandit = "^1.6.2"
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.pytest.ini_options]
+addopts="-svvl"
 
 [build-system]
-requires = ["poetry>=1.0.9"]
+requires = ["poetry>=1.0.9",  "poetry-dynamic-versioning"]
 build-backend = "poetry.masonry.api"

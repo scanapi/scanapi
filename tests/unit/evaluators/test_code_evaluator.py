@@ -1,4 +1,5 @@
 import os
+
 import pytest
 import requests
 
@@ -9,7 +10,7 @@ from scanapi.evaluators import CodeEvaluator, SpecEvaluator, StringEvaluator
 class TestCodeEvaluator:
     class TestEvaluate:
         class TestWhenDoesNotMatchThePattern:
-            test_data = ["no code", "${CODE}", "${code}", "{{code}}"]
+            test_data = ["no code", "${CODE}", "${code}", "{{code}}", 10, []]
 
             @pytest.mark.parametrize("sequence", test_data)
             def test_should_return_sequence(self, sequence):

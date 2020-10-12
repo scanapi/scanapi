@@ -1,7 +1,37 @@
-import pytest
 import os
 
-from scanapi.settings import settings, DEFAULT_CONFIG_PATH
+import pytest
+
+from scanapi.settings import LOCAL_CONFIG_PATH, settings
+
+
+@pytest.fixture
+def mock_load_config_file(mocker):
+    return mocker.patch("scanapi.settings.load_config_file")
+
+
+@pytest.fixture
+def mock_has_local_config_file(mocker):
+    return mocker.patch(
+        "scanapi.settings.Settings.has_local_config_file",
+        mocker.PropertyMock(return_value=True),
+    )
+
+
+@pytest.fixture
+def mock_doesnt_have_local_config_file(mocker):
+    return mocker.patch(
+        "scanapi.settings.Settings.has_local_config_file",
+        mocker.PropertyMock(return_value=False),
+    )
+
+
+@pytest.fixture
+def mock_has_global_config_file(mocker):
+    return mocker.patch(
+        "scanapi.settings.Settings.has_global_config_file",
+        mocker.PropertyMock(return_value=True),
+    )
 
 
 class TestSettings:
@@ -10,6 +40,52 @@ class TestSettings:
             assert settings["spec_path"] == "scanapi.yaml"
             assert settings["output_path"] is None
             assert settings["template"] is None
+
+    class TestSaveConfigFilePreferences:
+        @pytest.fixture(autouse=True)
+        def define_settings(self):
+            settings["spec_path"] = "path/spec-path.yaml"
+            settings["output_path"] = "path/output-path.yaml"
+            settings["template"] = None
+            settings["config_path"] = "path/config-path.yaml"
+
+        class TestWithConfigPath:
+            class TestWithConfigFile:
+                def test_should_save_preferences(self, mock_load_config_file):
+                    config_path = "my_config_file.yaml"
+                    settings.save_config_file_preferences(config_path)
+                    assert settings["config_path"].endswith("my_config_file.yaml")
+                    mock_load_config_file.assert_called_with("my_config_file.yaml")
+
+            class TestWithoutConfigFile:
+                def test_should_raise_exception(self):
+                    with pytest.raises(FileNotFoundError) as excinfo:
+                        config_path = "invalid/my_config_file.yaml"
+                        settings.save_config_file_preferences(config_path)
+
+                    assert (
+                        str(excinfo.value)
+                        == "[Errno 2] No such file or directory: 'invalid/my_config_file.yaml'"
+                    )
+
+        class TestHasLocalConfigFile:
+            def test_should_save_preferences(
+                self, mock_has_local_config_file, mock_load_config_file
+            ):
+                settings.save_config_file_preferences()
+                assert settings["config_path"].endswith("./scanapi.conf")
+                mock_load_config_file.assert_called_with("./scanapi.conf")
+
+        class TestHasGlobalConfigFile:
+            def test_should_save_preferences(
+                self,
+                mock_doesnt_have_local_config_file,
+                mock_has_global_config_file,
+                mock_load_config_file,
+            ):
+                settings.save_config_file_preferences()
+                assert settings["config_path"].endswith("scanapi/scanapi.conf")
+                assert mock_load_config_file.called
 
     class TestSavePreferences:
         @pytest.fixture
@@ -59,49 +135,24 @@ class TestSettings:
                 "config_path": "path/config-path",
             }
 
-    class TestSaveConfigFilePreferences:
-        @pytest.fixture(autouse=True)
-        def define_settings(self):
-            settings["spec_path"] = "path/spec-path.yaml"
-            settings["output_path"] = "path/output-path.yaml"
-            settings["template"] = None
-            settings["config_path"] = "path/config-path.yaml"
+    class TestHasGlobalConfigFile:
+        def test_returns_true(self, mocker):
+            mocker.patch("scanapi.settings.os.path.isfile", return_value=True)
 
-        class TestWithoutCustomConfigPath:
-            class TestWithDefaultConfigFile:
-                def test_should_save_preferences(self):
-                    with open(DEFAULT_CONFIG_PATH, "w") as out_file:
-                        out_file.write("template: path/template.jinja")
+            assert settings.has_global_config_file is True
 
-                    settings.save_config_file_preferences()
-                    assert settings["template"] == "path/template.jinja"
+        def test_returns_false(self, mocker):
+            mocker.patch("scanapi.settings.os.path.isfile", return_value=False)
 
-                    os.remove(DEFAULT_CONFIG_PATH)
+            assert settings.has_global_config_file is False
 
-            class TestWithoutDefaultConfigFile:
-                def test_should_not_change_preferences(self):
-                    settings.save_config_file_preferences()
-                    assert settings["spec_path"] == "path/spec-path.yaml"
+    class TestHasLocalConfigFile:
+        def test_returns_true(self, mocker):
+            mocker.patch("scanapi.settings.os.path.isfile", return_value=True)
 
-        class TestWithCustomConfigPath:
-            class TestWithConfigFile:
-                def test_should_save_preferences(self):
-                    config_path = "my_config_file.yaml"
-                    with open(config_path, "w") as out_file:
-                        out_file.write("template: template.jinja")
+            assert settings.has_local_config_file is True
 
-                    settings.save_config_file_preferences(config_path)
-                    assert settings["template"] == "template.jinja"
+        def test_returns_false(self, mocker):
+            mocker.patch("scanapi.settings.os.path.isfile", return_value=False)
 
-                    os.remove(config_path)
-
-            class TestWithoutConfigFile:
-                def test_should_raise_exception(self):
-                    with pytest.raises(FileNotFoundError) as excinfo:
-                        config_path = "invalid/my_config_file.yaml"
-                        settings.save_config_file_preferences(config_path)
-
-                    assert (
-                        str(excinfo.value)
-                        == "[Errno 2] No such file or directory: 'invalid/my_config_file.yaml'"
-                    )
+            assert settings.has_local_config_file is False
