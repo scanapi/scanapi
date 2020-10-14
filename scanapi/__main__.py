@@ -37,6 +37,13 @@ def main():
     help="Run ScanAPI without generating report.",
 )
 @click.option(
+    "-n",
+    "--no-report",
+    "no_report",
+    is_flag=True,
+    help="Run ScanAPI without generating report.",
+)
+@click.option(
     "-c",
     "--config-path",
     "config_path",

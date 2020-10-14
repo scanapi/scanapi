@@ -44,6 +44,20 @@ class Reporter:
         logger.info("\nThe documentation was generated successfully.")
         logger.info(f"It is available at {abspath(self.output_path)}")
 
+    def write_without_generating_report(self, results):
+        """ Part of the Reporter instance that is responsible for writing the results without
+        generating the scanapi-report.html.
+        """
+        logger.info("Writing results without generating report")
+        for r in results:
+            if logger.root.level == logging.DEBUG:
+                continue
+            else:
+                for test in r["tests_results"]:
+                    logger.info(f" [{test['status'].upper()}] {test['name']}")
+                    if test["status"] == "failed":
+                        logger.info(f"\t {test['failure']} is false")
+
     @staticmethod
     def write_without_generating_report(results):
         """Part of the Reporter instance that is responsible for writing the
