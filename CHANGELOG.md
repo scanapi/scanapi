@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add `--no-report` flag. [#299](https://github.com/scanapi/scanapi/pull/299)
 
+### Changed
+- Updated poetry-publish version to v1.3 [#311](https://github.com/scanapi/scanapi/pull/311)
+
 ## [2.1.0] - 2020-10-06
 ### Added
 - Add a `delay` key option to perform a delay between each request. [#266](https://github.com/scanapi/scanapi/issues/266)
