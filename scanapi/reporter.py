@@ -34,6 +34,9 @@ class Reporter:
         logger.info(f"It is available at {abspath(self.output_path)}")
 
     def write_without_generating_report(self, results):
+        """ Part of the Reporter instance that is responsible for writing the results without
+        generating the scanapi-report.html.
+        """
         logger.info("Writing results without generating report")
         for r in results:
             if logger.root.level == logging.DEBUG:

@@ -71,5 +71,9 @@ def write_report(results):
 
 
 def write_without_generating_report(results):
+    """ Constructs a Reporter object and calls the write_without_generating_report
+    method of Reporter to print the results to the console output without generating
+    a report.
+    """
     reporter = Reporter()
     reporter.write_without_generating_report(results)
