@@ -28,6 +28,7 @@ class TestMain:
                 **{
                     "spec_path": None,
                     "output_path": "my_output.html",
+                    "no_report": False,
                     "config_path": None,
                     "template": None,
                 }

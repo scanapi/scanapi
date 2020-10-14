@@ -39,8 +39,9 @@ def response(requests_mock):
 class TestScan:
     class TestWhenCouldNotFindAPISpecFile:
         def test_should_log_error(self, mocker, caplog):
-            mock_settings = mocker.patch(
-                "scanapi.scan.settings", {"spec_path": "invalid_path/scanapi.yaml"}
+            mocker.patch(
+                "scanapi.scan.settings",
+                {"spec_path": "invalid_path/scanapi.yaml", "no_report": False},
             )
             mocker.patch("scanapi.scan.load_config_file", side_effect=file_not_found)
             with caplog.at_level(logging.ERROR):
@@ -57,6 +58,10 @@ class TestScan:
 
     class TestWhenAPISpecFileIsEmpty:
         def test_should_log_error(self, mocker, caplog):
+            mocker.patch(
+                "scanapi.scan.settings",
+                {"spec_path": "invalid_path/scanapi.yaml", "no_report": False},
+            )
             mocker.patch("scanapi.scan.load_config_file", side_effect=empty_config_file)
 
             with caplog.at_level(logging.ERROR):
@@ -73,6 +78,10 @@ class TestScan:
 
     class TestWhenAPISpecFileHasAnError:
         def test_should_log_error(self, mocker, caplog):
+            mocker.patch(
+                "scanapi.scan.settings",
+                {"spec_path": "invalid_path/scanapi.yaml", "no_report": False},
+            )
             mocker.patch("scanapi.scan.load_config_file", side_effect=yaml_error)
             with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
@@ -85,6 +94,10 @@ class TestScan:
 
     class TestWhenAPISpecHasAnInvalidKey:
         def test_should_log_error(self, mocker, caplog):
+            mocker.patch(
+                "scanapi.scan.settings",
+                {"spec_path": "invalid_path/scanapi.yaml", "no_report": False},
+            )
             mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
             mock_load_config_file.return_value = {"blah": "blah"}
             mocker.patch("scanapi.scan.EndpointNode.__init__", side_effect=invalid_key)
@@ -102,6 +115,10 @@ class TestScan:
 
     class TestWhenAPISpecIsOk:
         def test_should_call_reporter(self, mocker, response):
+            mocker.patch(
+                "scanapi.scan.settings",
+                {"spec_path": "invalid_path/scanapi.yaml", "no_report": False},
+            )
             mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
             mock_load_config_file.return_value = {"endpoints": []}
             mock_endpoint_init = mocker.patch("scanapi.scan.EndpointNode.__init__")
@@ -130,6 +147,7 @@ class TestWriteReporter:
             "scanapi.scan.settings",
             {
                 "output_path": "out/my-report.md",
+                "no_report": False,
                 "reporter": "markdown",
                 "template": "my-template.jinja",
             },

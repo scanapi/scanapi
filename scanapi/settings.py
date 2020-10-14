@@ -17,6 +17,7 @@ class Settings(dict):
         self["spec_path"] = "scanapi.yaml"
         self["output_path"] = None
         self["template"] = None
+        self["no_report"] = False
 
         super(dict, self).__init__()
 

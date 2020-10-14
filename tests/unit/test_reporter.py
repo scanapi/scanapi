@@ -43,6 +43,10 @@ class TestReporter:
             return mocker.patch("scanapi.reporter.session")
 
         @pytest.fixture
+        def mocked__logger(self, mocker):
+            return mocker.patch("scanapi.reporter.logger")
+
+        @pytest.fixture
         def context(self, mocked__session):
             return {
                 "now": FakeDatetime(2020, 5, 12, 11, 32, 34),
@@ -95,3 +99,13 @@ class TestReporter:
                 "scanapi-report.html", "w", newline="\n"
             )
             mocked__open().write.assert_called_once_with("ScanAPI Report")
+
+        def test_should_write_without_generating_report(
+            self, mocker, mocked__render, mocked__open, mocked__logger,
+        ):
+            reporter = Reporter()
+            reporter.write_without_generating_report(fake_results)
+
+            mocked__render.assert_not_called()
+            mocked__open.assert_not_called()
+            mocked__logger.info.assert_called_once()
