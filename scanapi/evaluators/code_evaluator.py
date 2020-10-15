@@ -8,6 +8,7 @@ import time
 import uuid
 
 from scanapi.errors import InvalidPythonCodeError
+from . import rmc
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,10 @@ class CodeEvaluator:
 
         code = match.group("python_code")
         response = vars.get("response")
+
+        code = code.strip()
+        if code.startswith('!'):
+            return rmc.remote_method_call(code, vars, is_a_test_case)
 
         try:
             if is_a_test_case:
