@@ -36,6 +36,12 @@ pre-commit = "2.6.0"
 isort = "^5.5.3"
 bandit = "^1.6.2"
 
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+latest-tag = true
+
 [tool.isort]
 multi_line_output = 3
 include_trailing_comma = true
