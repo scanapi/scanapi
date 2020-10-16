@@ -1,10 +1,14 @@
-.PHONY: test format check install sh run
+timestamp = `date +%s`
+
 
 test:
 	@pytest --cov=./scanapi --cov-report=xml
 
 check:
 	@black -l 80 --check . --exclude=.venv
+
+change-version:
+	@poetry version 2.1.0-$(timestamp)
 
 format:
 	@black -l 80 . --exclude=.venv
@@ -22,3 +26,4 @@ run:
 bandit:
 	@bandit -r scanapi
 
+.PHONY: test format check install sh run
