@@ -26,7 +26,7 @@ def validate_keys(keys, available_keys, required_keys, scope):
 def _validate_allowed_keys(keys, available_keys, scope):
     """ Private function that checks validation of allowed keys. """
     for key in keys:
-        if not key in available_keys:
+        if key not in available_keys:
             raise InvalidKeyError(key, scope, available_keys)
 
 

@@ -1,8 +1,5 @@
-import os
-
 import pytest
 
-from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
 from scanapi.evaluators.spec_evaluator import SpecEvaluator
 from scanapi.tree import EndpointNode
 
@@ -83,7 +80,7 @@ class TestSpecEvaluator:
         def test_should_return_none(self, spec_evaluator):
             key = "some_key"
             value = spec_evaluator.get(key)
-            assert value == None
+            assert value is None
 
         def test_should_return_foo(self, spec_evaluator):
             key = "name"
