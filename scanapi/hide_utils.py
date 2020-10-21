@@ -43,7 +43,9 @@ def _override_info(http_msg, http_attr, secret_field):
 
 def _override_url(http_msg, secret_field):
     if secret_field in http_msg.url:
-        new_url = http_msg.url.replace(secret_field, SENSITIVE_INFO_SUBSTITUTION_FLAG)
+        new_url = http_msg.url.replace(
+            secret_field, SENSITIVE_INFO_SUBSTITUTION_FLAG
+        )
         http_msg.url = new_url
 
 
