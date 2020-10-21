@@ -1,0 +1,11 @@
+on: pull_request
+name: pep8 check
+jobs:
+  flake8:
+    name: pep8 check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: "Pep8 check using flake8"
+        run: |
+          echo "hello"
