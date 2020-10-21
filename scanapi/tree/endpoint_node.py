@@ -6,6 +6,7 @@ from scanapi.exit_code import ExitCode
 from scanapi.session import session
 from scanapi.tree.request_node import RequestNode
 from scanapi.tree.tree_keys import (
+    DELAY_KEY,
     ENDPOINTS_KEY,
     HEADERS_KEY,
     NAME_KEY,
@@ -29,6 +30,7 @@ class EndpointNode:
         PARAMS_KEY,
         PATH_KEY,
         REQUESTS_KEY,
+        DELAY_KEY,
     )
     REQUIRED_KEYS = (NAME_KEY,)
     ROOT_REQUIRED_KEYS = ()
@@ -73,6 +75,11 @@ class EndpointNode:
     @property
     def params(self):
         return self._get_specs(PARAMS_KEY)
+
+    @property
+    def delay(self):
+        delay = self.spec.get(DELAY_KEY, 0)
+        return delay or getattr(self.parent, DELAY_KEY, 0)
 
     @property
     def is_root(self):

@@ -14,7 +14,6 @@ from scanapi.reporter import Reporter
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.tree import EndpointNode
-from scanapi.tree.tree_keys import ROOT_SCOPE
 
 logger = logging.getLogger(__name__)
 

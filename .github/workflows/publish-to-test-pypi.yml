@@ -8,8 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Poetry Setup
+        uses: dschep/install-poetry-action@v1.3
+        with:
+          version: 1.1.1
+      - name: Run poetry pre-release
+        run: |
+          make change-version
       - name: Build and publish to test pypi
-        uses: JRubics/poetry-publish@v1.2
+        uses: JRubics/poetry-publish@v1.3
         with:
           python_version: "3.6"
           poetry_version: ">=0.12"

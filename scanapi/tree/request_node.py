@@ -1,14 +1,16 @@
 import logging
+import time
 
 import httpx
 
 from scanapi.errors import HTTPMethodNotAllowedError
-from scanapi.evaluators.spec_evaluator import SpecEvaluator
+from scanapi.evaluators.spec_evaluator import SpecEvaluator  # noqa: F401
 from scanapi.hide_utils import hide_sensitive_info
 from scanapi.test_status import TestStatus
 from scanapi.tree.testing_node import TestingNode
 from scanapi.tree.tree_keys import (
     BODY_KEY,
+    DELAY_KEY,
     HEADERS_KEY,
     METHOD_KEY,
     NAME_KEY,
@@ -23,6 +25,7 @@ logger = logging.getLogger(__name__)
 
 client = httpx.AsyncClient()
 
+
 class RequestNode:
     SCOPE = "request"
     ALLOWED_KEYS = (
@@ -34,6 +37,7 @@ class RequestNode:
         PATH_KEY,
         TESTS_KEY,
         VARS_KEY,
+        DELAY_KEY,
     )
     ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
     REQUIRED_KEYS = (NAME_KEY,)
@@ -82,6 +86,11 @@ class RequestNode:
         params = self.spec.get(PARAMS_KEY, {})
 
         return self.endpoint.vars.evaluate({**endpoint_params, **params})
+
+    @property
+    def delay(self):
+        delay = self.spec.get(DELAY_KEY, 0)
+        return delay or self.endpoint.delay
 
     @property
     def body(self):

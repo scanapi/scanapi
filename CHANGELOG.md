@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
+- Updated poetry-publish version to v1.3 [#311](https://github.com/scanapi/scanapi/pull/311)
+
+### Fixed
+- Removed all flake8 errors [#309](https://github.com/scanapi/scanapi/pull/309)
+
+## [2.1.0] - 2020-10-06
+### Added
+- Add a `delay` key option to perform a delay between each request. [#266](https://github.com/scanapi/scanapi/issues/266)
+
+### Changed
 - Changed relative path to show absolute path to the report in CLI. [#277](https://github.com/scanapi/scanapi/pull/277)
 - Considering `-` (dash) in variable names. [#281](https://github.com/scanapi/scanapi/pull/281)
 - Moved bandit to dev section [#285](https://github.com/scanapi/scanapi/pull/285)
@@ -182,7 +192,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/camilamaia/scanapi/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/camilamaia/scanapi/compare/v1.0.5...v2.0.0
 [1.0.5]: https://github.com/camilamaia/scanapi/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/camilamaia/scanapi/compare/v1.0.3...v1.0.4
