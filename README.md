@@ -15,7 +15,7 @@
   </a>
 </p>
 
-A library for **your API** that provides:
+A library2 for **your API** that provides:
 
 - Automated Integration Testing
 - Automated Live Documentation
