@@ -11,10 +11,10 @@ def off(a: int, b: int, status: str = 'x') -> int:
 class response:
 
     def ok(response):
-        return response.status < 400
+        return response.status_code < 400
 
     # def status_is(response, code: int):
-    #     return response.status == code
+    #     return response.status_code == code
 
     def status_is(code: int, response):
-        return response.status == code
+        return response.status_code == code

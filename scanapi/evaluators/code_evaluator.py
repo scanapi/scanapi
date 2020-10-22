@@ -28,9 +28,12 @@ class CodeEvaluator:
         code = match.group("python_code")
         response = vars.get("response")
 
-        code = code.strip()
-        if code.startswith('!'):
-            return rmc.remote_method_call(code, vars, is_a_test_case)
+        rmc_match = rmc.pattern.match(code.strip())
+        if rmc_match:
+            try:
+                return rmc.remote_method_call(code, vars, is_a_test_case=is_a_test_case)
+            except Exception as e:
+                raise InvalidPythonCodeError(str(e), code)
 
         try:
             if is_a_test_case:
