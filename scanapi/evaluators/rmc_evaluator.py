@@ -4,7 +4,7 @@ import operator
 import inspect
 import importlib
 from functools import partial
-from typing import Dict, Any, Optional, Union, Callable, Dict, Tuple, Mapping
+from typing import Dict, Any, Optional, Union, Callable, Tuple, Mapping
 from scanapi import std
 
 
@@ -88,7 +88,7 @@ def call_against_vars(func: Callable, args: Tuple, kwargs: Dict, vars: Mapping):
 
 class RemoteMethodCallEvaluator:
 
-    pattern: re.Pattern = re.compile(
+    pattern = re.compile(
         r'^(?P<module>[\w.]*)\s*:\s*(?P<expr>.*)$'
     )
 

@@ -42,8 +42,8 @@ class TestRemoteMethodCallEvaluator:
         class TestOnlyBareName:
             def test_expected_behavior(self):
                 # local path module
-                assert rmc_eval('scanapi.std:response.ok', {'response': Mock(status_code=400)}) == False
-                assert rmc_eval('scanapi.std:response.ok', {'response': Mock(status_code=200)}) == True
+                assert not rmc_eval('scanapi.std:response.ok', {'response': Mock(status_code=400)})
+                assert rmc_eval('scanapi.std:response.ok', {'response': Mock(status_code=200)})
 
                 # no spec
                 assert rmc_eval('builtins:str', {'object': {4}}) == "{'object': {4}}"
@@ -53,18 +53,18 @@ class TestRemoteMethodCallEvaluator:
 
         class TestExprWithPositionalArgs:
             def test_expected_behavior(self):
-                assert rmc_eval('scanapi.std:response.status_is(200)', {'response': Mock(status_code=200)}) == True
-                assert rmc_eval('scanapi.std:response.status_is(200)', {'response': Mock(status_code=400)}) == False
+                assert rmc_eval('scanapi.std:response.status_is(200)', {'response': Mock(status_code=200)})
+                assert not rmc_eval('scanapi.std:response.status_is(200)', {'response': Mock(status_code=400)})
 
         class TestExprWithKeywordArgs:
             def test_expected_behavior(self):
-                assert rmc_eval('scanapi.std:response.status_is(code=200)', {'response': Mock(status_code=200)}) == True
-                assert rmc_eval('scanapi.std:response.status_is(code=200)', {'response': Mock(status_code=400)}) == False
+                assert rmc_eval('scanapi.std:response.status_is(code=200)', {'response': Mock(status_code=200)})
+                assert not rmc_eval('scanapi.std:response.status_is(code=200)', {'response': Mock(status_code=400)})
 
         class TestExprWithStdConst:
             def test_expected_behavior(self):
-                assert rmc_eval('std:response.ok', {'response': Mock(status_code=400)}) == False
-                assert rmc_eval(':response.ok', {'response': Mock(status_code=400)}) == False
+                assert not rmc_eval('std:response.ok', {'response': Mock(status_code=400)})
+                assert not rmc_eval(':response.ok', {'response': Mock(status_code=400)})
 
     class TestGetModule:
         def test_expected_behavior(self):
@@ -97,7 +97,7 @@ class TestRemoteMethodCallEvaluator:
         class TestWhenVarsIsNotDictLike:
             def test_should_raise_type_error(self):
                 with pytest.raises(TypeError) as excinfo:
-                    assert rmc.call_against_vars(lambda m:m, (), {}, 44)
+                    assert rmc.call_against_vars(lambda m: m, (), {}, 44)
                 assert str(excinfo.value) == 'vars=44 is not dict-like'
 
         class TestWhenFuncIsBuiltin:
