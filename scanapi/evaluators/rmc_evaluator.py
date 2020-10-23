@@ -13,10 +13,6 @@ from scanapi import std
 
 _sentinel = object()
 
-pattern = re.compile(
-    r'^(?P<module>[\w.]*):(?P<expr>.*)$'
-)
-
 
 def get_module(name: str):
     if name.lower() == 'std':
@@ -54,98 +50,108 @@ def unroll_name(name: Union[str, ast.Attribute]) -> str:
     return unroll_name(name.value) + '.' + name.attr
 
 
-def remote_method_call(
-    code: str,
-    vars: Dict[str, Any],
-    is_a_test_case: bool = False
-):
-    """
-    Parse a remote method call (rmc) expression, then run it against input `vars`.
+class RemoteMethodCallEvaluator:
 
-    A rmc expression starts with a ! followed by an ident, and optionally a set
-    of simple arguments to bind to the function:
+    pattern = re.compile(
+        r'^(?P<module>[\w.]*):(?P<expr>.*)$'
+    )
 
-    def ok(response):
-        return response.status_code == 200
+    @classmethod
+    def evaluate(
+        cls,
+        code: str,
+        vars: Dict[str, Any],
+        is_a_test_case: bool = False
+    ):
+        """
+        Parse a remote method call (rmc) expression, then run it against input `vars`.
 
-    def status_is(code, response):
-        return code == r esponse.status_code
+        A rmc expression starts with a ! followed by an ident, and optionally a set
+        of simple arguments to bind to the function:
 
-    {{ mymodule:response.ok }}
-    # with positional arguments
-    {{ mymodule:response.status_is(200) }}
-    # or keyword arguments
-    {{ mymodule:response.status_is(code=200) }}
+        def ok(response):
+            return response.status_code == 200
 
-    Beware that partial binding binds from the left on positional arguments, so
-    you should expect your positional arguments to be fed through the expression
-    rather than from `vars`, ie don't write this but the above:
+        def status_is(code, response):
+            return code == r esponse.status_code
 
-    def status_is(response, code):  # response would be 200 here and a collision would happen
-        ...
+        {{ mymodule:response.ok }}
+        # with positional arguments
+        {{ mymodule:response.status_is(200) }}
+        # or keyword arguments
+        {{ mymodule:response.status_is(code=200) }}
 
-    ---
+        Beware that partial binding binds from the left on positional arguments, so
+        you should expect your positional arguments to be fed through the expression
+        rather than from `vars`, ie don't write this but the above:
 
-    `vars` are fed to the function as keyword arguments; only `vars` keys found in
-    the function spec are fed to the function, so you can write stuff like this:
+        def status_is(response, code):  # response would be 200 here and a collision would happen
+            ...
 
-    def analyze_response(response):
-        ...
+        ---
 
-    with vars = {'response': ... , 'book_id': 333}
-    ${{ !mymodule.analyze_response }}
+        `vars` are fed to the function as keyword arguments; only `vars` keys found in
+        the function spec are fed to the function, so you can write stuff like this:
 
-    to just get the vars you're interested in.
+        def analyze_response(response):
+            ...
 
-    """
+        with vars = {'response': ... , 'book_id': 333}
+        ${{ !mymodule.analyze_response }}
 
-    code = str(code)
+        to just get the vars you're interested in.
 
-    # Parse expr
-    m = pattern.match(code)
-    if m is None:
-        raise ValueError(
-            "Failed to parse expr: %r" % code
-        )
+        """
 
-    modulename, callcode = m.groups()
-    modulename = modulename or 'std'
+        code = str(code)
 
-    expr = ast.parse(callcode, mode='eval').body
+        # Parse expr
+        m = cls.pattern.match(code)
+        if m is None:
+            raise ValueError(
+                "Failed to parse expr: %r" % code
+            )
 
-    name = None
-    args = None
-    kwargs = None
+        modulename, callcode = m.groups()
+        modulename = modulename or 'std'
 
-    if isinstance(expr, ast.Call):
-        name = unroll_name(expr.func)
-        args = [ast.literal_eval(arg) for arg in expr.args]
-        kwargs = {kw.arg: ast.literal_eval(kw.value) for kw in expr.keywords}
-    elif isinstance(expr, ast.Name):
-        name = expr.id
-    elif isinstance(expr, ast.Attribute):
-        name = unroll_name(expr)
-    else:
-        raise ValueError(
-            "Failed to parse %r as an attribute name or function call." % callcode
-        )
-    #
+        expr = ast.parse(callcode, mode='eval').body
 
-    # Build function
-    module = get_module(modulename)
-    f = fetch(name, module)
-    spec = inspect.getfullargspec(f)
+        name = None
+        args = None
+        kwargs = None
 
-    if args or kwargs:
-        f = partial(f, *args or (), **kwargs or {})
-    #
+        if isinstance(expr, ast.Call):
+            name = unroll_name(expr.func)
+            args = [ast.literal_eval(arg) for arg in expr.args]
+            kwargs = {kw.arg: ast.literal_eval(kw.value) for kw in expr.keywords}
+        elif isinstance(expr, ast.Name):
+            name = expr.id
+        elif isinstance(expr, ast.Attribute):
+            name = unroll_name(expr)
+        else:
+            raise ValueError(
+                "Failed to parse %r as an attribute name or function call." % callcode
+            )
+        #
 
-    result = f(**{
-        key: vars[key]
-        for key in vars.keys() & {*spec.kwonlyargs, *spec.args}
-    })
+        # Build function
+        module = get_module(modulename)
+        f = fetch(name, module)
+        spec = inspect.getfullargspec(f)
 
-    if is_a_test_case:
-        return (True, None) if operator.truth(result) else (False, expr)
+        if args or kwargs:
+            f = partial(f, *args or (), **kwargs or {})
+        #
 
-    return result
+        result = f(**{
+            key: vars[key]
+            for key in vars.keys() & {*spec.kwonlyargs, *spec.args}
+        })
+
+        if is_a_test_case:
+            if operator.truth(result):
+                return (True, None)
+            return (False, expr)
+
+        return result

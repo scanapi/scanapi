@@ -8,7 +8,7 @@ import time  # noqa: F401
 import uuid  # noqa: F401
 
 from scanapi.errors import InvalidPythonCodeError
-from . import rmc
+from scanapi.evaluators.rmc_evaluator import RemoteMethodCallEvaluator
 
 logger = logging.getLogger(__name__)
 
@@ -28,14 +28,14 @@ class CodeEvaluator:
         code = match.group("python_code")
         response = vars.get("response")
 
-        rmc_match = rmc.pattern.match(code.strip())
-        if rmc_match:
-            try:
-                return rmc.remote_method_call(code, vars, is_a_test_case=is_a_test_case)
-            except Exception as e:
-                raise InvalidPythonCodeError(str(e), code)
+        rmc_match = RemoteMethodCallEvaluator.pattern.match(code.strip())
 
         try:
+            if rmc_match:
+                return RemoteMethodCallEvaluator.evaluate(
+                    code, vars, is_a_test_case
+                )
+
             if is_a_test_case:
                 return cls._assert_code(code, response)
 
