@@ -1,13 +1,10 @@
-import os
-import sys
 import ast
 import re
 import operator
 import inspect
 import importlib
 from functools import partial
-from unittest.mock import Mock
-from typing import Dict, Any, List, Tuple, Optional, Callable, Union
+from typing import Dict, Any, Optional, Union
 from scanapi import std
 
 
@@ -15,6 +12,7 @@ _sentinel = object()
 
 
 def get_module(name: str):
+    """Import a module dynamically."""
     if name.lower() == 'std':
         return std
     module = importlib.import_module(name)
@@ -22,27 +20,20 @@ def get_module(name: str):
     return module
 
 
-def fetch(location: str, module = None) -> Callable:
-    """Fetch a callable from a given location, wich can span across submodules/attributes."""
-
-    if module is None:
-        module_name, *trail = location.split('.')
-        if not trail:
-            raise Exception
-        module = get_module(module_name)
-    else:
-        trail = location.split('.')
-
-    node = module
+def getname(location: str, root) -> Any:
+    """Get an ident's value from a given namespace."""
+    trail = location.split('.')
+    node = root
     for i, name in enumerate(trail):
         try:
             node = getattr(node, name)
         except AttributeError:
-            raise AttributeError(f'No such location: {module.__name__}.{".".join(trail[:i + 1])}')
+            raise AttributeError(f'No such location: {root}.{".".join(trail[:i + 1])}')
     return node
 
 
-def unroll_name(name: Union[str, ast.Attribute]) -> str:
+def unroll_name(name: Union[str, ast.Attribute, ast.Name]) -> str:
+    """Unroll a ast.Name / ast.Attribute / str object."""
     if isinstance(name, str):
         return name
     if isinstance(name, ast.Name):
@@ -53,7 +44,7 @@ def unroll_name(name: Union[str, ast.Attribute]) -> str:
 class RemoteMethodCallEvaluator:
 
     pattern = re.compile(
-        r'^(?P<module>[\w.]*):(?P<expr>.*)$'
+        r'^(?P<module>[\w.]*)\s*:\s*(?P<expr>.*)$'
     )
 
     @classmethod
@@ -61,7 +52,8 @@ class RemoteMethodCallEvaluator:
         cls,
         code: str,
         vars: Dict[str, Any],
-        is_a_test_case: bool = False
+        is_a_test_case: bool = False,
+        match: Optional[re.Match] = None
     ):
         """
         Parse a remote method call (rmc) expression, then run it against input `vars`.
@@ -106,13 +98,13 @@ class RemoteMethodCallEvaluator:
         code = str(code)
 
         # Parse expr
-        m = cls.pattern.match(code)
-        if m is None:
+        match = match or cls.pattern.match(code)
+        if match is None:
             raise ValueError(
                 "Failed to parse expr: %r" % code
             )
 
-        modulename, callcode = m.groups()
+        modulename, callcode = match.groups()
         modulename = modulename or 'std'
 
         expr = ast.parse(callcode, mode='eval').body
@@ -137,14 +129,14 @@ class RemoteMethodCallEvaluator:
 
         # Build function
         module = get_module(modulename)
-        f = fetch(name, module)
-        spec = inspect.getfullargspec(f)
+        func = getname(name, module)
+        spec = inspect.getfullargspec(func)
 
         if args or kwargs:
-            f = partial(f, *args or (), **kwargs or {})
+            func = partial(func, *args or (), **kwargs or {})
         #
 
-        result = f(**{
+        result = func(**{
             key: vars[key]
             for key in vars.keys() & {*spec.kwonlyargs, *spec.args}
         })

@@ -33,7 +33,7 @@ class CodeEvaluator:
         try:
             if rmc_match:
                 return RemoteMethodCallEvaluator.evaluate(
-                    code, vars, is_a_test_case
+                    code, vars, is_a_test_case, rmc_match
                 )
 
             if is_a_test_case:
