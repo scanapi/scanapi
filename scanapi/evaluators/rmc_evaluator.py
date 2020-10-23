@@ -58,14 +58,21 @@ class RemoteMethodCallEvaluator:
         """
         Parse a remote method call (rmc) expression, then run it against input `vars`.
 
-        A rmc expression starts with a ! followed by an ident, and optionally a set
-        of simple arguments to bind to the function:
+        A rmc expression is made of two fields separated by a colon (:):
+        * a module to import the function from: (eg 'pandas')
+        * the name location of the function (eg 'is_nan')
 
-        def ok(response):
-            return response.status_code == 200
+        mymodule.py:
 
-        def status_is(code, response):
-            return code == r esponse.status_code
+            def ok(response):
+                return response.status_code == 200
+
+            def status_is(code, response):
+                return code == r esponse.status_code
+
+        We can call this module's functions with rmc expressions.
+        You can omit any and all arguments, but if you do provide some,
+        they will be bound to the function before it gets to run.
 
         {{ mymodule:response.ok }}
         # with positional arguments
@@ -77,13 +84,13 @@ class RemoteMethodCallEvaluator:
         you should expect your positional arguments to be fed through the expression
         rather than from `vars`, ie don't write this but the above:
 
+        ${{ mymodule:response.status_is(200) }}
+
         def status_is(response, code):  # response would be 200 here and a collision would happen
             ...
 
-        ---
-
-        `vars` are fed to the function as keyword arguments; only `vars` keys found in
-        the function spec are fed to the function, so you can write stuff like this:
+        `vars` is fed to the function as keyword arguments; only `vars` keys found in
+        the function's spec are fed to the function, so you can write stuff like this:
 
         def analyze_response(response):
             ...
@@ -91,8 +98,7 @@ class RemoteMethodCallEvaluator:
         with vars = {'response': ... , 'book_id': 333}
         ${{ !mymodule.analyze_response }}
 
-        to just get the vars you're interested in.
-
+        to just be able to process the vars you're interested in.
         """
 
         code = str(code)
