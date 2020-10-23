@@ -4,7 +4,7 @@ import operator
 import inspect
 import importlib
 from functools import partial
-from typing import Dict, Any, Optional, Union
+from typing import Dict, Any, Optional, Union, Callable, Dict, Tuple, Mapping
 from scanapi import std
 
 
@@ -41,9 +41,54 @@ def unroll_name(name: Union[str, ast.Attribute, ast.Name]) -> str:
     return unroll_name(name.value) + '.' + name.attr
 
 
+def call_against_vars(func: Callable, args: Tuple, kwargs: Dict, vars: Mapping):
+    """
+    Call a function against the spec vars
+    ---
+    Bind func to args/kwargs;
+    If function has no spec, feed vars as a single positional argument.
+    Feed `vars` as keyword arguments to func if func's spec share some of the same
+    names, including a reference to `vars` itself.
+    If `vars` and spec share no keys whatsoever, raise exception.
+    """
+
+    bound_func = func
+
+    if args or kwargs:
+        bound_func = partial(bound_func, *args or (), **kwargs or {})
+
+    if getattr(func, '__module__', None) == 'builtins':
+        return bound_func(vars)
+
+    try:
+        spec = inspect.getfullargspec(func)
+    except TypeError:
+        return bound_func(vars)
+
+    try:
+        vars = dict(vars)
+    except TypeError:
+        raise TypeError(f'vars={vars} is not dict-like')
+
+    if 'vars' not in vars:
+        vars['vars'] = vars
+
+    feed_keys = {*spec.kwonlyargs, *spec.args}
+
+    if not feed_keys & vars.keys():
+        raise RuntimeError(
+            f'vars={vars.keys()} contain no key that function {func} expects as parameter'
+        )
+
+    return bound_func(**{
+        key: vars[key]
+        for key in vars.keys() & feed_keys
+    })
+
+
 class RemoteMethodCallEvaluator:
 
-    pattern = re.compile(
+    pattern: re.Pattern = re.compile(
         r'^(?P<module>[\w.]*)\s*:\s*(?P<expr>.*)$'
     )
 
@@ -136,19 +181,8 @@ class RemoteMethodCallEvaluator:
         # Build function
         module = get_module(modulename)
         func = getname(name, module)
-        bound_func = func
 
-        if args or kwargs:
-            bound_func = partial(bound_func, *args or (), **kwargs or {})
-
-        if getattr(func, '__module__', None) == 'builtins':
-            result = bound_func(vars)
-        else:
-            spec = inspect.getfullargspec(func)
-            result = bound_func(**{
-                key: vars[key]
-                for key in vars.keys() & {*spec.kwonlyargs, *spec.args}
-            })
+        result = call_against_vars(func, args, kwargs, vars)
 
         if is_a_test_case:
             if operator.truth(result):
