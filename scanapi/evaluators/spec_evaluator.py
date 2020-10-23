@@ -39,6 +39,9 @@ class SpecEvaluator:
     def __repr__(self):
         return self.registry.__repr__()
 
+    def keys(self):
+        return self.registry.keys()
+
     def __getitem__(self, key):
         if key in self:
             return self.registry[key]
