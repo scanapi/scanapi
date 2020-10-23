@@ -1,10 +1,8 @@
-import os
-
 import pytest
 import requests
 
-from scanapi.errors import BadConfigurationError, InvalidPythonCodeError
-from scanapi.evaluators import CodeEvaluator, SpecEvaluator, StringEvaluator
+from scanapi.errors import InvalidPythonCodeError
+from scanapi.evaluators import CodeEvaluator
 
 
 class TestCodeEvaluator:

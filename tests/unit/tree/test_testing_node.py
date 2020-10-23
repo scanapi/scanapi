@@ -16,7 +16,7 @@ class TestTestingNode:
                     spec={"name": "foo", "path": "bar"},
                     endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
                 )
-                test_node = TestingNode(spec={}, request=request_node)
+                TestingNode(spec={}, request=request_node)
 
             assert (
                 str(excinfo.value) == "Missing 'assert', 'name' key(s) at 'test' scope"
@@ -35,7 +35,6 @@ class TestTestingNode:
     class TestRun:
         @pytest.fixture
         def testing_node(self):
-            __test__ = False
             endpoint_node = EndpointNode(spec={"name": "foo"})
             request_node = RequestNode(spec={"name": "bar"}, endpoint=endpoint_node)
             spec = {

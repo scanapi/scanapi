@@ -1,11 +1,11 @@
 # Available imports to be used dinamically in the API spec
-import datetime
+import datetime  # noqa: F401
 import logging
-import math
-import random
+import math  # noqa: F401
+import random  # noqa: F401
 import re
-import time
-import uuid
+import time  # noqa: F401
+import uuid  # noqa: F401
 
 from scanapi.errors import InvalidPythonCodeError
 from scanapi.evaluators.rmc_evaluator import RemoteMethodCallEvaluator

@@ -2,7 +2,6 @@ import pytest
 import requests
 
 from scanapi.errors import InvalidKeyError, MissingMandatoryKeyError
-from scanapi.hide_utils import _hide, _override_info, hide_sensitive_info
 from scanapi.utils import join_urls, validate_keys
 
 

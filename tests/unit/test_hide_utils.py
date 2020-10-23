@@ -74,7 +74,7 @@ class TestOverrideInfo:
     def test_overrides_url(self, response):
         secret_key = "129e8cb2-d19c-51ad-9921-cea329bed7fa"
         response.url = (
-            f"http://test.com/users/129e8cb2-d19c-51ad-9921-cea329bed7fa/details"
+            "http://test.com/users/129e8cb2-d19c-51ad-9921-cea329bed7fa/details"
         )
         http_attr = "url"
         secret_field = secret_key
