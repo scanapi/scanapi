@@ -15,13 +15,6 @@ class TestCodeEvaluator:
                 assert CodeEvaluator.evaluate(sequence, {}) == sequence
 
         class TestWhenMatchesThePattern:
-            class TestWhenItIsARemoteMethodCall:
-                # i should test
-                # each method: get_module, fetch, parse, safe_eval, as_kw and rmc
-                class TestWhenItIsATestCase:
-                    pass
-                class TestWhenItIsNotATestCase:
-                    pass
             class TestWhenItIsATestCase:
                 test_data = [
                     ("${{1 == 1}}", (True, None)),
