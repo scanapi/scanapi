@@ -1,8 +1,8 @@
 on: pull_request
 name: Lint check
 jobs:
-  check:
-    name: Lint check
+  black:
+    name: black check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -10,6 +10,11 @@ jobs:
         uses: "./.github/actions/black"
         with:
           args: ". --check"
+  flake8:
+    name: flake8 check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
       - name: "Flake8 check"
         uses: TrueBrain/actions-flake8@master
         with:
