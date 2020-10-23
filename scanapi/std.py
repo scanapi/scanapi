@@ -1,5 +1,10 @@
 
 
+"""
+A compendium of off-the-shelf operations for rmc expressions.
+"""
+
+
 class response:
 
     # ${{ std:response.status_is(200) }}
