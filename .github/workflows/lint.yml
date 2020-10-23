@@ -1,12 +1,22 @@
 on: pull_request
-name: Lint check
+name: Lint checks
 jobs:
   black:
-    name: Lint check
+      name: Lint check
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v1
+        - name: "Black Code Formatter"
+          uses: "./.github/actions/black"
+          with:
+            args: ". --check"
+            
+  flake8:
+    name: flake8 check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: "Black Code Formatter"
-        uses: "./.github/actions/black"
+      - name: "Flake8 check"
+        uses: TrueBrain/actions-flake8@master
         with:
-          args: ". --check"
+          ignore: E501,W  
