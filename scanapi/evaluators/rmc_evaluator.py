@@ -136,20 +136,23 @@ class RemoteMethodCallEvaluator:
         # Build function
         module = get_module(modulename)
         func = getname(name, module)
-        spec = inspect.getfullargspec(func)
+        bound_func = func
 
         if args or kwargs:
-            func = partial(func, *args or (), **kwargs or {})
-        #
+            bound_func = partial(bound_func, *args or (), **kwargs or {})
 
-        result = func(**{
-            key: vars[key]
-            for key in vars.keys() & {*spec.kwonlyargs, *spec.args}
-        })
+        if getattr(func, '__module__', None) == 'builtins':
+            result = bound_func(vars)
+        else:
+            spec = inspect.getfullargspec(func)
+            result = bound_func(**{
+                key: vars[key]
+                for key in vars.keys() & {*spec.kwonlyargs, *spec.args}
+            })
 
         if is_a_test_case:
             if operator.truth(result):
                 return (True, None)
-            return (False, expr)
+            return (False, code)
 
         return result
