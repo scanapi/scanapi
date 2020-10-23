@@ -1,7 +1,7 @@
 on: pull_request
 name: Lint check
 jobs:
-  black:
+  check:
     name: Lint check
     runs-on: ubuntu-latest
     steps:
@@ -10,3 +10,7 @@ jobs:
         uses: "./.github/actions/black"
         with:
           args: ". --check"
+      - name: "Flake8 check"
+        uses: TrueBrain/actions-flake8@master
+        with:
+          ignore: E501,W  # ignore line length check and warnings
