@@ -1,5 +1,3 @@
-
-
 """
 A compendium of off-the-shelf operations for rmc expressions.
 """

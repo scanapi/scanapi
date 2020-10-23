@@ -13,16 +13,16 @@ _sentinel = object()
 
 def get_module(name: str):
     """Import a module dynamically."""
-    if name.lower() == 'std':
+    if name.lower() == "std":
         return std
     module = importlib.import_module(name)
-    print(f'Loaded {module}')
+    print(f"Loaded {module}")
     return module
 
 
 def getname(location: str, root) -> Any:
     """Get an ident's value from a given namespace."""
-    trail = location.split('.')
+    trail = location.split(".")
     node = root
     for i, name in enumerate(trail):
         try:
@@ -38,7 +38,7 @@ def unroll_name(name: Union[str, ast.Attribute, ast.Name]) -> str:
         return name
     if isinstance(name, ast.Name):
         return name.id
-    return unroll_name(name.value) + '.' + name.attr
+    return unroll_name(name.value) + "." + name.attr
 
 
 def call_against_vars(func: Callable, args: Tuple, kwargs: Dict, vars: Mapping):
@@ -57,7 +57,7 @@ def call_against_vars(func: Callable, args: Tuple, kwargs: Dict, vars: Mapping):
     if args or kwargs:
         bound_func = partial(bound_func, *args or (), **kwargs or {})
 
-    if getattr(func, '__module__', None) == 'builtins':
+    if getattr(func, "__module__", None) == "builtins":
         return bound_func(vars)
 
     try:
@@ -68,29 +68,24 @@ def call_against_vars(func: Callable, args: Tuple, kwargs: Dict, vars: Mapping):
     try:
         vars = dict(vars)
     except TypeError:
-        raise TypeError(f'vars={vars} is not dict-like')
+        raise TypeError(f"vars={vars} is not dict-like")
 
-    if 'vars' not in vars:
-        vars['vars'] = vars
+    if "vars" not in vars:
+        vars["vars"] = vars
 
     feed_keys = {*spec.kwonlyargs, *spec.args}
 
     if not feed_keys & vars.keys():
         raise RuntimeError(
-            f'vars={vars.keys()} contain no key that function {func} expects as parameter'
+            f"vars={vars.keys()} contain no key that function {func} expects as parameter"
         )
 
-    return bound_func(**{
-        key: vars[key]
-        for key in vars.keys() & feed_keys
-    })
+    return bound_func(**{key: vars[key] for key in vars.keys() & feed_keys})
 
 
 class RemoteMethodCallEvaluator:
 
-    pattern = re.compile(
-        r'^(?P<module>[\w.]*)\s*:\s*(?P<expr>.*)$'
-    )
+    pattern = re.compile(r"^(?P<module>[\w.]*)\s*:\s*(?P<expr>.*)$")
 
     @classmethod
     def evaluate(
@@ -98,7 +93,7 @@ class RemoteMethodCallEvaluator:
         code: str,
         vars: Dict[str, Any],
         is_a_test_case: bool = False,
-        match: Optional[re.Match] = None
+        match: Optional[re.Match] = None,
     ):
         """
         Parse a remote method call (rmc) expression, then run it against input `vars`.
@@ -151,14 +146,12 @@ class RemoteMethodCallEvaluator:
         # Parse expr
         match = match or cls.pattern.match(code)
         if match is None:
-            raise ValueError(
-                "Failed to parse expr: %r" % code
-            )
+            raise ValueError("Failed to parse expr: %r" % code)
 
         modulename, callcode = match.groups()
-        modulename = modulename or 'std'
+        modulename = modulename or "std"
 
-        expr = ast.parse(callcode, mode='eval').body
+        expr = ast.parse(callcode, mode="eval").body
 
         name = None
         args = None
