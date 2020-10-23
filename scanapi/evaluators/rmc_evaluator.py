@@ -93,7 +93,7 @@ class RemoteMethodCallEvaluator:
         code: str,
         vars: Dict[str, Any],
         is_a_test_case: bool = False,
-        match: Optional[re.Match] = None,
+        match=None,
     ):
         """
         Parse a remote method call (rmc) expression, then run it against input `vars`.
