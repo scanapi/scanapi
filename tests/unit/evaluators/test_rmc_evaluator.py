@@ -16,12 +16,13 @@ class TestRemoteMethodCallEvaluator:
             import functools
             assert rmc.getname('partial.__module__', functools) == functools.partial.__module__
 
-        def test_invalid_name(self):
-            with pytest.raises(AttributeError) as excinfo:
-                rmc.getname('evaluators.rmc_evaltor', scanapi) == rmc
-            assert str(excinfo.value) == (
-                f'No such location: {scanapi}.evaluators.rmc_evaltor'
-            )
+        class TestWhenNameDoesntExist:
+            def test_should_raise_attribute_error(self):
+                with pytest.raises(AttributeError) as excinfo:
+                    rmc.getname('evaluators.rmc_evaltor', scanapi) == rmc
+                assert str(excinfo.value) == (
+                    f'No such location: {scanapi}.evaluators.rmc_evaltor'
+                )
 
     class TestUnrollName:
         def test_expected_behavior(self):
@@ -30,7 +31,7 @@ class TestRemoteMethodCallEvaluator:
             assert rmc.unroll_name(ast.parse('a.b.c', mode='eval').body) == 'a.b.c'
 
     class TestEvaluate:
-        class TestInvalidCode:
+        class TestWhenCodeRightMemberIsInvalid:
             def test_expected_behavior(self):
                 with pytest.raises(ValueError) as excinfo:
                     rmc_eval('a:b + c', {})
@@ -38,7 +39,7 @@ class TestRemoteMethodCallEvaluator:
                     'Failed to parse \'b + c\' as an attribute name or function call.'
                 )
 
-        class TestBareName:
+        class TestOnlyBareName:
             def test_expected_behavior(self):
                 # local path module
                 assert rmc_eval('scanapi.std:response.ok', {'response': Mock(status_code=400)}) == False
@@ -50,17 +51,17 @@ class TestRemoteMethodCallEvaluator:
                 # spec but doesn't take keyword arguments
                 assert rmc_eval('builtins:list', {'iterable': (4, 5)}) == ['iterable']
 
-        class TestPositionalArgs:
+        class TestExprWithPositionalArgs:
             def test_expected_behavior(self):
                 assert rmc_eval('scanapi.std:response.status_is(200)', {'response': Mock(status_code=200)}) == True
                 assert rmc_eval('scanapi.std:response.status_is(200)', {'response': Mock(status_code=400)}) == False
 
-        class TestKeywordArgs:
+        class TestExprWithKeywordArgs:
             def test_expected_behavior(self):
                 assert rmc_eval('scanapi.std:response.status_is(code=200)', {'response': Mock(status_code=200)}) == True
                 assert rmc_eval('scanapi.std:response.status_is(code=200)', {'response': Mock(status_code=400)}) == False
 
-        class TestStdConst:
+        class TestExprWithStdConst:
             def test_expected_behavior(self):
                 assert rmc_eval('std:response.ok', {'response': Mock(status_code=400)}) == False
                 assert rmc_eval(':response.ok', {'response': Mock(status_code=400)}) == False
@@ -72,57 +73,57 @@ class TestRemoteMethodCallEvaluator:
             assert hasattr(rmc.get_module('pathlib'), 'Path')
 
     class TestCallAgainstVars:
-
         def test_expected_behavior(self):
-
             def f(a: int, b: int) -> int:
                 return a + b
-
             assert rmc.call_against_vars(f, (), {}, {'a': 3, 'b': 4}) == 7
             assert rmc.call_against_vars(f, (), {'b': 4}, {'a': 3}) == 7
             assert rmc.call_against_vars(f, (3,), {}, {'b': 4}) == 7
 
-        def test_empty_vars(self):
-            def f(a: int, b: int) -> int:
-                return a + b
-            # vars should never be empty, so this fails
-            vars = {}
-            vars['vars'] = vars
-            with pytest.raises(RuntimeError) as excinfo:
-                assert rmc.call_against_vars(f, (3,), {'b': 4}, vars) == 7
+        class TestWhenVarsIsEmpty:
+            def test_should_raise_runtime_error(self):
+                def f(a: int, b: int) -> int:
+                    return a + b
+                # vars should never be empty, so this fails
+                vars = {}
+                vars['vars'] = vars
+                with pytest.raises(RuntimeError) as excinfo:
+                    assert rmc.call_against_vars(f, (3,), {'b': 4}, vars) == 7
 
-            assert str(excinfo.value) == (
-                f'vars={vars.keys()} contain no key that function {f} expects as parameter'
-            )
+                assert str(excinfo.value) == (
+                    f'vars={vars.keys()} contain no key that function {f} expects as parameter'
+                )
 
-        def test_not_dict_like(self):
-            with pytest.raises(TypeError) as excinfo:
-                assert rmc.call_against_vars(lambda m:m, (), {}, 44)
-            assert str(excinfo.value) == 'vars=44 is not dict-like'
+        class TestWhenVarsIsNotDictLike:
+            def test_should_raise_type_error(self):
+                with pytest.raises(TypeError) as excinfo:
+                    assert rmc.call_against_vars(lambda m:m, (), {}, 44)
+                assert str(excinfo.value) == 'vars=44 is not dict-like'
 
-        def test_builtins(self):
-            vars = {'a': 3}
-            assert rmc.call_against_vars(str, (), {}, vars) == str(vars)
-            assert rmc.call_against_vars(list, (), {}, vars) == list(vars)
+        class TestWhenFuncIsBuiltin:
+            def test_should_use_vars_as_pos_arg(self):
+                vars = {'a': 3}
+                assert rmc.call_against_vars(str, (), {}, vars) == str(vars)
+                assert rmc.call_against_vars(list, (), {}, vars) == list(vars)
 
-        def test_only_vars(self):
+        class TestWhenVarsIsPartOfSpec:
+            def test_should_feed_vars_as_keyword_arg(self):
+                def f(vars) -> int:
+                    return vars['a'] + vars['b']
+                assert rmc.call_against_vars(f, (), {}, {'a': 3, 'b': 4}) == 7
 
-            def f(vars) -> int:
-                return vars['a'] + vars['b']
+        class TestWhenSpecAndVarsShareNoCommonKeys:
+            def test_should_raise_runtime_error(self):
 
-            assert rmc.call_against_vars(f, (), {}, {'a': 3, 'b': 4}) == 7
+                def f(args) -> int:
+                    return args['a'] + args['b']
 
-        def test_no_common_names(self):
+                vars = {'a': 3, 'b': 4}
+                vars['vars'] = vars
 
-            def f(args) -> int:
-                return args['a'] + args['b']
+                with pytest.raises(RuntimeError) as excinfo:
+                    rmc.call_against_vars(f, (), {}, vars) == 7
 
-            vars = {'a': 3, 'b': 4}
-            vars['vars'] = vars
-
-            with pytest.raises(RuntimeError) as excinfo:
-                rmc.call_against_vars(f, (), {}, vars) == 7
-
-            assert str(excinfo.value) == (
-                f'vars={vars.keys()} contain no key that function {f} expects as parameter'
-            )
+                assert str(excinfo.value) == (
+                    f'vars={vars.keys()} contain no key that function {f} expects as parameter'
+                )
