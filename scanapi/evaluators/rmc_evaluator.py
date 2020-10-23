@@ -4,7 +4,7 @@ import operator
 import inspect
 import importlib
 from functools import partial
-from typing import Dict, Any, Optional, Union, Callable, Tuple, Mapping
+from typing import Dict, Any, Union, Callable, Tuple, Mapping
 from scanapi import std
 
 
