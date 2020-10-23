@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Add `--no-report` flag. [#299](https://github.com/scanapi/scanapi/pull/299)
+- Added flake8 check workflow on pull_request event [#321](https://github.com/scanapi/scanapi/pull/321)
+- Allow ${{}} exprs to call functions from external python modules [PR]()
 
 ### Changed
 - Updated poetry-publish version to v1.3 [#311](https://github.com/scanapi/scanapi/pull/311)
