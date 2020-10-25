@@ -104,6 +104,19 @@ class TestOverrideInfo:
             == b'{"id": "SENSITIVE_INFORMATION", "name": "Tarik", "yearsOfExperience": 2}'
         )
 
+    def test_overrides_params(self, response):
+        param = "test"
+        response.url = "http://test.com/users/details?test=test&test2=test&test=test2"
+        http_attr = "params"
+        secret_field = param
+
+        _override_info(response, http_attr, secret_field)
+
+        assert (
+            response.url
+            == "http://test.com/users/details?test=SENSITIVE_INFORMATION&test2=test&test=SENSITIVE_INFORMATION"
+        )
+
     def test_when_http_attr_does_not_have_the_field(self, response, mocker):
         response.headers = {"abc": "123"}
         http_attr = "headers"
