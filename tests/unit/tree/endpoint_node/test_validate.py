@@ -32,6 +32,7 @@ class TestValidate:
                 "path",
                 "requests",
                 "delay",
+                "vars",
             ),
             ("name",),
             "endpoint",

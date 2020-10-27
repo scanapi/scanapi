@@ -1,4 +1,4 @@
-from pytest import fixture, mark
+from pytest import fixture, mark, raises
 
 from scanapi.evaluators.spec_evaluator import SpecEvaluator
 from scanapi.tree import EndpointNode
@@ -35,6 +35,50 @@ class TestGet:
         key = "name"
         value = spec_evaluator.get(key)
         assert value == "foo"
+
+
+@mark.describe("spec evaluator")
+@mark.describe("del")
+class TestDel:
+    @mark.describe("spec evaluator del key")
+    @mark.context("when key does not exist")
+    @mark.it("should raise key error")
+    def test_should_raise_key_error(self, spec_evaluator):
+        with raises(KeyError) as excinfo:
+            key = "this_key_not_exists"
+            del spec_evaluator[key]
+        assert isinstance(excinfo.value, KeyError)
+
+    @mark.describe("spec evaluator del key")
+    @mark.context("when key exists")
+    @mark.it("should del key")
+    def test_should_del_key(self, spec_evaluator):
+        key = "name"
+        del spec_evaluator[key]
+        assert key not in spec_evaluator
+
+
+@mark.describe("spec evaluator")
+@mark.describe("keys")
+class TestKeys:
+    @mark.describe("spec evaluator del key")
+    @mark.context("when has keys")
+    @mark.it("should return keys")
+    def test_should_return_keys(self, spec_evaluator):
+        assert spec_evaluator.keys() == {"name": "foo"}.keys()
+
+
+@mark.describe("spec evaluator")
+@mark.describe("filter response var")
+class TestFilterResponseVar:
+    @mark.describe("spec evaluator filter response var")
+    @mark.context("when there is response var to evaluate")
+    @mark.it("should return dictionary without response var")
+    def test_should_return_dictionary_without_response_var(
+        self, spec_evaluator
+    ):
+        vars_ = {"var_1": "${{response.json()['key']}}", "var_2": "foo"}
+        assert spec_evaluator.filter_response_var(vars_) == {"var_2": "foo"}
 
 
 @mark.describe("spec evaluator")

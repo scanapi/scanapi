@@ -1,4 +1,5 @@
 import logging
+import re
 from functools import singledispatch
 
 from scanapi.evaluators.string_evaluator import StringEvaluator
@@ -7,10 +8,10 @@ logger = logging.getLogger(__name__)
 
 
 class SpecEvaluator:
-    def __init__(self, endpoint, vars={}):
+    def __init__(self, endpoint, vars_, extras=None, filter_responses=True):
         self.endpoint = endpoint
         self.registry = {}
-        self.update(vars)
+        self.update(vars_, extras=extras, filter_responses=filter_responses)
 
     def evaluate(self, element):
         return evaluate(element, self)
@@ -18,15 +19,16 @@ class SpecEvaluator:
     def evaluate_assertion(self, element):
         return _evaluate_str(element, self, is_a_test_case=True)
 
-    def update(self, vars, extras=None, preevaluate=False):
-        if preevaluate:
-            values = {
-                key: evaluate(value, extras) for key, value in vars.items()
-            }
-            self.registry.update(values)
-            self.registry.update(extras)
-        else:
-            self.registry.update(vars)
+    def update(self, vars, extras=None, filter_responses=False):
+        if extras is None:
+            extras = {}
+
+        if filter_responses:
+            vars = self.filter_response_var(vars)
+
+        values = {key: evaluate(value, extras) for key, value in vars.items()}
+        self.registry.update(extras)
+        self.registry.update(values)
 
     def get(self, key, default=None):
         try:
@@ -46,8 +48,32 @@ class SpecEvaluator:
 
         raise KeyError(key)
 
+    def __delitem__(self, key):
+        if key in self:
+            del self.registry[key]
+        else:
+            raise KeyError(key)
+
     def __contains__(self, key):
         return key in self.registry
+
+    def keys(self):
+        """Returns a copy of the dictionary’s list of keys.
+        Returns:
+            [list]: list of keys.
+
+        """
+        return self.registry.keys()
+
+    @classmethod
+    def filter_response_var(cls, vars_):
+        """Returns a dictionary without vars that evaluate response.
+        Returns:
+            [dict]: filtered dictionary.
+
+        """
+        pattern = re.compile(r"(?:(\s*response\.\w+))")
+        return {k: v for k, v in vars_.items() if not pattern.search(v)}
 
 
 @singledispatch
