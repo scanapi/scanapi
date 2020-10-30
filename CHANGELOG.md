@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Removed all flake8 errors [#309](https://github.com/scanapi/scanapi/pull/309)
+- Render body according to its request content type [#331](https://github.com/scanapi/scanapi/pull/331)
 
 ## [2.1.0] - 2020-10-06
 ### Added
