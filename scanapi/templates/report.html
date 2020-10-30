@@ -449,7 +449,8 @@
                     {% if ( request.body and request.body.decode("UTF-8") != "{}" ) %}
                     <details>
                         <summary>Body</summary>
-                        <p>{{ request.body }}</p>
+                        <p class="json-body">{{ request|render_body }}</p>
+                        <button class="copy__snippet">&#10063;</button>
                     </details>
                     {% endif %}
 
