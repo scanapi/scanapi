@@ -401,7 +401,7 @@
         {% set endpoint_status_label = "P" if result["no_failure"] else "F" %}
         {% set request = response.request %}
 
-        <div class="endpoint">
+        <div class="endpoint" id="endpoint_{{ loop.index | string }}">
             <input type="checkbox" class="endpoint__checkbox" id="chck_{{ loop.index | string }}" />
             <label class="endpoint__title" for="chck_{{ loop.index | string }}">
                 <span class="endpoint__url"><span class="http_method">{{request.method}}</span> {{ request.path_url }}</span>
@@ -644,6 +644,27 @@
                     }
                 })
             })
+        </script>
+        <script>
+            function openAnchoredEndpoint(){
+                const url = window.location.href;
+                const containsAnEndpointAnchor = url.includes("#endpoint");
+                if(containsAnEndpointAnchor) {
+                    const elementId = url.split('#')[1];
+                    const element = document.getElementById(elementId);
+                    function scrollToElement() {
+                        element.scrollIntoView({
+                            block: 'start'
+                        });
+                    }
+                    function openElement() {
+                        element.getElementsByTagName('input')[0].click();
+                    };
+                    openElement();
+                    scrollToElement();
+                }
+            }
+            openAnchoredEndpoint();
         </script>
 </body>
 
