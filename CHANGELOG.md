@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Added flake8 check workflow on pull_request event [#321](https://github.com/scanapi/scanapi/pull/321)
+- Hide sensitive information in the URL Query Params [#304](https://github.com/scanapi/scanapi/pull/325)
 - Add anchor link for each request in the report to make it easily shareable. [#317](https://github.com/scanapi/scanapi/pull/317)
 
 ### Changed
