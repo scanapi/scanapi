@@ -1,8 +1,6 @@
-import os
-
 import pytest
 
-from scanapi.settings import LOCAL_CONFIG_PATH, settings
+from scanapi.settings import settings
 
 
 @pytest.fixture

@@ -4,8 +4,8 @@ from freezegun.api import FakeDatetime
 from scanapi.reporter import Reporter
 
 fake_results = [
-    {"response": "foo", "tests_results": [], "no_failure": True,},
-    {"response": "bar", "tests_results": [], "no_failure": False,},
+    {"response": "foo", "tests_results": [], "no_failure": True},
+    {"response": "bar", "tests_results": [], "no_failure": False},
 ]
 
 
