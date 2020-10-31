@@ -26,6 +26,6 @@ def render_body(request):
     content_type = request.headers.get("Content-Type")
     body = request.body
     if content_type in ["application/json", "text/plain"]:
-        return body.decode("UTF-8")
+        return body.decode()
     elif content_type.startswith("application"):
         return "Binary content"
