@@ -24,8 +24,7 @@ def _loader(is_external):
 def render_body(request):
     """ Render body according to its request content type """
     content_type = request.headers.get("Content-Type")
-    body = request.body
     if content_type in ["application/json", "text/plain"]:
-        return body.decode()
+        return request.body.decode()
     elif content_type.startswith("application"):
         return "Binary content"
