@@ -1,4 +1,4 @@
-import curlify
+import curlify2
 from jinja2 import Environment, FileSystemLoader, PackageLoader
 
 
@@ -6,10 +6,12 @@ def render(template_path, context, is_external=False):
     """ Controller function that handles the Jinga2 rending of the template"""
     loader = _loader(is_external)
     env = Environment(loader=loader)
-    env.filters["curlify"] = curlify.to_curl
+    env.filters["curlify"] = curlify2.to_curl
     chosen_template = env.get_template(template_path)
-
     return chosen_template.render(**context)
+
+
+""
 
 
 def _loader(is_external):
