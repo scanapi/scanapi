@@ -8,7 +8,7 @@ jobs:
         with:
           python-version: 3.6.12
       - name: Poetry Setup
-        uses: dschep/install-poetry-action@v1.3
+        uses: snok/install-poetry@v1.1.1
         with:
           version: 1.0.9
       - name: Checkout ScanAPI repository
@@ -36,7 +36,7 @@ jobs:
         with:
           python-version: 3.6.12
       - name: Poetry Setup
-        uses: dschep/install-poetry-action@v1.3
+        uses: snok/install-poetry@v1.1.1
         with:
           version: 1.0.9
       - name: Checkout ScanAPI repository
@@ -64,7 +64,7 @@ jobs:
         with:
           python-version: 3.6.12
       - name: Poetry Setup
-        uses: dschep/install-poetry-action@v1.3
+        uses: snok/install-poetry@v1.1.1
         with:
           version: 1.0.9
       - name: Checkout ScanAPI repository
