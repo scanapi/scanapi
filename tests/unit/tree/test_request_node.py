@@ -255,8 +255,8 @@ class TestRequestNode:
 
     class TestRun:
         @pytest.fixture
-        def mock_request(self, mocker):
-            return mocker.patch("scanapi.tree.request_node.requests.request")
+        def mock_session(self, mocker):
+            return mocker.patch("scanapi.tree.request_node.session_with_retry")
 
         @pytest.fixture
         def mock_run_tests(self, mocker):
@@ -266,7 +266,7 @@ class TestRequestNode:
         def mock_time_sleep(self, mocker):
             return mocker.patch("scanapi.tree.request_node.time.sleep")
 
-        def test_calls_request(self, mock_request, mock_time_sleep):
+        def test_calls_request(self, mock_session, mock_time_sleep):
             request = RequestNode(
                 {"path": "http://foo.com", "name": "foo"},
                 endpoint=EndpointNode({"name": "foo", "requests": [{}], "delay": 1}),
@@ -275,7 +275,7 @@ class TestRequestNode:
 
             mock_time_sleep.assert_called_once_with(0.001)
 
-            mock_request.assert_called_once_with(
+            mock_session().request.assert_called_once_with(
                 request.http_method,
                 request.full_url_path,
                 headers=request.headers,
@@ -285,7 +285,7 @@ class TestRequestNode:
             )
 
             assert result == {
-                "response": mock_request(),
+                "response": mock_session().request(),
                 "tests_results": [],
                 "no_failure": True,
             }
@@ -297,7 +297,7 @@ class TestRequestNode:
 
         @pytest.mark.parametrize("test_results, expected_no_failure", test_data)
         def test_build_result(
-            self, test_results, expected_no_failure, mock_request, mock_run_tests,
+            self, test_results, expected_no_failure, mock_session, mock_run_tests,
         ):
             mock_run_tests.return_value = test_results
             request = RequestNode(
@@ -308,7 +308,7 @@ class TestRequestNode:
             result = request.run()
 
             assert result == {
-                "response": mock_request(),
+                "response": mock_session().request(),
                 "tests_results": test_results,
                 "no_failure": expected_no_failure,
             }
@@ -338,6 +338,7 @@ class TestRequestNode:
                     "tests",
                     "vars",
                     "delay",
+                    "retry",
                 ),
                 ("name",),
                 "request",
