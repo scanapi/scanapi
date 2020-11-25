@@ -1,8 +1,6 @@
 import logging
 import time
 
-import requests
-
 from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.evaluators.spec_evaluator import SpecEvaluator  # noqa: F401
 from scanapi.hide_utils import hide_sensitive_info
@@ -16,10 +14,11 @@ from scanapi.tree.tree_keys import (
     NAME_KEY,
     PARAMS_KEY,
     PATH_KEY,
+    RETRY_KEY,
     TESTS_KEY,
     VARS_KEY,
 )
-from scanapi.utils import join_urls, validate_keys
+from scanapi.utils import join_urls, session_with_retry, validate_keys
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +35,7 @@ class RequestNode:
         TESTS_KEY,
         VARS_KEY,
         DELAY_KEY,
+        RETRY_KEY,
     )
     ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
     REQUIRED_KEYS = (NAME_KEY,)
@@ -98,7 +98,11 @@ class RequestNode:
 
     @property
     def tests(self):
-        return (TestingNode(spec, self) for spec in self.spec.get("tests", []))
+        return (TestingNode(spec, self) for spec in self.spec.get(TESTS_KEY, []))
+
+    @property
+    def retry(self):
+        return self.spec.get(RETRY_KEY)
 
     def run(self):
         time.sleep(self.delay / 1000)
@@ -111,7 +115,8 @@ class RequestNode:
             self.spec.get(VARS_KEY, {}), preevaluate=False,
         )
 
-        response = requests.request(
+        session = session_with_retry(self.retry)
+        response = session.request(
             method,
             url,
             headers=self.headers,
