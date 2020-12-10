@@ -100,7 +100,7 @@ class TestScan:
                 in caplog.text
             )
 
-    @pytest.mark.context("When ApiSpec Has An Invalid Key")
+    @pytest.mark.context("When APISpec Has An Invalid Key")
     class TestWhenAPISpecHasAnInvalidKey:
         @pytest.mark.it("should log error")
         def test_should_log_error(self, mocker, caplog):
