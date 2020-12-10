@@ -4,7 +4,9 @@ import appdirs
 
 from scanapi.config_loader import load_config_file
 
-GLOBAL_CONFIG_PATH = os.path.join(appdirs.site_config_dir("scanapi"), "scanapi.conf",)
+GLOBAL_CONFIG_PATH = os.path.join(
+    appdirs.site_config_dir("scanapi"), "scanapi.conf",
+)
 
 LOCAL_CONFIG_PATH = "./scanapi.conf"
 
@@ -34,7 +36,9 @@ class Settings(dict):
 
     def save_click_preferences(self, **preferences):
         """ Saves all preference items to the Settings object. """
-        cleaned_preferences = {k: v for k, v in preferences.items() if v is not None}
+        cleaned_preferences = {
+            k: v for k, v in preferences.items() if v is not None
+        }
         self.update(**cleaned_preferences)
 
     def save_preferences(self, **click_preferences):

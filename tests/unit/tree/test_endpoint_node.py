@@ -12,7 +12,11 @@ class TestEndpointNode:
                 {"name": "child-node-two", "requests": []},
             ]
             node = EndpointNode(
-                {"endpoints": endpoints, "name": "scanapi-demo", "requests": []}
+                {
+                    "endpoints": endpoints,
+                    "name": "scanapi-demo",
+                    "requests": [],
+                }
             )
             assert len(node.child_nodes) == len(endpoints)
 
@@ -21,7 +25,10 @@ class TestEndpointNode:
                 endpoints = [{}, {}]
                 EndpointNode({"endpoints": endpoints})
 
-            assert str(excinfo.value) == "Missing 'name' key(s) at 'endpoint' scope"
+            assert (
+                str(excinfo.value)
+                == "Missing 'name' key(s) at 'endpoint' scope"
+            )
 
         def test_no_required_keys_for_root(self):
             assert EndpointNode({})
@@ -66,16 +73,25 @@ class TestEndpointNode:
 
         def test_with_trailing_slashes(self):
             parent = EndpointNode(
-                {"path": "http://foo.com/", "name": "parent-node", "requests": []}
+                {
+                    "path": "http://foo.com/",
+                    "name": "parent-node",
+                    "requests": [],
+                }
             )
             node = EndpointNode(
-                {"path": "/foo/", "name": "node", "requests": []}, parent=parent
+                {"path": "/foo/", "name": "node", "requests": []},
+                parent=parent,
             )
             assert node.path == "http://foo.com/foo/"
 
         def test_with_path_not_string(self):
             parent = EndpointNode(
-                {"path": "http://foo.com/", "name": "parent-node", "requests": []}
+                {
+                    "path": "http://foo.com/",
+                    "name": "parent-node",
+                    "requests": [],
+                }
             )
             node = EndpointNode(
                 {"path": 2, "name": "node", "requests": []}, parent=parent
@@ -84,10 +100,15 @@ class TestEndpointNode:
 
         def test_calls_evaluate(self, mocker, mock_evaluate):
             parent = EndpointNode(
-                {"path": "http://foo.com/", "name": "parent-node", "requests": []}
+                {
+                    "path": "http://foo.com/",
+                    "name": "parent-node",
+                    "requests": [],
+                }
             )
             node = EndpointNode(
-                {"path": "/foo/", "name": "node", "requests": []}, parent=parent
+                {"path": "/foo/", "name": "node", "requests": []},
+                parent=parent,
             )
             node.path
             calls = [mocker.call("http://foo.com/"), mocker.call("/foo/")]
@@ -109,7 +130,11 @@ class TestEndpointNode:
             node = EndpointNode(
                 {"headers": headers, "name": "node", "requests": []},
                 parent=EndpointNode(
-                    {"headers": parent_headers, "name": "parent-node", "requests": []}
+                    {
+                        "headers": parent_headers,
+                        "name": "parent-node",
+                        "requests": [],
+                    }
                 ),
             )
             assert node.headers == {"abc": "def", "xxx": "www"}
@@ -120,7 +145,11 @@ class TestEndpointNode:
             node = EndpointNode(
                 {"headers": headers, "name": "node", "requests": []},
                 parent=EndpointNode(
-                    {"headers": parent_headers, "name": "parent-node", "requests": []}
+                    {
+                        "headers": parent_headers,
+                        "name": "parent-node",
+                        "requests": [],
+                    }
                 ),
             )
             assert node.headers == {"abc": "def", "xxx": "www"}
@@ -140,7 +169,11 @@ class TestEndpointNode:
             node = EndpointNode(
                 {"params": params, "name": "node", "requests": []},
                 parent=EndpointNode(
-                    {"params": parent_params, "name": "parent-node", "requests": []}
+                    {
+                        "params": parent_params,
+                        "name": "parent-node",
+                        "requests": [],
+                    }
                 ),
             )
             assert node.params == {"abc": "def", "xxx": "www"}
@@ -151,7 +184,11 @@ class TestEndpointNode:
             node = EndpointNode(
                 {"params": params, "name": "node", "requests": []},
                 parent=EndpointNode(
-                    {"params": parent_params, "name": "parent-node", "requests": []}
+                    {
+                        "params": parent_params,
+                        "name": "parent-node",
+                        "requests": [],
+                    }
                 ),
             )
             assert node.params == {"abc": "def", "xxx": "www"}
@@ -167,7 +204,8 @@ class TestEndpointNode:
 
         def test_when_parent_has_delay(self):
             node = EndpointNode(
-                {"name": "node"}, parent=EndpointNode({"name": "parent", "delay": 2})
+                {"name": "node"},
+                parent=EndpointNode({"name": "parent", "delay": 2}),
             )
             assert node.delay == 2
 
@@ -199,7 +237,15 @@ class TestEndpointNode:
 
             mock_validate_keys.assert_called_with(
                 keys,
-                ("endpoints", "headers", "name", "params", "path", "requests", "delay"),
+                (
+                    "endpoints",
+                    "headers",
+                    "name",
+                    "params",
+                    "path",
+                    "requests",
+                    "delay",
+                ),
                 ("name",),
                 "endpoint",
             )
@@ -219,8 +265,14 @@ class TestEndpointNode:
                         {
                             "name": "foo",
                             "requests": [
-                                {"name": "First", "path": "http://foo.com/first"},
-                                {"name": "Second", "path": "http://foo.com/second"},
+                                {
+                                    "name": "First",
+                                    "path": "http://foo.com/first",
+                                },
+                                {
+                                    "name": "Second",
+                                    "path": "http://foo.com/second",
+                                },
                             ],
                         }
                     ],

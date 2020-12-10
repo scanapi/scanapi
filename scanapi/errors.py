@@ -44,7 +44,8 @@ class BadConfigurationError(Exception):
 
     def __init__(self, env_var, *args):
         super(BadConfigurationError, self).__init__(
-            f"{env_var} environment variable not set or badly configured", *args
+            f"{env_var} environment variable not set or badly configured",
+            *args,
         )
 
 

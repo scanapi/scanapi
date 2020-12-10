@@ -52,8 +52,12 @@ class TestSettings:
                 def test_should_save_preferences(self, mock_load_config_file):
                     config_path = "my_config_file.yaml"
                     settings.save_config_file_preferences(config_path)
-                    assert settings["config_path"].endswith("my_config_file.yaml")
-                    mock_load_config_file.assert_called_with("my_config_file.yaml")
+                    assert settings["config_path"].endswith(
+                        "my_config_file.yaml"
+                    )
+                    mock_load_config_file.assert_called_with(
+                        "my_config_file.yaml"
+                    )
 
             class TestWithoutConfigFile:
                 def test_should_raise_exception(self):
@@ -88,7 +92,9 @@ class TestSettings:
     class TestSavePreferences:
         @pytest.fixture
         def mock_save_click_preferences(self, mocker):
-            return mocker.patch("scanapi.settings.Settings.save_click_preferences")
+            return mocker.patch(
+                "scanapi.settings.Settings.save_click_preferences"
+            )
 
         @pytest.fixture
         def mock_save_config_file_preferences(self, mocker):
@@ -98,7 +104,9 @@ class TestSettings:
 
         class TestWhenConfigPathIsInClickPreferences:
             def test_should_pass_config_path(
-                self, mock_save_click_preferences, mock_save_config_file_preferences,
+                self,
+                mock_save_click_preferences,
+                mock_save_config_file_preferences,
             ):
                 preferences = {"config_path": "foo.yaml"}
                 settings.save_preferences(**preferences)
@@ -107,7 +115,9 @@ class TestSettings:
 
         class TestWhenConfigPathIsNotInClickPreferences:
             def test_should_pass_config_path_as_none(
-                self, mock_save_click_preferences, mock_save_config_file_preferences,
+                self,
+                mock_save_click_preferences,
+                mock_save_config_file_preferences,
             ):
                 preferences = {"foo": "bar"}
                 settings.save_preferences(**preferences)

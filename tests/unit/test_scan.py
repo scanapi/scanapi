@@ -40,9 +40,12 @@ class TestScan:
     class TestWhenCouldNotFindAPISpecFile:
         def test_should_log_error(self, mocker, caplog):
             mocker.patch(
-                "scanapi.scan.settings", {"spec_path": "invalid_path/scanapi.yaml"}
+                "scanapi.scan.settings",
+                {"spec_path": "invalid_path/scanapi.yaml"},
             )
-            mocker.patch("scanapi.scan.load_config_file", side_effect=file_not_found)
+            mocker.patch(
+                "scanapi.scan.load_config_file", side_effect=file_not_found
+            )
             with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
                     scan()
@@ -57,7 +60,9 @@ class TestScan:
 
     class TestWhenAPISpecFileIsEmpty:
         def test_should_log_error(self, mocker, caplog):
-            mocker.patch("scanapi.scan.load_config_file", side_effect=empty_config_file)
+            mocker.patch(
+                "scanapi.scan.load_config_file", side_effect=empty_config_file
+            )
 
             with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
@@ -73,7 +78,9 @@ class TestScan:
 
     class TestWhenAPISpecFileHasAnError:
         def test_should_log_error(self, mocker, caplog):
-            mocker.patch("scanapi.scan.load_config_file", side_effect=yaml_error)
+            mocker.patch(
+                "scanapi.scan.load_config_file", side_effect=yaml_error
+            )
             with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
                     scan()
@@ -81,13 +88,20 @@ class TestScan:
                 assert excinfo.type == SystemExit
                 assert excinfo.value.code == 4
 
-            assert "Error loading specification file.\nPyYAML: error foo" in caplog.text
+            assert (
+                "Error loading specification file.\nPyYAML: error foo"
+                in caplog.text
+            )
 
     class TestWhenAPISpecHasAnInvalidKey:
         def test_should_log_error(self, mocker, caplog):
-            mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
+            mock_load_config_file = mocker.patch(
+                "scanapi.scan.load_config_file"
+            )
             mock_load_config_file.return_value = {"blah": "blah"}
-            mocker.patch("scanapi.scan.EndpointNode.__init__", side_effect=invalid_key)
+            mocker.patch(
+                "scanapi.scan.EndpointNode.__init__", side_effect=invalid_key
+            )
             with caplog.at_level(logging.ERROR):
                 with pytest.raises(SystemExit) as excinfo:
                     scan()
@@ -102,9 +116,13 @@ class TestScan:
 
     class TestWhenAPISpecIsOk:
         def test_should_call_reporter(self, mocker, response):
-            mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
+            mock_load_config_file = mocker.patch(
+                "scanapi.scan.load_config_file"
+            )
             mock_load_config_file.return_value = {"endpoints": []}
-            mock_endpoint_init = mocker.patch("scanapi.scan.EndpointNode.__init__")
+            mock_endpoint_init = mocker.patch(
+                "scanapi.scan.EndpointNode.__init__"
+            )
             mock_endpoint_init.return_value = None
             mock_endpoint_run = mocker.patch("scanapi.scan.EndpointNode.run")
             mock_endpoint_run.return_value = [response]

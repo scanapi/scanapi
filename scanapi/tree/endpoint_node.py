@@ -46,7 +46,8 @@ class EndpointNode:
         self._validate()
 
         self.child_nodes = [
-            EndpointNode(spec, parent=self) for spec in self.spec.get(ENDPOINTS_KEY, [])
+            EndpointNode(spec, parent=self)
+            for spec in self.spec.get(ENDPOINTS_KEY, [])
         ]
 
     def __repr__(self):
@@ -90,9 +91,7 @@ class EndpointNode:
             try:
                 yield request.run()
             except Exception as e:
-                error_message = (
-                    f"\nError to make request `{request.full_url_path}`. \n{str(e)}\n"
-                )
+                error_message = f"\nError to make request `{request.full_url_path}`. \n{str(e)}\n"
                 logger.error(error_message)
                 session.exit_code = ExitCode.REQUEST_ERROR
                 continue
@@ -121,6 +120,9 @@ class EndpointNode:
 
     def _get_requests(self):
         return chain(
-            (RequestNode(spec, self) for spec in self.spec.get(REQUESTS_KEY, [])),
+            (
+                RequestNode(spec, self)
+                for spec in self.spec.get(REQUESTS_KEY, [])
+            ),
             *(child._get_requests() for child in self.child_nodes),
         )
