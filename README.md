@@ -97,7 +97,8 @@ The full documentation is available at [scanapi.dev][website]
 ## Examples
 You can find complete examples at [scanapi/examples][scanapi-examples]!
 
-This tutorial helps you to create an end2end tests for your api rest with ScanAPI
+This tutorial helps you to create integration tests for your REST API using ScanAPI
+
 [![Watch the video](https://raw.githubusercontent.com/scanapi/scanapi/master/images/youtube-scanapi-tutorial.png)](https://www.youtube.com/watch?v=JIo4sA8LHco&t=2s)
 
 ## Contributing
