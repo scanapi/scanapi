@@ -81,7 +81,7 @@ class TestScan:
                 in caplog.text
             )
 
-    @pytest.mark.context("When ApiSpec File Has An Error")
+    @pytest.mark.context("When APISpec File Has An Error")
     class TestWhenAPISpecFileHasAnError:
         @pytest.mark.it("should log error")
         def test_should_log_error(self, mocker, caplog):
