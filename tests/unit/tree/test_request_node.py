@@ -201,7 +201,11 @@ class TestRequestNode:
             request = RequestNode(
                 {"params": params, "path": "http://foo.com", "name": "foo"},
                 endpoint=EndpointNode(
-                    {"params": endpoint_params, "name": "foo", "requests": [{}]}
+                    {
+                        "params": endpoint_params,
+                        "name": "foo",
+                        "requests": [{}],
+                    }
                 ),
             )
             assert request.params == {"abc": "def", "xxx": "www"}
@@ -212,7 +216,11 @@ class TestRequestNode:
             request = RequestNode(
                 {"params": params, "path": "http://foo.com", "name": "foo"},
                 endpoint=EndpointNode(
-                    {"params": endpoint_params, "name": "foo", "requests": [{}]}
+                    {
+                        "params": endpoint_params,
+                        "name": "foo",
+                        "requests": [{}],
+                    }
                 ),
             )
             assert request.params == {"abc": "def", "xxx": "www"}
@@ -370,7 +378,11 @@ class TestRequestNode:
             return mocker.patch("scanapi.tree.request_node.validate_keys")
 
         def test_should_call_validate_keys(self, mock_validate_keys):
-            spec = {"headers": {"foo": "bar"}, "name": "foo", "path": "foo.bar"}
+            spec = {
+                "headers": {"foo": "bar"},
+                "name": "foo",
+                "path": "foo.bar",
+            }
             node = RequestNode(
                 spec, endpoint=EndpointNode({"name": "foo", "requests": [{}]})
             )

@@ -61,7 +61,10 @@ class TestHide:
 
     test_data = [
         ({}, []),
-        ({"headers": ["abc", "def"]}, [("headers", "abc"), ("headers", "def")]),
+        (
+            {"headers": ["abc", "def"]},
+            [("headers", "abc"), ("headers", "def")],
+        ),
         ({"headers": ["abc"]}, [("headers", "abc")]),
         ({"url": ["abc"]}, []),
     ]

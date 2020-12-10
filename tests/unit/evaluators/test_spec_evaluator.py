@@ -44,8 +44,8 @@ class TestSpecEvaluator:
             ):
                 mock_string_evaluate.side_effect = ["foo", "bar"]
                 assert spec_evaluator.evaluate(
-                    {"app_id": "foo", "token": "bar", }
-                ) == {"app_id": "foo", "token": "bar", }
+                    {"app_id": "foo", "token": "bar",}
+                ) == {"app_id": "foo", "token": "bar",}
 
                 mock_string_evaluate.assert_has_calls(
                     [
