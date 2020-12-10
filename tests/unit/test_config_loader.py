@@ -46,7 +46,9 @@ class TestLoadConfigFile:
             with pytest.raises(EmptyConfigFileError) as excinfo:
                 load_config_file("tests/data/empty.yaml")
 
-            assert str(excinfo.value) == "File 'tests/data/empty.yaml' is empty."
+            assert (
+                str(excinfo.value) == "File 'tests/data/empty.yaml' is empty."
+            )
 
     class TestWhenIncludeFileDoesNotExist:
         def test_should_raise_exception(self):

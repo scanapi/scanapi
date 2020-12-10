@@ -18,4 +18,4 @@ jobs:
       - name: "Flake8 check"
         uses: TrueBrain/actions-flake8@master
         with:
-          ignore: E501,W  # ignore line length check and warnings
+          ignore: E501,W501,E231,W503  # ignore line length check and warnings

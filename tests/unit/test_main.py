@@ -33,7 +33,8 @@ class TestMain:
 
         def test_should_log_error(self, mocker, caplog):
             mock_save_preferences = mocker.patch(
-                "scanapi.settings.Settings.save_preferences", side_effect=yaml_error
+                "scanapi.settings.Settings.save_preferences",
+                side_effect=yaml_error,
             )
 
             with caplog.at_level(logging.ERROR):
@@ -42,4 +43,7 @@ class TestMain:
                 assert mock_save_preferences.called
                 assert result.exit_code == 4
 
-            assert "Error loading configuration file.\nPyYAML: error foo" in caplog.text
+            assert (
+                "Error loading configuration file.\nPyYAML: error foo"
+                in caplog.text
+            )
