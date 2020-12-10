@@ -9,7 +9,7 @@ jobs:
       - name: "Black Code Formatter"
         uses: "./.github/actions/black"
         with:
-          args: ". --check"
+          args: ". -l 80 --check"
   flake8:
     name: flake8 check
     runs-on: ubuntu-latest
