@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added flake8 check workflow on pull_request event [#321](https://github.com/scanapi/scanapi/pull/321)
 - Hide sensitive information in the URL Query Params [#304](https://github.com/scanapi/scanapi/pull/325)
 - Add anchor link for each request in the report to make it easily shareable. [#317](https://github.com/scanapi/scanapi/pull/317)
+- Update black version on pre-commit configurations to avoid conflicts with flake8 [#346](https://github.com/scanapi/scanapi/pull/346)
 
 ### Changed
 - Updated poetry-publish version to v1.3 [#311](https://github.com/scanapi/scanapi/pull/311)
