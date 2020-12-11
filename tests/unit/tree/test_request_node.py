@@ -51,10 +51,11 @@ class TestRequestNode:
             with pytest.raises(HTTPMethodNotAllowedError) as excinfo:
                 request.http_method
 
-            assert (
-                str(excinfo.value) == "HTTP method not supported: XXX. "
-                "Supported methods: ('GET', 'POST', 'PUT', 'PATCH', 'DELETE')."
+            expected = (
+                "HTTP method not supported: XXX."
+                f" Supported methods: {request.ALLOWED_HTTP_METHODS}."
             )
+            assert str(excinfo.value) == expected
 
     class TestName:
         def test_when_request_has_name(self):
