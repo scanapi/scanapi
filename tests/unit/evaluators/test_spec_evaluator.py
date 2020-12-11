@@ -4,6 +4,7 @@ from scanapi.evaluators.spec_evaluator import SpecEvaluator
 from scanapi.tree import EndpointNode
 
 
+@pytest.mark.describe("Test Spec Evaluator")
 class TestSpecEvaluator:
     @pytest.fixture
     def mock_string_evaluate(self, mocker):
@@ -17,7 +18,9 @@ class TestSpecEvaluator:
         endpoint = EndpointNode({"name": "foo", "requests": [{}]}, parent)
         return SpecEvaluator(endpoint, {"name": "foo"})
 
+    @pytest.mark.describe("Test Evaluate String")
     class TestEvaluateString:
+        @pytest.mark.it("should call evaluate string")
         def test_should_call_evaluate_string(
             self, spec_evaluator, mock_string_evaluate
         ):
@@ -25,6 +28,7 @@ class TestSpecEvaluator:
             spec_evaluator.evaluate(string)
             assert mock_string_evaluate.called_once_with(string)
 
+        @pytest.mark.it("should call evaluate assertion string")
         def test_should_call_evaluate_assertion_string(
             self, spec_evaluator, mock_string_evaluate
         ):
@@ -32,13 +36,18 @@ class TestSpecEvaluator:
             spec_evaluator.evaluate_assertion(string)
             assert mock_string_evaluate.called_once_with(string)
 
+    @pytest.mark.describe("Test Evaluate Dict")
     class TestEvaluateDict:
+        @pytest.mark.context("When Dict Is Empty")
         class TestWhenDictIsEmpty:
+            @pytest.mark.it("return empty dict")
             def test_return_empty_dict(self, spec_evaluator):
                 evaluated_dict = spec_evaluator.evaluate({})
                 assert len(evaluated_dict) == 0
 
+        @pytest.mark.context("When Dict Is Not Empty")
         class TestWhenDictIsNotEmpty:
+            @pytest.mark.it("return evaluated dict")
             def test_return_evaluated_dict(
                 self, spec_evaluator, mocker, mock_string_evaluate
             ):
@@ -54,13 +63,18 @@ class TestSpecEvaluator:
                     ]
                 )
 
+    @pytest.mark.describe("Test Evaluate List")
     class TestEvaluateList:
+        @pytest.mark.context("When List Is Empty")
         class TestWhenListIsEmpty:
+            @pytest.mark.it("should return empty list")
             def test_return_empty_list(self, spec_evaluator):
                 evaluated_list = spec_evaluator.evaluate([])
                 assert len(evaluated_list) == 0
 
+        @pytest.mark.context("When List Is Not Empty")
         class TestWhenListIsNotEmpty:
+            @pytest.mark.it("should return evaluated list")
             def test_return_evaluated_list(
                 self, spec_evaluator, mocker, mock_string_evaluate
             ):
@@ -75,12 +89,15 @@ class TestSpecEvaluator:
                     ]
                 )
 
+    @pytest.mark.describe("Spec Evaluator Get Key")
     class TestSpecEvaluatorGetKey:
+        @pytest.mark.it("should return none")
         def test_should_return_none(self, spec_evaluator):
             key = "some_key"
             value = spec_evaluator.get(key)
             assert value is None
 
+        @pytest.mark.it("should return foo")
         def test_should_return_foo(self, spec_evaluator):
             key = "name"
             value = spec_evaluator.get(key)
