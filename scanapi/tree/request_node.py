@@ -37,7 +37,15 @@ class RequestNode:
         DELAY_KEY,
         RETRY_KEY,
     )
-    ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS")
+    ALLOWED_HTTP_METHODS = (
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "HEAD",
+        "OPTIONS",
+    )
     REQUIRED_KEYS = (NAME_KEY,)
 
     def __init__(self, spec, endpoint):
@@ -98,7 +106,9 @@ class RequestNode:
 
     @property
     def tests(self):
-        return (TestingNode(spec, self) for spec in self.spec.get(TESTS_KEY, []))
+        return (
+            TestingNode(spec, self) for spec in self.spec.get(TESTS_KEY, [])
+        )
 
     @property
     def retry(self):

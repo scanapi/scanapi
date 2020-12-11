@@ -49,7 +49,9 @@ def _override_url(http_msg, secret_field):
     url_parsed = urlparse(http_msg.url)
     if secret_field in url_parsed.path:
         new_url = url_parsed._replace(
-            path=url_parsed.path.replace(secret_field, SENSITIVE_INFO_SUBSTITUTION_FLAG)
+            path=url_parsed.path.replace(
+                secret_field, SENSITIVE_INFO_SUBSTITUTION_FLAG
+            )
         )
         new_url = urlunparse(new_url)
         http_msg.url = new_url
