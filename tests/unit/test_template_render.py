@@ -8,7 +8,9 @@ class TestTemplateRender:
     class TestRender:
         @pytest.fixture
         def mocked__get_template(self, mocker):
-            return mocker.patch("scanapi.template_render.Environment.get_template")
+            return mocker.patch(
+                "scanapi.template_render.Environment.get_template"
+            )
 
         def test_should_call_jinja_render(self, mocked__get_template):
             context = {"my_context": "foo"}
@@ -27,14 +29,15 @@ class TestTemplateRender:
                 "Content-Length": "44",
                 "Content-Type": "application/json",
             }
-            request.body = b'{"uuid": "76fe526d665a46f2812ec6580dd5b34a"}'
-            assert '{"uuid": "76fe526d665a46f2812ec6580dd5b34a"}' == render_body(
-                request
-            )
+            request.body = b'{"name": "bulbasaur"}'
+            assert '{"name": "bulbasaur"}' == render_body(request)
 
         def test_should_render_plain_text(self, mocked__request):
             request = mocked__request()
-            request.headers = {"Content-Length": "35", "Content-Type": "text/plain"}
+            request.headers = {
+                "Content-Length": "35",
+                "Content-Type": "text/plain",
+            }
             request.body = b"this is a custom plain text"
             assert "this is a custom plain text" == render_body(request)
 
