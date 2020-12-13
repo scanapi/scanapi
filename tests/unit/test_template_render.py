@@ -26,7 +26,7 @@ class TestTemplateRender:
         def test_should_render_json(self, mocked__request):
             request = mocked__request()
             request.headers = {
-                "Content-Length": "44",
+                "Content-Length": "21",
                 "Content-Type": "application/json",
             }
             request.body = b'{"name": "bulbasaur"}'
@@ -35,7 +35,7 @@ class TestTemplateRender:
         def test_should_render_plain_text(self, mocked__request):
             request = mocked__request()
             request.headers = {
-                "Content-Length": "35",
+                "Content-Length": "27",
                 "Content-Type": "text/plain",
             }
             request.body = b"this is a custom plain text"
