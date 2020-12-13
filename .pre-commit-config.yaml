@@ -4,6 +4,7 @@ repos:
     hooks:
       - id: black
         language_version: python3
+        args: ["-l 80"]
   - repo: https://github.com/pre-commit/mirrors-isort
     rev: v5.5.3
     hooks:
