@@ -24,9 +24,7 @@ class TestCodeEvaluator:
                 @pytest.mark.parametrize("sequence, expected", test_data)
                 def test_should_return_assert_results(self, sequence, expected):
                     assert (
-                        CodeEvaluator.evaluate(
-                            sequence, {}, is_a_test_case=True
-                        )
+                        CodeEvaluator.evaluate(sequence, {}, is_a_test_case=True)
                         == expected
                     )
 
@@ -107,9 +105,7 @@ class TestCodeEvaluator:
                         self, sequence, expected, response
                     ):
                         assert (
-                            CodeEvaluator.evaluate(
-                                sequence, {"response": response}
-                            )
+                            CodeEvaluator.evaluate(sequence, {"response": response})
                             == expected
                         )
 

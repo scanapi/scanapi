@@ -25,10 +25,7 @@ class TestEndpointNode:
                 endpoints = [{}, {}]
                 EndpointNode({"endpoints": endpoints})
 
-            assert (
-                str(excinfo.value)
-                == "Missing 'name' key(s) at 'endpoint' scope"
-            )
+            assert str(excinfo.value) == "Missing 'name' key(s) at 'endpoint' scope"
 
         def test_no_required_keys_for_root(self):
             assert EndpointNode({})
