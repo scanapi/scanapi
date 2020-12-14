@@ -36,8 +36,11 @@ def response(requests_mock):
     return requests.get("http://test.com")
 
 
+@pytest.mark.describe("Test Scan")
 class TestScan:
+    @pytest.mark.context("When Could Not Find APISpec File")
     class TestWhenCouldNotFindAPISpecFile:
+        @pytest.mark.it("should log error")
         def test_should_log_error(self, mocker, caplog):
             mocker.patch(
                 "scanapi.scan.settings",
@@ -58,7 +61,9 @@ class TestScan:
                 "or directory: 'invalid_path/scanapi.yaml" in caplog.text
             )
 
+    @pytest.mark.context("When APISpec File Is Empty")
     class TestWhenAPISpecFileIsEmpty:
+        @pytest.mark.it("should an log error")
         def test_should_log_error(self, mocker, caplog):
             mocker.patch(
                 "scanapi.scan.load_config_file", side_effect=empty_config_file
@@ -76,7 +81,9 @@ class TestScan:
                 in caplog.text
             )
 
+    @pytest.mark.context("When APISpec File Has An Error")
     class TestWhenAPISpecFileHasAnError:
+        @pytest.mark.it("should log error")
         def test_should_log_error(self, mocker, caplog):
             mocker.patch(
                 "scanapi.scan.load_config_file", side_effect=yaml_error
@@ -93,7 +100,9 @@ class TestScan:
                 in caplog.text
             )
 
+    @pytest.mark.context("When APISpec Has An Invalid Key")
     class TestWhenAPISpecHasAnInvalidKey:
+        @pytest.mark.it("should log error")
         def test_should_log_error(self, mocker, caplog):
             mock_load_config_file = mocker.patch(
                 "scanapi.scan.load_config_file"
@@ -114,7 +123,9 @@ class TestScan:
                 "are: ['bar', 'other']" in caplog.text
             )
 
+    @pytest.mark.context("When APISpec Is Ok")
     class TestWhenAPISpecIsOk:
+        @pytest.mark.it("should call reporter write_report")
         def test_should_call_reporter(self, mocker, response):
             mock_load_config_file = mocker.patch(
                 "scanapi.scan.load_config_file"
@@ -139,7 +150,9 @@ class TestScan:
             mock_write_report.assert_called_once_with([response])
 
 
+@pytest.mark.context("Test Writer Reporter")
 class TestWriteReporter:
+    @pytest.mark.it("should call wr")
     def test_should_call_wr(self, mocker, response):
         mock_write = mocker.patch("scanapi.scan.Reporter.write")
         mock_reporter_init = mocker.patch("scanapi.scan.Reporter.__init__")

@@ -12,7 +12,11 @@ class TestEndpointNode:
                 {"name": "child-node-two", "requests": []},
             ]
             node = EndpointNode(
-                {"endpoints": endpoints, "name": "scanapi-demo", "requests": []}
+                {
+                    "endpoints": endpoints,
+                    "name": "scanapi-demo",
+                    "requests": [],
+                }
             )
             assert len(node.child_nodes) == len(endpoints)
 
@@ -76,7 +80,8 @@ class TestEndpointNode:
                 }
             )
             node = EndpointNode(
-                {"path": "/foo/", "name": "node", "requests": []}, parent=parent
+                {"path": "/foo/", "name": "node", "requests": []},
+                parent=parent,
             )
             assert node.path == "http://foo.com/foo/"
 
@@ -102,7 +107,8 @@ class TestEndpointNode:
                 }
             )
             node = EndpointNode(
-                {"path": "/foo/", "name": "node", "requests": []}, parent=parent
+                {"path": "/foo/", "name": "node", "requests": []},
+                parent=parent,
             )
             node.path
             calls = [mocker.call("http://foo.com/"), mocker.call("/foo/")]

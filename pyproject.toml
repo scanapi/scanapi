@@ -35,13 +35,14 @@ sphinx_rtd_theme = "^0.5.0"
 pre-commit = "2.6.0"
 isort = "^5.5.3"
 bandit = "^1.6.2"
+pytest-it = "^0.1.4"
 
 [tool.isort]
 multi_line_output = 3
 include_trailing_comma = true
 
 [tool.pytest.ini_options]
-addopts="-svvl"
+addopts="--it"
 
 [build-system]
 requires = ["poetry>=1.0.9",  "poetry-dynamic-versioning"]
