@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hide sensitive information in the URL Query Params [#304](https://github.com/scanapi/scanapi/pull/325)
 - Add anchor link for each request in the report to make it easily shareable. [#317](https://github.com/scanapi/scanapi/pull/317)
 - Update black version on pre-commit configurations to avoid conflicts with flake8 [#346](https://github.com/scanapi/scanapi/pull/346)
+- Added support to HTTP methods HEAD and OPTIONS [#350](https://github.com/scanapi/scanapi/pull/350)
 
 ### Changed
 - Updated poetry-publish version to v1.3 [#311](https://github.com/scanapi/scanapi/pull/311)
