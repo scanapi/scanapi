@@ -1,15 +1,17 @@
 repos:
   - repo: https://github.com/python/black
+    # It must match black's version that is inside pyproject.toml
     rev: 19.10b0
     hooks:
       - id: black
         language_version: python3
-        args: ["-l 80 . --exclude=.venv"]
+        args: ["-l 80", "--exclude=.venv"]
   - repo: https://github.com/pre-commit/mirrors-isort
     rev: v5.5.3
     hooks:
       - id: isort
   - repo: https://gitlab.com/pycqa/flake8
+    # It must match the flake8's version that is inside pyproject.toml
     rev: 3.8.4
     hooks:
       - id: flake8
