@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Removed all flake8 errors [#309](https://github.com/scanapi/scanapi/pull/309)
 - Fixed curl command [#330](https://github.com/scanapi/scanapi/pull/330)
+- Render body according to its request content type [#331](https://github.com/scanapi/scanapi/pull/331)
 - Add a `retry` option under requests to setup retry for requests. [#298](https://github.com/scanapi/scanapi/issues/298)
 - Fixed black and flake8  [#341](https://github.com/scanapi/scanapi/pull/341)
 
