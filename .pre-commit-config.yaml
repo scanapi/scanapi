@@ -1,15 +1,16 @@
 repos:
   - repo: https://github.com/python/black
-    rev: 20.8b1
+    rev: 19.10b0
     hooks:
       - id: black
         language_version: python3
+        args: ["-l 80 . --exclude=.venv"]
   - repo: https://github.com/pre-commit/mirrors-isort
     rev: v5.5.3
     hooks:
       - id: isort
   - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.7.9
+    rev: 3.8.4
     hooks:
-    - id: flake8
-      args: ["--ignore=E501,W"]
+      - id: flake8
+        args: ["--ignore=E501,W501,E231,W503"]
