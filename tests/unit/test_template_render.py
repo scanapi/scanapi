@@ -1,6 +1,7 @@
 import pytest
+import requests
 
-from scanapi.template_render import _loader, render
+from scanapi.template_render import _loader, render, render_body
 
 
 class TestTemplateRender:
@@ -17,6 +18,37 @@ class TestTemplateRender:
 
             mocked__get_template.assert_called_once_with("my_template.jinja")
             mocked__get_template().render.assert_called_once_with(**context)
+
+        @pytest.fixture
+        def mocked__request(self, mocker):
+            return mocker.patch.object(requests, "PreparedRequest")
+
+        def test_should_render_json(self, mocked__request):
+            request = mocked__request()
+            request.headers = {
+                "Content-Length": "21",
+                "Content-Type": "application/json",
+            }
+            request.body = b'{"name": "bulbasaur"}'
+            assert '{"name": "bulbasaur"}' == render_body(request)
+
+        def test_should_render_plain_text(self, mocked__request):
+            request = mocked__request()
+            request.headers = {
+                "Content-Length": "27",
+                "Content-Type": "text/plain",
+            }
+            request.body = b"this is a custom plain text"
+            assert "this is a custom plain text" == render_body(request)
+
+        def test_should_render_binary_content(self, mocked__request):
+            request = mocked__request()
+            request.headers = {
+                "Content-Length": "0",
+                "Content-Type": "application/octet-stream",
+            }
+            request.body = b""
+            assert "Binary content" == render_body(request)
 
     class TestLoader:
         class TestWhenIsExternal:
