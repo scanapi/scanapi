@@ -52,8 +52,12 @@ class TestSettings:
                 def test_should_save_preferences(self, mock_load_config_file):
                     config_path = "my_config_file.yaml"
                     settings.save_config_file_preferences(config_path)
-                    assert settings["config_path"].endswith("my_config_file.yaml")
-                    mock_load_config_file.assert_called_with("my_config_file.yaml")
+                    assert settings["config_path"].endswith(
+                        "my_config_file.yaml"
+                    )
+                    mock_load_config_file.assert_called_with(
+                        "my_config_file.yaml"
+                    )
 
             class TestWithoutConfigFile:
                 def test_should_raise_exception(self):
@@ -88,7 +92,9 @@ class TestSettings:
     class TestSavePreferences:
         @pytest.fixture
         def mock_save_click_preferences(self, mocker):
-            return mocker.patch("scanapi.settings.Settings.save_click_preferences")
+            return mocker.patch(
+                "scanapi.settings.Settings.save_click_preferences"
+            )
 
         @pytest.fixture
         def mock_save_config_file_preferences(self, mocker):

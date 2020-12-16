@@ -87,7 +87,10 @@ class TestValidateKeys:
             with pytest.raises(MissingMandatoryKeyError) as excinfo:
                 validate_keys(keys, available_keys, mandatory_keys, scope)
 
-            assert str(excinfo.value) == "Missing 'key2' key(s) at 'endpoint' scope"
+            assert (
+                str(excinfo.value)
+                == "Missing 'key2' key(s) at 'endpoint' scope"
+            )
 
     class TestThereIsNotAnInvalidKeysOrMissingMandotoryKeys:
         def test_should_not_raise_an_exception(self):

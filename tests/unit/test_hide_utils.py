@@ -31,7 +31,9 @@ class TestHideSensitiveInfo:
         ),
     ]
 
-    @pytest.mark.parametrize("settings, request_settings, response_settings", test_data)
+    @pytest.mark.parametrize(
+        "settings, request_settings, response_settings", test_data
+    )
     def test_calls__hide(
         self,
         settings,
@@ -88,7 +90,10 @@ class TestOverrideInfo:
 
         _override_info(response, http_attr, secret_field)
 
-        assert response.url == "http://test.com/users/SENSITIVE_INFORMATION/details"
+        assert (
+            response.url
+            == "http://test.com/users/SENSITIVE_INFORMATION/details"
+        )
 
     def test_overrides_headers(self, response):
         response.headers = {"abc": "123"}
@@ -100,7 +105,9 @@ class TestOverrideInfo:
         assert response.headers["abc"] == "SENSITIVE_INFORMATION"
 
     def test_overrides_body(self, response):
-        response.body = b'{"id": "abc21", "name": "Tarik", "yearsOfExperience": 2}'
+        response.body = (
+            b'{"id": "abc21", "name": "Tarik", "yearsOfExperience": 2}'
+        )
         http_attr = "body"
         secret_field = "id"
 
@@ -113,7 +120,9 @@ class TestOverrideInfo:
 
     def test_overrides_params(self, response):
         param = "test"
-        response.url = "http://test.com/users/details?test=test&test2=test&test=test2"
+        response.url = (
+            "http://test.com/users/details?test=test&test2=test&test=test2"
+        )
         http_attr = "params"
         secret_field = param
 

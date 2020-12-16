@@ -106,7 +106,9 @@ class RequestNode:
 
     @property
     def tests(self):
-        return (TestingNode(spec, self) for spec in self.spec.get(TESTS_KEY, []))
+        return (
+            TestingNode(spec, self) for spec in self.spec.get(TESTS_KEY, [])
+        )
 
     @property
     def retry(self):
@@ -120,8 +122,7 @@ class RequestNode:
         logger.info("Making request %s %s", method, url)
 
         self.endpoint.vars.update(
-            self.spec.get(VARS_KEY, {}),
-            preevaluate=False,
+            self.spec.get(VARS_KEY, {}), preevaluate=False,
         )
 
         session = session_with_retry(self.retry)

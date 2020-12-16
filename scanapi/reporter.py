@@ -17,8 +17,7 @@ class Reporter:
         self.template = template
 
     def write(self, results):
-        """ Part of the Reporter instance that is responsible for writing scanapi-report.html.
-        """
+        """Part of the Reporter instance that is responsible for writing scanapi-report.html."""
         logger.info("Writing documentation")
 
         template_path = self.template if self.template else "report.html"
@@ -35,7 +34,7 @@ class Reporter:
 
     @staticmethod
     def _build_context(results):
-        """ Private method of Reporter returns dict containing keys datetime,
+        """Private method of Reporter returns dict containing keys datetime,
         project_name, results and session and their corresponding values.
         """
         return {

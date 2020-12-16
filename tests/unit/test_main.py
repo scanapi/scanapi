@@ -43,4 +43,7 @@ class TestMain:
                 assert mock_save_preferences.called
                 assert result.exit_code == 4
 
-            assert "Error loading configuration file.\nPyYAML: error foo" in caplog.text
+            assert (
+                "Error loading configuration file.\nPyYAML: error foo"
+                in caplog.text
+            )
