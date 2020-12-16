@@ -4,8 +4,13 @@ timestamp = `date +%s`
 test:
 	@pytest --cov=./scanapi --cov-report=xml
 
-check:
-	@black -l 80 --check . --exclude=.venv
+black:
+	@poetry run black -l 80 --check . --exclude=.venv
+
+flake8:
+	@poetry run flake8 --ignore=E501,W501,E231,W503
+
+check: black flake8
 
 change-version:
 	@poetry version 2.1.0-$(timestamp)

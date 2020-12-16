@@ -5,17 +5,18 @@ jobs:
     name: black check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: "Black Code Formatter"
-        uses: "./.github/actions/black"
+      - uses: actions/setup-python@v1
         with:
-          args: ". --check"
-  flake8:
-    name: flake8 check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: "Flake8 check"
-        uses: TrueBrain/actions-flake8@master
+          python-version: 3.6.12
+      - name: Poetry Setup
+        uses: snok/install-poetry@v1.1.1
         with:
-          ignore: E501,W  # ignore line length check and warnings
+          version: 1.0.9
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: poetry install
+      - uses: actions/checkout@v1
+      - name: Test Code Lint
+        run: |
+          make check

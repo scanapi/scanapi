@@ -98,7 +98,9 @@ class RequestNode:
 
     @property
     def tests(self):
-        return (TestingNode(spec, self) for spec in self.spec.get(TESTS_KEY, []))
+        return (
+            TestingNode(spec, self) for spec in self.spec.get(TESTS_KEY, [])
+        )
 
     @property
     def retry(self):
