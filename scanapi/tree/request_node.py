@@ -37,7 +37,15 @@ class RequestNode:
         DELAY_KEY,
         RETRY_KEY,
     )
-    ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
+    ALLOWED_HTTP_METHODS = (
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "HEAD",
+        "OPTIONS",
+    )
     REQUIRED_KEYS = (NAME_KEY,)
 
     def __init__(self, spec, endpoint):

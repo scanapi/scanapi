@@ -23,7 +23,7 @@ def hide_sensitive_info(response):
 
 
 def _hide(http_msg, hide_settings):
-    """ Private method that finds all sensitive information attributes and calls _override_info
+    """Private method that finds all sensitive information attributes and calls _override_info
     to have sensitive data replaced
     """
     for http_attr in hide_settings:
