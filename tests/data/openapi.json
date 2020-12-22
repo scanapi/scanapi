@@ -25,7 +25,7 @@
             "description": "ID of an exiting user.",
             "required": false,
             "type": "number"
-          },
+          }
         ],
         "tags": [
           "Posts"
@@ -39,7 +39,7 @@
                 "$ref": "#/definitions/Post"
               }
             }
-          },
+          }
         }
       }
     }
@@ -64,6 +64,6 @@
           "description": "Body of the post."
         }
       }
-    },
+    }
   }
 }
