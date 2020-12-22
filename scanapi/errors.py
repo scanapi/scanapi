@@ -55,3 +55,35 @@ class EmptyConfigFileError(Exception):
     def __init__(self, file_path, *args):
         message = f"File '{file_path}' is empty."
         super(EmptyConfigFileError, self).__init__(message, *args)
+
+
+class NotAJsonFileError(Exception):
+    """Raised when the provided file is not a Json file"""
+
+    def __init__(self, file_path, *args):
+        message = f"'{file_path}' is not a Json file."
+        super(NotAJsonFileError, self).__init__(message, *args)
+
+
+class EmptyJsonFileError(Exception):
+    """Raised when the provided Json file is empty"""
+
+    def __init__(self, file_path, *args):
+        message = f"Json file '{file_path}' is empty."
+        super(EmptyJsonFileError, self).__init__(message, *args)
+
+
+class InvalidJsonFileError(Exception):
+    """Raised when the provided json file is not valid"""
+
+    def __init__(self, *args):
+        message = "The provided Json file is invalid."
+        super(InvalidJsonFileError, self).__init__(message, *args)
+
+
+class InvalidOpenAPISpecError(Exception):
+    """Raised when the provided OpenAPI json file is not valid"""
+
+    def __init__(self, *args):
+        message = "The provided OpenAPI file contains invalid specs."
+        super(InvalidOpenAPISpecError, self).__init__(message, *args)
