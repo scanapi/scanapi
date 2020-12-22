@@ -2,11 +2,7 @@ import pytest
 import requests
 
 from scanapi.errors import InvalidKeyError, MissingMandatoryKeyError
-from scanapi.utils import (
-    join_urls,
-    validate_keys,
-)
-from scanapi.hide_utils import hide_sensitive_info, _hide, _override_info
+from scanapi.utils import join_urls, session_with_retry, validate_keys
 
 
 @pytest.fixture
@@ -91,7 +87,10 @@ class TestValidateKeys:
             with pytest.raises(MissingMandatoryKeyError) as excinfo:
                 validate_keys(keys, available_keys, mandatory_keys, scope)
 
-            assert str(excinfo.value) == "Missing 'key2' key(s) at 'endpoint' scope"
+            assert (
+                str(excinfo.value)
+                == "Missing 'key2' key(s) at 'endpoint' scope"
+            )
 
     class TestThereIsNotAnInvalidKeysOrMissingMandotoryKeys:
         def test_should_not_raise_an_exception(self):
@@ -101,3 +100,18 @@ class TestValidateKeys:
             scope = "endpoint"
 
             validate_keys(keys, available_keys, mandatory_keys, scope)
+
+
+class TestSessionWithRetry:
+    class TestNoRetryConfiguration:
+        def test_should_not_mount_custom_adapters(self):
+            session = session_with_retry({})
+
+            assert session.adapters["http://"].max_retries.total == 0
+            assert session.adapters["https://"].max_retries.total == 0
+
+        def test_should_mount_custom_adapters(self):
+            session = session_with_retry({"max_retries": 7})
+
+            assert session.adapters["http://"].max_retries.total == 7
+            assert session.adapters["https://"].max_retries.total == 7

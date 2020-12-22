@@ -1,9 +1,8 @@
 import logging
-import requests
 
-from scanapi.test_status import TestStatus
 from scanapi.session import session
-from scanapi.tree.tree_keys import NAME_KEY, ASSERT_KEY
+from scanapi.test_status import TestStatus
+from scanapi.tree.tree_keys import ASSERT_KEY, NAME_KEY
 from scanapi.utils import validate_keys
 
 logger = logging.getLogger(__name__)
@@ -25,11 +24,11 @@ class TestingNode:
 
     @property
     def name(self):
-        return self["name"]
+        return self[NAME_KEY]
 
     @property
     def assertion(self):
-        return self["assert"]
+        return self[ASSERT_KEY]
 
     @property
     def full_name(self):

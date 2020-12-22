@@ -6,142 +6,206 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Added flake8 check workflow on pull_request event [#321](https://github.com/scanapi/scanapi/pull/321)
+- Hide sensitive information in the URL Query Params [#304](https://github.com/scanapi/scanapi/pull/325)
+- Add anchor link for each request in the report to make it easily shareable. [#317](https://github.com/scanapi/scanapi/pull/317)
+- Update black version on pre-commit configurations to avoid conflicts with flake8 [#346](https://github.com/scanapi/scanapi/pull/346)
+- Added support to HTTP methods HEAD and OPTIONS [#350](https://github.com/scanapi/scanapi/pull/350)
+
+### Changed
+- Updated poetry-publish version to v1.3 [#311](https://github.com/scanapi/scanapi/pull/311)
+
+### Fixed
+- Removed all flake8 errors [#309](https://github.com/scanapi/scanapi/pull/309)
+- Fixed curl command [#330](https://github.com/scanapi/scanapi/pull/330)
+- Render body according to its request content type [#331](https://github.com/scanapi/scanapi/pull/331)
+- Add a `retry` option under requests to setup retry for requests. [#298](https://github.com/scanapi/scanapi/issues/298)
+- Fixed black and flake8  [#341](https://github.com/scanapi/scanapi/pull/341)
+
+## [2.1.0] - 2020-10-06
+### Added
+- Add a `delay` key option to perform a delay between each request. [#266](https://github.com/scanapi/scanapi/issues/266)
+
+### Changed
+- Changed relative path to show absolute path to the report in CLI. [#277](https://github.com/scanapi/scanapi/pull/277)
+- Considering `-` (dash) in variable names. [#281](https://github.com/scanapi/scanapi/pull/281)
+- Moved bandit to dev section [#285](https://github.com/scanapi/scanapi/pull/285)
+- Increased Test coverage for `/scanapi/evaluators/spec_evaluator.py` [#291](https://github.com/scanapi/scanapi/pull/291)
+
+### Fixed
+- When there is no `body` specified, sending it as `None` instead of `{}`. [#280](https://github.com/scanapi/scanapi/pull/280)
+- Removed unused imports. [#294](https://github.com/scanapi/scanapi/pull/294)
+
+## [2.0.0] - 2020-08-25
+### Added
+- JSON response is now properly rendered, instead of plain text. [#213](https://github.com/scanapi/scanapi/pull/213)
+- The report page now has a favicon. [#223](https://github.com/scanapi/scanapi/pull/223)
+- Bandit security audit tool. [#219](https://github.com/scanapi/scanapi/pull/219)
+- Add Sphinx auto-documentation. [#230](https://github.com/scanapi/scanapi/pull/230)
+- Add workflow to package/publish to Test PyPi. [#239](https://github.com/scanapi/scanapi/pull/239)
+- Add Github Action workflow for First-time contributors. [#290](https://github.com/scanapi/scanapi/pull/290)
+- Add button to copy data from the report page. [#295](https://github.com/scanapi/scanapi/pull/295)
+
+### Changed
+- Renamed `api.(yaml|json)` to `scanapi.yaml`. [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
+- Remove top-level `api` key in `scanapi.yaml`. [#231](https://github.com/scanapi/scanapi/pull/231)
+- Renamed `project-name`, `hide-request` and `hide-response` to use underscore. [#228](https://github.com/scanapi/scanapi/issues/228)
+- Changed command `scanapi spec-file.yaml` to `scanapi run spec-file.yaml`. [#247](https://github.com/scanapi/scanapi/pull/247)
+- Moved Documentation from README.md to the website. [#250](https://github.com/scanapi/scanapi/pull/250)
+- Local and global configuration. [#254](https://github.com/scanapi/scanapi/pull/254)
+- Moved `bandit` to `dev` in `pyproject.toml`. [#286](https://github.com/scanapi/scanapi/pull/286)
+
+### Fixed
+- Updated language use in README.md and CONTRIBUTING.md plus fix broken links. [#220](https://github.com/scanapi/scanapi/pull/220)
+- Removed unused sys import in scan.py and cleaned for PEP8 and spelling errors. [#217](https://github.com/scanapi/scanapi/pull/217)
+- Hide body sensitive information. [#238](https://github.com/scanapi/scanapi/pull/238)
+- Fix css issues with html template. [#256](https://github.com/scanapi/scanapi/pull/256)
+- Fix when vars is declared and used in the same request.[#257](https://github.com/scanapi/scanapi/pull/257)
+- Fix when evaluated value is not string. [#257](https://github.com/scanapi/scanapi/pull/257)
+
+### Removed
+- APIKeyMissingError. [#218](https://github.com/scanapi/scanapi/pull/218)
 
 ## [1.0.5] - 2020-07-18
 ### Fixed
-- Status icons on report were not vertically centered [#195](https://github.com/scanapi/scanapi/pull/195)
+- Status icons on report were not vertically centered. [#195](https://github.com/scanapi/scanapi/pull/195)
 
 ## [1.0.4] - 2020-06-25
 
 ## [1.0.3] - 2020-06-25
 ### Added
-- MANIFEST.in
+- MANIFEST.in.
 
 ## [1.0.2] - 2020-06-25
 ### Fixed
-- Fix for TemplateNotFound Error [#197](https://github.com/scanapi/scanapi/pull/197)
+- Fix for TemplateNotFound Error. [#197](https://github.com/scanapi/scanapi/pull/197)
 
 ## [1.0.1] - 2020-06-25
 ### Fixed
-- Report example images not loading on PyPI [#193](https://github.com/scanapi/scanapi/pull/193)
+- Report example images not loading on PyPI. [#193](https://github.com/scanapi/scanapi/pull/193)
 
 ## [1.0.0] - 2020-06-25
 ### Added
-- Add new HTML template [#157](https://github.com/scanapi/scanapi/pull/157)
-- Tests key [#152](https://github.com/scanapi/scanapi/pull/152)
-- `-h` alias for `--help` option [#172](https://github.com/scanapi/scanapi/pull/172)
-- Test results to report [#177](https://github.com/scanapi/scanapi/pull/177)
-- Add test errors to the report [#187](https://github.com/scanapi/scanapi/pull/187)
-- Hides sensitive info in URL [#185](https://github.com/scanapi/scanapi/pull/185)
-- CLI options explanation [#189](https://github.com/scanapi/scanapi/pull/189)
+- Add new HTML template. [#157](https://github.com/scanapi/scanapi/pull/157)
+- Tests key. [#152](https://github.com/scanapi/scanapi/pull/152)
+- `-h` alias for `--help` option. [#172](https://github.com/scanapi/scanapi/pull/172)
+- Test results to report. [#177](https://github.com/scanapi/scanapi/pull/177)
+- Add test errors to the report. [#187](https://github.com/scanapi/scanapi/pull/187)
+- Hides sensitive info in URL. [#185](https://github.com/scanapi/scanapi/pull/185)
+- CLI options explanation. [#189](https://github.com/scanapi/scanapi/pull/189)
 
 ### Changed
-- Unified keys validation in a single method [#151](https://github.com/scanapi/scanapi/pull/151)
-- Default template to html [#173](https://github.com/scanapi/scanapi/pull/173)
+- Unified keys validation in a single method. [#151](https://github.com/scanapi/scanapi/pull/151)
+- Default template to html. [#173](https://github.com/scanapi/scanapi/pull/173)
 - Project name color on html reporter to match ScanAPI brand [#172](https://github.com/scanapi/scanapi/pull/172)
-- Hero banner on README [#180](https://github.com/scanapi/scanapi/pull/180)
-- Entry point to `scanapi:main` [#172](https://github.com/scanapi/scanapi/pull/172)
-- `--spec-path` option to argument [#172](https://github.com/scanapi/scanapi/pull/172)
-- Improve test results on report [#186](https://github.com/scanapi/scanapi/pull/186)
-- Improve Error Message for Invalid Python code error [#187](https://github.com/scanapi/scanapi/pull/187)
-- Handle properly exit errors [#187](https://github.com/scanapi/scanapi/pull/187)
-- Update README.md [#191](https://github.com/scanapi/scanapi/pull/191)
+- Hero banner on README. [#180](https://github.com/scanapi/scanapi/pull/180)
+- Entry point to `scanapi:main`. [#172](https://github.com/scanapi/scanapi/pull/172)
+- `--spec-path` option to argument. [#172](https://github.com/scanapi/scanapi/pull/172)
+- Improve test results on report. [#186](https://github.com/scanapi/scanapi/pull/186)
+- Improve Error Message for Invalid Python code error. [#187](https://github.com/scanapi/scanapi/pull/187)
+- Handle properly exit errors. [#187](https://github.com/scanapi/scanapi/pull/187)
+- Update README.md. [#191](https://github.com/scanapi/scanapi/pull/191)
 
 ### Fixed
-- Duplicated status code row from report [#183](https://github.com/scanapi/scanapi/pull/183)
-- Sensitive information render on report [#183](https://github.com/scanapi/scanapi/pull/183)
+- Duplicated status code row from report. [#183](https://github.com/scanapi/scanapi/pull/183)
+- Sensitive information render on report. [#183](https://github.com/scanapi/scanapi/pull/183)
 
 ### Removed
-- Console Report [#175](https://github.com/scanapi/scanapi/pull/175)
-- Markdown Report [#179](https://github.com/scanapi/scanapi/pull/179)
-- `--reporter` option [#179](https://github.com/scanapi/scanapi/pull/179)
+- Console Report. [#175](https://github.com/scanapi/scanapi/pull/175)
+- Markdown Report. [#179](https://github.com/scanapi/scanapi/pull/179)
+- `--reporter` option. [#179](https://github.com/scanapi/scanapi/pull/179)
 
 ## [0.1.0] - 2020-05-14
 ### Added
-- Automated pypi deploy - [#144](https://github.com/scanapi/scanapi/pull/144)
+- Automated pypi deploy. [#144](https://github.com/scanapi/scanapi/pull/144)
 
 ## [0.0.19] - 2020-05-11
 ### Added
-- PATCH HTTP method - [#113](https://github.com/scanapi/scanapi/pull/113)
-- Ability to have API spec in multiples files - [#125](https://github.com/scanapi/scanapi/pull/125)
-- CLI `--config-path` option - [#128](https://github.com/scanapi/scanapi/pull/128)
-- CLI `--template-path` option - [#126](https://github.com/scanapi/scanapi/pull/126)
-- GitHub Action checking for missing changelog entry - [#134](https://github.com/scanapi/scanapi/pull/134)
+- PATCH HTTP method. [#113](https://github.com/scanapi/scanapi/pull/113)
+- Ability to have API spec in multiples files. [#125](https://github.com/scanapi/scanapi/pull/125)
+- CLI `--config-path` option. [#128](https://github.com/scanapi/scanapi/pull/128)
+- CLI `--template-path` option. [#126](https://github.com/scanapi/scanapi/pull/126)
+- GitHub Action checking for missing changelog entry. [#134](https://github.com/scanapi/scanapi/pull/134)
 
 ### Changed
-- Make markdown report a bit better - [#96](https://github.com/scanapi/scanapi/pull/96)
-- `base_url` keyword to `path` [#116](https://github.com/scanapi/scanapi/pull/116)
-- `namespace` keyword to `name` [#116](https://github.com/scanapi/scanapi/pull/116)
-- `method` keyword is not mandatory anymore for requests. Default is `get` [#116](https://github.com/scanapi/scanapi/pull/116)
-- Replaced `hide` key on report config by `hide-request` and `hide-response` [#116](https://github.com/scanapi/scanapi/pull/116)
-- Moved black check from CircleCI to github actions [#136](https://github.com/scanapi/scanapi/pull/136)
+- Make markdown report a bit better. [#96](https://github.com/scanapi/scanapi/pull/96)
+- `base_url` keyword to `path`. [#116](https://github.com/scanapi/scanapi/pull/116)
+- `namespace` keyword to `name`. [#116](https://github.com/scanapi/scanapi/pull/116)
+- `method` keyword is not mandatory anymore for requests. Default is `get`. [#116](https://github.com/scanapi/scanapi/pull/116)
+- Replaced `hide` key on report config by `hide-request` and `hide-response`. [#116](https://github.com/scanapi/scanapi/pull/116)
+- Moved black check from CircleCI to github actions. [#136](https://github.com/scanapi/scanapi/pull/136)
 
 ### Fixed
-- Cases where custom var has upper case letters [#99](https://github.com/scanapi/scanapi/pull/99)
+- Cases where custom var has upper case letters. [#99](https://github.com/scanapi/scanapi/pull/99)
 
 ### Removed
-- Request with no endpoints [#116](https://github.com/scanapi/scanapi/pull/116)
+- Request with no endpoints. [#116](https://github.com/scanapi/scanapi/pull/116)
 
 ## [0.0.18] - 2020-01-02
 ### Changed
-- Return params/headers None when request doesn't have params/headers [#87](https://github.com/scanapi/scanapi/pull/87)
+- Return params/headers None when request doesn't have params/headers. [#87](https://github.com/scanapi/scanapi/pull/87)
 
 ### Fixed
-- Report-example image not loading on PyPi [#86](https://github.com/scanapi/scanapi/pull/86)
+- Report-example image not loading on PyPi. [#86](https://github.com/scanapi/scanapi/pull/86)
 
 ## [0.0.17] - 2019-12-19
 ### Added
-- Added PyPI Test section to CONTRIBUTING.md
-- Added templates to pypi package - fix [#85](https://github.com/scanapi/scanapi/pull/85)
+- Added PyPI Test section to CONTRIBUTING.md.
+
+### Fixed
+- Templates on pypi package. [#85](https://github.com/scanapi/scanapi/pull/85)
 
 ## [0.0.16] - 2019-12-18
 ### Fixed
-- Fixed No module named 'scanapi.tree' [#83](https://github.com/scanapi/scanapi/pull/83)
+- Fixed No module named 'scanapi.tree'. [#83](https://github.com/scanapi/scanapi/pull/83)
 
 ## [0.0.15] - 2019-12-14
 ### Added
-- CodeCov Setup
-- CircleCI Setup
+- CodeCov Setup.
+- CircleCI Setup.
 
 ### Changed
-- Updated Documentation
-- Increased coverage
-- Used dot notation to access responses inside api spec
-- Renamed option report_path to output_path
-- Reporter option -r, --reporter [console|markdown|html]
+- Updated Documentation.
+- Increased coverage.
+- Used dot notation to access responses inside api spec.
+- Renamed option report_path to output_path.
+- Reporter option -r, --reporter [console|markdown|html].
 
 ### Fixed
-- Fixed join of urls to keep the last slash
+- Fixed join of urls to keep the last slash.
 
 ### Removed
-- Removed requirements files and put every dependency under setup.py
-- Removed dcvars key
+- Removed requirements files and put every dependency under setup.py.
+- Removed dcvars key.
 
 ## [0.0.14] - 2019-10-09
 ### Added
-- Add math, time, uuid and random libs to be used on api spec
+- Add math, time, uuid and random libs to be used on api spec.
 
 ## [0.0.13] - 2019-10-07
 ### Changed
-- Bumped version
+- Bumped version.
 
 ## [0.0.12] - 2019-08-15
 ### Added
-- Used env variables from os
+- Used env variables from os.
 
 ## [0.0.11] - 2019-08-09
 ### Added
-- Added Docker file
+- Added Docker file.
 
 ## [0.0.10] - 2019-08-09
 ### Added
-- Add logging
-- Option to hide headers fields
+- Add logging.
+- Option to hide headers fields.
 
 ### Fixed
-- Fix vars interpolation
+- Fix vars interpolation.
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v1.0.5...HEAD
+[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/camilamaia/scanapi/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/camilamaia/scanapi/compare/v1.0.5...v2.0.0
 [1.0.5]: https://github.com/camilamaia/scanapi/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/camilamaia/scanapi/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/camilamaia/scanapi/compare/v1.0.2...v1.0.3

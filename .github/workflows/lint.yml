@@ -2,11 +2,21 @@ on: pull_request
 name: Lint check
 jobs:
   black:
-    name: Lint check
+    name: black check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: "Black Code Formatter"
-        uses: "lgeiger/black-action@v1.0.1"
+      - uses: actions/setup-python@v1
         with:
-          args: ". --check"
+          python-version: 3.6.12
+      - name: Poetry Setup
+        uses: snok/install-poetry@v1.1.1
+        with:
+          version: 1.0.9
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: poetry install
+      - uses: actions/checkout@v1
+      - name: Test Code Lint
+        run: |
+          make check

@@ -5,19 +5,9 @@ class MalformedSpecError(Exception):
 class HTTPMethodNotAllowedError(MalformedSpecError):
     """Raised when the HTTP method in the API spec is invalid"""
 
-    def __init__(self, method, allowed_methos, *args):
-        message = (
-            f"HTTP method not supported: {method}. Supported methods: {allowed_methos}."
-        )
+    def __init__(self, method, allowed_methods, *args):
+        message = f"HTTP method not supported: {method}. Supported methods: {allowed_methods}."
         super(HTTPMethodNotAllowedError, self).__init__(message, *args)
-
-
-class APIKeyMissingError(MalformedSpecError):
-    """Raised when 'api' key is not specified at root scope in the API spec"""
-
-    def __init__(self, *args):
-        message = "Missing api 'key' at root scope in the API spec"
-        super(APIKeyMissingError, self).__init__(message, *args)
 
 
 class InvalidKeyError(MalformedSpecError):
@@ -54,7 +44,8 @@ class BadConfigurationError(Exception):
 
     def __init__(self, env_var, *args):
         super(BadConfigurationError, self).__init__(
-            f"{env_var} environment variable not set or badly configured", *args
+            f"{env_var} environment variable not set or badly configured",
+            *args,
         )
 
 
@@ -64,27 +55,3 @@ class EmptyConfigFileError(Exception):
     def __init__(self, file_path, *args):
         message = f"File '{file_path}' is empty."
         super(EmptyConfigFileError, self).__init__(message, *args)
-
-
-class FileFormatNotSupportedError(Exception):
-    """Raised when the Config File format is not supported"""
-
-    def __init__(self, file_format, file_path, *args):
-        message = f"The format {file_format} is not supported. Supported formats: '.yaml', '.yml', '.json'. File path: '{file_path}'."
-        super(FileFormatNotSupportedError, self).__init__(message, *args)
-
-
-class EmptyOpenAPIFileError(Exception):
-    """Raised when the OpenAPI JSON file is empty"""
-
-    def __init__(self, file_path, *args):
-        message = f"File '{file_path}' is empty."
-        super(EmptyOpenAPIFileError, self).__init__(message, *args)
-
-
-class InvalidOpenAPIFileError(Exception):
-    """Raised when the OpenAPI JSON file is invalid"""
-
-    def __init__(self, file_path, *args):
-        message = f"File '{file_path}' is not a valid OpenAPI JSON spec file."
-        super(InvalidOpenAPIFileError, self).__init__(message, *args)

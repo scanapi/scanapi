@@ -1,6 +1,6 @@
-import pytest
-
 from random import randrange
+
+import pytest
 
 from scanapi.session import Session
 
@@ -28,7 +28,6 @@ class TestSession:
         @pytest.mark.freeze_time("2020-06-15 18:54:57")
         def test_init_started_at(self):
             session = Session()
-            session.start()
 
             assert str(session.started_at) == "2020-06-15 18:54:57"
 
@@ -81,7 +80,6 @@ class TestSession:
         @pytest.mark.freeze_time("2020-06-15 18:54:57")
         def test_return_time(self, freezer):
             session = Session()
-            session.start()
 
             freezer.move_to("2020-06-15 18:56:38")
 

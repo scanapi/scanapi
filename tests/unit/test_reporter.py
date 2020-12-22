@@ -1,11 +1,11 @@
 import pytest
-
 from freezegun.api import FakeDatetime
+
 from scanapi.reporter import Reporter
 
 fake_results = [
-    {"response": "foo", "tests_results": [], "no_failure": True,},
-    {"response": "bar", "tests_results": [], "no_failure": False,},
+    {"response": "foo", "tests_results": [], "no_failure": True},
+    {"response": "bar", "tests_results": [], "no_failure": False},
 ]
 
 
@@ -58,20 +58,32 @@ class TestReporter:
             return mock
 
         def test_should_write_to_default_output(
-            self, mocker, mocked__render, mocked__open, mocked__session, context,
+            self,
+            mocker,
+            mocked__render,
+            mocked__open,
+            mocked__session,
+            context,
         ):
             mocked__render.return_value = "ScanAPI Report"
             reporter = Reporter()
             reporter.write(fake_results)
 
-            mocked__render.assert_called_once_with("html.jinja", context, False)
+            mocked__render.assert_called_once_with(
+                "report.html", context, False
+            )
             mocked__open.assert_called_once_with(
                 "scanapi-report.html", "w", newline="\n"
             )
             mocked__open().write.assert_called_once_with("ScanAPI Report")
 
         def test_should_write_to_custom_output(
-            self, mocker, mocked__render, mocked__open, mocked__session, context,
+            self,
+            mocker,
+            mocked__render,
+            mocked__open,
+            mocked__session,
+            context,
         ):
             mocked__render.return_value = "ScanAPI Report"
             reporter = Reporter("./custom/report-output.html", "html")
@@ -84,13 +96,20 @@ class TestReporter:
             mocked__open().write.assert_called_once_with("ScanAPI Report")
 
         def test_should_handle_custom_templates(
-            self, mocker, mocked__render, mocked__open, mocked__session, context,
+            self,
+            mocker,
+            mocked__render,
+            mocked__open,
+            mocked__session,
+            context,
         ):
             mocked__render.return_value = "ScanAPI Report"
             reporter = Reporter(template="my-template.html")
             reporter.write(fake_results)
 
-            mocked__render.assert_called_once_with("my-template.html", context, True)
+            mocked__render.assert_called_once_with(
+                "my-template.html", context, True
+            )
             mocked__open.assert_called_once_with(
                 "scanapi-report.html", "w", newline="\n"
             )

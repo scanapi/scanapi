@@ -1,14 +1,13 @@
+# Available imports to be used dinamically in the API spec
+import datetime  # noqa: F401
 import logging
+import math  # noqa: F401
+import random  # noqa: F401
 import re
+import time  # noqa: F401
+import uuid  # noqa: F401
 
 from scanapi.errors import InvalidPythonCodeError
-
-# Available imports to be used dinamically in the API spec
-import datetime
-import math
-import random
-import time
-import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +19,7 @@ class CodeEvaluator:
 
     @classmethod
     def evaluate(cls, sequence, vars, is_a_test_case=False):
-        match = cls.python_code_pattern.search(sequence)
+        match = cls.python_code_pattern.search(str(sequence))
 
         if not match:
             return sequence

@@ -1,9 +1,11 @@
-import click
 import logging
 
+import click
+import yaml
+
+from scanapi.exit_code import ExitCode
 from scanapi.openapi_to_yaml import openapi_to_yaml
 from scanapi.scan import scan
-from scanapi.session import session
 from scanapi.settings import settings
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
@@ -20,7 +22,11 @@ def main():
 @main.command(context_settings=CONTEXT_SETTINGS)
 @click.argument("spec_path", type=click.Path(exists=True), required=False)
 @click.option(
-    "-o", "--output-path", "output_path", type=click.Path(), help="Report output path."
+    "-o",
+    "--output-path",
+    "output_path",
+    type=click.Path(),
+    help="Report output path.",
 )
 @click.option(
     "-c",
@@ -49,7 +55,6 @@ def run(spec_path, output_path, config_path, template, log_level):
     Automated Testing and Documentation for your REST API.
     SPEC_PATH argument is the API specification file path.
     """
-    session.start()
     logging.basicConfig(level=log_level, format="%(message)s")
     logger = logging.getLogger(__name__)
 
@@ -60,7 +65,14 @@ def run(spec_path, output_path, config_path, template, log_level):
         "template": template,
     }
 
-    settings.save_preferences(**click_preferences)
+    try:
+        settings.save_preferences(**click_preferences)
+    except yaml.YAMLError as e:
+        error_message = "Error loading configuration file."
+        error_message = "{}\nPyYAML: {}".format(error_message, str(e))
+        logger.error(error_message)
+        raise SystemExit(ExitCode.USAGE_ERROR)
+
     scan()
 
 
@@ -72,4 +84,4 @@ def convert(openapi_path):
     OPENAPI_PATH argument is the OpenAPI JSON file path.
     """
     openapi_to_yaml(openapi_path)
-    print('File succefully converted and exported as "api.yaml"!')
+    print('File successfully converted and exported as "api.yaml"!')
