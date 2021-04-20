@@ -16,7 +16,7 @@ jobs:
         run: |
           make change-version
       - name: Build and publish to test pypi
-        uses: JRubics/poetry-publish@v1.3
+        uses: JRubics/poetry-publish@v1.5
         with:
           python_version: "3.6"
           poetry_version: ">=0.12"
