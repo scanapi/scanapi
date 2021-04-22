@@ -7,21 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Added flake8 check workflow on pull_request event [#321](https://github.com/scanapi/scanapi/pull/321)
 - Hide sensitive information in the URL Query Params [#304](https://github.com/scanapi/scanapi/pull/325)
-- Add anchor link for each request in the report to make it easily shareable. [#317](https://github.com/scanapi/scanapi/pull/317)
-- Update black version on pre-commit configurations to avoid conflicts with flake8 [#346](https://github.com/scanapi/scanapi/pull/346)
-- Added support to HTTP methods HEAD and OPTIONS [#350](https://github.com/scanapi/scanapi/pull/350)
-
-### Changed
-- Updated poetry-publish version to v1.3 [#311](https://github.com/scanapi/scanapi/pull/311)
+- Anchor link for each request in the report to make it easily shareable. [#317](https://github.com/scanapi/scanapi/pull/317)
+- Support to HTTP methods HEAD and OPTIONS [#350](https://github.com/scanapi/scanapi/pull/350)
+- The `retry` key under requests to setup retry for requests. [#298](https://github.com/scanapi/scanapi/issues/298)
 
 ### Fixed
-- Removed all flake8 errors [#309](https://github.com/scanapi/scanapi/pull/309)
-- Fixed curl command [#330](https://github.com/scanapi/scanapi/pull/330)
+- Curl command [#330](https://github.com/scanapi/scanapi/pull/330)
 - Render body according to its request content type [#331](https://github.com/scanapi/scanapi/pull/331)
-- Add a `retry` option under requests to setup retry for requests. [#298](https://github.com/scanapi/scanapi/issues/298)
-- Fixed black and flake8  [#341](https://github.com/scanapi/scanapi/pull/341)
 
 ## [2.1.0] - 2020-10-06
 ### Added
