@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Build and publish to pypi
-        uses: JRubics/poetry-publish@v1.3
+        uses: JRubics/poetry-publish@v1.6
         with:
           python_version: "3.6"
           poetry_version: ">=0.12"
