@@ -78,8 +78,9 @@ jobs:
         run: poetry install
       - name: Run ScanAPI for Demo API
         env:
-          BASE_URL: "http://demo.scanapi.dev/api/"
-          DEMO_KEY: "demoKEY123"
+          BASE_URL: "http://demo.scanapi.dev/api/v1/"
+          USER: "guest"
+          PASSWORD: "demoapi123"
         run: "poetry run scanapi run ./examples/demo-api/scanapi.yaml -c ./examples/demo-api/scanapi.conf -o demo-api.html"
       - name: Upload Demo API ScanAPI Report
         uses: actions/upload-artifact@v2
