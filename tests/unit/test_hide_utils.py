@@ -129,6 +129,34 @@ class TestOverrideInfo:
             == b'{"id": "SENSITIVE_INFORMATION", "name": "Tarik", "yearsOfExperience": 2}'
         )
 
+    @mark.it("should overrides content")
+    def test_overrides_content(self, response):
+        response._content = (
+            b'{"id": "abc21", "name": "Tarik", "yearsOfExperience": 2}'
+        )
+        http_attr = "body"
+        secret_field = "id"
+
+        _override_info(response, http_attr, secret_field)
+
+        assert (
+            response.content
+            == b'{"id": "SENSITIVE_INFORMATION", "name": "Tarik", "yearsOfExperience": 2}'
+        )
+
+    @mark.it("should overrides body and empty content")
+    def test_overrides_body_and_empty_content(self, response):
+        response.body = b"{}"
+        response._content = b"{}"
+        http_attr = "body"
+        secret_field = "id"
+
+        _override_info(response, http_attr, secret_field)
+
+        assert response.body == b"{}"
+
+        assert response.content == b"{}"
+
     @mark.it("should overrides params")
     def test_overrides_params(self, response):
         param = "test"

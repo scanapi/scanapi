@@ -1,4 +1,5 @@
 import json
+from json.decoder import JSONDecodeError
 from urllib.parse import parse_qs, urlparse, urlunparse
 
 from scanapi.settings import settings
@@ -63,10 +64,15 @@ def _override_headers(http_msg, secret_field):
 
 
 def _override_body(http_msg, secret_field):
-    body = json.loads(http_msg.body.decode("UTF-8"))
-    if secret_field in body:
-        body[secret_field] = SENSITIVE_INFO_SUBSTITUTION_FLAG
-        http_msg.body = json.dumps(body).encode("utf-8")
+    try:
+        has_body = hasattr(http_msg, "body")
+        body = json.loads(getattr(http_msg, "body" if has_body else "content"))
+        if secret_field in body:
+            body[secret_field] = SENSITIVE_INFO_SUBSTITUTION_FLAG
+            value = json.dumps(body).encode("utf-8")
+            setattr(http_msg, "body" if has_body else "_content", value)
+    except JSONDecodeError:
+        pass
 
 
 def _override_params(http_msg, secret_field):
