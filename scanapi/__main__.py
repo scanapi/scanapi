@@ -3,14 +3,19 @@ import logging
 import click
 import yaml
 
+from pkg_resources import get_distribution
+
 from scanapi.exit_code import ExitCode
 from scanapi.scan import scan
 from scanapi.settings import settings
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
+dist = get_distribution("scanapi")
+
 
 @click.group()
+@click.version_option(version=dist.version)
 def main():
     """
     Automated Testing and Documentation for your REST API.
