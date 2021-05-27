@@ -10,9 +10,6 @@
   <a href="https://badge.fury.io/py/scanapi">
     <img alt="PyPI version" src="https://badge.fury.io/py/scanapi.svg">
   </a>
-  <a href="https://spectrum.chat/scanapi">
-    <img alt="Join the community on Spectrum" src="https://withspectrum.github.io/badge/badge.svg" />
-  </a>
 </p>
 
 A library for **your API** that provides:
@@ -92,9 +89,11 @@ Then, the lib will hit the specified endpoints and generate a `scanapi-report.ht
 </p>
 
 ## Documentation
+
 The full documentation is available at [scanapi.dev][website]
 
 ## Examples
+
 You can find complete examples at [scanapi/examples][scanapi-examples]!
 
 This tutorial helps you to create integration tests for your REST API using ScanAPI
