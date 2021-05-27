@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added --version command to return current scanapi version. [#372](https://github.com/scanapi/scanapi/pull/372)
 
-## Fixed
+### Fixed
 - Fixed hide_response body. [#375](https://github.com/scanapi/scanapi/pull/375)
 
 ## [2.2.0] - 2021-04-22
