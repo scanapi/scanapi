@@ -6,11 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.3.0] - 2021-05-25
 ### Added
-- Added --version command to return current scanapi version. [#372](https://github.com/scanapi/scanapi/pull/372)
+- `--version` command to return current scanapi version. [#372](https://github.com/scanapi/scanapi/pull/372)
 
 ### Fixed
-- Fixed hide_response body. [#375](https://github.com/scanapi/scanapi/pull/375)
+- hide_response body. [#375](https://github.com/scanapi/scanapi/pull/375)
 
 ## [2.2.0] - 2021-04-22
 ### Added
@@ -203,7 +205,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.2.0...HEAD
+[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/camilamaia/scanapi/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/camilamaia/scanapi/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/camilamaia/scanapi/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/camilamaia/scanapi/compare/v1.0.5...v2.0.0
