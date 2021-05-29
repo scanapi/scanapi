@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+
+"""Generating scanapi-report.html"""
+
 import datetime
 import logging
 from os.path import abspath
@@ -11,13 +14,26 @@ logger = logging.getLogger(__name__)
 
 
 class Reporter:
+    """scanapi report writer.
+
+    Attributes:
+        output_path [string, optional]: path to report.html, default to None.
+        template [string, optional]: path to external template, default to None.
+
+    """
+
     def __init__(self, output_path=None, template=None):
-        """ Creates a Reporter instance object. """
+        """Creates a Reporter instance object."""
         self.output_path = output_path or "scanapi-report.html"
         self.template = template
 
     def write(self, results):
-        """Part of the Reporter instance that is responsible for writing scanapi-report.html."""
+        """Method responsible for writing scanapi-report.html.
+
+        Args:
+            results [generator]: generator of dicts resulting of Request run().
+
+        """
         logger.info("Writing documentation")
 
         template_path = self.template if self.template else "report.html"
@@ -34,8 +50,14 @@ class Reporter:
 
     @staticmethod
     def _build_context(results):
-        """Private method of Reporter returns dict containing keys datetime,
-        project_name, results and session and their corresponding values.
+        """Formating context dict of values required to render template.
+
+        Args:
+            results [generator]: generator of dicts resulting of Request run().
+
+        Returns:
+            [dict]: values required to render template.
+
         """
         return {
             "now": datetime.datetime.now().replace(microsecond=0),

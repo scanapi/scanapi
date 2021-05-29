@@ -2,7 +2,6 @@ import logging
 
 import click
 import yaml
-
 from pkg_resources import get_distribution
 
 from scanapi.exit_code import ExitCode

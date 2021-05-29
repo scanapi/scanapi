@@ -1,3 +1,4 @@
+"""Scaning files, loading configs and constructing report files."""
 import logging
 
 import yaml
@@ -19,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 
 def scan():
-    """ Caller function that tries to scans the file and write the report. """
+    """Caller function that tries to scans the file and write the report."""
     spec_path = settings["spec_path"]
 
     try:
@@ -58,8 +59,11 @@ def scan():
 
 
 def write_report(results):
-    """Constructs a Reporter object and calls the write method of Reporter to push
-    the results to a file.
+    """Constructs a Reporter object to write results to a file.
+
+    Args:
+        results [generator]: generator of dicts resulting of Request run().
+
     """
     reporter = Reporter(settings["output_path"], settings["template"])
     reporter.write(results)
