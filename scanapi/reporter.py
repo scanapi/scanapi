@@ -3,6 +3,8 @@ import datetime
 import logging
 from os.path import abspath
 
+from pkg_resources import get_distribution
+
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.template_render import render
@@ -17,7 +19,12 @@ class Reporter:
         self.template = template
 
     def write(self, results):
-        """Part of the Reporter instance that is responsible for writing scanapi-report.html."""
+        """Part of the Reporter instance that is responsible for writing scanapi-report.html.
+        Args:
+            results [generator]: generator of dicts resulting of Request run().
+        Returns:
+            None
+        """
         logger.info("Writing documentation")
 
         template_path = self.template if self.template else "report.html"
@@ -34,12 +41,16 @@ class Reporter:
 
     @staticmethod
     def _build_context(results):
-        """Private method of Reporter returns dict containing keys datetime,
-        project_name, results and session and their corresponding values.
+        """Build context dict of values required to render template.
+        Args:
+            results [generator]: generator of dicts resulting of Request run().
+        Returns:
+            [dict]: values required to render template.
         """
         return {
             "now": datetime.datetime.now().replace(microsecond=0),
             "project_name": settings.get("project_name", ""),
             "results": results,
             "session": session,
+            "scanapi_version": get_distribution("scanapi").version,
         }
