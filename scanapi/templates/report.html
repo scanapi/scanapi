@@ -298,6 +298,12 @@
             color: red;
         }
 
+        .endpoint__request_node_name {
+            font-size: 16px;
+            padding: 0 10px;
+            font-style: italic;
+        }
+
         /* END -- ENDPOINT */
 
         /* TESTS SUMMARY */
@@ -422,6 +428,7 @@
                 <span class="endpoint__url">
                     <img data-anchor="endpoint_{{ loop.index | string }}" class="copy__link_anchor_url" src="https://scanapi.s3.us-east-2.amazonaws.com/assets/images/icons/link.svg">
                     <span class="http_method">{{request.method}}</span> {{ request.path_url }}
+                    <span class="endpoint__request_node_name">{{ result.request_node_name }}</span>
                 </span>
                 <span class="endpoint__titleInfo">
                     {{ response.status_code }}

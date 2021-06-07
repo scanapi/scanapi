@@ -21,9 +21,9 @@ class TestRun:
     @mark.it("should call the request method")
     def test_calls_request(self, mock_session, mock_time_sleep):
         request = RequestNode(
-            {"path": "http://foo.com", "name": "foo"},
+            {"path": "http://foo.com", "name": "request_name"},
             endpoint=EndpointNode(
-                {"name": "foo", "requests": [{}], "delay": 1}
+                {"name": "endpoint_name", "requests": [{}], "delay": 1}
             ),
         )
         result = request.run()
@@ -43,6 +43,7 @@ class TestRun:
             "response": mock_session().request(),
             "tests_results": [],
             "no_failure": True,
+            "request_node_name": "request_name",
         }
 
     test_data = [
@@ -57,8 +58,8 @@ class TestRun:
     ):
         mock_run_tests.return_value = test_results
         request = RequestNode(
-            {"name": "foo"},
-            endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
+            {"name": "request_name"},
+            endpoint=EndpointNode({"name": "endpoint_name", "requests": [{}]}),
         )
 
         result = request.run()
@@ -67,4 +68,5 @@ class TestRun:
             "response": mock_session().request(),
             "tests_results": test_results,
             "no_failure": expected_no_failure,
+            "request_node_name": "request_name",
         }
