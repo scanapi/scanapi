@@ -64,6 +64,7 @@ class TestWrite:
             "project_name": "",
             "results": fake_results,
             "session": mocked__session,
+            "scanapi_version": "2.3.0",
         }
 
     @fixture
