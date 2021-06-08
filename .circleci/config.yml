@@ -18,6 +18,6 @@ jobs:
 
 workflows:
   version: 2
-  master:
+  main:
     jobs:
       - changelog-lint
