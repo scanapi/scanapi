@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Show on report the scanapi version used to generate it. [#386](https://github.com/scanapi/scanapi/pull/386)
 
+### Fixed
+- Error making request when request has no body and there is a `report::hide_request::body` configuration. [#393](https://github.com/scanapi/scanapi/pull/393)
+
 ## [2.3.0] - 2021-05-25
 ### Added
 - `--version` command to return current scanapi version. [#372](https://github.com/scanapi/scanapi/pull/372)

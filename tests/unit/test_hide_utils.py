@@ -114,6 +114,22 @@ class TestOverrideInfo:
 
         assert response.headers["abc"] == "SENSITIVE_INFORMATION"
 
+    @mark.it("should overrides params")
+    def test_overrides_params(self, response):
+        param = "test"
+        response.url = (
+            "http://test.com/users/details?test=test&test2=test&test=test2"
+        )
+        http_attr = "params"
+        secret_field = param
+
+        _override_info(response, http_attr, secret_field)
+
+        assert (
+            response.url
+            == "http://test.com/users/details?test=SENSITIVE_INFORMATION&test2=test&test=SENSITIVE_INFORMATION"
+        )
+
     @mark.it("should overrides body")
     def test_overrides_body(self, response):
         response.body = (
@@ -157,21 +173,25 @@ class TestOverrideInfo:
 
         assert response.content == b"{}"
 
-    @mark.it("should overrides params")
-    def test_overrides_params(self, response):
-        param = "test"
-        response.url = (
-            "http://test.com/users/details?test=test&test2=test&test=test2"
-        )
-        http_attr = "params"
-        secret_field = param
+    @mark.it("should skip when body is None")
+    def test_skip_when_body_is_none(self, response):
+        response.body = None
+        http_attr = "body"
+        secret_field = "id"
 
         _override_info(response, http_attr, secret_field)
 
-        assert (
-            response.url
-            == "http://test.com/users/details?test=SENSITIVE_INFORMATION&test2=test&test=SENSITIVE_INFORMATION"
-        )
+        assert response.body is None
+
+    @mark.it("should skip when content is None")
+    def test_skip_when_content_is_none(self, response):
+        response._content = None
+        http_attr = "body"
+        secret_field = "id"
+
+        _override_info(response, http_attr, secret_field)
+
+        assert response._content is None
 
     @mark.context("when http attr does not have the field")
     @mark.it("should not change the http attr")
