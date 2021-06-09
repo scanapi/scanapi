@@ -383,6 +383,10 @@
             outline: none;
         }
 
+        .copy__link_anchor_url {
+            width: 15px;
+        }
+
         .bg_green{
             background-color: green!important;
             color: white;
@@ -415,7 +419,10 @@
         <div class="endpoint" id="endpoint_{{ loop.index | string }}">
             <input type="checkbox" class="endpoint__checkbox" id="chck_{{ loop.index | string }}" />
             <label class="endpoint__title" for="chck_{{ loop.index | string }}">
-                <span class="endpoint__url"><span class="http_method">{{request.method}}</span> {{ request.path_url }}</span>
+                <span class="endpoint__url">
+                    <img data-anchor="endpoint_{{ loop.index | string }}" class="copy__link_anchor_url" src="https://scanapi.s3.us-east-2.amazonaws.com/assets/images/icons/link.svg">
+                    <span class="http_method">{{request.method}}</span> {{ request.path_url }}
+                </span>
                 <span class="endpoint__titleInfo">
                     {{ response.status_code }}
                     <span class="endpoint__status endpoint__status--{{endpoint_status_label}}">
@@ -660,6 +667,23 @@
                     }
                 })
             })
+
+            /* 
+             * Copying anchor URL.
+             */
+
+            var copy_anchor_button = document.querySelectorAll('.copy__link_anchor_url');
+
+            copy_anchor_button.forEach(function(elem) {
+                elem.addEventListener('click', function(evt) {
+                    evt.preventDefault();
+                    var _this_button = this;
+                    var anchor = _this_button.dataset.anchor;
+                    var location = document.location;
+                    var anchor_url = location.protocol + '//' + location.pathname + '#' + anchor;
+                    copyToClipBoard(anchor_url, _this_button);
+                });
+            });
         </script>
         <script>
             function openAnchoredEndpoint(){
