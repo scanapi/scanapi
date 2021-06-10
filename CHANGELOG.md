@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Show on report the scanapi version used to generate it. [#386](https://github.com/scanapi/scanapi/pull/386)
+- Link icon to copy anchor URL. [#398](https://github.com/scanapi/scanapi/pull/398)
 
 ### Fixed
 - Error making request when request has no body and there is a `report::hide_request::body` configuration. [#393](https://github.com/scanapi/scanapi/pull/393)
