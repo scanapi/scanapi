@@ -58,13 +58,23 @@ class TestWrite:
         return mocker.patch("scanapi.reporter.session")
 
     @fixture
+    def mock_get_distribution(self, mocker):
+        class MockDistro:
+            @property
+            def version(self):
+                return "2.0.0"
+
+        mock_distr = mocker.patch("scanapi.reporter.get_distribution")
+        mock_distr.return_value = MockDistro()
+
+    @fixture
     def context(self, mocked__session):
         return {
             "now": FakeDatetime(2020, 5, 12, 11, 32, 34),
             "project_name": "",
             "results": fake_results,
             "session": mocked__session,
-            "scanapi_version": "2.3.0",
+            "scanapi_version": "2.0.0",
         }
 
     @fixture
@@ -75,7 +85,13 @@ class TestWrite:
 
     @mark.it("should write to default output")
     def test_should_write_to_default_output(
-        self, mocker, mocked__render, mocked__open, mocked__session, context,
+        self,
+        mocker,
+        mocked__render,
+        mocked__open,
+        mocked__session,
+        mock_get_distribution,
+        context,
     ):
         mocked__render.return_value = "ScanAPI Report"
         reporter = Reporter()
@@ -89,7 +105,13 @@ class TestWrite:
 
     @mark.it("should write to custom output")
     def test_should_write_to_custom_output(
-        self, mocker, mocked__render, mocked__open, mocked__session, context,
+        self,
+        mocker,
+        mocked__render,
+        mocked__open,
+        mocked__session,
+        mock_get_distribution,
+        context,
     ):
         mocked__render.return_value = "ScanAPI Report"
         reporter = Reporter("./custom/report-output.html", "html")
@@ -103,7 +125,13 @@ class TestWrite:
 
     @mark.it("should handle custom templates")
     def test_should_handle_custom_templates(
-        self, mocker, mocked__render, mocked__open, mocked__session, context,
+        self,
+        mocker,
+        mocked__render,
+        mocked__open,
+        mocked__session,
+        mock_get_distribution,
+        context,
     ):
         mocked__render.return_value = "ScanAPI Report"
         reporter = Reporter(template="my-template.html")
