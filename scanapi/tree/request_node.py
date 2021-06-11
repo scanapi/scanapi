@@ -117,7 +117,7 @@ class RequestNode:
     def run(self):
         """Make HTTP requests and generating test results for the given URLs.
         Returns:
-            [dict]: HTTP response and test results with request node name, 
+            [dict]: HTTP response and test results with request node name,
             to be used by the report template.
         """
         time.sleep(self.delay / 1000)
