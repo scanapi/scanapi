@@ -115,6 +115,11 @@ class RequestNode:
         return self.spec.get(RETRY_KEY)
 
     def run(self):
+        """Make HTTP requests and generating test results for the given URLs.
+        Returns:
+            [dict]: HTTP response and test results with request node name,
+            to be used by the report template.
+        """
         time.sleep(self.delay / 1000)
 
         method = self.http_method
@@ -153,6 +158,7 @@ class RequestNode:
                     for test_result in tests_results
                 ]
             ),
+            "request_node_name": self.name,
         }
 
     def _run_tests(self):

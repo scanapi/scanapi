@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Request name to report. [#390](https://github.com/scanapi/scanapi/pull/390)
 - Show on report the scanapi version used to generate it. [#386](https://github.com/scanapi/scanapi/pull/386)
 - Link icon to copy anchor URL. [#398](https://github.com/scanapi/scanapi/pull/398)
 
