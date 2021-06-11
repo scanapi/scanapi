@@ -6,7 +6,7 @@ ENV PATH="~/.local/bin:${PATH}"
 
 RUN pip install pip setuptools --upgrade
 
-RUN pip install scanapi==2.3.0
+RUN pip install scanapi==2.4.0
 
 COPY . /app
 
