@@ -10,6 +10,10 @@
   <a href="https://badge.fury.io/py/scanapi">
     <img alt="PyPI version" src="https://badge.fury.io/py/scanapi.svg">
   </a>
+
+  <a href="https://discord.scanapi.dev">
+    <img alt="Discord" src="https://img.shields.io/discord/847208162993242162?color=7389D8&label=discord&logo=6A7EC2&logoColor=ffffff&style=flat-square">
+  </a>
 </p>
 
 A library for **your API** that provides:
