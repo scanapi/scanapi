@@ -18,7 +18,6 @@ class Loader(yaml.SafeLoader):
 
     def __init__(self, stream: IO) -> None:
         """Initialise Loader."""
-
         try:
             self._root = os.path.split(stream.name)[0]
         except AttributeError:
@@ -29,7 +28,6 @@ class Loader(yaml.SafeLoader):
 
 def construct_include(loader: Loader, node: yaml.Node) -> Any:
     """Include file referenced at node."""
-
     relative_path = os.path.join(loader._root, loader.construct_scalar(node))
     full_path = os.path.abspath(relative_path)
 
