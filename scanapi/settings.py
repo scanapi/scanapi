@@ -16,8 +16,8 @@ class Settings(dict):
 
     def __init__(self):
         """
-        Constructs a Settings object with dictionary keys spec_path,
-        output_path and template.
+        Constructs a Settings object with dictionary keys spec_path, output_path
+        and template.
         """
         self["spec_path"] = "scanapi.yaml"
         self["output_path"] = None

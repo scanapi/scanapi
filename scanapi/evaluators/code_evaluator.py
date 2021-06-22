@@ -39,12 +39,15 @@ class CodeEvaluator:
     def _assert_code(cls, code, response):
         """Assert a Python code statement
 
-        :param code: python code that ScanAPI needs to assert
-        :type code: string
-        :param response: the response for the current request that is being tested
-        :type response: requests.Response
-        :return: A boolean that indicates if assert is True/False and, if False, the code tested.
-        :rtype: (boolean, string)
+        Args:
+            code [string]: python code that ScanAPI needs to assert
+            response [requests.Response]: the response for the current request
+            that is being tested
+
+        Returns:
+            (boolean, string): a boolean that indicates if assert is True/False
+            and, if False, the code tested.
+
         """
         try:
             assert eval(code)

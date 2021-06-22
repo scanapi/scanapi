@@ -12,13 +12,10 @@ def render(template_path, context, is_external=False):
     return chosen_template.render(**context)
 
 
-""
-
-
 def _loader(is_external):
     """
-    Private function that either returns Jinja2 FileSystemLoader
-    or the PackageLoader.
+    Private function that either returns Jinja2 FileSystemLoader or the
+    PackageLoader.
     """
     if is_external:
         return FileSystemLoader(searchpath="./")

@@ -18,8 +18,8 @@ class Session:
     @property
     def succeed(self):
         """
-        Property decorated method that returns if there were no
-        no errors or failures.
+        Property decorated method that returns if there were no no errors or
+        failures.
         """
         return self.errors == 0 and self.failures == 0
 

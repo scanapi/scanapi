@@ -58,8 +58,8 @@ def scan():
 
 
 def write_report(results):
-    """Constructs a Reporter object and calls the write method of Reporter to push
-    the results to a file.
+    """Constructs a Reporter object and calls the write method of Reporter to
+    push the results to a file.
     """
     reporter = Reporter(settings["output_path"], settings["template"])
     reporter.write(results)
