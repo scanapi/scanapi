@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 def scan():
-    """ Caller function that tries to scans the file and write the report. """
+    """Caller function that tries to scans the file and write the report."""
     spec_path = settings["spec_path"]
 
     try:

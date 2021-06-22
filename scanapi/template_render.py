@@ -3,7 +3,7 @@ from jinja2 import Environment, FileSystemLoader, PackageLoader
 
 
 def render(template_path, context, is_external=False):
-    """ Controller function that handles the Jinga2 rending of the template"""
+    """Controller function that handles the Jinja2 rending of the template."""
     loader = _loader(is_external)
     env = Environment(loader=loader, autoescape=True)
     env.filters["curlify"] = curlify2.to_curl
@@ -16,7 +16,10 @@ def render(template_path, context, is_external=False):
 
 
 def _loader(is_external):
-    """ Private function that either returns Jinga2 FileSystemLoader or the PackageLoader. """
+    """
+    Private function that either returns Jinja2 FileSystemLoader
+    or the PackageLoader.
+    """
     if is_external:
         return FileSystemLoader(searchpath="./")
 
@@ -24,7 +27,7 @@ def _loader(is_external):
 
 
 def render_body(request):
-    """ Render body according to its request content type """
+    """Render body according to its request content type."""
     content_type = request.headers.get("Content-Type")
     if content_type in ["application/json", "text/plain"]:
         return request.body.decode()
