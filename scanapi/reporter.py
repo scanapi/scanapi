@@ -19,11 +19,15 @@ class Reporter:
         self.template = template
 
     def write(self, results):
-        """Part of the Reporter instance that is responsible for writing scanapi-report.html.
+        """Part of the Reporter instance that is responsible for writing
+        scanapi-report.html.
+
         Args:
             results [generator]: generator of dicts resulting of Request run().
+
         Returns:
             None
+
         """
         logger.info("Writing documentation")
 
@@ -42,10 +46,13 @@ class Reporter:
     @staticmethod
     def _build_context(results):
         """Build context dict of values required to render template.
+
         Args:
             results [generator]: generator of dicts resulting of Request run().
+
         Returns:
             [dict]: values required to render template.
+
         """
         return {
             "now": datetime.datetime.now().replace(microsecond=0),

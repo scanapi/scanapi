@@ -7,8 +7,8 @@ from scanapi.tree.tree_keys import MAX_RETRIES_KEY
 
 
 def join_urls(first_url, second_url):
-    """Function that returns one url if two aren't given else joins the two urls and
-    returns them.
+    """Function that returns one url if two aren't given else joins the two
+    urls and returns them.
     """
     if not first_url:
         return second_url
@@ -43,8 +43,8 @@ def _validate_required_keys(keys, required_keys, scope):
 
 
 def session_with_retry(retry_configuration):
-    """Instantiate a requests session with the retry configuration if provided by
-    instantiating an HTTPAdapter mounting it into the mounting it into the
+    """Instantiate a requests session with the retry configuration if provided
+    by instantiating an HTTPAdapter mounting it into the mounting it into the
     `requests.Session`.
     """
     session = requests.Session()
