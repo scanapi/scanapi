@@ -12,10 +12,13 @@ LOCAL_CONFIG_PATH = "./scanapi.conf"
 
 
 class Settings(dict):
-    """ Class for generating Settings dictionary. """
+    """Class for generating Settings dictionary."""
 
     def __init__(self):
-        """ Constructs a Settings object with dictionary keys spec_path, output_path and template. """
+        """
+        Constructs a Settings object with dictionary keys spec_path,
+        output_path and template.
+        """
         self["spec_path"] = "scanapi.yaml"
         self["output_path"] = None
         self["template"] = None
@@ -23,7 +26,7 @@ class Settings(dict):
         super(dict, self).__init__()
 
     def save_config_file_preferences(self, config_path=None):
-        """ Saves the Settings object config file preferences. """
+        """Saves the Settings object config file preferences."""
         if config_path:
             self["config_path"] = config_path
             self.update(**load_config_file(config_path))
@@ -35,14 +38,14 @@ class Settings(dict):
             self.update(**load_config_file(GLOBAL_CONFIG_PATH))
 
     def save_click_preferences(self, **preferences):
-        """ Saves all preference items to the Settings object. """
+        """Saves all preference items to the Settings object."""
         cleaned_preferences = {
             k: v for k, v in preferences.items() if v is not None
         }
         self.update(**cleaned_preferences)
 
     def save_preferences(self, **click_preferences):
-        """ Caller function that begins the saving of Setting preferences. """
+        """Caller function that begins the saving of Setting preferences."""
         config_path = (
             click_preferences["config_path"]
             if "config_path" in click_preferences
@@ -53,12 +56,12 @@ class Settings(dict):
 
     @property
     def has_global_config_file(self):
-        """ Checks if there is a global config file. """
+        """Checks if there is a global config file."""
         return os.path.isfile(GLOBAL_CONFIG_PATH)
 
     @property
     def has_local_config_file(self):
-        """ Checks if there is a local config file. """
+        """Checks if there is a local config file."""
         return os.path.isfile(LOCAL_CONFIG_PATH)
 
 

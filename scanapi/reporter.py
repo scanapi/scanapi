@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class Reporter:
     def __init__(self, output_path=None, template=None):
-        """ Creates a Reporter instance object. """
+        """Creates a Reporter instance object."""
         self.output_path = output_path or "scanapi-report.html"
         self.template = template
 

@@ -23,20 +23,20 @@ def join_urls(first_url, second_url):
 
 
 def validate_keys(keys, available_keys, required_keys, scope):
-    """ Caller function that validates keys. """
+    """Caller function that validates keys."""
     _validate_allowed_keys(keys, available_keys, scope)
     _validate_required_keys(keys, required_keys, scope)
 
 
 def _validate_allowed_keys(keys, available_keys, scope):
-    """ Private function that checks validation of allowed keys. """
+    """Private function that checks validation of allowed keys."""
     for key in keys:
         if key not in available_keys:
             raise InvalidKeyError(key, scope, available_keys)
 
 
 def _validate_required_keys(keys, required_keys, scope):
-    """ Private function that checks validation of required keys. """
+    """Private function that checks validation of required keys."""
     if not set(required_keys) <= set(keys):
         missing_keys = set(required_keys) - set(keys)
         raise MissingMandatoryKeyError(missing_keys, scope)
