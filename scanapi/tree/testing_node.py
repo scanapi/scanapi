@@ -57,7 +57,14 @@ class TestingNode:
             "error": error,
         }
 
-    def _process_result(self, status):
+    @staticmethod
+    def _process_result(status):
+        """Increment the number of session errors/failures/successes
+        depending on the test status.
+
+        Args:
+            status [string]: the status of the test: passed, failed or error.
+        """
         if status == TestStatus.ERROR:
             session.increment_errors()
             return
