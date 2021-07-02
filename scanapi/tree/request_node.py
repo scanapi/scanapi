@@ -129,7 +129,9 @@ class RequestNode:
         logger.info("Making request %s %s", method, url)
 
         self.endpoint.vars.update(
-            self.spec.get(VARS_KEY, {}), preevaluate=False,
+            self.spec.get(VARS_KEY, {}),
+            extras=dict(self.endpoint.vars),
+            filter_responses=True,
         )
 
         session = session_with_retry(self.retry)
@@ -142,31 +144,44 @@ class RequestNode:
             allow_redirects=False,
         )
 
+        extras = dict(self.endpoint.vars)
+        extras["response"] = response
+
         self.endpoint.vars.update(
-            self.spec.get(VARS_KEY, {}),
-            extras={"response": response},
-            preevaluate=True,
+            self.spec.get(VARS_KEY, {}), extras=extras,
         )
 
         tests_results = self._run_tests()
         hide_sensitive_info(response)
 
+        del self.endpoint.vars["response"]
+
         return {
             "response": response,
             "tests_results": tests_results,
             "no_failure": all(
-                [
-                    test_result["status"] == TestStatus.PASSED
-                    for test_result in tests_results
-                ]
+                test_result["status"] == TestStatus.PASSED
+                for test_result in tests_results
             ),
             "request_node_name": self.name,
         }
 
     def _run_tests(self):
+        """Run all tests cases of request node.
+
+        Returns:
+            [dict]: Return a dict with test result.
+
+        """
         return [test.run() for test in self.tests]
 
     def _validate(self):
+        """Validate spec keys.
+
+        Returns:
+            None
+
+        """
         validate_keys(
             self.spec.keys(), self.ALLOWED_KEYS, self.REQUIRED_KEYS, self.SCOPE
         )

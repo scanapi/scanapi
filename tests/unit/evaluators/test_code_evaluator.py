@@ -60,22 +60,24 @@ class TestEvaluate:
             == expected
         )
 
+    test_data = [
+        ("${{1/0}}", {}, True),
+        ("${{response.url == 'abc'}}", {}, True),
+        ("${{foo = 'abc'}}", {}, True),
+    ]
+
     @mark.context("when sequence matches the pattern")
     @mark.context("when it is a test case")
     @mark.context("when code breaks")
     @mark.it("should raises invalid python code error")
-    def test_should_raises_invalid_python_code_error(self):
+    @mark.parametrize("sequence, vars_, is_a_test_case", test_data)
+    def test_should_raises_invalid_python_code_error(
+        self, sequence, vars_, is_a_test_case
+    ):
         with raises(InvalidPythonCodeError) as excinfo:
-            CodeEvaluator.evaluate(
-                "${{response.url == 'abc'}}", {}, is_a_test_case=True,
-            )
+            CodeEvaluator.evaluate(sequence, vars_, is_a_test_case)
 
-        assert (
-            str(excinfo.value)
-            == "Invalid Python code defined in the API spec. "
-            "Exception: 'NoneType' object has no attribute 'url'. "
-            "Code: response.url == 'abc'."
-        )
+        assert isinstance(excinfo.value, InvalidPythonCodeError)
 
     test_data = [("${{1 + 1}}", "2"), ("${{'hi'*4}}", "hihihihi")]
 
@@ -103,18 +105,4 @@ class TestEvaluate:
     def test_should_return_evaluated_code_2(self, sequence, expected, response):
         assert (
             CodeEvaluator.evaluate(sequence, {"response": response}) == expected
-        )
-
-    @mark.context("when sequence matches the pattern")
-    @mark.context("when it is not a test case")
-    @mark.context("when code breaks")
-    @mark.it("should raises invalid python code error")
-    def test_should_raises_invalid_python_code_error_2(self):
-        with raises(InvalidPythonCodeError) as excinfo:
-            CodeEvaluator.evaluate("${{1/0}}", {})
-
-        assert (
-            str(excinfo.value)
-            == "Invalid Python code defined in the API spec. "
-            "Exception: division by zero. Code: 1/0."
         )

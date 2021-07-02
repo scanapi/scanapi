@@ -31,6 +31,7 @@ class EndpointNode:
         PATH_KEY,
         REQUESTS_KEY,
         DELAY_KEY,
+        VARS_KEY,
     )
     REQUIRED_KEYS = (NAME_KEY,)
     ROOT_REQUIRED_KEYS = ()
