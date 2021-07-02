@@ -46,6 +46,12 @@ class Reporter:
     def write_without_generating_report(self, results):
         """Part of the Reporter instance that is responsible for writing the
         results without generating the scanapi-report.html.
+
+        Args:
+            results [generator]: generator of dicts resulting of Request run().
+
+        Returns:
+            None
         """
         logger.info("Writing results without generating report")
         for r in results:
