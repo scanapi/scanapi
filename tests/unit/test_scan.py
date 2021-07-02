@@ -43,7 +43,8 @@ class TestScan:
     @mark.it("should log an error")
     def test_should_log_error(self, mocker, caplog):
         mocker.patch(
-            "scanapi.scan.settings", {"spec_path": "invalid_path/scanapi.yaml"},
+            "scanapi.scan.settings",
+            {"spec_path": "invalid_path/scanapi.yaml", "no_report": False},
         )
         mocker.patch(
             "scanapi.scan.load_config_file", side_effect=file_not_found
@@ -149,6 +150,7 @@ class TestWriteReport:
             "scanapi.scan.settings",
             {
                 "output_path": "out/my-report.md",
+                "no_report": False,
                 "reporter": "markdown",
                 "template": "my-template.jinja",
             },

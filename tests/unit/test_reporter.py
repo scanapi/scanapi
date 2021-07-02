@@ -58,6 +58,10 @@ class TestWrite:
         return mocker.patch("scanapi.reporter.session")
 
     @fixture
+    def mocked__logger(self, mocker):
+        return mocker.patch("scanapi.reporter.logger")
+
+    @fixture
     def mock_get_distribution(self, mocker):
         class MockDistro:
             @property
@@ -144,3 +148,14 @@ class TestWrite:
             "scanapi-report.html", "w", newline="\n"
         )
         mocked__open().write.assert_called_once_with("ScanAPI Report")
+
+    @mark.it("should write without generating report")
+    def test_should_write_without_generating_report(
+        self, mocker, mocked__render, mocked__open, mocked__logger,
+    ):
+        reporter = Reporter()
+        reporter.write_without_generating_report(fake_results)
+
+        mocked__render.assert_not_called()
+        mocked__open.assert_not_called()
+        mocked__logger.info.assert_called_once()
