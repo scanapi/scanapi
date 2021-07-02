@@ -49,9 +49,7 @@ class Reporter:
         """
         logger.info("Writing results without generating report")
         for r in results:
-            if logger.root.level == logging.DEBUG:
-                continue
-            else:
+            if logger.root.level != logging.DEBUG:
                 for test in r["tests_results"]:
                     logger.info(f" [{test['status'].upper()}] {test['name']}")
                     if test["status"] == "failed":
