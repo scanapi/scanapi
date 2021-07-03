@@ -32,7 +32,7 @@ def main():
     help="Report output path.",
 )
 @click.option(
-    "-n",
+    "-nr",
     "--no-report",
     "no_report",
     is_flag=True,
