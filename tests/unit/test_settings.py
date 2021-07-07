@@ -151,6 +151,7 @@ class TestSaveClickPreferences:
             "spec_path": "path/spec-path",
             "output_path": "path/output-path",
             "template": None,
+            "no_report": False,
             "config_path": "path/config-path",
         }
 

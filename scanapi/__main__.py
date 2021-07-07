@@ -2,7 +2,6 @@ import logging
 
 import click
 import yaml
-
 from pkg_resources import get_distribution
 
 from scanapi.exit_code import ExitCode
@@ -33,6 +32,13 @@ def main():
     help="Report output path.",
 )
 @click.option(
+    "-nr",
+    "--no-report",
+    "no_report",
+    is_flag=True,
+    help="Run ScanAPI without generating report.",
+)
+@click.option(
     "-c",
     "--config-path",
     "config_path",
@@ -54,7 +60,7 @@ def main():
     default="INFO",
     help="Set the debug logging level for the program.",
 )
-def run(spec_path, output_path, config_path, template, log_level):
+def run(spec_path, output_path, no_report, config_path, template, log_level):
     """
     Automated Testing and Documentation for your REST API.
     SPEC_PATH argument is the API specification file path.
@@ -65,6 +71,7 @@ def run(spec_path, output_path, config_path, template, log_level):
     click_preferences = {
         "spec_path": spec_path,
         "output_path": output_path,
+        "no_report": no_report,
         "config_path": config_path,
         "template": template,
     }
