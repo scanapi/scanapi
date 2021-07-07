@@ -8,6 +8,7 @@ from pkg_resources import get_distribution
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.template_render import render
+from scanapi.test_status import TestStatus
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +44,8 @@ class Reporter:
         logger.info("\nThe documentation was generated successfully.")
         logger.info(f"It is available at {abspath(self.output_path)}")
 
-    def write_without_generating_report(self, results):
+    @staticmethod
+    def write_without_generating_report(results):
         """Part of the Reporter instance that is responsible for writing the
         results without generating the scanapi-report.html.
 
@@ -58,7 +60,7 @@ class Reporter:
             if logger.root.level != logging.DEBUG:
                 for test in r["tests_results"]:
                     logger.info(f" [{test['status'].upper()}] {test['name']}")
-                    if test["status"] == "failed":
+                    if test["status"] == TestStatus.FAILED:
                         logger.info(f"\t {test['failure']} is false")
 
     @staticmethod
