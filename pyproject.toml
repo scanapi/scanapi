@@ -16,7 +16,7 @@ scanapi = "scanapi:main"
 [tool.poetry.dependencies]
 python = ">=3.6.2,<4.0.0"
 click = "7.1.2"
-jinja2 = "2.11.2"
+jinja2 = "2.11.3"
 pyyaml = "5.3.1"
 requests = "2.26.0"
 appdirs = "^1.4.4"
