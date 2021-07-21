@@ -1,7 +1,7 @@
 ![](https://github.com/scanapi/design/raw/main/images/github-hero-dark.png)
 
 <p align="center">
-  <a href="https://app.circleci.com/pipelines/github/scanapi/scanapi?branch=master">
+  <a href="https://app.circleci.com/pipelines/github/scanapi/scanapi?branch=main">
     <img alt="CircleCI" src="https://img.shields.io/circleci/build/github/scanapi/scanapi">
   </a>
   <a href="https://codecov.io/gh/scanapi/scanapi">
