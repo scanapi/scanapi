@@ -29,14 +29,30 @@ def validate_keys(keys, available_keys, required_keys, scope):
 
 
 def _validate_allowed_keys(keys, available_keys, scope):
-    """Private function that checks validation of allowed keys."""
+    """Private function that checks if the spec keys are allowed.
+
+    Args:
+        keys [list of strings]: the specification keys
+        available_keys [tuple of string]: the available keys for that scope
+        scope [string]: the scope of the current node: 'root', 'endpoint',
+        'request' or 'test'
+
+    """
     for key in keys:
         if key not in available_keys:
             raise InvalidKeyError(key, scope, available_keys)
 
 
 def _validate_required_keys(keys, required_keys, scope):
-    """Private function that checks validation of required keys."""
+    """Private function that checks if there is any required key missing.
+
+    Args:
+        keys [list of strings]: the specification keys
+        required_keys [tuple of string]: the required keys for that scope
+        scope [string]: the scope of the current node: 'root', 'endpoint',
+        'request' or 'test'
+
+    """
     if not set(required_keys) <= set(keys):
         missing_keys = set(required_keys) - set(keys)
         raise MissingMandatoryKeyError(missing_keys, scope)
