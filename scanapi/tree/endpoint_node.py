@@ -98,17 +98,15 @@ class EndpointNode:
                 continue
 
     def _validate(self):
-        if self.is_root:
-            return validate_keys(
-                self.spec.keys(),
-                self.ALLOWED_KEYS,
-                self.ROOT_REQUIRED_KEYS,
-                ROOT_SCOPE,
-            )
-
-        validate_keys(
-            self.spec.keys(), self.ALLOWED_KEYS, self.REQUIRED_KEYS, self.SCOPE
+        """Private method that checks if the specification has any invalid key
+        or if there is any required key missing.
+        """
+        required_keys = (
+            self.ROOT_REQUIRED_KEYS if self.is_root else self.REQUIRED_KEYS
         )
+        scope = ROOT_SCOPE if self.is_root else self.SCOPE
+
+        validate_keys(self.spec.keys(), self.ALLOWED_KEYS, required_keys, scope)
 
     def _get_specs(self, field_name):
         values = self.spec.get(field_name, {})
