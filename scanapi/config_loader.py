@@ -1,6 +1,4 @@
-"""
-Code based on solution https://gist.github.com/joshbode/569627ced3076931b02f
-"""
+"""Code Reference https://gist.github.com/joshbode/569627ced3076931b02f"""
 
 import logging
 import os

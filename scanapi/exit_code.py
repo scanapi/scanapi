@@ -7,9 +7,7 @@ import enum
 
 
 class ExitCode(enum.IntEnum):
-    """
-    Encodes the valid exit codes by ScanAPI.
-    """
+    """Encodes the valid exit codes by ScanAPI."""
 
     #: tests passed
     OK = 0
