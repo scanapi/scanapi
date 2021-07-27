@@ -33,7 +33,7 @@ class Reporter:
         logger.info("Writing documentation")
 
         template_path = self.template if self.template else "report.html"
-        has_external_template = True if self.template else False
+        has_external_template = bool(self.template)
         context = self._build_context(results)
 
         content = render(template_path, context, has_external_template)
