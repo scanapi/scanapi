@@ -21,6 +21,7 @@ class Reporter:
         template[str, optional]: Custom report template path
 
     """
+
     def __init__(self, output_path=None, template=None):
         """Creates a Reporter instance object."""
         self.output_path = output_path or "scanapi-report.html"
