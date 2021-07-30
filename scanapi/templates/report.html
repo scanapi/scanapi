@@ -159,6 +159,10 @@
             margin: auto;
         }
 
+        .wordbreak {
+            word-break: break-all;
+        }
+
         @media only screen and (max-width: 767px) {
             .wrapper {
                 width: auto;
@@ -462,7 +466,7 @@
                                 <td>
                                     {{ key }}
                                 </td>
-                                <td>
+                                <td class="wordbreak">
                                     {{value}}
                                 </td>
                             </tr>
@@ -494,7 +498,7 @@
                                 <td>
                                     status code
                                 </td>
-                                <td>
+                                <td class="wordbreak">
                                     {{ response.status_code }}
                                 </td>
                             </tr>
@@ -502,7 +506,7 @@
                                 <td>
                                     response time
                                 </td>
-                                <td>
+                                <td class="wordbreak">
                                     {{ response.elapsed.total_seconds() }} s
                                 </td>
                             </tr>
@@ -510,7 +514,7 @@
                                 <td>
                                     redirect
                                 </td>
-                                <td>
+                                <td class="wordbreak">
                                     {{ response.is_redirect }}
                                 </td>
                             </tr>
@@ -537,7 +541,7 @@
                                     <td>
                                         {{ key }}
                                     </td>
-                                    <td>
+                                    <td class="wordbreak">
                                         {{value}}
                                     </td>
                                 </tr>
