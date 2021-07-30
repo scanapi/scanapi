@@ -56,10 +56,10 @@ For example:
 ```yaml
 endpoints:
   - name: scanapi-demo # The API's name of your API
-    path: http://demo.scanapi.dev/api/ # The API's base url
+    path: http://demo.scanapi.dev/api/v1 # The API's base url
     requests:
-      - name: list_all_devs # The name of the first request
-        path: devs/ # The path of the first request
+      - name: list_all_users # The name of the first request
+        path: users/ # The path of the first request
         method: get # The HTTP method of the first request
         tests:
           - name: status_code_is_200 # The name of the first test for this request
@@ -76,17 +76,17 @@ Then, the lib will hit the specified endpoints and generate a `scanapi-report.ht
 
 <p align="center">
   <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/master/images/report-print-closed.png"
+    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-closed.png"
     width="700",
     alt="An overview screenshot of the report."
   >
   <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/master/images/report-print-request.png"
+    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-request.png"
     width="700"
     alt="A screenshot of the report showing the request details."
   >
   <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/master/images/report-print-response.png"
+    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-response.png"
     width="700",
     alt="A screenshot of the report showing the response and test details"
   >
@@ -102,13 +102,13 @@ You can find complete examples at [scanapi/examples][scanapi-examples]!
 
 This tutorial helps you to create integration tests for your REST API using ScanAPI
 
-[![Watch the video](https://raw.githubusercontent.com/scanapi/scanapi/master/images/youtube-scanapi-tutorial.png)](https://www.youtube.com/watch?v=JIo4sA8LHco&t=2s)
+[![Watch the video](https://raw.githubusercontent.com/scanapi/scanapi/main/images/youtube-scanapi-tutorial.png)](https://www.youtube.com/watch?v=JIo4sA8LHco&t=2s)
 
 ## Contributing
 
 Collaboration is super welcome! We prepared the [Newcomers Guide][newcomers-guide] to help you in the first steps. Every little bit of help counts! Feel free to create new [GitHub issues][github-issues] and interact here.
 
-Let's build it together 🚀
+Let's build it together 🚀🚀
 
 [github-issues]: https://github.com/scanapi/scanapi/issues
 [newcomers-guide]: https://github.com/scanapi/scanapi/wiki/Newcomers
