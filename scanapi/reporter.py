@@ -14,6 +14,14 @@ logger = logging.getLogger(__name__)
 
 
 class Reporter:
+    """Class that writes the scan report
+
+    Attributes:
+        output_path[str, optional]: Report output path
+        template[str, optional]: Custom report template path
+
+    """
+
     def __init__(self, output_path=None, template=None):
         """Creates a Reporter instance object."""
         self.output_path = output_path or "scanapi-report.html"
@@ -33,7 +41,7 @@ class Reporter:
         logger.info("Writing documentation")
 
         template_path = self.template if self.template else "report.html"
-        has_external_template = True if self.template else False
+        has_external_template = bool(self.template)
         context = self._build_context(results)
 
         content = render(template_path, context, has_external_template)
