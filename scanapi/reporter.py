@@ -15,10 +15,10 @@ logger = logging.getLogger(__name__)
 
 class Reporter:
     """Class that writes the scan report
-    
+
     Attributes:
         output_path[str, optional]: Report output path
-        template[str, optional]: Custom report template path 
+        template[str, optional]: Custom report template path
 
     """
     def __init__(self, output_path=None, template=None):
