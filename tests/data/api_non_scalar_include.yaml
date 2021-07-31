@@ -1,0 +1,4 @@
+endpoints:
+  - name: scanapi-demo
+    path: ${BASE_URL}
+    requests: !include {a: "b"}
