@@ -40,7 +40,8 @@ class InvalidPythonCodeError(MalformedSpecError):
 
 
 class BadConfigurationError(Exception):
-    """Raised when an environment variable was not set or was badly configured"""
+    """Raised when an environment variable was not set 
+    or was badly configured"""
 
     def __init__(self, env_var, *args):
         super(BadConfigurationError, self).__init__(
