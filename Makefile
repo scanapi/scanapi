@@ -1,4 +1,4 @@
-timestamp = `date -u --rfc-3339=seconds | tr -d : | tr " -" .. | cut -f1 -d+`
+timestamp = `date -u +'%Y.%m.%d.%H%M%S'`
 
 test:
 	@pytest --cov=./scanapi --cov-report=xml
@@ -12,7 +12,7 @@ flake8:
 check: black flake8
 
 change-version:
-	@poetry version `poetry version -s | sed -re 's/\.dev.+//'`.dev$(timestamp)
+	@poetry version `poetry version -s | cut -f-3 -d.`.dev$(timestamp)
 
 format:
 	@black -l 80 . --exclude=.venv
