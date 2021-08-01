@@ -22,15 +22,18 @@ class CodeEvaluator:
         """Evaluate a sequence of python code and return a evaluation indicator.
 
         Args:
-            sequence [string]: string representing python statements to be evaluted
+            sequence [string]: string representing python statements to be
+            evaluted
             spec_vars [dict]: dictionary containing response for an API request
-            is_a_test_case[bool]: indicator for checking if the given evalution is a test case
+            is_a_test_case[bool]: indicator for checking if the given evalution
+            is a test case
 
         Returns:
             (boolean, string): (True, None) for successful evalution
 
         Raises:
-            InvalidPythonCodeError: If receives invalid python statements (eg. 1/0)
+            InvalidPythonCodeError: If receives invalid python statements
+            (eg. 1/0)
 
         """
         match = cls.python_code_pattern.search(str(sequence))
