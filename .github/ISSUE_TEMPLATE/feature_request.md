@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: 🌟 Submit a feature request.
-labels: enhancement, needs triage
+labels: Enhancement, Needs Triage
 assignees: 
 
 ---

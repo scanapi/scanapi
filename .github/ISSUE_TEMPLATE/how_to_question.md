@@ -1,7 +1,7 @@
 ---
 name: Question
 about: ❓ How to questions with scanapi
-labels: question, support
+labels: Question, Support
 assignees: 
 
 ---
