@@ -1,4 +1,4 @@
-timestamp = `date -u +'%Y.%m.%d.%H%M%S'`
+timestamp = `date -u +'%Y%m%d%H%M%S'`
 
 test:
 	@pytest --cov=./scanapi --cov-report=xml

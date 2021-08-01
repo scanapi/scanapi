@@ -18,12 +18,12 @@ class CodeEvaluator:
     )  # ${{<python_code>}}
 
     @classmethod
-    def evaluate(cls, sequence, vars, is_a_test_case=False):
+    def evaluate(cls, sequence, spec_vars, is_a_test_case=False):
         """Evaluate a sequence of python code and return a evaluation indicator.
 
         Args:
             sequence [string]: string representing python statements to be evaluted
-            vars [dict]: dictionary containing response for an API request
+            spec_vars [dict]: dictionary containing response for an API request
             is_a_test_case[bool]: indicator for checking if the given evalution is a test case
 
         Returns:
@@ -39,7 +39,7 @@ class CodeEvaluator:
             return sequence
 
         code = match.group("python_code")
-        response = vars.get("response")
+        response = spec_vars.get("response")
 
         try:
             if is_a_test_case:
