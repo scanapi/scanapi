@@ -1,7 +1,9 @@
 class MalformedSpecError(Exception):
+
     """Raised when API spec is invalid;
 
     base class for other exceptions
+    
     """
     pass
 
