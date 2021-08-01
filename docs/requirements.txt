@@ -1,0 +1,7 @@
+#
+# "Read The Docs" requirements
+#
+
+
+sphinx-click
+-r ../requirements.txt

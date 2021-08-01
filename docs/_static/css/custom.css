@@ -1,0 +1,27 @@
+/* Custom styles */
+
+body {
+    color: #000;
+}
+
+.wy-side-nav-search > div.version {
+    color: #026;
+}
+
+.wy-menu-vertical header, .wy-menu-vertical p.caption {
+	color: #777;
+}
+
+.rst-content blockquote {
+    border-left: 2px solid #ddd;
+}
+
+code, .rst-content tt, .rst-content code {
+    font-size: 95%;
+}
+.note p code, .note div div pre {
+    background-color: #E7F2FC;
+}
+.warning p code, .warning div div pre {
+    background-color: #FFF8DD;
+}

@@ -37,6 +37,10 @@ isort = "^5.5.3"
 bandit = "^1.6.2"
 pytest-it = "^0.1.4"
 flake8 = "3.8.4"
+invoke = "^1.6"
+rituals = "^0.4.1"
+sphinx-click = "^3.0.1"
+recommonmark = "^0.7.1"
 
 [tool.isort]
 multi_line_output = 3
