@@ -62,8 +62,8 @@ class CodeEvaluator:
             that is being tested
 
         Returns:
-            Tuple(Boolean, string): a boolean that indicates if assert is True/False
-            and, if False, the code tested.
+            Tuple(Boolean, string): a boolean that indicates if assert
+            is True/False and, if False, the code tested.
 
         Raises:
             AssertionError: If python statements evalute to false
