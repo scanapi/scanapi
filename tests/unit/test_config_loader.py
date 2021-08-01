@@ -1,7 +1,7 @@
 from pytest import mark, raises
 
 from scanapi.config_loader import load_config_file
-from scanapi.errors import EmptyConfigFileError
+from scanapi.errors import BadConfigIncludeError, EmptyConfigFileError
 
 
 @mark.describe("config loader")
@@ -64,3 +64,11 @@ class TestLoadConfigFile:
 
         assert "[Errno 2] No such file or directory: " in str(excinfo.value)
         assert "tests/data/invalid_path/include.yaml'" in str(excinfo.value)
+
+    @mark.context("include value is not a scalar")
+    @mark.it("should raise an exception")
+    def test_should_raise_exception_4(self):
+        with raises(BadConfigIncludeError) as excinfo:
+            load_config_file("tests/data/api_non_scalar_include.yaml")
+
+        assert "Include tag value is not a scalar" in str(excinfo.value)
