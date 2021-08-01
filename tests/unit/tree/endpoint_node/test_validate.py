@@ -1,6 +1,6 @@
 from pytest import fixture, mark
 
-from scanapi.tree import EndpointNode
+from scanapi.tree import EndpointNode, tree_keys
 
 
 @mark.describe("endpoint node")
@@ -32,7 +32,7 @@ class TestValidate:
                 "path",
                 "requests",
                 "delay",
-                "vars",
+                tree_keys.VARS_KEY,
             ),
             ("name",),
             "endpoint",

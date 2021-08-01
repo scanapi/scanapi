@@ -41,7 +41,7 @@ class EndpointNode:
         self.parent = parent
         self.child_nodes = []
         self.__build()
-        self.vars = SpecEvaluator(self, spec.get(VARS_KEY, {}))
+        self.spec_vars = SpecEvaluator(self, spec.get(VARS_KEY, {}))
 
     def __build(self):
         self._validate()
@@ -68,7 +68,7 @@ class EndpointNode:
         path = str(self.spec.get(PATH_KEY, "")).strip()
         url = join_urls(self.parent.path, path) if self.parent else path
 
-        return self.vars.evaluate(url)
+        return self.spec_vars.evaluate(url)
 
     @property
     def headers(self):

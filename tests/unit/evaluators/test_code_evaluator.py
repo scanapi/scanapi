@@ -70,12 +70,12 @@ class TestEvaluate:
     @mark.context("when it is a test case")
     @mark.context("when code breaks")
     @mark.it("should raises invalid python code error")
-    @mark.parametrize("sequence, vars_, is_a_test_case", test_data)
+    @mark.parametrize("sequence, spec_vars, is_a_test_case", test_data)
     def test_should_raises_invalid_python_code_error(
-        self, sequence, vars_, is_a_test_case
+        self, sequence, spec_vars, is_a_test_case
     ):
         with raises(InvalidPythonCodeError) as excinfo:
-            CodeEvaluator.evaluate(sequence, vars_, is_a_test_case)
+            CodeEvaluator.evaluate(sequence, spec_vars, is_a_test_case)
 
         assert isinstance(excinfo.value, InvalidPythonCodeError)
 

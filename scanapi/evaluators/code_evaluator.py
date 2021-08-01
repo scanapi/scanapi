@@ -18,14 +18,14 @@ class CodeEvaluator:
     )  # ${{<python_code>}}
 
     @classmethod
-    def evaluate(cls, sequence, vars, is_a_test_case=False):
+    def evaluate(cls, sequence, spec_vars, is_a_test_case=False):
         match = cls.python_code_pattern.search(str(sequence))
 
         if not match:
             return sequence
 
         code = match.group("python_code")
-        response = vars.get("response")
+        response = spec_vars.get("response")
 
         try:
             if is_a_test_case:

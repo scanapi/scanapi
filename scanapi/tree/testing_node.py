@@ -36,7 +36,10 @@ class TestingNode:
 
     def run(self):
         try:
-            passed, failure = self.request.endpoint.vars.evaluate_assertion(
+            (
+                passed,
+                failure,
+            ) = self.request.endpoint.spec_vars.evaluate_assertion(
                 self.assertion
             )
 
