@@ -14,11 +14,11 @@ class StringEvaluator:
     )  # ${<variable>}
 
     @classmethod
-    def evaluate(cls, sequence, vars, is_a_test_case=False):
+    def evaluate(cls, sequence, spec_vars, is_a_test_case=False):
         sequence = cls._evaluate_env_var(sequence)
-        sequence = cls._evaluate_custom_var(sequence, vars)
+        sequence = cls._evaluate_custom_var(sequence, spec_vars)
 
-        return CodeEvaluator.evaluate(sequence, vars, is_a_test_case)
+        return CodeEvaluator.evaluate(sequence, spec_vars, is_a_test_case)
 
     @classmethod
     def _evaluate_env_var(cls, sequence):
@@ -45,7 +45,7 @@ class StringEvaluator:
         return sequence
 
     @classmethod
-    def _evaluate_custom_var(cls, sequence, vars):
+    def _evaluate_custom_var(cls, sequence, spec_vars):
         matches = cls.variable_pattern.finditer(sequence)
 
         if not matches:
@@ -57,10 +57,10 @@ class StringEvaluator:
             if variable_name.isupper():
                 continue
 
-            if not vars.get(variable_name):
+            if not spec_vars.get(variable_name):
                 continue
 
-            variable_value = vars.get(variable_name)
+            variable_value = spec_vars.get(variable_name)
 
             sequence = cls.replace_var_with_value(
                 sequence, match.group(), variable_value

@@ -8,10 +8,10 @@ logger = logging.getLogger(__name__)
 
 
 class SpecEvaluator:
-    def __init__(self, endpoint, vars_, extras=None, filter_responses=True):
+    def __init__(self, endpoint, spec_vars, extras=None, filter_responses=True):
         self.endpoint = endpoint
         self.registry = {}
-        self.update(vars_, extras=extras, filter_responses=filter_responses)
+        self.update(spec_vars, extras=extras, filter_responses=filter_responses)
 
     def evaluate(self, element):
         return evaluate(element, self)
@@ -19,14 +19,16 @@ class SpecEvaluator:
     def evaluate_assertion(self, element):
         return _evaluate_str(element, self, is_a_test_case=True)
 
-    def update(self, vars, extras=None, filter_responses=False):
+    def update(self, spec_vars, extras=None, filter_responses=False):
         if extras is None:
             extras = {}
 
         if filter_responses:
-            vars = self.filter_response_var(vars)
+            spec_vars = self.filter_response_var(spec_vars)
 
-        values = {key: evaluate(value, extras) for key, value in vars.items()}
+        values = {
+            key: evaluate(value, extras) for key, value in spec_vars.items()
+        }
         self.registry.update(extras)
         self.registry.update(values)
 
@@ -43,8 +45,8 @@ class SpecEvaluator:
         if key in self:
             return self.registry[key]
 
-        if key in self.endpoint.parent.vars:
-            return self.endpoint.parent.vars[key]
+        if key in self.endpoint.parent.spec_vars:
+            return self.endpoint.parent.spec_vars[key]
 
         raise KeyError(key)
 
@@ -66,32 +68,35 @@ class SpecEvaluator:
         return self.registry.keys()
 
     @classmethod
-    def filter_response_var(cls, vars_):
-        """Returns a dictionary without vars that evaluate response.
+    def filter_response_var(cls, spec_vars):
+        """Returns a copy pf ``spec_vars`` without 'response' references.
+
+        Any items with a ``response.*`` reference in their value are left out.
+
         Returns:
             [dict]: filtered dictionary.
 
         """
         pattern = re.compile(r"(?:(\s*response\.\w+))")
-        return {k: v for k, v in vars_.items() if not pattern.search(v)}
+        return {k: v for k, v in spec_vars.items() if not pattern.search(v)}
 
 
 @singledispatch
-def evaluate(expression, vars):
+def evaluate(expression, spec_vars):
     return expression
 
 
 @evaluate.register(str)
-def _evaluate_str(element, vars, is_a_test_case=False):
-    return StringEvaluator.evaluate(element, vars, is_a_test_case)
+def _evaluate_str(element, spec_vars, is_a_test_case=False):
+    return StringEvaluator.evaluate(element, spec_vars, is_a_test_case)
 
 
 @evaluate.register(dict)
-def _evaluate_dict(element, vars):
-    return {key: evaluate(value, vars) for key, value in element.items()}
+def _evaluate_dict(element, spec_vars):
+    return {key: evaluate(value, spec_vars) for key, value in element.items()}
 
 
 @evaluate.register(list)
 @evaluate.register(tuple)
-def _evaluate_collection(elements, vars):
-    return [evaluate(item, vars) for item in elements]
+def _evaluate_collection(elements, spec_vars):
+    return [evaluate(item, spec_vars) for item in elements]

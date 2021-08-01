@@ -135,12 +135,15 @@ class TestEvaluateCustomVar:
     @mark.it("should return sequence with evaluated custom var")
     @mark.parametrize("sequence, expected", test_data)
     def test_should_return_sequence_3(self, sequence, expected):
-        vars = {
+        spec_vars = {
             "user_id": "10",
             "apiKey": "abc123",
             "api-token": "xwo",
         }
-        assert StringEvaluator._evaluate_custom_var(sequence, vars) == expected
+        assert (
+            StringEvaluator._evaluate_custom_var(sequence, spec_vars)
+            == expected
+        )
 
 
 @mark.describe("string evaluator")

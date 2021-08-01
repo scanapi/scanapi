@@ -61,3 +61,7 @@ class EmptyConfigFileError(Exception):
     def __init__(self, file_path, *args):
         message = f"File '{file_path}' is empty."
         super(EmptyConfigFileError, self).__init__(message, *args)
+
+
+class BadConfigIncludeError(Exception):
+    """Raised when the value of the !include yaml tag is not a scalar."""

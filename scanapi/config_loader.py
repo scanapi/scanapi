@@ -6,7 +6,7 @@ from typing import IO, Any
 
 import yaml
 
-from scanapi.errors import EmptyConfigFileError
+from scanapi.errors import BadConfigIncludeError, EmptyConfigFileError
 
 logger = logging.getLogger(__name__)
 
@@ -26,10 +26,15 @@ class Loader(yaml.SafeLoader):
 
 def construct_include(loader: Loader, node: yaml.Node) -> Any:
     """Include file referenced at node."""
-    relative_path = os.path.join(loader.root, loader.construct_scalar(node))
+    if not isinstance(node, yaml.ScalarNode):
+        include_node_str = yaml.serialize(node).strip()
+        message = f"Include tag value is not a scalar: {include_node_str}"
+        raise BadConfigIncludeError(message)
+    include_file_path = str(loader.construct_scalar(node))
+    relative_path = os.path.join(loader.root, include_file_path)
     full_path = os.path.abspath(relative_path)
 
-    with open(full_path, "r") as f:
+    with open(full_path) as f:
         return yaml.load(f, Loader)
 
 
@@ -48,4 +53,7 @@ def load_config_file(file_path):
         return data
 
 
-yaml.add_constructor("!include", construct_include, Loader)
+# Ignore parameter types due to wrong annotations in `typeshed`. Fix submitted
+# in https://github.com/python/typeshed/pull/5828
+# Can remove "type: ignore" once `types-PyYAML` has been updated.
+yaml.add_constructor("!include", construct_include, Loader)  # type: ignore
