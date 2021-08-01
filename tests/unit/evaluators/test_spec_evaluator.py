@@ -77,8 +77,8 @@ class TestFilterResponseVar:
     def test_should_return_dictionary_without_response_var(
         self, spec_evaluator
     ):
-        vars_ = {"var_1": "${{response.json()['key']}}", "var_2": "foo"}
-        assert spec_evaluator.filter_response_var(vars_) == {"var_2": "foo"}
+        spec_vars = {"var_1": "${{response.json()['key']}}", "var_2": "foo"}
+        assert spec_evaluator.filter_response_var(spec_vars) == {"var_2": "foo"}
 
 
 @mark.describe("spec evaluator")

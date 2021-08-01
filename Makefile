@@ -1,5 +1,4 @@
-timestamp = `date +%s`
-
+timestamp = `date -u +'%Y%m%d%H%M%S'`
 
 test:
 	@pytest --cov=./scanapi --cov-report=xml
@@ -13,7 +12,7 @@ flake8:
 check: black flake8
 
 change-version:
-	@poetry version 2.1.0-$(timestamp)
+	@poetry version `poetry version -s | cut -f-3 -d.`.dev$(timestamp)
 
 format:
 	@black -l 80 . --exclude=.venv
@@ -31,4 +30,4 @@ run:
 bandit:
 	@bandit -r scanapi
 
-.PHONY: test format check install sh run
+.PHONY: test black flake8 check change-version format install sh run bandit

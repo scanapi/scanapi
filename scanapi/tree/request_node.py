@@ -77,21 +77,21 @@ class RequestNode:
         path = str(self.spec.get(PATH_KEY, ""))
         full_url = join_urls(base_path, path)
 
-        return self.endpoint.vars.evaluate(full_url)
+        return self.endpoint.spec_vars.evaluate(full_url)
 
     @property
     def headers(self):
         endpoint_headers = self.endpoint.headers
         headers = self.spec.get(HEADERS_KEY, {})
 
-        return self.endpoint.vars.evaluate({**endpoint_headers, **headers})
+        return self.endpoint.spec_vars.evaluate({**endpoint_headers, **headers})
 
     @property
     def params(self):
         endpoint_params = self.endpoint.params
         params = self.spec.get(PARAMS_KEY, {})
 
-        return self.endpoint.vars.evaluate({**endpoint_params, **params})
+        return self.endpoint.spec_vars.evaluate({**endpoint_params, **params})
 
     @property
     def delay(self):
@@ -102,7 +102,7 @@ class RequestNode:
     def body(self):
         body = self.spec.get(BODY_KEY)
 
-        return self.endpoint.vars.evaluate(body)
+        return self.endpoint.spec_vars.evaluate(body)
 
     @property
     def tests(self):
@@ -128,9 +128,9 @@ class RequestNode:
         url = self.full_url_path
         logger.info("Making request %s %s", method, url)
 
-        self.endpoint.vars.update(
+        self.endpoint.spec_vars.update(
             self.spec.get(VARS_KEY, {}),
-            extras=dict(self.endpoint.vars),
+            extras=dict(self.endpoint.spec_vars),
             filter_responses=True,
         )
 
@@ -144,17 +144,17 @@ class RequestNode:
             allow_redirects=False,
         )
 
-        extras = dict(self.endpoint.vars)
+        extras = dict(self.endpoint.spec_vars)
         extras["response"] = response
 
-        self.endpoint.vars.update(
+        self.endpoint.spec_vars.update(
             self.spec.get(VARS_KEY, {}), extras=extras,
         )
 
         tests_results = self._run_tests()
         hide_sensitive_info(response)
 
-        del self.endpoint.vars["response"]
+        del self.endpoint.spec_vars["response"]
 
         return {
             "response": response,
