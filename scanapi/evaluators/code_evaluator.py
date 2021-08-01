@@ -22,14 +22,14 @@ class CodeEvaluator:
         """Evaluate a sequence of python code and return a evaluation indicator.
 
         Args:
-            sequence [string]: string representing python statements to be
+            sequence[string]: string representing python statements to be
             evaluted
-            spec_vars [dict]: dictionary containing response for an API request
+            spec_vars[dict]: dictionary containing response for an API request
             is_a_test_case[bool]: indicator for checking if the given evalution
             is a test case
 
         Returns:
-            (boolean, string): (True, None) for successful evalution
+            Tuple[Boolean, string]: (True, None) for successful evalution
 
         Raises:
             InvalidPythonCodeError: If receives invalid python statements
@@ -57,12 +57,12 @@ class CodeEvaluator:
         """Assert a Python code statement
 
         Args:
-            code [string]: python code that ScanAPI needs to assert
-            response [requests.Response]: the response for the current request
+            code[string]: python code that ScanAPI needs to assert
+            response[requests.Response]: the response for the current request
             that is being tested
 
         Returns:
-            (boolean, string): a boolean that indicates if assert is True/False
+            Tuple(Boolean, string): a boolean that indicates if assert is True/False
             and, if False, the code tested.
 
         Raises:
