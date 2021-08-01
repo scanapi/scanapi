@@ -30,7 +30,7 @@ class CodeEvaluator:
             (boolean, string): (True, None) for successful evalution
 
         Raises:
-            InvalidPythonCodeError: If receives invalid python code
+            InvalidPythonCodeError: If receives invalid python statements (eg. 1/0)
 
         """
         match = cls.python_code_pattern.search(str(sequence))
@@ -61,6 +61,9 @@ class CodeEvaluator:
         Returns:
             (boolean, string): a boolean that indicates if assert is True/False
             and, if False, the code tested.
+
+        Raises:
+            AssertionError: If python statements evalute to false
 
         """
         try:
