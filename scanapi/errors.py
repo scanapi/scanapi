@@ -3,6 +3,7 @@ class MalformedSpecError(Exception):
 
     base class for other exceptions
     """
+   
     pass
 
 
