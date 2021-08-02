@@ -21,6 +21,3 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 from rituals.easy import *  # pylint: disable=redefined-builtin
-
-from rituals import config
-config.set_flat_layout()
