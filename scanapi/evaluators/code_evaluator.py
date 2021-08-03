@@ -19,6 +19,25 @@ class CodeEvaluator:
 
     @classmethod
     def evaluate(cls, sequence, spec_vars, is_a_test_case=False):
+        """Receives a sequence of characters and evaluates any python code
+        present on it
+
+        Args:
+            sequence[string]: sequence of characters to be evaluated
+            spec_vars[dict]: dictionary containing the SpecEvaluator variables
+            is_a_test_case[bool]: indicator for checking if the given evalution
+            is a test case
+
+        Returns:
+            tuple: a tuple containing:
+                -  [Boolean]: True if python statement is valid
+                -  [string]: None if valid evalution, tested code otherwise
+
+        Raises:
+            InvalidPythonCodeError: If receives invalid python statements
+            (eg. 1/0)
+
+        """
         match = cls.python_code_pattern.search(str(sequence))
 
         if not match:
@@ -40,13 +59,18 @@ class CodeEvaluator:
         """Assert a Python code statement.
 
         Args:
-            code [string]: python code that ScanAPI needs to assert
-            response [requests.Response]: the response for the current request
+            code[string]: python code that ScanAPI needs to assert
+            response[requests.Response]: the response for the current request
             that is being tested
 
         Returns:
-            (boolean, string): a tuple of the assertion result and either
-            ``None`` or the failing code snippet.
+            tuple: a tuple containing:
+                -  [Boolean]: a boolean that indicates if assert
+                is True/False
+                -  [string]: None if valid evalution, code tested otherwise
+
+        Raises:
+            AssertionError: If python statement evaluates False
 
         """
         ok = eval(code)  # noqa
