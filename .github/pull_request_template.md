@@ -20,4 +20,4 @@
 
 ## Issue
 <!--- All PRs must have a related issue. This way we can ensure that no one loses time working in something that does not needed to be done. -->
-Closes <issue_number>
+Closes #<issue_number>

@@ -56,7 +56,7 @@ class CodeEvaluator:
 
     @classmethod
     def _assert_code(cls, code, response):
-        """Assert a Python code statement
+        """Assert a Python code statement.
 
         Args:
             code[string]: python code that ScanAPI needs to assert
@@ -73,11 +73,8 @@ class CodeEvaluator:
             AssertionError: If python statement evaluates False
 
         """
-        try:
-            assert eval(code)
-            return (True, None)
-        except AssertionError:
-            return (False, code.strip())
+        ok = eval(code)  # noqa
+        return ok, None if ok else code.strip()
 
     @classmethod
     def _evaluate_sequence(cls, sequence, match, code, response):
