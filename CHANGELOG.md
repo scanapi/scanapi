@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Summary tests location to the top of the report [#479](https://github.com/scanapi/scanapi/pull/479)
+
 ### Fixed
 - Header table gets broken. [#432](https://github.com/scanapi/scanapi/pull/432)
 - Change summary tests location. [#479](https://github.com/scanapi/scanapi/pull/479)
