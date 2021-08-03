@@ -11,7 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Header table gets broken. [#432](https://github.com/scanapi/scanapi/pull/432)
-- Change summary tests location. [#479](https://github.com/scanapi/scanapi/pull/479)
 
 ## [2.5.0] - 2021-07-23
 ### Added
