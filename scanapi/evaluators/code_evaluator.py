@@ -19,17 +19,18 @@ class CodeEvaluator:
 
     @classmethod
     def evaluate(cls, sequence, spec_vars, is_a_test_case=False):
-        """Evaluate a sequence of python code and return a evaluation indicator.
+        """Receives a sequence of characters and evaluates any python code present on it
 
         Args:
-            sequence[string]: string representing python statements to be
-            evaluted
-            spec_vars[dict]: dictionary containing response for an API request
+            sequence[string]: sequence of characters to be evaluated
+            spec_vars[dict]: dictionary containing the SpecEvaluator variables
             is_a_test_case[bool]: indicator for checking if the given evalution
             is a test case
 
         Returns:
-            Tuple[Boolean, string]: (True, None) for successful evalution
+            tuple: a tuple containing:
+                -  [Boolean]: True if python statement is valid
+                -  [string]: None if valid evalution, tested code otherwise
 
         Raises:
             InvalidPythonCodeError: If receives invalid python statements
@@ -62,11 +63,13 @@ class CodeEvaluator:
             that is being tested
 
         Returns:
-            Tuple[Boolean, string]: a boolean that indicates if assert
-            is True/False and, if False, the code tested.
+            tuple: a tuple containing:
+                -  [Boolean]: a boolean that indicates if assert
+                is True/False
+                -  [string]: None if valid evalution, code tested otherwise
 
         Raises:
-            AssertionError: If python statements evalute to false
+            AssertionError: If python statement evaluates False
 
         """
         try:
