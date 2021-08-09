@@ -24,9 +24,6 @@ class StringEvaluator:
     def _evaluate_env_var(cls, sequence):
         matches = cls.variable_pattern.finditer(sequence)
 
-        if not matches:
-            return sequence
-
         for match in matches:
             variable_name = match.group("variable")
 
@@ -47,9 +44,6 @@ class StringEvaluator:
     @classmethod
     def _evaluate_custom_var(cls, sequence, spec_vars):
         matches = cls.variable_pattern.finditer(sequence)
-
-        if not matches:
-            return sequence
 
         for match in matches:
             variable_name = match.group("variable")
