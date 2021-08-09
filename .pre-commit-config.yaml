@@ -16,3 +16,8 @@ repos:
     hooks:
       - id: flake8
         args: ["--ignore=E501,W501,E231,W503"]
+  - repo: https://github.com/jorisroovers/gitlint
+    # It must match the gitlint's version that is inside pyproject.toml
+    rev: v0.15.1
+    hooks:
+      - id: gitlint

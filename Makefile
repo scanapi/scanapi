@@ -12,7 +12,7 @@ flake8:
 mypy:
 	@poetry run mypy scanapi
 
-check: black flake8 mypy
+check: black flake8 mypy gitlint
 
 change-version:
 	@poetry version `poetry version -s | cut -f-3 -d.`.dev$(timestamp)
@@ -22,7 +22,7 @@ format:
 
 install:
 	@poetry install
-	@pre-commit install
+	@pre-commit install -f -t pre-commit --hook-type commit-msg
 
 sh:
 	@poetry shell
@@ -33,4 +33,7 @@ run:
 bandit:
 	@bandit -r scanapi
 
-.PHONY: test black flake8 mypy check change-version format install sh run bandit
+gitlint:
+	@poetry run gitlint --ignore-stdin
+
+.PHONY: test black flake8 mypy check change-version format install sh run bandit gitlint
