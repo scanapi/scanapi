@@ -5,7 +5,7 @@ from scanapi.tree import EndpointNode
 
 @mark.describe("endpoint node")
 @mark.describe("__repr__")
-class TestName:
+class TestRepr:
     @mark.context("when parent spec has no name defined")
     @mark.it("should return <EndpointNode child-node>")
     def test_when_parent_has_no_name(self):
@@ -18,4 +18,3 @@ class TestName:
         parent = EndpointNode({"name": "root"})
         node = EndpointNode({"name": "child-node"}, parent=parent)
         assert repr(node) == "<EndpointNode root::child-node>"
-        
