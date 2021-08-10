@@ -18,10 +18,13 @@ import sys
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 docs_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, os.path.dirname(docs_dir))
-sys.path.insert(0, os.path.join(os.path.dirname(docs_dir), "src"))
+if os.path.exists(os.path.join(os.path.dirname(docs_dir), "src")):
+    sys.path.insert(0, os.path.join(os.path.dirname(docs_dir), "src"))
 
-from setup import project as meta
-from scanapi import __main__
+#from setup import project as meta
+from rituals.util import buildsys
+meta = buildsys.project_meta(os.path.dirname(docs_dir))
+from scanapi import __main__  # Perform click setup for 'sphinx_click.ext'
 
 def setup(app):
     """See https://docs.readthedocs.io/en/latest/guides/adding-custom-css.html"""
@@ -72,7 +75,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = meta["name"]
-copyright = ' '.join([i for i in meta["long_description"].splitlines() if "Copyright" in i][0].split()[2:])
+copyright = meta["copyright"]
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
