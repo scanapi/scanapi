@@ -12,7 +12,7 @@ class HTTPMethodNotAllowedError(MalformedSpecError):
 
     def __init__(self, method, allowed_methods, *args):
         message = f"HTTP method not supported: {method}. Supported methods: {allowed_methods}."
-        super(HTTPMethodNotAllowedError, self).__init__(message, *args)
+        super().__init__(message, *args)
 
 
 class InvalidKeyError(MalformedSpecError):
@@ -20,7 +20,7 @@ class InvalidKeyError(MalformedSpecError):
 
     def __init__(self, key, scope, available_keys, *args):
         message = f"Invalid key '{key}' at '{scope}' scope. Available keys are: {available_keys}"
-        super(InvalidKeyError, self).__init__(message, *args)
+        super().__init__(message, *args)
 
 
 class MissingMandatoryKeyError(MalformedSpecError):
@@ -29,7 +29,7 @@ class MissingMandatoryKeyError(MalformedSpecError):
     def __init__(self, missing_keys, scope, *args):
         missing_keys_str = ", ".join(f"'{k}'" for k in sorted(missing_keys))
         message = f"Missing {missing_keys_str} key(s) at '{scope}' scope"
-        super(MissingMandatoryKeyError, self).__init__(message, *args)
+        super().__init__(message, *args)
 
 
 class InvalidPythonCodeError(MalformedSpecError):
@@ -41,16 +41,14 @@ class InvalidPythonCodeError(MalformedSpecError):
             f"Exception: {error_message}. "
             f"Code: {code}."
         )
-        super(InvalidPythonCodeError, self).__init__(error_message, *args)
+        super().__init__(error_message, *args)
 
 
 class BadConfigurationError(Exception):
-    """Raised when an environment variable was not set
-    or was badly configured
-    """
+    """Raised when an environment variable was not set or badly configured."""
 
     def __init__(self, env_var, *args):
-        super(BadConfigurationError, self).__init__(
+        super().__init__(
             f"{env_var} environment variable not set or badly configured",
             *args,
         )
@@ -61,7 +59,7 @@ class EmptyConfigFileError(Exception):
 
     def __init__(self, file_path, *args):
         message = f"File '{file_path}' is empty."
-        super(EmptyConfigFileError, self).__init__(message, *args)
+        super().__init__(message, *args)
 
 
 class BadConfigIncludeError(Exception):

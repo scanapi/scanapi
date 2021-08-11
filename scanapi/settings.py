@@ -24,7 +24,7 @@ class Settings(dict):
         self["template"] = None
         self["no_report"] = False
 
-        super(dict, self).__init__()
+        super().__init__()
 
     def save_config_file_preferences(self, config_path=None):
         """Saves the Settings object config file preferences."""
