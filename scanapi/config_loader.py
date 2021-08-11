@@ -56,4 +56,4 @@ def load_config_file(file_path):
 # Ignore parameter types due to wrong annotations in `typeshed`. Fix submitted
 # in https://github.com/python/typeshed/pull/5828
 # Can remove "type: ignore" once `types-PyYAML` has been updated.
-yaml.add_constructor("!include", construct_include, Loader)  # type: ignore
+yaml.add_constructor("!include", construct_include, Loader)

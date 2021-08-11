@@ -41,6 +41,7 @@ mypy = "^0.910"
 types-requests = "^2.25.1"
 types-PyYAML = "^5.4.3"
 types-setuptools = "^57.0.0"
+gitlint = "0.15.1"
 
 [tool.isort]
 multi_line_output = 3
