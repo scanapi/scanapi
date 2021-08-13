@@ -31,6 +31,7 @@ class TestRun:
                 "spec_path": None,
                 "output_path": "my_output.html",
                 "no_report": False,
+                "open_browser": False,
                 "config_path": None,
                 "template": None,
             }

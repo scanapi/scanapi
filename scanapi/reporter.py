@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import datetime
 import logging
+import webbrowser
 from os.path import abspath
 
 from pkg_resources import get_distribution
@@ -51,6 +52,10 @@ class Reporter:
 
         logger.info("\nThe documentation was generated successfully.")
         logger.info(f"It is available at {abspath(self.output_path)}")
+
+    def open_report_in_browser(self):
+        """Open the results file on a browser"""
+        webbrowser.open(self.output_path)
 
     @staticmethod
     def write_without_generating_report(results):

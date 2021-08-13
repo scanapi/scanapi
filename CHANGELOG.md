@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Summary tests location to the top of the report [#479](https://github.com/scanapi/scanapi/pull/479)
+- Add the flag `--browser` or `-b` for short [#465]
 
 ### Fixed
 - Header table gets broken. [#432](https://github.com/scanapi/scanapi/pull/432)
