@@ -152,6 +152,7 @@ class TestSaveClickPreferences:
             "output_path": "path/output-path",
             "template": None,
             "no_report": False,
+            "open_browser": False,
             "config_path": "path/config-path",
         }
 

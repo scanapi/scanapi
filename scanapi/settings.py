@@ -23,6 +23,7 @@ class Settings(dict):
         self["output_path"] = None
         self["template"] = None
         self["no_report"] = False
+        self["open_browser"] = False
 
         super().__init__()
 
