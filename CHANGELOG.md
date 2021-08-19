@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.6.0] - 2021-08-13
+### Changed
+- Summary tests location to the top of the report [#479](https://github.com/scanapi/scanapi/pull/479)
+- Add the flag `--browser` or `-b` for short [#465]
+
 ### Fixed
 - Header table gets broken. [#432](https://github.com/scanapi/scanapi/pull/432)
 
@@ -221,7 +227,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.5.0...HEAD
+[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.6.0...HEAD
+[2.6.0]: https://github.com/camilamaia/scanapi/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/camilamaia/scanapi/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/camilamaia/scanapi/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/camilamaia/scanapi/compare/v2.2.0...v2.3.0
