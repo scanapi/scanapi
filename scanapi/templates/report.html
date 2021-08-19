@@ -9,18 +9,36 @@
     <meta name="description" content="ScanAPI Report" />
     <meta name="author" content="scanapi/scanapi" />
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAB11BMVEX////8/Pzn6erKzdCyt7qkqq6dpKiepKilq660ubzN0NLq6+z9/f3e4OGXnqJzfYN4gYeIkJWUnKCaoaWUm5+GjpR3gIZ1foTk5ufN0dNyfIKQl5zQ1dfw8/T7/f3+///6/P3u8fLLz9KJkZbX2tvp6+ynrbH5+fn/z8r/ta7/tq//tq7/4t/19/iboqZ/iI3x8vK3vL99hYvy8vP/xsD/qaD/qqL/qqH/3Nl1f4XFycyWnaJueH6co6ecpKidpKmepamdpamepKlpc3qlq6/+/v69wcSZoKRrdXuLk5iAiI5/h41zfIJ5goiUm6BocnmTmp+do6fFycvX2du7wMO5vcCrsbXs7u6Ci5D4+fmCipDz9PXIzM7r7O35+vrq7O3w8fLHy87v8PFcZ26tsrb6+/vs7e68wMNbZm27v8Lm6Ol2f4XMz9H4+PmGj5Tb3d+5vsGfpant7u/e4OKSmZ7AxMeAiY7u8PC6v8G6v8Jud36EjJHy8/ONlJnDx8rZ3N2DjJF8hIp8hYuzuLzR1Nba3d/KztB8hYqyuLv8/f3a3d7V2Nr6+vr3+PiHj5SqsLTd3+DT1tiRmJ3o6epsdnz4+Pi4vcCPl5vQ09VveH/o6uunrbDz9PRPvQCIAAAAAWJLR0QAiAUdSAAAAAd0SU1FB+QHGRE1H+ztMTUAAAEqSURBVDjLY2AYWoCRiZmFlY2dg5OLmwebPC8fv4CgkLCwiKiYOJsEpryklLSMrJw8A4O8gqKSspgKuryqmJq6hqaWNhBoaeno6ukboCkwNDJmMDE1AwNzCwZuSys0BdY2tux29g62Dva2jva2TnrOLqjyrm627h6eXjbCNt5sPr5+/gGBQRiuVFcODpFmlA5lsA0Lj+DG4s1IJAVRNFAQHRMbh6wgPiExCUVBTHJKKrKCtPSMTBQFWdk5uXn5mUAFBYyehUURTMU+qIHNWFKaX1ZeAVRQWVRVXVNbV9+AFtbMjU3NDKEgExhaWhnamto70FzZ2dXdA1TQ29cP4vFMmBiJLUmETpo8JWoqA24wbXpk0AxX3PKuwjNnMeADrrPL8CtgUJ/DMDQBAC0gTAcOoWsNAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIwLTA3LTI1VDE1OjUzOjMxKzAyOjAwcHYhkAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMC0wNy0yNVQxNTo1MzozMSswMjowMAErmSwAAAAASUVORK5CYII=">
+    <link href="http://fonts.cdnfonts.com/css/gotham" rel="stylesheet">
 </head>
 
 <body>
     <style type="text/css">
+        :root {
+            --primary: #F67164;
+            --blue: #3082c5;
+            --blue-lighter: rgb(48 130 197 / 20%);
+            --blue-opaque: #485fc7;
+            --blue-opaque-lighter: rgb(72 95 199 / 20%);
+            --green: #48c78e;
+            --green-ligth: #00b89c;
+            --green-ligther: rgb(0 184 156 / 20%);
+            --yellow: #ffd970;
+            --yellow-lighter: rgb(255 217 112 / 20%);
+            --red: #f14668;
+            --red-light: #ef2e55;
+            --red-lighter: rgb(239 46 85 / 20%);
+            --gray: #636c73;
+            --white: #fff;
+        }
+        
         html,
         body {
             margin: 0;
             padding: 0;
             background-color: #eeeeee;
             font-size: 18px;
-            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-                "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Gotham', sans-serif;
         }
 
         h1,
@@ -29,7 +47,7 @@
         h4,
         h5,
         h6 {
-            color: #636c73;
+            color: var(--gray);
             font-weight: bold;
         }
 
@@ -107,14 +125,14 @@
 
         .summary__title__project {
             font-weight: bold;
-            color: #F67164;
+            color: var(--primary);
         }
 
         .summary__title__overview {
             padding: 0;
             margin: 0;
             font-size: 16px;
-            color: #636c73;
+            color: var(--gray);
             text-align: center;
         }
 
@@ -149,7 +167,7 @@
             align-items: center;
             margin: 20px 0;
             font-size: 16px;
-            color: #636c73;
+            color: var(--gray);
             text-align: center;
             padding: 0;
         }
@@ -184,8 +202,12 @@
         }
 
         .endpoint__content {
-            padding: 0 30px;
+            padding: 0 20px;
             height: 0;
+        }
+
+        .endpoint__content section:last-child { 
+            border-radius: 0 0 10px 10px;
         }
 
         .endpoint__response h3,
@@ -214,6 +236,20 @@
             justify-content: space-between;
         }
 
+        .endpoint .endpoint__title,
+        .endpoint .endpoint__request,
+        .endpoint .endpoint__response,
+        .endpoint .endpoint__tests
+         {
+            border: solid 1px var(--gray);
+        }
+
+        .endpoint .endpoint__request,
+        .endpoint .endpoint__response,
+        .endpoint .endpoint__tests {
+            border-top: none;
+        }
+
         .endpoint__url {
             line-break: anywhere;
         }
@@ -230,24 +266,32 @@
         .endpoint__status {
             margin-left: 10px;
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border-radius: 100px;
-            text-align: center;
-            color: white;
-            font-size: 14px;
-            line-height: 20px;
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%);
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: .375em;
+            color: var(--white);
+            display: inline-flex;
+            font-size: .75rem;
+            height: 2em;
+            justify-content: center;
+            line-height: 1.5;
+            padding-left: .75em;
+            padding-right: .75em;
+            white-space: nowrap;
         }
 
         .endpoint__status--P {
-            background-color: green;
+            background-color: var(--green);
         }
 
         .endpoint__status--F {
-            background-color: red;
+            background-color: var(--red);
+        }
+
+        .endpoint__request,
+        .endpoint__response,
+        .endpoint__tests {
+            padding: 0 16px 16px;
         }
 
         .endpoint__titleInfo::after {
@@ -257,7 +301,7 @@
             margin-left: 5px;
             text-align: right;
             transition: all 0.35s;
-            color: #636c73;
+            color: var(--gray);
         }
 
         .endpoint__checkbox {
@@ -268,6 +312,10 @@
 
         .endpoint__checkbox:checked+.endpoint__title .endpoint__titleInfo::after {
             transform: rotate(90deg);
+        }
+
+        .endpoint__checkbox:checked+.endpoint__title {
+            border-radius: 10px 10px 0 0;
         }
 
         .endpoint__checkbox:checked~.endpoint__content {
@@ -299,12 +347,12 @@
         }
 
         .endpoint__testcase-passed {
-            color: green;
+            color: var(--green);
         }
 
         .endpoint__testcase-failed,
         .endpoint__testcase-error {
-            color: red;
+            color: var(--red);
         }
 
         .endpoint__request_node_name {
@@ -329,11 +377,11 @@
         }
 
         .summary__tests--passed {
-            border-color: green;
+            border-color: var(--green);
         }
 
         .summary__tests--failed {
-            border-color: red;
+            border-color: var(--red);
         }
 
         .summary__tests-title {
@@ -404,8 +452,8 @@
         }
 
         .bg_green{
-            background-color: green!important;
-            color: white;
+            background-color: var(--green) !important;
+            color: var(--white);
         }
         /* END SNIPPET CONTENT */
 
