@@ -155,3 +155,18 @@ class TestEvaluateList:
                 mocker.call("bar", spec_evaluator, False),
             ]
         )
+
+
+@mark.describe("spec evaluator")
+@mark.describe("__repr__")
+class TestRepr:
+    @mark.context("when registry is empty")
+    @mark.it("should return {}")
+    def test_when_registry_is_empty(self):
+        spec_evaluator = SpecEvaluator({}, {})
+        assert repr(spec_evaluator) == "{}"
+
+    @mark.context("when registry is not empty")
+    @mark.it("should return {'name': 'foo'}")
+    def test_when_registry_is_not_empty(self, spec_evaluator):
+        assert repr(spec_evaluator) == "{'name': 'foo'}"
