@@ -1,3 +1,5 @@
+import pathlib
+
 from freezegun.api import FakeDatetime
 from pytest import fixture, mark
 
@@ -20,7 +22,7 @@ class TestInit:
     def test_init_output_path_and_template(self):
         reporter = Reporter()
 
-        assert reporter.output_path == "scanapi-report.html"
+        assert str(reporter.output_path) == "scanapi-report.html"
         assert reporter.template is None
 
     @mark.context("when there is a template argument")
@@ -31,7 +33,7 @@ class TestInit:
     def test_init_output_path_and_template_2(self):
         reporter = Reporter(template="my_template.jinja")
 
-        assert reporter.output_path == "scanapi-report.html"
+        assert str(reporter.output_path) == "scanapi-report.html"
         assert reporter.template == "my_template.jinja"
 
     @mark.context("when there is an output path argument")
@@ -41,7 +43,7 @@ class TestInit:
     def test_init_output_path_and_template_3(self):
         reporter = Reporter(output_path="my-report.html")
 
-        assert reporter.output_path == "my-report.html"
+        assert str(reporter.output_path) == "my-report.html"
         assert reporter.template is None
 
 
@@ -103,7 +105,7 @@ class TestWrite:
 
         mocked__render.assert_called_once_with("report.html", context, False)
         mocked__open.assert_called_once_with(
-            "scanapi-report.html", "w", newline="\n"
+            pathlib.Path("scanapi-report.html"), "w", newline="\n"
         )
         mocked__open().write.assert_called_once_with("ScanAPI Report")
 
@@ -123,7 +125,7 @@ class TestWrite:
 
         mocked__render.assert_called_once_with("html", context, True)
         mocked__open.assert_called_once_with(
-            "./custom/report-output.html", "w", newline="\n"
+            pathlib.Path("./custom/report-output.html"), "w", newline="\n"
         )
         mocked__open().write.assert_called_once_with("ScanAPI Report")
 
@@ -145,7 +147,7 @@ class TestWrite:
             "my-template.html", context, True
         )
         mocked__open.assert_called_once_with(
-            "scanapi-report.html", "w", newline="\n"
+            pathlib.Path("scanapi-report.html"), "w", newline="\n"
         )
         mocked__open().write.assert_called_once_with("ScanAPI Report")
 
