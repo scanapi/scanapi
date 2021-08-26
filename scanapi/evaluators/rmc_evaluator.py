@@ -1,12 +1,12 @@
 import ast
-import re
-import operator
-import inspect
 import importlib
+import inspect
+import operator
+import re
 from functools import partial
-from typing import Dict, Any, Union, Callable, Tuple, Mapping
-from scanapi import std
+from typing import Any, Callable, Dict, Mapping, Tuple, Union
 
+from scanapi import std
 
 _sentinel = object()
 
@@ -28,7 +28,9 @@ def getname(location: str, root) -> Any:
         try:
             node = getattr(node, name)
         except AttributeError:
-            raise AttributeError(f'No such location: {root}.{".".join(trail[:i + 1])}')
+            raise AttributeError(
+                f'No such location: {root}.{".".join(trail[:i + 1])}'
+            )
     return node
 
 
@@ -160,14 +162,17 @@ class RemoteMethodCallEvaluator:
         if isinstance(expr, ast.Call):
             name = unroll_name(expr.func)
             args = [ast.literal_eval(arg) for arg in expr.args]
-            kwargs = {kw.arg: ast.literal_eval(kw.value) for kw in expr.keywords}
+            kwargs = {
+                kw.arg: ast.literal_eval(kw.value) for kw in expr.keywords
+            }
         elif isinstance(expr, ast.Name):
             name = expr.id
         elif isinstance(expr, ast.Attribute):
             name = unroll_name(expr)
         else:
             raise ValueError(
-                "Failed to parse %r as an attribute name or function call." % callcode
+                "Failed to parse %r as an attribute name or function call."
+                % callcode
             )
         #
 

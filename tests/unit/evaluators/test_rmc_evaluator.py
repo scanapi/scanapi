@@ -2,6 +2,7 @@ import ast
 from unittest.mock import Mock
 
 import pytest
+
 import scanapi
 from scanapi.evaluators import rmc_evaluator as rmc
 
@@ -32,7 +33,9 @@ class TestRemoteMethodCallEvaluator:
         def test_expected_behavior(self):
             assert rmc.unroll_name(ast.parse("a", mode="eval").body) == "a"
             assert rmc.unroll_name(ast.parse("a.c", mode="eval").body) == "a.c"
-            assert rmc.unroll_name(ast.parse("a.b.c", mode="eval").body) == "a.b.c"
+            assert (
+                rmc.unroll_name(ast.parse("a.b.c", mode="eval").body) == "a.b.c"
+            )
 
     class TestEvaluate:
         class TestWhenCodeRightMemberIsInvalid:
@@ -47,17 +50,24 @@ class TestRemoteMethodCallEvaluator:
             def test_expected_behavior(self):
                 # local path module
                 assert not rmc_eval(
-                    "scanapi.std:response.ok", {"response": Mock(status_code=400)}
+                    "scanapi.std:response.ok",
+                    {"response": Mock(status_code=400)},
                 )
                 assert rmc_eval(
-                    "scanapi.std:response.ok", {"response": Mock(status_code=200)}
+                    "scanapi.std:response.ok",
+                    {"response": Mock(status_code=200)},
                 )
 
                 # no spec
-                assert rmc_eval("builtins:str", {"object": {4}}) == "{'object': {4}}"
+                assert (
+                    rmc_eval("builtins:str", {"object": {4}})
+                    == "{'object': {4}}"
+                )
 
                 # spec but doesn't take keyword arguments
-                assert rmc_eval("builtins:list", {"iterable": (4, 5)}) == ["iterable"]
+                assert rmc_eval("builtins:list", {"iterable": (4, 5)}) == [
+                    "iterable"
+                ]
 
         class TestExprWithPositionalArgs:
             def test_expected_behavior(self):
@@ -86,7 +96,9 @@ class TestRemoteMethodCallEvaluator:
                 assert not rmc_eval(
                     "std:response.ok", {"response": Mock(status_code=400)}
                 )
-                assert not rmc_eval(":response.ok", {"response": Mock(status_code=400)})
+                assert not rmc_eval(
+                    ":response.ok", {"response": Mock(status_code=400)}
+                )
 
     class TestGetModule:
         def test_expected_behavior(self):
