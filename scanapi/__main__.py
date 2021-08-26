@@ -2,6 +2,7 @@ import logging
 
 import click
 import yaml
+from pkg_resources import get_distribution
 
 from scanapi.exit_code import ExitCode
 from scanapi.scan import scan
@@ -9,26 +10,38 @@ from scanapi.settings import settings
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
+dist = get_distribution("scanapi")
+
 
 @click.group()
+@click.version_option(version=dist.version)
 def main():
-    """
-    Automated Testing and Documentation for your REST API.
-    """
+    """Automated Testing and Documentation for your REST API."""
     pass
 
 
 @main.command(context_settings=CONTEXT_SETTINGS)
 @click.argument("spec_path", type=click.Path(exists=True), required=False)
 @click.option(
-    "-o", "--output-path", "output_path", type=click.Path(), help="Report output path.",
+    "-o",
+    "--output-path",
+    "output_path",
+    type=click.Path(),
+    help="Report output path.",
 )
 @click.option(
-    "-n",
+    "-nr",
     "--no-report",
     "no_report",
     is_flag=True,
     help="Run ScanAPI without generating report.",
+)
+@click.option(
+    "-b",
+    "--browser",
+    "open_browser",
+    is_flag=True,
+    help="Open the results file using a browser",
 )
 @click.option(
     "-c",
@@ -52,7 +65,15 @@ def main():
     default="INFO",
     help="Set the debug logging level for the program.",
 )
-def run(spec_path, output_path, no_report, config_path, template, log_level):
+def run(
+    spec_path,
+    output_path,
+    no_report,
+    config_path,
+    template,
+    log_level,
+    open_browser,
+):
     """
     Automated Testing and Documentation for your REST API.
     SPEC_PATH argument is the API specification file path.
@@ -66,6 +87,7 @@ def run(spec_path, output_path, no_report, config_path, template, log_level):
         "no_report": no_report,
         "config_path": config_path,
         "template": template,
+        "open_browser": open_browser,
     }
 
     try:

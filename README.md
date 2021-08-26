@@ -1,7 +1,7 @@
-![](https://github.com/scanapi/design/raw/master/images/github-hero-dark.png)
+![](https://github.com/scanapi/design/raw/main/images/github-hero-dark.png)
 
 <p align="center">
-  <a href="https://app.circleci.com/pipelines/github/scanapi/scanapi?branch=master">
+  <a href="https://app.circleci.com/pipelines/github/scanapi/scanapi?branch=main">
     <img alt="CircleCI" src="https://img.shields.io/circleci/build/github/scanapi/scanapi">
   </a>
   <a href="https://codecov.io/gh/scanapi/scanapi">
@@ -10,8 +10,9 @@
   <a href="https://badge.fury.io/py/scanapi">
     <img alt="PyPI version" src="https://badge.fury.io/py/scanapi.svg">
   </a>
-  <a href="https://spectrum.chat/scanapi">
-    <img alt="Join the community on Spectrum" src="https://withspectrum.github.io/badge/badge.svg" />
+
+  <a href="https://discord.scanapi.dev">
+    <img alt="Discord" src="https://img.shields.io/discord/847208162993242162?color=7389D8&label=discord&logo=6A7EC2&logoColor=ffffff&style=flat-square">
   </a>
 </p>
 
@@ -55,10 +56,10 @@ For example:
 ```yaml
 endpoints:
   - name: scanapi-demo # The API's name of your API
-    path: http://demo.scanapi.dev/api/ # The API's base url
+    path: http://demo.scanapi.dev/api/v1 # The API's base url
     requests:
-      - name: list_all_devs # The name of the first request
-        path: devs/ # The path of the first request
+      - name: list_all_users # The name of the first request
+        path: users/ # The path of the first request
         method: get # The HTTP method of the first request
         tests:
           - name: status_code_is_200 # The name of the first test for this request
@@ -75,34 +76,39 @@ Then, the lib will hit the specified endpoints and generate a `scanapi-report.ht
 
 <p align="center">
   <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/master/images/report-print-closed.png"
+    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-closed.png"
     width="700",
     alt="An overview screenshot of the report."
   >
   <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/master/images/report-print-request.png"
+    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-request.png"
     width="700"
     alt="A screenshot of the report showing the request details."
   >
   <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/master/images/report-print-response.png"
+    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-response.png"
     width="700",
     alt="A screenshot of the report showing the response and test details"
   >
 </p>
 
 ## Documentation
+
 The full documentation is available at [scanapi.dev][website]
 
 ## Examples
+
 You can find complete examples at [scanapi/examples][scanapi-examples]!
 
+This tutorial helps you to create integration tests for your REST API using ScanAPI
+
+[![Watch the video](https://raw.githubusercontent.com/scanapi/scanapi/main/images/youtube-scanapi-tutorial.png)](https://www.youtube.com/watch?v=JIo4sA8LHco&t=2s)
 
 ## Contributing
 
 Collaboration is super welcome! We prepared the [Newcomers Guide][newcomers-guide] to help you in the first steps. Every little bit of help counts! Feel free to create new [GitHub issues][github-issues] and interact here.
 
-Let's build it together 🚀
+Let's build it together 🚀🚀
 
 [github-issues]: https://github.com/scanapi/scanapi/issues
 [newcomers-guide]: https://github.com/scanapi/scanapi/wiki/Newcomers

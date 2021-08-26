@@ -1,17 +1,19 @@
-import pytest
 import requests
+from pytest import fixture, mark
 
 from scanapi.hide_utils import _hide, _override_info, hide_sensitive_info
 
 
-@pytest.fixture
+@fixture
 def response(requests_mock):
     requests_mock.get("http://test.com", text="data")
     return requests.get("http://test.com")
 
 
+@mark.describe("hide utils")
+@mark.describe("hide_sensitive_info")
 class TestHideSensitiveInfo:
-    @pytest.fixture
+    @fixture
     def mock__hide(self, mocker):
         return mocker.patch("scanapi.hide_utils._hide")
 
@@ -19,7 +21,11 @@ class TestHideSensitiveInfo:
         ({}, {}, {}),
         ({"report": {"abc": "def"}}, {}, {}),
         ({"report": {"hide_request": {"url": ["abc"]}}}, {"url": ["abc"]}, {}),
-        ({"report": {"hide_request": {"headers": ["abc"]}}}, {"headers": ["abc"]}, {},),
+        (
+            {"report": {"hide_request": {"headers": ["abc"]}}},
+            {"headers": ["abc"]},
+            {},
+        ),
         (
             {"report": {"hide_response": {"headers": ["abc"]}}},
             {},
@@ -27,7 +33,10 @@ class TestHideSensitiveInfo:
         ),
     ]
 
-    @pytest.mark.parametrize("settings, request_settings, response_settings", test_data)
+    @mark.it("should call _hide method")
+    @mark.parametrize(
+        "settings, request_settings, response_settings", test_data
+    )
     def test_calls__hide(
         self,
         settings,
@@ -48,19 +57,25 @@ class TestHideSensitiveInfo:
         mock__hide.assert_has_calls(calls)
 
 
+@mark.describe("hide utils")
+@mark.describe("_hide")
 class TestHide:
-    @pytest.fixture
+    @fixture
     def mock__override_info(self, mocker):
         return mocker.patch("scanapi.hide_utils._override_info")
 
     test_data = [
         ({}, []),
-        ({"headers": ["abc", "def"]}, [("headers", "abc"), ("headers", "def")]),
+        (
+            {"headers": ["abc", "def"]},
+            [("headers", "abc"), ("headers", "def")],
+        ),
         ({"headers": ["abc"]}, [("headers", "abc")]),
         ({"url": ["abc"]}, []),
     ]
 
-    @pytest.mark.parametrize("settings, calls", test_data)
+    @mark.it("should call _override_info method")
+    @mark.parametrize("settings, calls", test_data)
     def test_calls__override_info(
         self, settings, calls, mocker, response, mock__override_info
     ):
@@ -70,7 +85,10 @@ class TestHide:
         mock__override_info.assert_has_calls(calls)
 
 
+@mark.describe("hide utils")
+@mark.describe("_override_info")
 class TestOverrideInfo:
+    @mark.it("should overrides url")
     def test_overrides_url(self, response):
         secret_key = "129e8cb2-d19c-51ad-9921-cea329bed7fa"
         response.url = (
@@ -81,8 +99,12 @@ class TestOverrideInfo:
 
         _override_info(response, http_attr, secret_field)
 
-        assert response.url == "http://test.com/users/SENSITIVE_INFORMATION/details"
+        assert (
+            response.url
+            == "http://test.com/users/SENSITIVE_INFORMATION/details"
+        )
 
+    @mark.it("should overrides headers")
     def test_overrides_headers(self, response):
         response.headers = {"abc": "123"}
         http_attr = "headers"
@@ -92,8 +114,27 @@ class TestOverrideInfo:
 
         assert response.headers["abc"] == "SENSITIVE_INFORMATION"
 
+    @mark.it("should overrides params")
+    def test_overrides_params(self, response):
+        param = "test"
+        response.url = (
+            "http://test.com/users/details?test=test&test2=test&test=test2"
+        )
+        http_attr = "params"
+        secret_field = param
+
+        _override_info(response, http_attr, secret_field)
+
+        assert (
+            response.url
+            == "http://test.com/users/details?test=SENSITIVE_INFORMATION&test2=test&test=SENSITIVE_INFORMATION"
+        )
+
+    @mark.it("should overrides body")
     def test_overrides_body(self, response):
-        response.body = b'{"id": "abc21", "name": "Tarik", "yearsOfExperience": 2}'
+        response.body = (
+            b'{"id": "abc21", "name": "Tarik", "yearsOfExperience": 2}'
+        )
         http_attr = "body"
         secret_field = "id"
 
@@ -104,6 +145,56 @@ class TestOverrideInfo:
             == b'{"id": "SENSITIVE_INFORMATION", "name": "Tarik", "yearsOfExperience": 2}'
         )
 
+    @mark.it("should overrides content")
+    def test_overrides_content(self, response):
+        response._content = (
+            b'{"id": "abc21", "name": "Tarik", "yearsOfExperience": 2}'
+        )
+        http_attr = "body"
+        secret_field = "id"
+
+        _override_info(response, http_attr, secret_field)
+
+        assert (
+            response.content
+            == b'{"id": "SENSITIVE_INFORMATION", "name": "Tarik", "yearsOfExperience": 2}'
+        )
+
+    @mark.it("should overrides body and empty content")
+    def test_overrides_body_and_empty_content(self, response):
+        response.body = b"{}"
+        response._content = b"{}"
+        http_attr = "body"
+        secret_field = "id"
+
+        _override_info(response, http_attr, secret_field)
+
+        assert response.body == b"{}"
+
+        assert response.content == b"{}"
+
+    @mark.it("should skip when body is None")
+    def test_skip_when_body_is_none(self, response):
+        response.body = None
+        http_attr = "body"
+        secret_field = "id"
+
+        _override_info(response, http_attr, secret_field)
+
+        assert response.body is None
+
+    @mark.it("should skip when content is None")
+    def test_skip_when_content_is_none(self, response):
+        response._content = None
+        http_attr = "body"
+        secret_field = "id"
+
+        _override_info(response, http_attr, secret_field)
+
+        assert response._content is None
+
+    @mark.context("when http attr does not have the field")
+    @mark.it("should not change the http attr")
     def test_when_http_attr_does_not_have_the_field(self, response, mocker):
         response.headers = {"abc": "123"}
         http_attr = "headers"

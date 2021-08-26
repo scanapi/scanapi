@@ -31,6 +31,7 @@ class EndpointNode:
         PATH_KEY,
         REQUESTS_KEY,
         DELAY_KEY,
+        VARS_KEY,
     )
     REQUIRED_KEYS = (NAME_KEY,)
     ROOT_REQUIRED_KEYS = ()
@@ -40,13 +41,14 @@ class EndpointNode:
         self.parent = parent
         self.child_nodes = []
         self.__build()
-        self.vars = SpecEvaluator(self, spec.get(VARS_KEY, {}))
+        self.spec_vars = SpecEvaluator(self, spec.get(VARS_KEY, {}))
 
     def __build(self):
         self._validate()
 
         self.child_nodes = [
-            EndpointNode(spec, parent=self) for spec in self.spec.get(ENDPOINTS_KEY, [])
+            EndpointNode(spec, parent=self)
+            for spec in self.spec.get(ENDPOINTS_KEY, [])
         ]
 
     def __repr__(self):
@@ -66,7 +68,7 @@ class EndpointNode:
         path = str(self.spec.get(PATH_KEY, "")).strip()
         url = join_urls(self.parent.path, path) if self.parent else path
 
-        return self.vars.evaluate(url)
+        return self.spec_vars.evaluate(url)
 
     @property
     def headers(self):
@@ -90,25 +92,21 @@ class EndpointNode:
             try:
                 yield request.run()
             except Exception as e:
-                error_message = (
-                    f"\nError to make request `{request.full_url_path}`. \n{str(e)}\n"
-                )
+                error_message = f"\nError to make request `{request.full_url_path}`. \n{str(e)}\n"
                 logger.error(error_message)
                 session.exit_code = ExitCode.REQUEST_ERROR
                 continue
 
     def _validate(self):
-        if self.is_root:
-            return validate_keys(
-                self.spec.keys(),
-                self.ALLOWED_KEYS,
-                self.ROOT_REQUIRED_KEYS,
-                ROOT_SCOPE,
-            )
-
-        validate_keys(
-            self.spec.keys(), self.ALLOWED_KEYS, self.REQUIRED_KEYS, self.SCOPE
+        """Private method that checks if the specification has any invalid key
+        or if there is any required key missing.
+        """
+        required_keys = (
+            self.ROOT_REQUIRED_KEYS if self.is_root else self.REQUIRED_KEYS
         )
+        scope = ROOT_SCOPE if self.is_root else self.SCOPE
+
+        validate_keys(self.spec.keys(), self.ALLOWED_KEYS, required_keys, scope)
 
     def _get_specs(self, field_name):
         values = self.spec.get(field_name, {})
@@ -121,6 +119,9 @@ class EndpointNode:
 
     def _get_requests(self):
         return chain(
-            (RequestNode(spec, self) for spec in self.spec.get(REQUESTS_KEY, [])),
+            (
+                RequestNode(spec, self)
+                for spec in self.spec.get(REQUESTS_KEY, [])
+            ),
             *(child._get_requests() for child in self.child_nodes),
         )

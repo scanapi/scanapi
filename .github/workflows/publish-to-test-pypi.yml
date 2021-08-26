@@ -1,7 +1,7 @@
 name: Publish to Test PyPI
 on:
   push:
-    branches: [master]
+    branches: [main]
 jobs:
   build-n-publish-test-pypi:
     name: Test PyPI - Build and publish Python 🐍 distributions 📦
@@ -9,14 +9,14 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Poetry Setup
-        uses: dschep/install-poetry-action@v1.3
+        uses: snok/install-poetry@v1.1.1
         with:
           version: 1.1.1
       - name: Run poetry pre-release
         run: |
           make change-version
       - name: Build and publish to test pypi
-        uses: JRubics/poetry-publish@v1.3
+        uses: JRubics/poetry-publish@v1.6
         with:
           python_version: "3.6"
           poetry_version: ">=0.12"

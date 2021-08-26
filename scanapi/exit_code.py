@@ -1,14 +1,11 @@
-"""
-Code based on solution https://github.com/pytest-dev/pytest/blob/83891d9022076375cede03bfd8c932d450e6fcf8/src/_pytest/config/__init__.py#L67
-"""
+"""Code based on solution: https://github.com/pytest-dev/pytest/blob/\
+83891d9022076375cede03bfd8c932d450e6fcf8/src/_pytest/config/__init__.py#L67"""
 
 import enum
 
 
 class ExitCode(enum.IntEnum):
-    """
-    Encodes the valid exit codes by ScanAPI.
-    """
+    """Encodes the valid exit codes by ScanAPI."""
 
     #: tests passed
     OK = 0

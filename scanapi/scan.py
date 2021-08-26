@@ -19,9 +19,10 @@ logger = logging.getLogger(__name__)
 
 
 def scan():
-    """ Caller function that tries to scans the file and write the report. """
+    """Caller function that tries to scans the file and write the report."""
     spec_path = settings["spec_path"]
     no_report = settings["no_report"]
+    open_browser = settings["open_browser"]
 
     try:
         api_spec = load_config_file(spec_path)
@@ -54,6 +55,8 @@ def scan():
     else:
         try:
             write_report(results)
+            if open_browser:
+                open_report_in_browser()
         except (BadConfigurationError, InvalidPythonCodeError) as e:
             logger.error(e)
             raise SystemExit(ExitCode.USAGE_ERROR)
@@ -62,17 +65,23 @@ def scan():
 
 
 def write_report(results):
-    """ Constructs a Reporter object and calls the write method of Reporter to push
-    the results to a file.
+    """Constructs a Reporter object and calls the write method of Reporter to
+    push the results to a file.
     """
     reporter = Reporter(settings["output_path"], settings["template"])
     reporter.write(results)
 
 
+def open_report_in_browser():
+    """Open the results file on a browser"""
+    reporter = Reporter(settings["output_path"], settings["template"])
+    reporter.open_report_in_browser()
+
+
 def write_without_generating_report(results):
-    """ Constructs a Reporter object and calls the write_without_generating_report
-    method of Reporter to print the results to the console output without generating
-    a report.
+    """Constructs a Reporter object and calls the
+    write_without_generating_report method of Reporter to print the results to
+    the console output without generating a report.
     """
     reporter = Reporter()
     reporter.write_without_generating_report(results)

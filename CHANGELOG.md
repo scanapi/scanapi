@@ -7,14 +7,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Added flake8 check workflow on pull_request event [#321](https://github.com/scanapi/scanapi/pull/321)
 - Allow ${{}} exprs to call methods from external python modules [#324](https://github.com/scanapi/scanapi/pull/324)
 
+## [2.6.0] - 2021-08-13
+### Added
+- CLI flag `--browser` or `-b` for short [#465](https://github.com/scanapi/scanapi/pull/465)
+
 ### Changed
-- Updated poetry-publish version to v1.3 [#311](https://github.com/scanapi/scanapi/pull/311)
+- Summary tests location to the top of the report [#479](https://github.com/scanapi/scanapi/pull/479)
 
 ### Fixed
-- Removed all flake8 errors [#309](https://github.com/scanapi/scanapi/pull/309)
+- Header table gets broken. [#432](https://github.com/scanapi/scanapi/pull/432)
+
+## [2.5.0] - 2021-07-23
+### Added
+- Enable 'vars' key at endpoint node. [#328](https://github.com/scanapi/scanapi/pull/328)
+- Add `--no-report` flag. [#325](https://github.com/scanapi/scanapi/pull/325)
+
+## [2.4.0] - 2021-06-11
+### Added
+- Request name to report. [#390](https://github.com/scanapi/scanapi/pull/390)
+- Show on report the scanapi version used to generate it. [#386](https://github.com/scanapi/scanapi/pull/386)
+- Link icon to copy anchor URL. [#398](https://github.com/scanapi/scanapi/pull/398)
+
+### Fixed
+- Error making request when request has no body and there is a `report::hide_request::body` configuration. [#393](https://github.com/scanapi/scanapi/pull/393)
+
+## [2.3.0] - 2021-05-25
+### Added
+- `--version` command to return current scanapi version. [#372](https://github.com/scanapi/scanapi/pull/372)
+
+### Fixed
+- hide_response body. [#375](https://github.com/scanapi/scanapi/pull/375)
+
+## [2.2.0] - 2021-04-22
+### Added
+- Hide sensitive information in the URL Query Params [#304](https://github.com/scanapi/scanapi/pull/325)
+- Anchor link for each request in the report to make it easily shareable. [#317](https://github.com/scanapi/scanapi/pull/317)
+- Support to HTTP methods HEAD and OPTIONS [#350](https://github.com/scanapi/scanapi/pull/350)
+- The `retry` key under requests to setup retry for requests. [#298](https://github.com/scanapi/scanapi/issues/298)
+
+### Fixed
+- Curl command [#330](https://github.com/scanapi/scanapi/pull/330)
+- Render body according to its request content type [#331](https://github.com/scanapi/scanapi/pull/331)
 
 ## [2.1.0] - 2020-10-06
 ### Added
@@ -196,7 +231,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.6.0...HEAD
+[2.6.0]: https://github.com/camilamaia/scanapi/compare/v2.5.0...v2.6.0
+[2.5.0]: https://github.com/camilamaia/scanapi/compare/v2.4.0...v2.5.0
+[2.4.0]: https://github.com/camilamaia/scanapi/compare/v2.3.0...v2.4.0
+[2.3.0]: https://github.com/camilamaia/scanapi/compare/v2.2.0...v2.3.0
+[2.2.0]: https://github.com/camilamaia/scanapi/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/camilamaia/scanapi/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/camilamaia/scanapi/compare/v1.0.5...v2.0.0
 [1.0.5]: https://github.com/camilamaia/scanapi/compare/v1.0.4...v1.0.5

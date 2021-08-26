@@ -1,8 +1,6 @@
 import logging
 import time
 
-import requests
-
 from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.evaluators.spec_evaluator import SpecEvaluator  # noqa: F401
 from scanapi.hide_utils import hide_sensitive_info
@@ -16,10 +14,11 @@ from scanapi.tree.tree_keys import (
     NAME_KEY,
     PARAMS_KEY,
     PATH_KEY,
+    RETRY_KEY,
     TESTS_KEY,
     VARS_KEY,
 )
-from scanapi.utils import join_urls, validate_keys
+from scanapi.utils import join_urls, session_with_retry, validate_keys
 
 logger = logging.getLogger(__name__)
 
@@ -36,8 +35,17 @@ class RequestNode:
         TESTS_KEY,
         VARS_KEY,
         DELAY_KEY,
+        RETRY_KEY,
     )
-    ALLOWED_HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
+    ALLOWED_HTTP_METHODS = (
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "HEAD",
+        "OPTIONS",
+    )
     REQUIRED_KEYS = (NAME_KEY,)
 
     def __init__(self, spec, endpoint):
@@ -69,21 +77,21 @@ class RequestNode:
         path = str(self.spec.get(PATH_KEY, ""))
         full_url = join_urls(base_path, path)
 
-        return self.endpoint.vars.evaluate(full_url)
+        return self.endpoint.spec_vars.evaluate(full_url)
 
     @property
     def headers(self):
         endpoint_headers = self.endpoint.headers
         headers = self.spec.get(HEADERS_KEY, {})
 
-        return self.endpoint.vars.evaluate({**endpoint_headers, **headers})
+        return self.endpoint.spec_vars.evaluate({**endpoint_headers, **headers})
 
     @property
     def params(self):
         endpoint_params = self.endpoint.params
         params = self.spec.get(PARAMS_KEY, {})
 
-        return self.endpoint.vars.evaluate({**endpoint_params, **params})
+        return self.endpoint.spec_vars.evaluate({**endpoint_params, **params})
 
     @property
     def delay(self):
@@ -94,24 +102,40 @@ class RequestNode:
     def body(self):
         body = self.spec.get(BODY_KEY)
 
-        return self.endpoint.vars.evaluate(body)
+        return self.endpoint.spec_vars.evaluate(body)
 
     @property
     def tests(self):
-        return (TestingNode(spec, self) for spec in self.spec.get("tests", []))
+        return (
+            TestingNode(spec, self) for spec in self.spec.get(TESTS_KEY, [])
+        )
+
+    @property
+    def retry(self):
+        return self.spec.get(RETRY_KEY)
 
     def run(self):
+        """Make HTTP requests and generating test results for the given URLs.
+
+        Returns:
+            [dict]: HTTP response and test results with request node name,
+            to be used by the report template.
+
+        """
         time.sleep(self.delay / 1000)
 
         method = self.http_method
         url = self.full_url_path
         logger.info("Making request %s %s", method, url)
 
-        self.endpoint.vars.update(
-            self.spec.get(VARS_KEY, {}), preevaluate=False,
+        self.endpoint.spec_vars.update(
+            self.spec.get(VARS_KEY, {}),
+            extras=dict(self.endpoint.spec_vars),
+            filter_responses=True,
         )
 
-        response = requests.request(
+        session = session_with_retry(self.retry)
+        response = session.request(
             method,
             url,
             headers=self.headers,
@@ -120,30 +144,44 @@ class RequestNode:
             allow_redirects=False,
         )
 
-        self.endpoint.vars.update(
-            self.spec.get(VARS_KEY, {}),
-            extras={"response": response},
-            preevaluate=True,
+        extras = dict(self.endpoint.spec_vars)
+        extras["response"] = response
+
+        self.endpoint.spec_vars.update(
+            self.spec.get(VARS_KEY, {}), extras=extras,
         )
 
         tests_results = self._run_tests()
         hide_sensitive_info(response)
 
+        del self.endpoint.spec_vars["response"]
+
         return {
             "response": response,
             "tests_results": tests_results,
             "no_failure": all(
-                [
-                    test_result["status"] == TestStatus.PASSED
-                    for test_result in tests_results
-                ]
+                test_result["status"] == TestStatus.PASSED
+                for test_result in tests_results
             ),
+            "request_node_name": self.name,
         }
 
     def _run_tests(self):
+        """Run all tests cases of request node.
+
+        Returns:
+            [dict]: Return a dict with test result.
+
+        """
         return [test.run() for test in self.tests]
 
     def _validate(self):
+        """Validate spec keys.
+
+        Returns:
+            None
+
+        """
         validate_keys(
             self.spec.keys(), self.ALLOWED_KEYS, self.REQUIRED_KEYS, self.SCOPE
         )

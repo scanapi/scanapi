@@ -6,9 +6,9 @@ jobs:
     steps:
       - uses: actions/setup-python@v1
         with:
-          python-version: 3.6.12
+          python-version: 3.6.14
       - name: Poetry Setup
-        uses: dschep/install-poetry-action@v1.3
+        uses: snok/install-poetry@v1.1.1
         with:
           version: 1.0.9
       - name: Checkout ScanAPI repository
@@ -34,9 +34,9 @@ jobs:
     steps:
       - uses: actions/setup-python@v1
         with:
-          python-version: 3.6.12
+          python-version: 3.6.14
       - name: Poetry Setup
-        uses: dschep/install-poetry-action@v1.3
+        uses: snok/install-poetry@v1.1.1
         with:
           version: 1.0.9
       - name: Checkout ScanAPI repository
@@ -62,9 +62,9 @@ jobs:
     steps:
       - uses: actions/setup-python@v1
         with:
-          python-version: 3.6.12
+          python-version: 3.6.14
       - name: Poetry Setup
-        uses: dschep/install-poetry-action@v1.3
+        uses: snok/install-poetry@v1.1.1
         with:
           version: 1.0.9
       - name: Checkout ScanAPI repository
@@ -78,8 +78,9 @@ jobs:
         run: poetry install
       - name: Run ScanAPI for Demo API
         env:
-          BASE_URL: "http://demo.scanapi.dev/api/"
-          DEMO_KEY: "demoKEY123"
+          BASE_URL: "http://demo.scanapi.dev/api/v1/"
+          USER: "guest"
+          PASSWORD: "demoapi123"
         run: "poetry run scanapi run ./examples/demo-api/scanapi.yaml -c ./examples/demo-api/scanapi.conf -o demo-api.html"
       - name: Upload Demo API ScanAPI Report
         uses: actions/upload-artifact@v2
