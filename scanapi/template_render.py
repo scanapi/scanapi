@@ -30,3 +30,4 @@ def render_body(request):
         return request.body.decode()
     if content_type.startswith("application"):
         return "Binary content"
+    return None
