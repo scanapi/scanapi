@@ -4,9 +4,9 @@ jobs:
   poke-api:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
-          python-version: 3.6.14
+          python-version: 3.6.x
       - name: Poetry Setup
         uses: snok/install-poetry@v1.1.1
         with:
@@ -32,9 +32,9 @@ jobs:
   httpbin-api:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
-          python-version: 3.6.14
+          python-version: 3.6.x
       - name: Poetry Setup
         uses: snok/install-poetry@v1.1.1
         with:
@@ -60,9 +60,9 @@ jobs:
   demo-api:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
-          python-version: 3.6.14
+          python-version: 3.6.x
       - name: Poetry Setup
         uses: snok/install-poetry@v1.1.1
         with:
