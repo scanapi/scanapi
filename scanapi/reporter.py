@@ -57,6 +57,14 @@ class Reporter:
         """Open the results file on a browser"""
         webbrowser.open(self.output_path.resolve().as_uri())
 
+    def write_summary_in_console(self):
+        """Write the summary in console"""
+        print("\n\33[1m\33[34m" + "TEST SUMMARY" + "\033[0m")
+        print(f"\n\33[1m\33[32mPASSED\033[0m: {session.successes}")
+        print(f"\33[31mFAILURES\033[0m: {session.failures}")
+        print(f"\33[1mERRORS\033[0m: {session.errors}")
+        print(f"\nTotal Time: {session.elapsed_time()}")
+
     @staticmethod
     def write_without_generating_report(results):
         """Part of the Reporter instance that is responsible for writing the
