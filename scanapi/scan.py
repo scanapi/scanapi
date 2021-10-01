@@ -52,6 +52,7 @@ def scan():
 
     if no_report:
         write_without_generating_report(results)
+
     else:
         try:
             write_report(results)
@@ -70,12 +71,14 @@ def write_report(results):
     """
     reporter = Reporter(settings["output_path"], settings["template"])
     reporter.write(results)
+    reporter.write_summary_in_console()
 
 
 def open_report_in_browser():
     """Open the results file on a browser"""
     reporter = Reporter(settings["output_path"], settings["template"])
     reporter.open_report_in_browser()
+    reporter.write_summary_in_console()
 
 
 def write_without_generating_report(results):
@@ -85,3 +88,4 @@ def write_without_generating_report(results):
     """
     reporter = Reporter()
     reporter.write_without_generating_report(results)
+    reporter.write_summary_in_console()

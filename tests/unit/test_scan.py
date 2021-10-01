@@ -186,6 +186,9 @@ class TestWriteReport:
     @mark.it("should call wr")
     def test_should_call_wr(self, mocker, response):
         mock_write = mocker.patch("scanapi.scan.Reporter.write")
+        mock_write_summary = mocker.patch(
+            "scanapi.scan.Reporter.write_summary_in_console"
+        )
         mock_reporter_init = mocker.patch("scanapi.scan.Reporter.__init__")
         mock_reporter_init.return_value = None
         mocker.patch(
@@ -204,6 +207,7 @@ class TestWriteReport:
             "out/my-report.md", "my-template.jinja"
         )
         mock_write.assert_called_once_with([response])
+        mock_write_summary.assert_called_once()
 
 
 @mark.describe("scan")
@@ -212,6 +216,9 @@ class TestOpenReport:
     @mark.it("should call open browser")
     def test_should_call_wr(self, mocker, response):
         mock_open = mocker.patch("scanapi.scan.Reporter.open_report_in_browser")
+        mock_write_summary = mocker.patch(
+            "scanapi.scan.Reporter.write_summary_in_console"
+        )
         mock_reporter_init = mocker.patch("scanapi.scan.Reporter.__init__")
         mock_reporter_init.return_value = None
         mocker.patch(
@@ -231,3 +238,4 @@ class TestOpenReport:
         )
 
         mock_open.assert_called_once()
+        mock_write_summary.assert_called_once()
