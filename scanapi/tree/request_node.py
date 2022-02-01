@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 class RequestNode:
     """
-    Class that represents a request. It's used as a child of an EndpointNode 
+    Class that represents a request. It's used as a child of an EndpointNode
     where each EndpointNode may contain multiple children RequestNode.
 
     Attributes:
