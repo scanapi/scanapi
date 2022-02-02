@@ -14,14 +14,15 @@ class StringEvaluator:
     It replaces every occurrence with ```${customVariable}```
     or ```${ENV}``` pattern.
     """
+
     variable_pattern = re.compile(
         r"(?P<something_before>\w*)(?P<start>\${)(?P<variable>[\w|-]*)(?P<end>})(?P<something_after>\w*)"
     )  # ${<variable>}
 
     @classmethod
     def evaluate(cls, sequence, spec_vars, is_a_test_case=False):
-        """Receives a sequence of characters and evaluates any custom or environment
-        variables present on it
+        """Receives a sequence of characters and evaluates any custom or
+        environment variables present on it
 
         Args:
             sequence[string]: sequence of characters to be evaluated
