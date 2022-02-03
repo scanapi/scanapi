@@ -25,13 +25,13 @@ class CodeEvaluator:
         Args:
             sequence[string]: sequence of characters to be evaluated
             spec_vars[dict]: dictionary containing the SpecEvaluator variables
-            is_a_test_case[bool]: indicator for checking if the given evalution
+            is_a_test_case[bool]: indicator for checking if the given evaluation
             is a test case
 
         Returns:
             tuple: a tuple containing:
                 -  [Boolean]: True if python statement is valid
-                -  [string]: None if valid evalution, tested code otherwise
+                -  [string]: None if valid evaluation, tested code otherwise
 
         Raises:
             InvalidPythonCodeError: If receives invalid python statements
@@ -67,7 +67,7 @@ class CodeEvaluator:
             tuple: a tuple containing:
                 -  [Boolean]: a boolean that indicates if assert
                 is True/False
-                -  [string]: None if valid evalution, code tested otherwise
+                -  [string]: None if valid evaluation, code tested otherwise
 
         Raises:
             AssertionError: If python statement evaluates False
