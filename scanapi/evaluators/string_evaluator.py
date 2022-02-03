@@ -79,6 +79,7 @@ class StringEvaluator:
 
         Args:
             sequence[string]: sequence of characters to be evaluated
+            spec_vars[dict]: dictionary containing the SpecEvaluator variables
 
         Returns:
             sequence[string]: sequence of characters with all valid
@@ -110,6 +111,8 @@ class StringEvaluator:
 
         Args:
             sequence[string]: sequence of characters to be evaluated
+            variable[string]: variable to be replaced
+            variable_value[any]: value that will replace the variable
 
         Returns:
             sequence[string]: sequence of characters with all occurrences of
