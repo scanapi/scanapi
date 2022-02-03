@@ -14,7 +14,11 @@ logger = logging.getLogger(__name__)
 
 class CodeEvaluator:
     python_code_pattern = re.compile(
-        r"(?P<something_before>\w*)(?P<start>\${{)(?P<python_code>.*)(?P<end>}})(?P<something_after>\w*)"
+        r"(?P<something_before>\w*)"
+        r"(?P<start>\${{)"
+        r"(?P<python_code>.*)"
+        r"(?P<end>}})"
+        r"(?P<something_after>\w*)"
     )  # ${{<python_code>}}
 
     @classmethod
