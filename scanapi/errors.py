@@ -4,8 +4,6 @@ class MalformedSpecError(Exception):
     base class for other exceptions
     """
 
-    pass
-
 
 class HTTPMethodNotAllowedError(MalformedSpecError):
     """Raised when the HTTP method in the API spec is invalid"""
