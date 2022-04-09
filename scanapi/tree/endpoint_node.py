@@ -1,5 +1,6 @@
 import logging
 from itertools import chain
+from requests import RequestException
 
 from scanapi.evaluators import SpecEvaluator
 from scanapi.exit_code import ExitCode
@@ -147,7 +148,7 @@ class EndpointNode:
         for request in self._get_requests():
             try:
                 yield request.run()
-            except Exception as e:
+            except RequestException as e:
                 error_message = f"\nError to make request `{request.full_url_path}`. \n{str(e)}\n"
                 logger.error(error_message)
                 session.exit_code = ExitCode.REQUEST_ERROR
