@@ -17,7 +17,6 @@ dist = get_distribution("scanapi")
 @click.version_option(version=dist.version)
 def main():
     """Automated Testing and Documentation for your REST API."""
-    pass
 
 
 @main.command(context_settings=CONTEXT_SETTINGS)

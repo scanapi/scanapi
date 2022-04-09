@@ -9,7 +9,7 @@ class TestParams:
     @fixture
     def mock_evaluate(self, mocker):
         mock_func = mocker.patch(
-            "scanapi.tree.request_node.SpecEvaluator.evaluate"
+            "scanapi.evaluators.spec_evaluator.SpecEvaluator.evaluate"
         )
         mock_func.return_value = ""
 
