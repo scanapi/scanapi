@@ -1,6 +1,5 @@
 name: Publish to Test PyPI
 on:
-  pull_request:
   push:
     branches: [main]
 jobs:
@@ -10,17 +9,15 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Poetry Setup
-        uses: snok/install-poetry@v1.1.1
+        uses: snok/install-poetry@v1
         with:
-          version: 1.1.1
+          version: 1.1.13
       - name: Run poetry pre-release
         run: |
           make change-version
       - name: Build and publish to test pypi
-        uses: JRubics/poetry-publish@v1.10
-        with:
-          python_version: "3.6"
-          poetry_version: ">=0.12"
-          pypi_token: ${{ secrets.TEST_PYPI_TOKEN }}
-          repository_name: "testpypi"
-          repository_url: "https://test.pypi.org/legacy/"
+        run: |
+          poetry build
+          poetry config pypi-token.testpypi ${{ secrets.TEST_PYPI_TOKEN }}
+          poetry config repositories.testpypi "https://test.pypi.org/legacy/"
+          poetry publish --repository testpypi
