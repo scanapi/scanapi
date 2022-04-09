@@ -43,7 +43,6 @@ class TestRender:
         request.body = b"this is a custom plain text"
         assert "this is a custom plain text" == render_body(request)
 
-
     @mark.it("should not render unsuported content type")
     def test_should_not_render_unsuported_content_type(self, mocked__request):
         request = mocked__request()
@@ -52,7 +51,10 @@ class TestRender:
             "Content-Type": "application/octet-stream",
         }
         request.body = b""
-        assert "Can not render. Unsuported content type: application/octet-stream." == render_body(request)
+        assert (
+            "Can not render. Unsuported content type: application/octet-stream."
+            == render_body(request)
+        )
 
 
 @mark.describe("template render")
