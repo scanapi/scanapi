@@ -28,5 +28,4 @@ def render_body(request):
     content_type = request.headers.get("Content-Type")
     if content_type in ["application/json", "text/plain"]:
         return request.body.decode()
-    if content_type.startswith("application"):
-        return "Binary content"
+    return f"Can not render. Unsuported content type: {content_type}."
