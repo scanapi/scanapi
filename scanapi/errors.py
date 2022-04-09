@@ -9,7 +9,10 @@ class HTTPMethodNotAllowedError(MalformedSpecError):
     """Raised when the HTTP method in the API spec is invalid"""
 
     def __init__(self, method, allowed_methods, *args):
-        message = f"HTTP method not supported: {method}. Supported methods: {allowed_methods}."
+        message = (
+            f"HTTP method not supported: {method}. "
+            f"Supported methods: {allowed_methods}."
+        )
         super().__init__(message, *args)
 
 
@@ -17,7 +20,10 @@ class InvalidKeyError(MalformedSpecError):
     """Raised when an invalid key is specified in the API spec"""
 
     def __init__(self, key, scope, available_keys, *args):
-        message = f"Invalid key '{key}' at '{scope}' scope. Available keys are: {available_keys}"
+        message = (
+            f"Invalid key '{key}' at '{scope}' scope. "
+            f"Available keys are: {available_keys}"
+        )
         super().__init__(message, *args)
 
 

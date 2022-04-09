@@ -149,7 +149,10 @@ class EndpointNode:
             try:
                 yield request.run()
             except RequestException as e:
-                error_message = f"\nError to make request `{request.full_url_path}`. \n{str(e)}\n"
+                error_message = (
+                    f"\nError to make request `{request.full_url_path}`. "
+                    f"\n{str(e)}\n"
+                )
                 logger.error(error_message)
                 session.exit_code = ExitCode.REQUEST_ERROR
                 continue
