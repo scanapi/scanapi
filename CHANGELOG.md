@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Print test results summary in console [#497](https://github.com/scanapi/scanapi/issues/497)
 
+### Changed
+- Implement new details to help users on visualize related request data.
+
 ### Fixed
 - Fix the `--browser` flag not working on macOS [#504](https://github.com/scanapi/scanapi/pull/504)
 
