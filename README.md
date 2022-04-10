@@ -7,6 +7,9 @@
   <a href="https://codecov.io/gh/scanapi/scanapi">
     <img alt="Codecov" src="https://img.shields.io/codecov/c/github/scanapi/scanapi">
   </a>
+  <a href="https://github.com/scanapi/scanapi/actions/workflows/lint.yml/badge.svg">
+    <img alt="LintCheck" src="https://github.com/scanapi/scanapi/workflows/Lint%20check/badge.svg?event=push">
+  </a>
   <a href="https://badge.fury.io/py/scanapi">
     <img alt="PyPI version" src="https://badge.fury.io/py/scanapi.svg">
   </a>

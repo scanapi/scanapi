@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import datetime
 import logging
+import pathlib
 import webbrowser
-from os.path import abspath
 
 from pkg_resources import get_distribution
 
@@ -25,7 +25,7 @@ class Reporter:
 
     def __init__(self, output_path=None, template=None):
         """Creates a Reporter instance object."""
-        self.output_path = output_path or "scanapi-report.html"
+        self.output_path = pathlib.Path(output_path or "scanapi-report.html")
         self.template = template
 
     def write(self, results):
@@ -51,11 +51,11 @@ class Reporter:
             doc.write(content)
 
         logger.info("\nThe documentation was generated successfully.")
-        logger.info(f"It is available at {abspath(self.output_path)}")
+        logger.info(f"It is available at {self.output_path.resolve().as_uri()}")
 
     def open_report_in_browser(self):
         """Open the results file on a browser"""
-        webbrowser.open(self.output_path)
+        webbrowser.open(self.output_path.resolve().as_uri())
 
     @staticmethod
     def write_without_generating_report(results):

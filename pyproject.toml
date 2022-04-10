@@ -39,7 +39,7 @@ pytest-it = "^0.1.4"
 flake8 = "3.8.4"
 mypy = "^0.910"
 types-requests = "^2.25.1"
-types-PyYAML = "^5.4.3"
+types-PyYAML = "^5.4.6"
 types-setuptools = "^57.0.0"
 gitlint = "0.15.1"
 

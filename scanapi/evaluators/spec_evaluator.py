@@ -69,7 +69,7 @@ class SpecEvaluator:
 
     @classmethod
     def filter_response_var(cls, spec_vars):
-        """Returns a copy pf ``spec_vars`` without 'response' references.
+        """Returns a copy of ``spec_vars`` without 'response' references.
 
         Any items with a ``response.*`` reference in their value are left out.
 
