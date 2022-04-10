@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Implement new details to help users on visualize related request data.
-- 
 ### Fixed
 - Fix the `--browser` flag not working on macOS [#504](https://github.com/scanapi/scanapi/pull/504)
 
