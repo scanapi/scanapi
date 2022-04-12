@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fix the `--browser` flag not working on macOS [#504](https://github.com/scanapi/scanapi/pull/504)
+- Error on running ScanAPI. `ImportError: cannot import name 'soft_unicode' from 'markupsafe'` [#534](https://github.com/scanapi/scanapi/pull/534)
 
 ## [2.6.0] - 2021-08-13
 ### Changed
