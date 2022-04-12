@@ -6,8 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.6.1] - 2022-04-12
 ### Changed
-- Implement new details to help users on visualize related request data.
+- Implement new details to help users on visualize related request data. [#506](https://github.com/scanapi/scanapi/pull/506)
 
 ### Fixed
 - Fix the `--browser` flag not working on macOS [#504](https://github.com/scanapi/scanapi/pull/504)
@@ -233,7 +235,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.6.0...HEAD
+[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.6.1...HEAD
+[2.6.1]: https://github.com/camilamaia/scanapi/compare/v2.6.0...v2.6.1
 [2.6.0]: https://github.com/camilamaia/scanapi/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/camilamaia/scanapi/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/camilamaia/scanapi/compare/v2.3.0...v2.4.0
