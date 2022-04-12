@@ -1,4 +1,4 @@
-FROM python:3.10.0a6-slim
+FROM python:3.10.4-bullseye
 
 LABEL maintainer="github.com/camilamaia"
 
