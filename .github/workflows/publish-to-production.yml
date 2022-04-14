@@ -1,0 +1,34 @@
+name: Publish to Production
+on:
+  release:
+    types: [published]
+jobs:
+  build-n-publish:
+    name: Publish to PyPI. Build and publish Python 🐍 distributions 📦
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Poetry Setup
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.1.13
+      - name: Build and publish to pypi
+        run: |
+          poetry build
+          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+          poetry publish
+  tweet-new-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ethomson/send-tweet-action@v1
+        with:
+          status: |
+            ScanAPI version ${{github.ref_name}} released 🚀
+
+            📃 Find out more in: https://github.com/scanapi/scanapi/releases/tag/${{github.ref_name}}
+            
+            #ScanAPI #OpenSource #Release #API
+          consumer-key: ${{ secrets.TWITTER_CONSUMER_API_KEY }}
+          consumer-secret: ${{ secrets.TWITTER_CONSUMER_API_SECRET }}
+          access-token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          access-token-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
