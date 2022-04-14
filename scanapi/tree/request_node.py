@@ -1,6 +1,8 @@
 import logging
 import time
 
+from rich.console import Console
+
 from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.hide_utils import hide_sensitive_info
 from scanapi.test_status import TestStatus
@@ -20,6 +22,7 @@ from scanapi.tree.tree_keys import (
 from scanapi.utils import join_urls, session_with_retry, validate_keys
 
 logger = logging.getLogger(__name__)
+console = Console()
 
 
 class RequestNode:
@@ -125,7 +128,7 @@ class RequestNode:
 
         method = self.http_method
         url = self.full_url_path
-        logger.info("Making request %s %s", method, url)
+        console.print(f"\n- Making request {method} {url}", highlight=False)
 
         self.endpoint.spec_vars.update(
             self.spec.get(VARS_KEY, {}),

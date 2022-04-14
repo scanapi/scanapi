@@ -61,7 +61,7 @@ class TestWrite:
 
     @fixture
     def mocked__logger(self, mocker):
-        return mocker.patch("scanapi.reporter.logger")
+        return mocker.patch("scanapi.reporter.console")
 
     @fixture
     def mock_get_distribution(self, mocker):
@@ -160,4 +160,4 @@ class TestWrite:
 
         mocked__render.assert_not_called()
         mocked__open.assert_not_called()
-        mocked__logger.info.assert_called_once()
+        mocked__logger.print.assert_called_once()
