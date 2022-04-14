@@ -22,6 +22,7 @@ requests = "2.26.0"
 appdirs = "^1.4.4"
 curlify2 = "^1.0.1"
 MarkupSafe = "2.0.1"
+rich = "12.1.0"
 
 [tool.poetry.dev-dependencies]
 codecov = "2.1.7"
