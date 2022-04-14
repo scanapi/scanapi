@@ -53,24 +53,25 @@ class Reporter:
             doc.write(content)
 
         logger.info("\nThe documentation was generated successfully.")
-        console.print(
-            f"It is available at [deep_sky_blue1]{self.output_path.resolve().as_uri()}"
-        )
+        uri = self.output_path.resolve().as_uri()
+        console.print(f"It is available at [deep_sky_blue1]{uri}")
 
     def open_report_in_browser(self):
         """Open the results file on a browser"""
         webbrowser.open(self.output_path.resolve().as_uri())
 
-    def write_summary_in_console(self):
+    @staticmethod
+    def write_summary_in_console():
         """Write the summary in console"""
         elapsedTime = round(session.elapsed_time().total_seconds(), 2)
         console.line()
         if session.failures > 0 or session.errors > 0:
-            console.rule(
-                f"[bright_green]{session.successes} passed, [bright_red]{session.failures} failed, [bright_red]{session.errors} errors in {elapsedTime}s",
-                characters="=",
-                style="bright_red",
+            summary = (
+                f"[bright_green]{session.successes} passed, "
+                f"[bright_red]{session.failures} failed, "
+                f"[bright_red]{session.errors} errors in {elapsedTime}s"
             )
+            console.rule(summary, characters="=", style="bright_red")
         else:
             console.rule(
                 f"[bright_green]{session.successes} passed in {elapsedTime}s",
