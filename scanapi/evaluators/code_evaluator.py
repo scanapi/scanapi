@@ -1,6 +1,6 @@
 # Available imports to be used dinamically in the API spec
 import datetime  # noqa: F401
-import logging
+import logging # noqa: F401
 import math  # noqa: F401
 import random  # noqa: F401
 import re
@@ -8,8 +8,6 @@ import time  # noqa: F401
 import uuid  # noqa: F401
 
 from scanapi.errors import InvalidPythonCodeError
-
-logger = logging.getLogger(__name__)
 
 
 class CodeEvaluator:

@@ -85,9 +85,7 @@ def run(
         datefmt="[%X]",
         handlers=[
             RichHandler(
-                show_time=False, 
-                markup=True, 
-                show_path=(log_level == "DEBUG")
+                show_time=False, markup=True, show_path=(log_level == "DEBUG")
             )
         ],
     )

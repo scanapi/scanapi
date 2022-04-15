@@ -1,18 +1,14 @@
 #!/usr/bin/env python3
 import datetime
-import logging
 import pathlib
 import webbrowser
 
 from pkg_resources import get_distribution
 
-from scanapi.console import console, log_report
+from scanapi.console import log_report
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.template_render import render
-from scanapi.test_status import TestStatus
-
-logger = logging.getLogger(__name__)
 
 
 class Reporter:
@@ -59,27 +55,8 @@ class Reporter:
         webbrowser.open(self.output_path.resolve().as_uri())
 
     @staticmethod
-    def write_summary_in_console():
-        """Write the summary in console"""
-        elapsedTime = round(session.elapsed_time().total_seconds(), 2)
-        console.line()
-        if session.failures > 0 or session.errors > 0:
-            summary = (
-                f"[bright_green]{session.successes} passed, "
-                f"[bright_red]{session.failures} failed, "
-                f"[bright_red]{session.errors} errors in {elapsedTime}s"
-            )
-            console.rule(summary, characters="=", style="bright_red")
-        else:
-            console.rule(
-                f"[bright_green]{session.successes} passed in {elapsedTime}s",
-                characters="=",
-            )
-        console.line()
-
-    @staticmethod
     def _build_context(results):
-        """Build context 2 dict of values required to render template.
+        """Build context dict of values required to render template.
 
         Args:
             results [generator]: generator of dicts resulting of Request run().

@@ -1,10 +1,7 @@
-import logging
 import re
 from functools import singledispatch
 
 from scanapi.evaluators.string_evaluator import StringEvaluator
-
-logger = logging.getLogger(__name__)
 
 
 class SpecEvaluator:

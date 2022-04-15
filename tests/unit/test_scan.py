@@ -17,7 +17,6 @@ def file_not_found(*args, **kwargs):
         errno.ENOENT, os.strerror(errno.ENOENT), "invalid_path/scanapi.yaml"
     )
 
-
 def empty_config_file(*args, **kwargs):
     raise EmptyConfigFileError("valid_path/scanapi.yaml")
 

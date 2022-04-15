@@ -1,4 +1,3 @@
-import logging
 import time
 
 from scanapi.console import console
@@ -19,8 +18,6 @@ from scanapi.tree.tree_keys import (
     VARS_KEY,
 )
 from scanapi.utils import join_urls, session_with_retry, validate_keys
-
-logger = logging.getLogger(__name__)
 
 
 class RequestNode:
