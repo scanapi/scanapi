@@ -41,7 +41,7 @@ class Reporter:
             None
 
         """
-        logger.info("\nWriting documentation")
+        logger.info("Writing documentation")
 
         template_path = self.template if self.template else "report.html"
         has_external_template = bool(self.template)
@@ -52,7 +52,8 @@ class Reporter:
         with open(self.output_path, "w", newline="\n") as doc:
             doc.write(content)
 
-        logger.info("\nThe documentation was generated successfully.")
+        console.line()
+        logger.info("The documentation was generated successfully.")
         uri = self.output_path.resolve().as_uri()
         console.print(f"It is available at [deep_sky_blue1]{uri}")
 
@@ -90,7 +91,7 @@ class Reporter:
         Returns:
             None
         """
-        logger.info("\nWriting results without generating report")
+        logger.info("Writing results without generating report")
         for r in results:
             if logger.root.level != logging.DEBUG:
                 for test in r["tests_results"]:
