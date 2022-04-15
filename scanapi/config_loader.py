@@ -45,7 +45,7 @@ def load_config_file(file_path):
     """
     with open(file_path, "r") as stream:
         logger.info(
-            f"Loading file [deep_sky_blue1]{file_path}",
+            f"Loading file [deep_sky_blue1 underline]{file_path}",
             extra={"highlighter": None},
         )
         data = yaml.load(stream, Loader)
