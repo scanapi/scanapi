@@ -5,15 +5,14 @@ import pathlib
 import webbrowser
 
 from pkg_resources import get_distribution
-from rich.console import Console
 
+from scanapi.console import console
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.template_render import render
 from scanapi.test_status import TestStatus
 
 logger = logging.getLogger(__name__)
-console = Console()
 
 
 class Reporter:

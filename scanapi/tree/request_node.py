@@ -1,8 +1,7 @@
 import logging
 import time
 
-from rich.console import Console
-
+from scanapi.console import console
 from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.hide_utils import hide_sensitive_info
 from scanapi.test_status import TestStatus
@@ -22,7 +21,6 @@ from scanapi.tree.tree_keys import (
 from scanapi.utils import join_urls, session_with_retry, validate_keys
 
 logger = logging.getLogger(__name__)
-console = Console()
 
 
 class RequestNode:
