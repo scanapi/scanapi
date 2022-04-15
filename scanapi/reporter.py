@@ -48,9 +48,9 @@ class Reporter:
         log_report(self.output_path.resolve().as_uri())
 
         if open_in_browser:
-            self.open_in_browser()
+            self._open_in_browser()
 
-    def open_in_browser(self):
+    def _open_in_browser(self):
         """Open the results file on a browser"""
         webbrowser.open(self.output_path.resolve().as_uri())
 

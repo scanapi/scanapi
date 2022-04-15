@@ -43,6 +43,8 @@ def load_config_file(file_path):
     Loads configuration file. If non-empty file exists reads data and
     returns it.
     """
+
+    logger.info("STEP 1")
     with open(file_path, "r") as stream:
         logger.info(
             f"Loading file [deep_sky_blue1 underline]{file_path}",

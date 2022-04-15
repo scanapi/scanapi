@@ -6,6 +6,7 @@ from scanapi.session import session
 
 console = Console()
 
+
 def write_results(results):
     """Print the test results to the console output
 

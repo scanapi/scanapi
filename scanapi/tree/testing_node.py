@@ -1,4 +1,3 @@
-
 from scanapi.session import session
 from scanapi.test_status import TestStatus
 from scanapi.tree.tree_keys import ASSERT_KEY, NAME_KEY

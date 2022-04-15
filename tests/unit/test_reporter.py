@@ -64,6 +64,10 @@ class TestWrite:
         return mocker.patch("scanapi.reporter.logger")
 
     @fixture
+    def mocked__webbrowser(self, mocker):
+        return mocker.patch("scanapi.reporter.webbrowser")
+
+    @fixture
     def mock_get_distribution(self, mocker):
         class MockDistro:
             @property
@@ -101,7 +105,7 @@ class TestWrite:
     ):
         mocked__render.return_value = "ScanAPI Report"
         reporter = Reporter()
-        reporter.write(fake_results)
+        reporter.write(fake_results, False)
 
         mocked__render.assert_called_once_with("report.html", context, False)
         mocked__open.assert_called_once_with(
@@ -121,7 +125,7 @@ class TestWrite:
     ):
         mocked__render.return_value = "ScanAPI Report"
         reporter = Reporter("./custom/report-output.html", "html")
-        reporter.write(fake_results)
+        reporter.write(fake_results, False)
 
         mocked__render.assert_called_once_with("html", context, True)
         mocked__open.assert_called_once_with(
@@ -141,7 +145,7 @@ class TestWrite:
     ):
         mocked__render.return_value = "ScanAPI Report"
         reporter = Reporter(template="my-template.html")
-        reporter.write(fake_results)
+        reporter.write(fake_results, False)
 
         mocked__render.assert_called_once_with(
             "my-template.html", context, True
@@ -151,13 +155,18 @@ class TestWrite:
         )
         mocked__open().write.assert_called_once_with("ScanAPI Report")
 
-    @mark.it("should write without generating report")
-    def test_should_write_without_generating_report(
-        self, mocker, mocked__render, mocked__open, mocked__logger,
+    @mark.it("should open report in browser")
+    def test_should_open_report_in_browser(
+        self,
+        mocker,
+        mocked__render,
+        mocked__open,
+        mocked__session,
+        mock_get_distribution,
+        context,
+        mocked__webbrowser,
     ):
-        reporter = Reporter()
-        reporter.write_without_generating_report(fake_results)
 
-        mocked__render.assert_not_called()
-        mocked__open.assert_not_called()
-        mocked__logger.info.assert_called_once()
+        reporter = Reporter()
+        reporter.write(fake_results, True)
+        mocked__webbrowser.open.assert_called_once
