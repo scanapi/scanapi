@@ -78,10 +78,9 @@ def run(
     Automated Testing and Documentation for your REST API.
     SPEC_PATH argument is the API specification file path.
     """
-    FORMAT = "%(message)s"
     logging.basicConfig(
         level=log_level,
-        format=FORMAT,
+        format="%(message)s",
         datefmt="[%X]",
         handlers=[
             RichHandler(

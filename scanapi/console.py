@@ -43,18 +43,40 @@ def _write_summary():
     Returns:
         None
     """
-    elapsedTime = round(session.elapsed_time().total_seconds(), 2)
-    console.line()
+    elapsed_time = round(session.elapsed_time().total_seconds(), 2)
+
     if session.failures > 0 or session.errors > 0:
-        summary = (
-            f"[bright_green]{session.successes} passed, "
-            f"[bright_red]{session.failures} failed, "
-            f"[bright_red]{session.errors} errors in {elapsedTime}s"
-        )
-        console.rule(summary, characters="=", style="bright_red")
-    else:
-        console.rule(
-            f"[bright_green]{session.successes} passed in {elapsedTime}s",
-            characters="=",
-        )
+        _print_summary_with_failures_or_errors(elapsed_time)
+        return
+
+    _print_successful_summary(elapsed_time)
+
+
+def _print_summary_with_failures_or_errors(elapsed_time):
+    """Write tests summary when there are failures or errors
+
+    Returns:
+        None
+    """
+    summary = (
+        f"[bright_green]{session.successes} passed, "
+        f"[bright_red]{session.failures} failed, "
+        f"[bright_red]{session.errors} errors in {elapsed_time}s"
+    )
+    console.line()
+    console.rule(summary, characters="=", style="bright_red")
+    console.line()
+
+
+def _print_successful_summary(elapsed_time):
+    """Write tests summary when there are no failures or errors
+
+    Returns:
+        None
+    """
+    console.line()
+    console.rule(
+        f"[bright_green]{session.successes} passed in {elapsed_time}s",
+        characters="=",
+    )
     console.line()
