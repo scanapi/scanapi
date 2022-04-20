@@ -20,7 +20,7 @@ def write_results(results):
             if test["status"] == TestStatus.FAILED:
                 console.print(
                     f"[bright_red] [FAILED] [white]{test['name']}\n"
-                    f"\t[bright_red]{test['failure']} is false"
+                    f"\t  [bright_red]{test['failure']} is false"
                 )
     _write_summary()
 

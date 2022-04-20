@@ -169,4 +169,4 @@ class TestWrite:
 
         reporter = Reporter()
         reporter.write(fake_results, True)
-        mocked__webbrowser.open.assert_called_once
+        assert mocked__webbrowser.open.call_count == 1

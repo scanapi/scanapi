@@ -8,7 +8,6 @@ from pytest import fixture, mark, raises
 
 from scanapi.errors import EmptyConfigFileError, InvalidKeyError
 from scanapi.scan import scan, write_report
-from scanapi.test_status import TestStatus
 
 log = logging.getLogger(__name__)
 
@@ -178,6 +177,7 @@ class TestScan:
 
         mock_endpoint_init.assert_called_once_with({"endpoints": []})
         assert mock_endpoint_run.called
+        assert mock_write_results.called
         mock_write_report.assert_called_once_with([response], True)
 
 

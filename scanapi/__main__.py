@@ -91,7 +91,6 @@ def run(
     )
     logger = logging.getLogger(__name__)
 
-
     click_preferences = {
         "spec_path": spec_path,
         "output_path": output_path,
