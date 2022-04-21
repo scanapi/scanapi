@@ -25,7 +25,7 @@ def write_results(results):
     _write_summary()
 
 
-def log_report(uri):
+def write_report_path(uri):
     """Print path to generated documentation
 
     Returns:

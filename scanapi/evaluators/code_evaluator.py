@@ -1,6 +1,5 @@
 # Available imports to be used dinamically in the API spec
 import datetime  # noqa: F401
-import logging  # noqa: F401
 import math  # noqa: F401
 import random  # noqa: F401
 import re

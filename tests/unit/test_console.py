@@ -2,7 +2,7 @@ from datetime import timedelta
 from unittest.mock import MagicMock
 
 from pytest import fixture, mark
-from scanapi.console import log_report, write_results
+from scanapi.console import write_report_path, write_results
 
 
 @fixture
@@ -115,12 +115,12 @@ class TestWriteResults:
 
 
 @mark.describe("console")
-@mark.describe("log_report")
+@mark.describe("write_report_path")
 class TestLogReport:
     @mark.it("should write report path")
     def test(self, mocked__console):
 
-        log_report("http://localhost:8080")
+        write_report_path("http://localhost:8080")
 
         mocked__console.print.assert_called_once_with(
             "The documentation was generated successfully.\n"

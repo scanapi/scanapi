@@ -5,7 +5,7 @@ import webbrowser
 
 from pkg_resources import get_distribution
 
-from scanapi.console import log_report
+from scanapi.console import write_report_path
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.template_render import render
@@ -45,7 +45,7 @@ class Reporter:
         with open(self.output_path, "w", newline="\n") as doc:
             doc.write(content)
 
-        log_report(self.output_path.resolve().as_uri())
+        write_report_path(self.output_path.resolve().as_uri())
 
         if open_in_browser:
             self._open_in_browser()
