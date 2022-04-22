@@ -21,6 +21,15 @@ from scanapi.utils import join_urls, session_with_retry, validate_keys
 
 
 class RequestNode:
+    """
+    Class that represents a request. It's used as a child of an EndpointNode
+    where each EndpointNode may contain multiple children RequestNode.
+
+    Attributes:
+        spec[dict]: dictionary containing the request's specifications
+        endpoint[EndpointNode]: the parent node
+    """
+
     SCOPE = "request"
     ALLOWED_KEYS = (
         BODY_KEY,
