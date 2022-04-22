@@ -1,11 +1,7 @@
-import logging
-
 from scanapi.session import session
 from scanapi.test_status import TestStatus
 from scanapi.tree.tree_keys import ASSERT_KEY, NAME_KEY
 from scanapi.utils import validate_keys
-
-logger = logging.getLogger(__name__)
 
 
 class TestingNode:
@@ -51,7 +47,6 @@ class TestingNode:
             error = str(e)
 
         self._process_result(status)
-        self._log_result(status, failure)
 
         return {
             "name": self.full_name,
@@ -78,11 +73,6 @@ class TestingNode:
 
         if status == TestStatus.PASSED:
             session.increment_successes()
-
-    def _log_result(self, status, failure):
-        logger.debug("\a [%s] %s", status.upper(), self.full_name)
-        if failure:
-            logger.debug("\t  %s is false", failure)
 
     def _validate(self):
         validate_keys(

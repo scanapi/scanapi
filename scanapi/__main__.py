@@ -3,6 +3,7 @@ import logging
 import click
 import yaml
 from pkg_resources import get_distribution
+from rich.logging import RichHandler
 
 from scanapi.exit_code import ExitCode
 from scanapi.scan import scan
@@ -77,7 +78,16 @@ def run(
     Automated Testing and Documentation for your REST API.
     SPEC_PATH argument is the API specification file path.
     """
-    logging.basicConfig(level=log_level, format="%(message)s")
+    logging.basicConfig(
+        level=log_level,
+        format="%(message)s",
+        datefmt="[%X]",
+        handlers=[
+            RichHandler(
+                show_time=False, markup=True, show_path=(log_level == "DEBUG")
+            )
+        ],
+    )
     logger = logging.getLogger(__name__)
 
     click_preferences = {

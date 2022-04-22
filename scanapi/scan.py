@@ -3,6 +3,7 @@ import logging
 import yaml
 
 from scanapi.config_loader import load_config_file
+from scanapi.console import write_results
 from scanapi.errors import (
     BadConfigurationError,
     EmptyConfigFileError,
@@ -50,38 +51,24 @@ def scan():
         logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
 
+    write_results(results)
+
     if no_report:
-        write_without_generating_report(results)
-    else:
-        try:
-            write_report(results)
-            if open_browser:
-                open_report_in_browser()
-        except (BadConfigurationError, InvalidPythonCodeError) as e:
-            logger.error(e)
-            raise SystemExit(ExitCode.USAGE_ERROR)
+        session.exit()
+
+    try:
+        write_report(results, open_browser)
+
+    except (BadConfigurationError, InvalidPythonCodeError) as e:
+        logger.error(e)
+        raise SystemExit(ExitCode.USAGE_ERROR)
 
     session.exit()
 
 
-def write_report(results):
+def write_report(results, open_browser):
     """Constructs a Reporter object and calls the write method of Reporter to
     push the results to a file.
     """
     reporter = Reporter(settings["output_path"], settings["template"])
-    reporter.write(results)
-
-
-def open_report_in_browser():
-    """Open the results file on a browser"""
-    reporter = Reporter(settings["output_path"], settings["template"])
-    reporter.open_report_in_browser()
-
-
-def write_without_generating_report(results):
-    """Constructs a Reporter object and calls the
-    write_without_generating_report method of Reporter to print the results to
-    the console output without generating a report.
-    """
-    reporter = Reporter()
-    reporter.write_without_generating_report(results)
+    reporter.write(results, open_browser)

@@ -1,11 +1,8 @@
-import logging
 import os
 import re
 
 from scanapi.errors import BadConfigurationError
 from scanapi.evaluators.code_evaluator import CodeEvaluator
-
-logger = logging.getLogger(__name__)
 
 
 class StringEvaluator:
