@@ -1,8 +1,9 @@
 import time
 
-from scanapi.console import console
+from scanapi.console import console, write_result
 from scanapi.errors import HTTPMethodNotAllowedError
 from scanapi.hide_utils import hide_sensitive_info
+from scanapi.settings import settings
 from scanapi.test_status import TestStatus
 from scanapi.tree.testing_node import TestingNode
 from scanapi.tree.tree_keys import (
@@ -162,7 +163,7 @@ class RequestNode:
 
         del self.endpoint.spec_vars["response"]
 
-        return {
+        result = {
             "response": response,
             "tests_results": tests_results,
             "no_failure": all(
@@ -171,6 +172,11 @@ class RequestNode:
             ),
             "request_node_name": self.name,
         }
+
+        if not settings["no_report"]:
+            write_result(result)
+
+        return result
 
     def _run_tests(self):
         """Run all tests cases of request node.
