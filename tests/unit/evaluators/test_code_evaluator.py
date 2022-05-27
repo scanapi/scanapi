@@ -40,6 +40,7 @@ class TestEvaluate:
     test_data = [
         ("${{response.text == 'abcde'}}", (True, None)),
         ("${{response.url == 'http://test.com/'}}", (True, None),),
+        ("${{all(x in response.text for x in 'abc')}}", (True, None)),
         (
             "${{response.status_code == 300}}",
             (False, "response.status_code == 300"),

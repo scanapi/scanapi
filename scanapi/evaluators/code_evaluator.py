@@ -59,6 +59,9 @@ class CodeEvaluator:
     def _assert_code(cls, code, response):
         """Assert a Python code statement.
 
+        The eval's global context is enriched with the response to support
+        comprehensions.
+
         Args:
             code[string]: python code that ScanAPI needs to assert
             response[requests.Response]: the response for the current request
@@ -74,7 +77,8 @@ class CodeEvaluator:
             AssertionError: If python statement evaluates False
 
         """
-        ok = eval(code)  # noqa
+        global_context = {**globals(), **{"response": response}}
+        ok = eval(code, global_context)  # noqa
         return ok, None if ok else code.strip()
 
     @classmethod
