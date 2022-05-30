@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Print test results summary in console [#497](https://github.com/scanapi/scanapi/issues/497)
 
+### Fixed
+- Fix CodeEvaluator's global context when calling eval [#515](https://github.com/scanapi/scanapi/pull/515)
+
 ## [2.6.1] - 2022-04-12
 ### Changed
 - Implement new details to help users on visualize related request data. [#506](https://github.com/scanapi/scanapi/pull/506)
