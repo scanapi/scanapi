@@ -6,11 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.6.2] - 2022-06-01
 ### Added
 - Print test results summary in console [#497](https://github.com/scanapi/scanapi/issues/497)
 
 ### Fixed
-- Fix CodeEvaluator's global context when calling eval [#515](https://github.com/scanapi/scanapi/pull/515)
+- Error when using list (or any other) comprehension in Python Code [#515](https://github.com/scanapi/scanapi/pull/515)
 
 ## [2.6.1] - 2022-04-12
 ### Changed
@@ -240,29 +242,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.6.1...HEAD
-[2.6.1]: https://github.com/camilamaia/scanapi/compare/v2.6.0...v2.6.1
-[2.6.0]: https://github.com/camilamaia/scanapi/compare/v2.5.0...v2.6.0
-[2.5.0]: https://github.com/camilamaia/scanapi/compare/v2.4.0...v2.5.0
-[2.4.0]: https://github.com/camilamaia/scanapi/compare/v2.3.0...v2.4.0
-[2.3.0]: https://github.com/camilamaia/scanapi/compare/v2.2.0...v2.3.0
-[2.2.0]: https://github.com/camilamaia/scanapi/compare/v2.1.0...v2.2.0
-[2.1.0]: https://github.com/camilamaia/scanapi/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/camilamaia/scanapi/compare/v1.0.5...v2.0.0
-[1.0.5]: https://github.com/camilamaia/scanapi/compare/v1.0.4...v1.0.5
-[1.0.4]: https://github.com/camilamaia/scanapi/compare/v1.0.3...v1.0.4
-[1.0.3]: https://github.com/camilamaia/scanapi/compare/v1.0.2...v1.0.3
-[1.0.2]: https://github.com/camilamaia/scanapi/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/camilamaia/scanapi/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/camilamaia/scanapi/compare/v0.1.0...v1.0.0
-[0.1.0]: https://github.com/camilamaia/scanapi/compare/v0.0.19...v0.1.0
-[0.0.19]: https://github.com/camilamaia/scanapi/compare/v0.0.18...v0.0.19
-[0.0.18]: https://github.com/camilamaia/scanapi/compare/v0.0.17...v0.0.18
-[0.0.17]: https://github.com/camilamaia/scanapi/compare/v0.0.16...v0.0.17
-[0.0.16]: https://github.com/camilamaia/scanapi/compare/v0.0.15...v0.0.16
-[0.0.15]: https://github.com/camilamaia/scanapi/compare/v0.0.14...v0.0.15
-[0.0.14]: https://github.com/camilamaia/scanapi/compare/v0.0.13...v0.0.14
-[0.0.13]: https://github.com/camilamaia/scanapi/compare/v0.0.12...v0.0.13
-[0.0.12]: https://github.com/camilamaia/scanapi/compare/v0.0.11...v0.0.12
-[0.0.11]: https://github.com/camilamaia/scanapi/compare/v0.0.10...v0.0.11
-[0.0.10]: https://github.com/camilamaia/scanapi/releases/tag/v0.0.10
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.6.2...HEAD
+[2.6.2]: https://github.com/scanapi/scanapi/compare/v2.6.1...v2.6.2
+[2.6.1]: https://github.com/scanapi/scanapi/compare/v2.6.0...v2.6.1
+[2.6.0]: https://github.com/scanapi/scanapi/compare/v2.5.0...v2.6.0
+[2.5.0]: https://github.com/scanapi/scanapi/compare/v2.4.0...v2.5.0
+[2.4.0]: https://github.com/scanapi/scanapi/compare/v2.3.0...v2.4.0
+[2.3.0]: https://github.com/scanapi/scanapi/compare/v2.2.0...v2.3.0
+[2.2.0]: https://github.com/scanapi/scanapi/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/scanapi/scanapi/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/scanapi/scanapi/compare/v1.0.5...v2.0.0
+[1.0.5]: https://github.com/scanapi/scanapi/compare/v1.0.4...v1.0.5
+[1.0.4]: https://github.com/scanapi/scanapi/compare/v1.0.3...v1.0.4
+[1.0.3]: https://github.com/scanapi/scanapi/compare/v1.0.2...v1.0.3
+[1.0.2]: https://github.com/scanapi/scanapi/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/scanapi/scanapi/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/scanapi/scanapi/compare/v0.1.0...v1.0.0
+[0.1.0]: https://github.com/scanapi/scanapi/compare/v0.0.19...v0.1.0
+[0.0.19]: https://github.com/scanapi/scanapi/compare/v0.0.18...v0.0.19
+[0.0.18]: https://github.com/scanapi/scanapi/compare/v0.0.17...v0.0.18
+[0.0.17]: https://github.com/scanapi/scanapi/compare/v0.0.16...v0.0.17
+[0.0.16]: https://github.com/scanapi/scanapi/compare/v0.0.15...v0.0.16
+[0.0.15]: https://github.com/scanapi/scanapi/compare/v0.0.14...v0.0.15
+[0.0.14]: https://github.com/scanapi/scanapi/compare/v0.0.13...v0.0.14
+[0.0.13]: https://github.com/scanapi/scanapi/compare/v0.0.12...v0.0.13
+[0.0.12]: https://github.com/scanapi/scanapi/compare/v0.0.11...v0.0.12
+[0.0.11]: https://github.com/scanapi/scanapi/compare/v0.0.10...v0.0.11
+[0.0.10]: https://github.com/scanapi/scanapi/releases/tag/v0.0.10
