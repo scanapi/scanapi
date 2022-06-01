@@ -18,6 +18,10 @@ class TestRun:
     def mock_time_sleep(self, mocker):
         return mocker.patch("scanapi.tree.request_node.time.sleep")
 
+    @fixture
+    def mock_console_write_result(self, mocker):
+        return mocker.patch("scanapi.tree.request_node.write_result")
+
     @mark.it("should call the request method")
     def test_calls_request(self, mock_session, mock_time_sleep):
         request = RequestNode(
@@ -46,6 +50,40 @@ class TestRun:
             "request_node_name": "request_name",
         }
 
+    @mark.context("when no_report is False")
+    @mark.it("should call the write_result method")
+    def test_calls_write_result(self, mocker, mock_console_write_result):
+        mocker.patch(
+            "scanapi.tree.request_node.settings", {"no_report": False,},
+        )
+
+        request = RequestNode(
+            {"path": "http://foo.com", "name": "request_name"},
+            endpoint=EndpointNode(
+                {"name": "endpoint_name", "requests": [{}], "delay": 1}
+            ),
+        )
+        request.run()
+
+        assert mock_console_write_result.call_count == 1
+
+    @mark.context("when no_report is True")
+    @mark.it("should not call the write_result method")
+    def test_doesnt_write_result(self, mocker, mock_console_write_result):
+        mocker.patch(
+            "scanapi.tree.request_node.settings", {"no_report": True,},
+        )
+
+        request = RequestNode(
+            {"path": "http://foo.com", "name": "request_name"},
+            endpoint=EndpointNode(
+                {"name": "endpoint_name", "requests": [{}], "delay": 1}
+            ),
+        )
+        request.run()
+
+        assert not mock_console_write_result.called
+
     test_data = [
         ([{"status": "passed"}, {"status": "failed"}], False,),
         ([{"status": "passed"}, {"status": "passed"}], True,),
@@ -54,7 +92,12 @@ class TestRun:
     @mark.parametrize("test_results, expected_no_failure", test_data)
     @mark.it("should build the result object")
     def test_build_result(
-        self, test_results, expected_no_failure, mock_session, mock_run_tests,
+        self,
+        test_results,
+        expected_no_failure,
+        mock_session,
+        mock_run_tests,
+        mock_console_write_result,
     ):
         mock_run_tests.return_value = test_results
         request = RequestNode(

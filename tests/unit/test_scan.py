@@ -7,7 +7,7 @@ import yaml
 from pytest import fixture, mark, raises
 
 from scanapi.errors import EmptyConfigFileError, InvalidKeyError
-from scanapi.scan import scan, write_report
+from scanapi.scan import scan
 
 log = logging.getLogger(__name__)
 
@@ -121,87 +121,111 @@ class TestScan:
         )
 
     @mark.context("when the api spec is ok")
-    @mark.it("should call reporter write_report and console write_results")
-    def test_should_call_reporter(self, mocker, response):
+    @mark.it(
+        "should call reporter.write, call console.write_summary and exit the session"
+    )
+    def test_should_call_reporter_write_call_console_write_summary_and_exit(
+        self, mocker, response
+    ):
+        mocker.patch(
+            "scanapi.scan.settings",
+            {
+                "spec_path": "",
+                "no_report": False,
+                "open_browser": False,
+                "output_path": "",
+                "template": None,
+            },
+        )
+
         mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
         mock_load_config_file.return_value = {"endpoints": []}
         mock_endpoint_init = mocker.patch("scanapi.scan.EndpointNode.__init__")
         mock_endpoint_init.return_value = None
         mock_endpoint_run = mocker.patch("scanapi.scan.EndpointNode.run")
         mock_endpoint_run.return_value = [response]
-        mock_write_report = mocker.patch("scanapi.scan.write_report")
-        mock_write_results = mocker.patch("scanapi.scan.write_results")
+        mock_reporter_write = mocker.patch("scanapi.scan.Reporter.write")
+        mock_console_write_summary = mocker.patch("scanapi.scan.write_summary")
 
         with raises(SystemExit) as excinfo:
             scan()
 
+        mock_reporter_write.assert_called_once_with([response], False)
+        mock_console_write_summary.assert_called_once_with()
+
         assert excinfo.type == SystemExit
         assert excinfo.value.code == 0
 
-        mock_endpoint_init.assert_called_once_with({"endpoints": []})
-        assert mock_endpoint_run.called
-        mock_write_report.assert_called_once_with([response], False)
-        assert mock_write_results.called
-
-    @mark.context(
-        "when the api spec is ok and the is configured to open the results"
+    @mark.context("when the api spec is ok")
+    @mark.context("when no_report is True")
+    @mark.it(
+        "should call console.write_results, call console.write_summary and exit the session"
     )
-    @mark.it("should call reporter write_report")
-    def test_should_call_reporter_and_open_results(self, mocker, response):
+    def test_should_call_console_write_results_call_console_write_summary_and_exit(
+        self, mocker, response
+    ):
+        mocker.patch(
+            "scanapi.scan.settings",
+            {
+                "spec_path": "",
+                "no_report": True,
+                "open_browser": False,
+                "output_path": "",
+                "template": None,
+            },
+        )
+
         mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
         mock_load_config_file.return_value = {"endpoints": []}
         mock_endpoint_init = mocker.patch("scanapi.scan.EndpointNode.__init__")
         mock_endpoint_init.return_value = None
         mock_endpoint_run = mocker.patch("scanapi.scan.EndpointNode.run")
         mock_endpoint_run.return_value = [response]
-        mock_write_report = mocker.patch("scanapi.scan.write_report")
-        mock_write_results = mocker.patch("scanapi.scan.write_results")
+        mock_console_write_results = mocker.patch("scanapi.scan.write_results")
+        mock_console_write_summary = mocker.patch("scanapi.scan.write_summary")
 
+        with raises(SystemExit) as excinfo:
+            scan()
+
+        mock_console_write_results.assert_called_once_with([response])
+        mock_console_write_summary.assert_called_once_with()
+
+        assert excinfo.type == SystemExit
+        assert excinfo.value.code == 0
+
+    @mark.context("when the api spec is ok")
+    @mark.context("when open_browser is True")
+    @mark.it(
+        "should call reporter.write passing open_browser as True, call console.write_summary and exit the session"
+    )
+    def test_should_call_reporter_write_with_open_browser_true_call_console_write_summary_and_exit(
+        self, mocker, response
+    ):
         mocker.patch(
             "scanapi.scan.settings",
             {
-                "spec_path": None,
-                "output_path": "out/my-report.md",
+                "spec_path": "",
                 "no_report": False,
                 "open_browser": True,
-                "reporter": "markdown",
-                "template": "my-template.jinja",
+                "output_path": "",
+                "template": None,
             },
         )
+
+        mock_load_config_file = mocker.patch("scanapi.scan.load_config_file")
+        mock_load_config_file.return_value = {"endpoints": []}
+        mock_endpoint_init = mocker.patch("scanapi.scan.EndpointNode.__init__")
+        mock_endpoint_init.return_value = None
+        mock_endpoint_run = mocker.patch("scanapi.scan.EndpointNode.run")
+        mock_endpoint_run.return_value = [response]
+        mock_reporter_write = mocker.patch("scanapi.scan.Reporter.write")
+        mock_console_write_summary = mocker.patch("scanapi.scan.write_summary")
 
         with raises(SystemExit) as excinfo:
             scan()
 
+        mock_reporter_write.assert_called_once_with([response], True)
+        mock_console_write_summary.assert_called_once_with()
+
         assert excinfo.type == SystemExit
         assert excinfo.value.code == 0
-
-        mock_endpoint_init.assert_called_once_with({"endpoints": []})
-        assert mock_endpoint_run.called
-        assert mock_write_results.called
-        mock_write_report.assert_called_once_with([response], True)
-
-
-@mark.describe("scan")
-@mark.describe("write_report")
-class TestWriteReport:
-    @mark.it("should call write_report")
-    def test_should_call_wr(self, mocker, response):
-        mock_write = mocker.patch("scanapi.scan.Reporter.write")
-        mock_reporter_init = mocker.patch("scanapi.scan.Reporter.__init__")
-        mock_reporter_init.return_value = None
-        mocker.patch(
-            "scanapi.scan.settings",
-            {
-                "output_path": "out/my-report.md",
-                "no_report": False,
-                "reporter": "markdown",
-                "template": "my-template.jinja",
-            },
-        )
-
-        write_report([response], False)
-
-        mock_reporter_init.assert_called_once_with(
-            "out/my-report.md", "my-template.jinja"
-        )
-        mock_write.assert_called_once_with([response], False)

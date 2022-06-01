@@ -1,8 +1,7 @@
 from rich.console import Console
 
-from scanapi.test_status import TestStatus
 from scanapi.session import session
-
+from scanapi.test_status import TestStatus
 
 console = Console()
 
@@ -14,15 +13,23 @@ def write_results(results):
         None
     """
     for r in results:
-        for test in r["tests_results"]:
-            if test["status"] is TestStatus.PASSED:
-                console.print(f"[bright_green] [PASSED] [white]{test['name']}")
-            if test["status"] == TestStatus.FAILED:
-                console.print(
-                    f"[bright_red] [FAILED] [white]{test['name']}\n"
-                    f"\t  [bright_red]{test['failure']} is false"
-                )
-    _write_summary()
+        write_result(r)
+
+
+def write_result(result):
+    """Print the test result to the console output
+
+    Returns:
+        None
+    """
+    for test in result["tests_results"]:
+        if test["status"] is TestStatus.PASSED:
+            console.print(f"[bright_green] [PASSED] [white]{test['name']}")
+        if test["status"] == TestStatus.FAILED:
+            console.print(
+                f"[bright_red] [FAILED] [white]{test['name']}\n"
+                f"\t  [bright_red]{test['failure']} is false"
+            )
 
 
 def write_report_path(uri):
@@ -37,7 +44,7 @@ def write_report_path(uri):
     )
 
 
-def _write_summary():
+def write_summary():
     """Write tests summary in console
 
     Returns:
