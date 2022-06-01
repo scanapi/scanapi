@@ -14,7 +14,7 @@ keywords = ["python", "scanapi", "tests", "end2end", "endtoend", "integration te
 scanapi = "scanapi:main"
 
 [tool.poetry.dependencies]
-python = ">=3.6.2,<4.0.0"
+python = ">=3.7.13,<4.0.0"
 click = "7.1.2"
 jinja2 = "2.11.3"
 pyyaml = "5.4"
