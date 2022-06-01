@@ -27,7 +27,7 @@ class Loader(yaml.SafeLoader):
 def construct_include(loader: Loader, node: yaml.Node) -> Any:
     """Include file referenced at node."""
     if not isinstance(node, yaml.ScalarNode):
-        include_node_str = yaml.serialize(node, encoding="utf-8").strip()
+        include_node_str = yaml.serialize(node).strip()
         message = f"Include tag value is not a scalar: {include_node_str}"
         raise BadConfigIncludeError(message)
     include_file_path = str(loader.construct_scalar(node))
