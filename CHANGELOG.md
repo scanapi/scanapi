@@ -7,7 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Upgrade packages PyYAML and Jinja2 to their latest versions
+- Upgrade the following packages to their latest versions:
+    - PyYAML
+    - Jinja2
+    - click
+    - black
+    - pre-commit
+    - types-PyYAML
+    - gitlint
+- Upgrade Python versions in GitHub Actions
+- Upgrade Poetry version in Github Actions
 
 ### Deprecated
 - Drops support for Python 3.6 since its EOL was reached out in december last year
