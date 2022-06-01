@@ -39,13 +39,19 @@ class TestEvaluate:
 
     test_data = [
         ("${{response.text == 'abcde'}}", (True, None)),
-        ("${{response.url == 'http://test.com/'}}", (True, None),),
+        (
+            "${{response.url == 'http://test.com/'}}",
+            (True, None),
+        ),
         ("${{all(x in response.text for x in 'abc')}}", (True, None)),
         (
             "${{response.status_code == 300}}",
             (False, "response.status_code == 300"),
         ),
-        ("${{response.url == 'abc'}}", (False, "response.url == 'abc'"),),
+        (
+            "${{response.url == 'abc'}}",
+            (False, "response.url == 'abc'"),
+        ),
     ]
 
     @mark.context("when sequence matches the pattern")
@@ -56,7 +62,9 @@ class TestEvaluate:
     def test_should_return_assert_results_2(self, sequence, expected, response):
         assert (
             CodeEvaluator.evaluate(
-                sequence, {"response": response}, is_a_test_case=True,
+                sequence,
+                {"response": response},
+                is_a_test_case=True,
             )
             == expected
         )

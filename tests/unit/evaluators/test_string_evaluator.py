@@ -55,7 +55,10 @@ class TestEvaluateEnvVar:
 
     test_data = [
         ("${BASE_URL}", "https://jsonplaceholder.typicode.com"),
-        ("${BASE_URL}/posts", "https://jsonplaceholder.typicode.com/posts",),
+        (
+            "${BASE_URL}/posts",
+            "https://jsonplaceholder.typicode.com/posts",
+        ),
         (
             "https://jsonplaceholder.typicode.com/posts/${POST_ID}",
             "https://jsonplaceholder.typicode.com/posts/2",

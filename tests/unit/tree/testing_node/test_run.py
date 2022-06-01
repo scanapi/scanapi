@@ -37,7 +37,9 @@ class TestRun:
     @mark.context("when test passed")
     @mark.it("should build result object")
     def test_build_result(
-        self, mock_evaluate, testing_node,
+        self,
+        mock_evaluate,
+        testing_node,
     ):
         mock_evaluate.return_value = (True, None)
 
@@ -67,7 +69,9 @@ class TestRun:
     @mark.context("when test failed")
     @mark.it("should build result object")
     def test_build_result_2(
-        self, mock_evaluate, testing_node,
+        self,
+        mock_evaluate,
+        testing_node,
     ):
         mock_evaluate.return_value = (
             False,

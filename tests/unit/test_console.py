@@ -144,7 +144,8 @@ class TestWriteSummary:
         write_summary()
 
         mocked__console.rule.assert_called_once_with(
-            "[bright_green]1 passed in 3.0s", characters="=",
+            "[bright_green]1 passed in 3.0s",
+            characters="=",
         )
 
     @mark.context("when session has failures")
@@ -171,5 +172,6 @@ class TestWriteSummary:
         write_summary()
 
         mocked__console.rule.assert_called_once_with(
-            "[bright_green]0 passed in 3.0s", characters="=",
+            "[bright_green]0 passed in 3.0s",
+            characters="=",
         )

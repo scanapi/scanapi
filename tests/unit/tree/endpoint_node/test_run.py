@@ -32,7 +32,10 @@ class TestRun:
                     {
                         "name": "foo",
                         "requests": [
-                            {"name": "First", "path": "http://foo.com/first",},
+                            {
+                                "name": "First",
+                                "path": "http://foo.com/first",
+                            },
                             {
                                 "name": "Second",
                                 "path": "http://foo.com/second",
@@ -68,7 +71,10 @@ class TestRun:
                     {
                         "name": "foo",
                         "requests": [
-                            {"name": "First", "path": "http://foo.com/first",},
+                            {
+                                "name": "First",
+                                "path": "http://foo.com/first",
+                            },
                             {
                                 "name": "Second",
                                 "path": "http://foo.com/second",

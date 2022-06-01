@@ -54,7 +54,10 @@ class TestRun:
     @mark.it("should call the write_result method")
     def test_calls_write_result(self, mocker, mock_console_write_result):
         mocker.patch(
-            "scanapi.tree.request_node.settings", {"no_report": False,},
+            "scanapi.tree.request_node.settings",
+            {
+                "no_report": False,
+            },
         )
 
         request = RequestNode(
@@ -71,7 +74,10 @@ class TestRun:
     @mark.it("should not call the write_result method")
     def test_doesnt_write_result(self, mocker, mock_console_write_result):
         mocker.patch(
-            "scanapi.tree.request_node.settings", {"no_report": True,},
+            "scanapi.tree.request_node.settings",
+            {
+                "no_report": True,
+            },
         )
 
         request = RequestNode(
@@ -85,8 +91,14 @@ class TestRun:
         assert not mock_console_write_result.called
 
     test_data = [
-        ([{"status": "passed"}, {"status": "failed"}], False,),
-        ([{"status": "passed"}, {"status": "passed"}], True,),
+        (
+            [{"status": "passed"}, {"status": "failed"}],
+            False,
+        ),
+        (
+            [{"status": "passed"}, {"status": "passed"}],
+            True,
+        ),
     ]
 
     @mark.parametrize("test_results, expected_no_failure", test_data)
