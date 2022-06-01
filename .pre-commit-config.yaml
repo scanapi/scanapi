@@ -1,7 +1,7 @@
 repos:
   - repo: https://github.com/python/black
     # It must match black's version that is inside pyproject.toml
-    rev: 19.10b0
+    rev: 22.3.0
     hooks:
       - id: black
         language_version: python3
