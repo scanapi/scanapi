@@ -87,14 +87,9 @@ Then, the lib will hit the specified endpoints and generate a `scanapi-report.ht
     alt="An overview screenshot of the report."
   >
   <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-request.png"
+    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-opened.png"
     width="700"
     alt="A screenshot of the report showing the request details."
-  >
-  <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-response.png"
-    width="700",
-    alt="A screenshot of the report showing the response and test details"
   >
 </p>
 
