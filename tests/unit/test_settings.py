@@ -114,7 +114,9 @@ class TestSavePreferences:
     @mark.context("when config path is in click preferences")
     @mark.it("should pass config path")
     def test_should_pass_config_path(
-        self, mock_save_click_preferences, mock_save_config_file_preferences,
+        self,
+        mock_save_click_preferences,
+        mock_save_config_file_preferences,
     ):
         preferences = {"config_path": "foo.yaml"}
         settings.save_preferences(**preferences)
@@ -124,7 +126,9 @@ class TestSavePreferences:
     @mark.context("when config path is not in click preferences")
     @mark.it("should pass config path as None")
     def test_should_pass_config_path_as_none(
-        self, mock_save_click_preferences, mock_save_config_file_preferences,
+        self,
+        mock_save_click_preferences,
+        mock_save_config_file_preferences,
     ):
         preferences = {"foo": "bar"}
         settings.save_preferences(**preferences)

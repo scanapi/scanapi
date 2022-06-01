@@ -28,7 +28,11 @@ class TestBody:
     @mark.it("should set body attribute accordingly")
     def test_when_request_has_body(self):
         request = RequestNode(
-            {"body": {"abc": "def"}, "path": "http://foo.com", "name": "foo",},
+            {
+                "body": {"abc": "def"},
+                "path": "http://foo.com",
+                "name": "foo",
+            },
             endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
         )
         assert request.body == {"abc": "def"}
@@ -37,7 +41,11 @@ class TestBody:
     @mark.it("should call the evaluate method")
     def test_calls_evaluate(self, mocker, mock_evaluate):
         request = RequestNode(
-            {"body": {"ghi": "jkl"}, "path": "http://foo.com", "name": "foo",},
+            {
+                "body": {"ghi": "jkl"},
+                "path": "http://foo.com",
+                "name": "foo",
+            },
             endpoint=EndpointNode({"name": "foo", "requests": [{}]}),
         )
         request.body

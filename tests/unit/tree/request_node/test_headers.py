@@ -38,7 +38,11 @@ class TestHeaders:
         request = RequestNode(
             {"headers": headers, "path": "http://foo.com", "name": "foo"},
             endpoint=EndpointNode(
-                {"headers": endpoint_headers, "name": "foo", "requests": [{}],}
+                {
+                    "headers": endpoint_headers,
+                    "name": "foo",
+                    "requests": [{}],
+                }
             ),
         )
         assert request.headers == {"abc": "def", "xxx": "www"}
@@ -57,7 +61,11 @@ class TestHeaders:
         request = RequestNode(
             {"headers": headers, "path": "http://foo.com", "name": "foo"},
             endpoint=EndpointNode(
-                {"headers": endpoint_headers, "name": "foo", "requests": [{}],}
+                {
+                    "headers": endpoint_headers,
+                    "name": "foo",
+                    "requests": [{}],
+                }
             ),
         )
         assert request.headers == {"abc": "def", "xxx": "www"}

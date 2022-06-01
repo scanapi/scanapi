@@ -46,10 +46,15 @@ class TestPath:
     )
     def test_with_trailing_slashes(self):
         parent = EndpointNode(
-            {"path": "http://foo.com/", "name": "parent-node", "requests": [],}
+            {
+                "path": "http://foo.com/",
+                "name": "parent-node",
+                "requests": [],
+            }
         )
         node = EndpointNode(
-            {"path": "/foo/", "name": "node", "requests": []}, parent=parent,
+            {"path": "/foo/", "name": "node", "requests": []},
+            parent=parent,
         )
         assert node.path == "http://foo.com/foo/"
 
@@ -57,7 +62,11 @@ class TestPath:
     @mark.it("should set path as the concatenation of parent and node paths")
     def test_with_path_not_string(self):
         parent = EndpointNode(
-            {"path": "http://foo.com/", "name": "parent-node", "requests": [],}
+            {
+                "path": "http://foo.com/",
+                "name": "parent-node",
+                "requests": [],
+            }
         )
         node = EndpointNode(
             {"path": 2, "name": "node", "requests": []}, parent=parent
@@ -67,10 +76,15 @@ class TestPath:
     @mark.it("should call the evaluate method")
     def test_calls_evaluate(self, mocker, mock_evaluate):
         parent = EndpointNode(
-            {"path": "http://foo.com/", "name": "parent-node", "requests": [],}
+            {
+                "path": "http://foo.com/",
+                "name": "parent-node",
+                "requests": [],
+            }
         )
         node = EndpointNode(
-            {"path": "/foo/", "name": "node", "requests": []}, parent=parent,
+            {"path": "/foo/", "name": "node", "requests": []},
+            parent=parent,
         )
         node.path
         calls = [mocker.call("http://foo.com/"), mocker.call("/foo/")]

@@ -18,7 +18,8 @@ class TestDelay:
     @mark.it("should set delay attribute accordingly")
     def test_when_request_has_delay(self):
         request = RequestNode(
-            {"name": "foo", "delay": 1}, endpoint=EndpointNode({"name": "bar"}),
+            {"name": "foo", "delay": 1},
+            endpoint=EndpointNode({"name": "bar"}),
         )
         assert request.delay == 1
 
@@ -26,7 +27,8 @@ class TestDelay:
     @mark.it("should set delay attribute the same as the endpoint's one")
     def test_when_endpoint_has_delay(self):
         request = RequestNode(
-            {"name": "foo"}, endpoint=EndpointNode({"name": "bar", "delay": 2}),
+            {"name": "foo"},
+            endpoint=EndpointNode({"name": "bar", "delay": 2}),
         )
         assert request.delay == 2
 

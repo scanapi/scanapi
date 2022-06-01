@@ -15,7 +15,11 @@ class TestInit:
             {"name": "child-node-two", "requests": []},
         ]
         node = EndpointNode(
-            {"endpoints": endpoints, "name": "scanapi-demo", "requests": [],}
+            {
+                "endpoints": endpoints,
+                "name": "scanapi-demo",
+                "requests": [],
+            }
         )
         assert len(node.child_nodes) == len(endpoints)
 

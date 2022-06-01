@@ -155,7 +155,8 @@ class RequestNode:
         extras["response"] = response
 
         self.endpoint.spec_vars.update(
-            self.spec.get(VARS_KEY, {}), extras=extras,
+            self.spec.get(VARS_KEY, {}),
+            extras=extras,
         )
 
         tests_results = self._run_tests()

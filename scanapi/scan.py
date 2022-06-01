@@ -43,7 +43,11 @@ def scan():
         root_node = EndpointNode(api_spec)
         results = root_node.run()
 
-    except (InvalidKeyError, KeyError, InvalidPythonCodeError,) as e:
+    except (
+        InvalidKeyError,
+        KeyError,
+        InvalidPythonCodeError,
+    ) as e:
         error_message = "Error loading API spec."
         error_message = "{} {}".format(error_message, str(e))
         logger.error(error_message)

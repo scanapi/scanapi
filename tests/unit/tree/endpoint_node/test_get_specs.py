@@ -23,7 +23,10 @@ class TestGetSpecs:
             }
         )
 
-        node = EndpointNode(spec, parent,)
+        node = EndpointNode(
+            spec,
+            parent,
+        )
 
         specs = node._get_specs("headers")
 
@@ -42,7 +45,10 @@ class TestGetSpecs:
             }
         )
 
-        node = EndpointNode(spec, parent,)
+        node = EndpointNode(
+            spec,
+            parent,
+        )
 
         specs = node._get_specs("headers")
 
@@ -59,7 +65,10 @@ class TestGetSpecs:
 
         parent = EndpointNode({"name": "node", "requests": []})
 
-        node = EndpointNode(spec, parent,)
+        node = EndpointNode(
+            spec,
+            parent,
+        )
 
         specs = node._get_specs("headers")
 
@@ -72,7 +81,10 @@ class TestGetSpecs:
 
         parent = EndpointNode({"name": "node", "requests": []})
 
-        node = EndpointNode(spec, parent,)
+        node = EndpointNode(
+            spec,
+            parent,
+        )
 
         specs = node._get_specs("headers")
 

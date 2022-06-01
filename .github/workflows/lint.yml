@@ -11,11 +11,11 @@ jobs:
     steps:
       - uses: actions/setup-python@v2
         with:
-          python-version: 3.6.x
+          python-version: 3.7.x
       - name: Poetry Setup
-        uses: snok/install-poetry@v1.1.1
+        uses: snok/install-poetry@v1.1.4
         with:
-          version: 1.0.9
+          version: 1.1.4
       - name: Checkout ScanAPI repository
         uses: actions/checkout@v2
       - name: Install Dependencies
