@@ -1,7 +1,7 @@
 import time
 
 from scanapi.console import console, write_result
-from scanapi.errors import HTTPMethodNotAllowedError
+from scanapi.errors import HTTPMethodNotAllowedError, InvalidKeyError
 from scanapi.hide_utils import hide_sensitive_info
 from scanapi.settings import settings
 from scanapi.test_status import TestStatus
@@ -12,6 +12,7 @@ from scanapi.tree.tree_keys import (
     HEADERS_KEY,
     METHOD_KEY,
     NAME_KEY,
+    OPTIONS_KEY,
     PARAMS_KEY,
     PATH_KEY,
     RETRY_KEY,
@@ -43,7 +44,9 @@ class RequestNode:
         VARS_KEY,
         DELAY_KEY,
         RETRY_KEY,
+        OPTIONS_KEY,
     )
+    ALLOWED_OPTIONS = ("verify", "timeout")
     ALLOWED_HTTP_METHODS = (
         "GET",
         "POST",
@@ -85,6 +88,17 @@ class RequestNode:
         full_url = join_urls(base_path, path)
 
         return self.endpoint.spec_vars.evaluate(full_url)
+
+    @property
+    def options(self):
+        endpoint_options = self.endpoint.options
+        options = self.spec.get(OPTIONS_KEY, {})
+
+        for option in options:
+            if option not in self.ALLOWED_OPTIONS:
+                raise InvalidKeyError(option, OPTIONS_KEY, self.ALLOWED_OPTIONS)
+
+        return self.endpoint.spec_vars.evaluate({**endpoint_options, **options})
 
     @property
     def headers(self):
@@ -149,6 +163,7 @@ class RequestNode:
             params=self.params,
             json=self.body,
             allow_redirects=False,
+            **self.options,
         )
 
         extras = dict(self.endpoint.spec_vars)
