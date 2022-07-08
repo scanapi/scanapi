@@ -1,7 +1,9 @@
 import logging
 from itertools import chain
+
 from requests import RequestException
 
+from scanapi.errors import InvalidKeyError
 from scanapi.evaluators import SpecEvaluator
 from scanapi.exit_code import ExitCode
 from scanapi.session import session
@@ -11,6 +13,7 @@ from scanapi.tree.tree_keys import (
     ENDPOINTS_KEY,
     HEADERS_KEY,
     NAME_KEY,
+    OPTIONS_KEY,
     PARAMS_KEY,
     PATH_KEY,
     REQUESTS_KEY,
@@ -45,6 +48,11 @@ class EndpointNode:
         REQUESTS_KEY,
         DELAY_KEY,
         VARS_KEY,
+        OPTIONS_KEY,
+    )
+    ALLOWED_OPTIONS = (
+        "verify",
+        "timeout",
     )
     REQUIRED_KEYS = (NAME_KEY,)
     ROOT_REQUIRED_KEYS = ()
@@ -98,6 +106,21 @@ class EndpointNode:
         url = join_urls(self.parent.path, path) if self.parent else path
 
         return self.spec_vars.evaluate(url)
+
+    @property
+    def options(self):
+        """Get the keywords arguments used in the endpoint call.
+        The options of the call include the parent's options.
+
+        Returns:
+            [dict]: the keyword used in the endpoint call.
+        """
+        options = self._get_specs(OPTIONS_KEY)
+        for option in options:
+            if option not in self.ALLOWED_OPTIONS:
+                raise InvalidKeyError(option, OPTIONS_KEY, self.ALLOWED_OPTIONS)
+
+        return options
 
     @property
     def headers(self):

@@ -33,6 +33,7 @@ class TestValidate:
                 "requests",
                 "delay",
                 tree_keys.VARS_KEY,
+                "options",
             ),
             ("name",),
             "endpoint",

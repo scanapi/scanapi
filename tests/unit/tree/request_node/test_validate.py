@@ -36,6 +36,7 @@ class TestValidate:
                 tree_keys.VARS_KEY,
                 "delay",
                 "retry",
+                "options",
             ),
             ("name",),
             "request",
