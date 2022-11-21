@@ -187,6 +187,7 @@ class RequestNode:
                 for test_result in tests_results
             ),
             "request_node_name": self.name,
+            "options": self.options,
         }
 
         if not settings["no_report"]:

@@ -484,7 +484,9 @@
             {% set tests = result["tests_results"] %}
             {% set endpoint_status_label = "P" if result["no_failure"] else "F" %}
             {% set request = response.request %}
-    
+            {% set options = result["options"] %}
+            {% set verify = options.get("verify", True) %}
+
             <div class="endpoint" id="endpoint_{{ loop.index | string }}">
                 <input type="checkbox" class="endpoint__checkbox" id="chck_{{ loop.index | string }}" />
                 <label class="endpoint__title" for="chck_{{ loop.index | string }}">
@@ -544,7 +546,7 @@
     
                         <details>
                             <summary>cURL</summary>
-                            <pre>{{request|curlify(True)}}</pre>
+                            <pre>{{request|curlify(True, verify)}}</pre>
                             <button class="copy__snippet">&#10063;</button>
                         </details>
                     </section>
