@@ -2,7 +2,7 @@
 name = "scanapi"
 version = "2.8.0"
 description = "Automated Testing and Documentation for your REST API"
-authors = ["Camila Maia <cmaiacd@gmail.com>"]
+authors = ["The ScanAPI Organization <cmaiacd@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 
