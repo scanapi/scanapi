@@ -7,11 +7,11 @@
   <a href="https://app.circleci.com/pipelines/github/scanapi/scanapi?branch=main">
     <img alt="CircleCI" src="https://img.shields.io/circleci/build/github/scanapi/scanapi">
   </a>
-  <a href="https://github.com/scanapi/scanapi/actions/workflows/lint.yml/badge.svg">
+  <a href="https://github.com/scanapi/scanapi/actions/workflows/lint.yml?query=branch%3Amain">
     <img alt="LintCheck" src="https://github.com/scanapi/scanapi/workflows/Lint%20check/badge.svg?event=push">
   </a>
-  <a href="https://github.com/scanapi/scanapi/actions/workflows/run-examples.yml/badge.svg">
-    <img alt="Examples" src="https://github.com/scanapi/scanapi/workflows/ScanAPI%20Examples/badge.svg?event=push">
+  <a href="https://github.com/scanapi/scanapi/actions/workflows/run-examples.yml?query=branch%3Amain">
+    <img alt="Examples" src="https://github.com/scanapi/scanapi/actions/workflows/run-examples.yml/badge.svg?branch=main">
   </a>
   <a href="https://pypistats.org/packages/scanapi">
     <img alt="Downloads Per Month" src="https://shields.io/pypi/dm/scanapi">
