@@ -1,11 +1,11 @@
 ![](https://github.com/scanapi/design/raw/main/images/github-hero-dark.png)
 
 <p align="center">
-  <a href="https://app.circleci.com/pipelines/github/scanapi/scanapi?branch=main">
-    <img alt="CircleCI" src="https://img.shields.io/circleci/build/github/scanapi/scanapi">
-  </a>
   <a href="https://codecov.io/gh/scanapi/scanapi">
     <img alt="Codecov" src="https://img.shields.io/codecov/c/github/scanapi/scanapi">
+  </a>
+  <a href="https://app.circleci.com/pipelines/github/scanapi/scanapi?branch=main">
+    <img alt="CircleCI" src="https://img.shields.io/circleci/build/github/scanapi/scanapi">
   </a>
   <a href="https://github.com/scanapi/scanapi/actions/workflows/lint.yml/badge.svg">
     <img alt="LintCheck" src="https://github.com/scanapi/scanapi/workflows/Lint%20check/badge.svg?event=push">
@@ -13,8 +13,11 @@
   <a href="https://github.com/scanapi/scanapi/actions/workflows/run-examples.yml/badge.svg">
     <img alt="Examples" src="https://github.com/scanapi/scanapi/workflows/ScanAPI%20Examples/badge.svg?event=push">
   </a>
-  <a href="https://badge.fury.io/py/scanapi">
-    <img alt="PyPI version" src="https://badge.fury.io/py/scanapi.svg">
+  <a href="https://shields.io/pypi/dm/scanapi">
+    <img alt="Downloads Per Month" src="https://shields.io/pypi/dm/scanapi">
+  </a>
+  <a href="https://shields.io/pypi/dm/scanapi">
+    <img alt="PyPI version" src="https://shields.io/pypi/v/scanapi">
   </a>
 
   <a href="https://discord.scanapi.dev">
