@@ -1,7 +1,7 @@
 timestamp = `date -u +'%Y%m%d%H%M%S'`
 
 test:
-	@pytest --cov=./scanapi --cov-report=xml
+	@poetry run pytest --cov=./scanapi --cov-report=xml
 
 black:
 	@poetry run black -l 80 --check . --exclude=.venv
