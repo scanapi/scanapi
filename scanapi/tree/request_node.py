@@ -87,6 +87,12 @@ class RequestNode:
         path = str(self.spec.get(PATH_KEY, ""))
         full_url = join_urls(base_path, path)
 
+        self.endpoint.spec_vars.update(
+            self.spec.get(VARS_KEY, {}),
+            extras=dict(self.endpoint.spec_vars),
+            filter_responses=True,
+        )
+
         return self.endpoint.spec_vars.evaluate(full_url)
 
     @property
@@ -148,12 +154,6 @@ class RequestNode:
         method = self.http_method
         url = self.full_url_path
         console.print(f"\n- Making request {method} {url}", highlight=False)
-
-        self.endpoint.spec_vars.update(
-            self.spec.get(VARS_KEY, {}),
-            extras=dict(self.endpoint.spec_vars),
-            filter_responses=True,
-        )
 
         session = session_with_retry(self.retry)
         response = session.request(

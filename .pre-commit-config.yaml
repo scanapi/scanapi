@@ -10,7 +10,7 @@ repos:
     rev: v5.5.3
     hooks:
       - id: isort
-  - repo: https://gitlab.com/pycqa/flake8
+  - repo: https://github.com/pycqa/flake8
     # It must match the flake8's version that is inside pyproject.toml
     rev: 3.8.4
     hooks:
