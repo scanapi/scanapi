@@ -59,6 +59,7 @@ class TestRun:
             "tests_results": [],
             "no_failure": True,
             "request_node_name": "request_name",
+            "options": {"timeout": 2.3, "verify": False},
         }
 
     @mark.context("when no_report is False")
@@ -135,4 +136,5 @@ class TestRun:
             "tests_results": test_results,
             "no_failure": expected_no_failure,
             "request_node_name": "request_name",
+            "options": {},
         }
