@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
-- Add missing `--insecure` flag in curl command based on request options [#554](https://github.com/scanapi/scanapi/issues/554) / [#555](https://github.com/scanapi/scanapi/pull/555)
+- Custom variable evaluated when defined on the path [#508](https://github.com/scanapi/scanapi/issues/508)
+- Add missing `--insecure` flag to cURL command on report based on request options [#555](https://github.com/scanapi/scanapi/pull/555)
 
 ## [2.8.0] - 2022-08-11
 ### Added

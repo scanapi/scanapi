@@ -11,7 +11,7 @@ jobs:
       - name: Poetry Setup
         uses: snok/install-poetry@v1
         with:
-          version: 1.1.13
+          version: 1.3.2
       - name: Build and publish to pypi
         run: |
           poetry build
@@ -26,7 +26,7 @@ jobs:
             ScanAPI version ${{github.ref_name}} released 🚀
 
             📃 Find out more in: https://github.com/scanapi/scanapi/releases/tag/${{github.ref_name}}
-            
+
             #ScanAPI #OpenSource #Release #API
           consumer-key: ${{ secrets.TWITTER_CONSUMER_API_KEY }}
           consumer-secret: ${{ secrets.TWITTER_CONSUMER_API_SECRET }}

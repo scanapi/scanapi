@@ -12,9 +12,9 @@ jobs:
         with:
           python-version: 3.7.x
       - name: Poetry Setup
-        uses: snok/install-poetry@v1.1.4
+        uses: snok/install-poetry@v1
         with:
-          version: 1.1.4
+          version: 1.3.2
       - name: Checkout ScanAPI repository
         uses: actions/checkout@v2
       - name: Checkout ScanAPI Examples repository
@@ -40,9 +40,9 @@ jobs:
         with:
           python-version: 3.7.x
       - name: Poetry Setup
-        uses: snok/install-poetry@v1.1.4
+        uses: snok/install-poetry@v1
         with:
-          version: 1.1.4
+          version: 1.3.2
       - name: Checkout ScanAPI repository
         uses: actions/checkout@v2
       - name: Checkout ScanAPI Examples repository
@@ -68,9 +68,9 @@ jobs:
         with:
           python-version: 3.7.x
       - name: Poetry Setup
-        uses: snok/install-poetry@v1.1.4
+        uses: snok/install-poetry@v1
         with:
-          version: 1.1.4
+          version: 1.3.2
       - name: Checkout ScanAPI repository
         uses: actions/checkout@v2
       - name: Checkout ScanAPI Examples repository
@@ -82,9 +82,9 @@ jobs:
         run: poetry install
       - name: Run ScanAPI for Demo API
         env:
-          BASE_URL: "http://demo.scanapi.dev/api/v1/"
-          USER: "guest"
-          PASSWORD: "demoapi123"
+          BASE_URL: "https://demo-api.fly.dev/api/v1/"
+          USER: "scanapi-workflow"
+          PASSWORD: ${{ secrets.DEMO_API_USER_PASSWORD }}
         run: "poetry run scanapi run ./examples/demo-api/scanapi.yaml -c ./examples/demo-api/scanapi.conf -o demo-api.html"
       - name: Upload Demo API ScanAPI Report
         uses: actions/upload-artifact@v2
