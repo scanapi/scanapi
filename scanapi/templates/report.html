@@ -677,24 +677,33 @@
 
         function tryParseJSON(string) {
             try {
-                var o = JSON.parse(string);
+                const o = JSON.parse(string);
                 if (o && typeof o === "object") {
                     return o;
                 }
             }
-            catch (e) { console.log("Invalid JSON Body: " + e) }
+            catch (e) { console.log("Invalid JSON Body: " + e); }
 
             return false;
-        };
+        }
 
-        for (var i = 0; i < all_json_bodies.length; i++) {
-            raw_json = all_json_bodies[i].innerText;
-            parsed_json = tryParseJSON(raw_json)
+        function decodeHtmlEntities(str) {
+            const txt = new DOMParser().parseFromString(str, "text/html");
+            return txt.documentElement.textContent;
+        }
+
+        for (const json_body of all_json_bodies) {
+            let raw_json = json_body.innerText;
+            if (!raw_json) {
+                // innerText is empty for hidden elements on Chrome.
+                raw_json = decodeHtmlEntities(json_body.innerHTML);
+            }
+            const parsed_json = tryParseJSON(raw_json);
 
             if (parsed_json) {
-                all_json_bodies[i].innerText = '';
-                all_json_bodies[i].appendChild(renderjson(parsed_json));
-                all_json_bodies[i].firstElementChild.setAttribute('data-content', raw_json);
+                json_body.innerText = '';
+                json_body.appendChild(renderjson(parsed_json));
+                json_body.firstElementChild.setAttribute('data-content', raw_json);
             }
         }
         /*
@@ -743,7 +752,7 @@
             })
         })
 
-        /* 
+        /*
             * Copying anchor URL.
             */
 
