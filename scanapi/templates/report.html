@@ -687,17 +687,8 @@
             return false;
         }
 
-        function decodeHtmlEntities(str) {
-            const txt = new DOMParser().parseFromString(str, "text/html");
-            return txt.documentElement.textContent;
-        }
-
         for (const json_body of all_json_bodies) {
-            let raw_json = json_body.innerText;
-            if (!raw_json) {
-                // innerText is empty for hidden elements on Chrome.
-                raw_json = decodeHtmlEntities(json_body.innerHTML);
-            }
+            let raw_json = json_body.textContent;
             const parsed_json = tryParseJSON(raw_json);
 
             if (parsed_json) {
