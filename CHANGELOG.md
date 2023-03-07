@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.8.1] - 2023-03-04
+## [2.8.2] - 2023-03-06
 ### Fixed
 - Content field not rendered properly on Chrome [#551](https://github.com/scanapi/scanapi/issues/551)
 
