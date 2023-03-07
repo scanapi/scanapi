@@ -6,8 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Refactor
-- Improve performance & reliability of the fix in release 2.8.2 [PR #574](https://github.com/scanapi/scanapi/pulls/574)
 
 ## [2.8.2] - 2023-03-06
 ### Fixed
