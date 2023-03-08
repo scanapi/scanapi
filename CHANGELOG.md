@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Move content of `scanapi/__main__.py` to `scanapi/cli.py` to enable debug with `pdb` [#501](https://github.com/scanapi/scanapi/issues/501)
+
 ## [2.8.2] - 2023-03-06
 ### Fixed
 - Content field not rendered properly on Chrome [#551](https://github.com/scanapi/scanapi/issues/551)
