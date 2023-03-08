@@ -1,4 +1,4 @@
-from scanapi.__main__ import main
+from scanapi.cli import main
 
 name = "scanapi"
 

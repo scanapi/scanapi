@@ -4,7 +4,7 @@ import yaml
 from click.testing import CliRunner
 from pytest import mark
 
-from scanapi.__main__ import run
+from scanapi.cli import run
 
 log = logging.getLogger(__name__)
 runner = CliRunner()
