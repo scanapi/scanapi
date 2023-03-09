@@ -1,3 +1,3 @@
-from .cli import main
+from scanapi.cli import main
 
 main()
