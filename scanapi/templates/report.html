@@ -536,7 +536,7 @@
                         </table>
                         {% endif %}
     
-                        {% if ( request.body and request.body.decode("UTF-8") != "{}" ) %}
+                        {% if ( request.body and is_bytes(request.body) and request.body.decode("UTF-8") !="{}") %}
                         <details>
                             <summary>Body</summary>
                             <p class="json-body">{{ request|render_body }}</p>

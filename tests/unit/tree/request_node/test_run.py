@@ -62,6 +62,107 @@ class TestRun:
             "options": {"timeout": 2.3, "verify": False},
         }
 
+    @mark.context("when has no `Content-Type` header")
+    @mark.it("should use `json` parameter to send body")
+    def test_content_type_is_not_defined(self, mock_session):
+        request = RequestNode(
+            {
+                "path": "http://foo.com",
+                "name": "request_name",
+            },
+            endpoint=EndpointNode(
+                {
+                    "name": "endpoint_name",
+                    "requests": [{}],
+                }
+            ),
+        )
+
+        request.run()
+
+        mock_session().request.assert_called_once_with(
+            request.http_method,
+            request.full_url_path,
+            headers=request.headers,
+            params=request.params,
+            json=request.body,
+            allow_redirects=False,
+        )
+
+    @mark.context("when `Content-Type` header is `application/json`")
+    @mark.it("should use `json` parameter to send body")
+    def test_content_type_is_application_json(self, mock_session):
+        request = RequestNode(
+            {
+                "path": "http://foo.com",
+                "name": "request_name",
+                "headers": {
+                    "content-type": "application/json",
+                    "x-foo": "bar",
+                    "x-request-id": "123",
+                    "authorization": "bearer token",
+                },
+            },
+            endpoint=EndpointNode(
+                {
+                    "name": "endpoint_name",
+                    "requests": [{}],
+                }
+            ),
+        )
+
+        request.run()
+
+        mock_session().request.assert_called_once_with(
+            request.http_method,
+            request.full_url_path,
+            headers=request.headers,
+            params=request.params,
+            json=request.body,
+            allow_redirects=False,
+        )
+
+    test_content_types = [
+        "multipart/form-data",
+        "application/x-www-form-urlencoded",
+        "application/xml",
+        "text/yaml",
+        "text/plain",
+        "foo",
+        "foo/bar",
+    ]
+
+    @mark.parametrize("content_type", test_content_types)
+    @mark.context("when `Content-Type` header isn't `application/json`")
+    @mark.it("should use `data` parameter to send `body`")
+    def test_content_type_is_not_application_json(
+        self, mock_session, content_type
+    ):
+        request = RequestNode(
+            {
+                "path": "http://foo.com",
+                "name": "request_name",
+                "headers": {"content-type": content_type},
+            },
+            endpoint=EndpointNode(
+                {
+                    "name": "endpoint_name",
+                    "requests": [{}],
+                }
+            ),
+        )
+
+        request.run()
+
+        mock_session().request.assert_called_once_with(
+            request.http_method,
+            request.full_url_path,
+            headers=request.headers,
+            params=request.params,
+            data=request.body,
+            allow_redirects=False,
+        )
+
     @mark.context("when no_report is False")
     @mark.it("should call the write_result method")
     def test_calls_write_result(self, mocker, mock_console_write_result):
