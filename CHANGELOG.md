@@ -7,8 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.9.0] - 2023-03-16
 ### Feature
-- Enable the use of differents content types [#521](https://github.com/scanapi/scanapi/issues/521)
+- Enable the use of different content types [#521](https://github.com/scanapi/scanapi/issues/521)
 
 ### Fixed
 - python -m scanapi command [#501](https://github.com/scanapi/scanapi/issues/501)
@@ -265,7 +266,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.8.2...HEAD
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.9.0...HEAD
+[2.9.0]: https://github.com/scanapi/scanapi/compare/v2.8.2...v2.9.0
 [2.8.2]: https://github.com/scanapi/scanapi/compare/v2.8.1...v2.8.2
 [2.8.1]: https://github.com/scanapi/scanapi/compare/v2.8.0...v2.8.1
 [2.8.0]: https://github.com/scanapi/scanapi/compare/v2.7.0...v2.8.0
