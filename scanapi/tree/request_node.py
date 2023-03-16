@@ -155,16 +155,19 @@ class RequestNode:
         url = self.full_url_path
         console.print(f"\n- Making request {method} {url}", highlight=False)
 
-        session = session_with_retry(self.retry)
-        response = session.request(
-            method,
-            url,
+        kwargs = dict(
             headers=self.headers,
             params=self.params,
             json=self.body,
             allow_redirects=False,
             **self.options,
         )
+
+        if not self._content_type_is_json(kwargs["headers"]):
+            kwargs["data"] = kwargs.pop("json")
+
+        session = session_with_retry(self.retry)
+        response = session.request(method, url, **kwargs)
 
         extras = dict(self.endpoint.spec_vars)
         extras["response"] = response
@@ -213,4 +216,19 @@ class RequestNode:
         """
         validate_keys(
             self.spec.keys(), self.ALLOWED_KEYS, self.REQUIRED_KEYS, self.SCOPE
+        )
+
+    @staticmethod
+    def _content_type_is_json(headers):
+        """Check headers for any content-type different than application/json
+
+        Args:
+            headers dict[str, str]: request headers
+
+        Returns:
+            bool: False if convent-type is different then application/json
+        """
+        return not any(
+            k.lower() == "content-type" and v.lower() != "application/json"
+            for k, v in headers.items()
         )

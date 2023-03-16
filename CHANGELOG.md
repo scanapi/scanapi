@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Feature
+- Enable the use of differents content types [#521](https://github.com/scanapi/scanapi/issues/521)
+
 ### Fixed
 - python -m scanapi command [#501](https://github.com/scanapi/scanapi/issues/501)
 

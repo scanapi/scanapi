@@ -8,6 +8,7 @@ def render(template_path, context, is_external=False):
     env = Environment(loader=loader, autoescape=True)
     env.filters["curlify"] = curlify2.to_curl
     env.filters["render_body"] = render_body
+    env.globals["is_bytes"] = lambda o: isinstance(o, bytes)
     chosen_template = env.get_template(template_path)
     return chosen_template.render(**context)
 
