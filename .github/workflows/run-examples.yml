@@ -27,7 +27,7 @@ jobs:
       - name: Run ScanAPI for PokeAPI
         run: "poetry run scanapi run ./examples/pokeapi/scanapi.yaml -c ./examples/pokeapi/scanapi.conf -o pokeapi.html"
       - name: Upload PokeAPI ScanAPI Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: PokeAPI ScanAPI Report
@@ -55,7 +55,7 @@ jobs:
       - name: Run ScanAPI for httpbin.org
         run: "poetry run scanapi run ./examples/httpbin-api/httpbin.yaml -c ./examples/httpbin-api/scanapi.conf -o httpbin.html"
       - name: Upload httpbin.org ScanAPI Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: httpbin.org ScanAPI Report
@@ -87,7 +87,7 @@ jobs:
           PASSWORD: ${{ secrets.DEMO_API_USER_PASSWORD }}
         run: "poetry run scanapi run ./examples/demo-api/scanapi.yaml -c ./examples/demo-api/scanapi.conf -o demo-api.html"
       - name: Upload Demo API ScanAPI Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: Demo API ScanAPI Report
