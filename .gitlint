@@ -8,7 +8,7 @@
 # used in here for clarity.
 #
 [general]
-ignore=body-is-missing
+ignore=body-is-missing, body-max-line-length
 contrib=contrib-title-conventional-commits
 
 # This is a contrib rule - a community contributed rule. These are disabled by default.
