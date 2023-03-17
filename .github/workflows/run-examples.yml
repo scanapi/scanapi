@@ -8,7 +8,7 @@ jobs:
   poke-api:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.7.x
       - name: Poetry Setup
@@ -36,7 +36,7 @@ jobs:
   httpbin-api:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.7.x
       - name: Poetry Setup
@@ -64,7 +64,7 @@ jobs:
   demo-api:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.7.x
       - name: Poetry Setup
