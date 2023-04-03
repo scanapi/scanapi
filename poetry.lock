@@ -952,14 +952,14 @@ testing = ["fields", "hunter", "process-tests (==2.0.2)", "pytest-xdist", "six",
 
 [[package]]
 name = "pytest-freezegun"
-version = "0.4.1"
+version = "0.4.2"
 description = "Wrap tests with fixtures in freeze_time"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "pytest-freezegun-0.4.1.zip", hash = "sha256:060cdf192848e50a4a681a5e73f8b544c4ee5ebc1fab3cb7223a0097bac2f83f"},
-    {file = "pytest_freezegun-0.4.1-py2.py3-none-any.whl", hash = "sha256:1c77b2917883b8abf817fc39a1fd3f40ac43711eb923512abe7b6557e55eaaf1"},
+    {file = "pytest-freezegun-0.4.2.zip", hash = "sha256:19c82d5633751bf3ec92caa481fb5cffaac1787bd485f0df6436fd6242176949"},
+    {file = "pytest_freezegun-0.4.2-py2.py3-none-any.whl", hash = "sha256:5318a6bfb8ba4b709c8471c94d0033113877b3ee02da5bfcd917c1889cde99a7"},
 ]
 
 [package.dependencies]
@@ -1557,4 +1557,4 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=4.6)", "pytest-black (
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.7.13,<4.0.0"
-content-hash = "c7bd65e7a30e615aa009ea169e27b8af933bb84fd3bf040f5063ac7475a29640"
+content-hash = "619fbf049766fad133fb357c3ae276c01b83e82ab4481afd86c5b055dfa954fb"
