@@ -1074,25 +1074,25 @@ files = [
 
 [[package]]
 name = "requests"
-version = "2.26.0"
+version = "2.28.2"
 description = "Python HTTP for Humans."
 category = "main"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+python-versions = ">=3.7, <4"
 files = [
-    {file = "requests-2.26.0-py2.py3-none-any.whl", hash = "sha256:6c1246513ecd5ecd4528a0906f910e8f0f9c6b8ec72030dc9fd154dc1a6efd24"},
-    {file = "requests-2.26.0.tar.gz", hash = "sha256:b8aa58f8cf793ffd8782d3d8cb19e66ef36f7aba4353eec859e74678b01b07a7"},
+    {file = "requests-2.28.2-py3-none-any.whl", hash = "sha256:64299f4909223da747622c030b781c0d7811e359c37124b4bd368fb8c6518baa"},
+    {file = "requests-2.28.2.tar.gz", hash = "sha256:98b1b2782e3c6c4904938b84c0eb932721069dfdb9134313beff7c83c2df24bf"},
 ]
 
 [package.dependencies]
 certifi = ">=2017.4.17"
-charset-normalizer = {version = ">=2.0.0,<2.1.0", markers = "python_version >= \"3\""}
-idna = {version = ">=2.5,<4", markers = "python_version >= \"3\""}
+charset-normalizer = ">=2,<4"
+idna = ">=2.5,<4"
 urllib3 = ">=1.21.1,<1.27"
 
 [package.extras]
-socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
-use-chardet-on-py3 = ["chardet (>=3.0.2,<5)"]
+socks = ["PySocks (>=1.5.6,!=1.5.7)"]
+use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "requests-mock"
@@ -1557,4 +1557,4 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=4.6)", "pytest-black (
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.7.13,<4.0.0"
-content-hash = "619fbf049766fad133fb357c3ae276c01b83e82ab4481afd86c5b055dfa954fb"
+content-hash = "d56557504d1908f75ddbd8cf9100c91c695dfe4b9797cb925c89916e261edd83"
