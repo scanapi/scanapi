@@ -15,7 +15,7 @@ scanapi = "scanapi:main"
 
 [tool.poetry.dependencies]
 python = ">=3.7.13,<4.0.0"
-requests = "2.26.0"
+requests = "2.28.2"
 appdirs = "^1.4.4"
 curlify2 = "^1.0.1"
 MarkupSafe = "2.0.1"
