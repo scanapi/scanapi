@@ -42,7 +42,7 @@ flake8 = "3.8.4"
 mypy = "^0.960"
 types-requests = "^2.25.1"
 types-PyYAML = "~6.0.0"
-types-setuptools = "^57.0.0"
+types-setuptools = "^67.6.0"
 gitlint = "0.17.0"
 
 [tool.isort]
