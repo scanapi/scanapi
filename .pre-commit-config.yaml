@@ -1,23 +1,7 @@
 repos:
-  - repo: https://github.com/python/black
-    # It must match black's version that is inside pyproject.toml
-    rev: 22.3.0
+  - repo: local
     hooks:
-      - id: black
-        language_version: python3
-        args: ["-l 80", "--exclude=.venv"]
-  - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.5.3
-    hooks:
-      - id: isort
-  - repo: https://github.com/pycqa/flake8
-    # It must match the flake8's version that is inside pyproject.toml
-    rev: 3.8.4
-    hooks:
-      - id: flake8
-        args: ["--ignore=E501,W501,E231,W503"]
-  - repo: https://github.com/jorisroovers/gitlint
-    # It must match the gitlint's version that is inside pyproject.toml
-    rev: v0.15.1
-    hooks:
-      - id: gitlint
+      - id: make-check
+        name: make-check
+        entry: ./scripts/make-format.sh
+        language: script

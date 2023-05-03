@@ -1,0 +1,16 @@
+name: Project Setup
+description: Setup Python and Poetry
+runs:
+  using: "composite"
+  steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11.x
+      - name: Poetry Setup
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.3.2
+      - name: Install Dependencies
+        shell: bash
+        run: poetry install

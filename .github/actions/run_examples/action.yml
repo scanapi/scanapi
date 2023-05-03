@@ -1,0 +1,31 @@
+name: Examples Setup
+description: Setup Python and Poetry
+inputs:
+  api-name:
+    required: true
+    description: "The name of the API"
+  command:
+    required: true
+    description: "The ScanAPI command"
+  output-path:
+    required: true
+    description: "The path for the report"
+runs:
+  using: "composite"
+  steps:
+      - name: Run Project Setup
+        uses: ./.github/actions/setup
+      - name: Checkout ScanAPI Examples repository
+        uses: actions/checkout@v3
+        with:
+          repository: scanapi/examples
+          path: examples
+      - name: Run ScanAPI for ${{ inputs.api-name }}
+        shell: bash
+        run: ${{ inputs.command }}
+      - name: Upload ${{ inputs.api-name }} ScanAPI Report
+        uses: actions/upload-artifact@v3
+        if: ${{ always() }}
+        with:
+          name: ${{ inputs.api-name }} ScanAPI Report
+          path: ${{ inputs.output-path }}

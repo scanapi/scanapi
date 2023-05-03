@@ -5,22 +5,15 @@ on:
       - main
 name: Lint check
 jobs:
-  black:
-    name: black check
+  check:
+    name: check code
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.7.x
-      - name: Poetry Setup
-        uses: snok/install-poetry@v1
-        with:
-          version: 1.3.2
       - name: Checkout ScanAPI repository
         uses: actions/checkout@v3
-      - name: Install Dependencies
-        run: poetry install
-      - uses: actions/checkout@v3
+      - name: Runt Project Setup
+        uses: ./.github/actions/setup
       - name: Test Code Lint
         run: |
           make check
+          make mypy
