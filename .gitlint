@@ -25,5 +25,4 @@ ignore-squash-commits=true
 [ignore-by-title]
 # Ignore certain rules for commits of which the title matches a regex
 # E.g. Match commit titles that start with "Release"
-regex=^Release(.*)
-regex=^Merge(.*)into(.*)
+regex=^Release(.*)|^Merge(.*)into(.*)
