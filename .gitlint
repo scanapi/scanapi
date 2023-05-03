@@ -18,6 +18,7 @@ contrib=contrib-title-conventional-commits
 # Specify allowed commit types. For details see: https://www.conventionalcommits.org/
 # types=bugfix,user-story,epic
 
+ignore-merge-commits=true
 ignore-revert-commits=true
 ignore-squash-commits=true
 
@@ -25,3 +26,4 @@ ignore-squash-commits=true
 # Ignore certain rules for commits of which the title matches a regex
 # E.g. Match commit titles that start with "Release"
 regex=^Release(.*)
+regex=^Merge(.*)into(.*)
