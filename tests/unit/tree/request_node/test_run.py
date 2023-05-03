@@ -49,7 +49,7 @@ class TestRun:
             headers=request.headers,
             params=request.params,
             json=request.body,
-            allow_redirects=False,
+            follow_redirects=False,
             verify=False,
             timeout=2.3,
         )

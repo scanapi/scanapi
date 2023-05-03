@@ -1,6 +1,4 @@
-import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
+from httpx import Client, HTTPTransport
 
 from scanapi.errors import InvalidKeyError, MissingMandatoryKeyError
 from scanapi.tree.tree_keys import MAX_RETRIES_KEY
@@ -58,19 +56,21 @@ def _validate_required_keys(keys, required_keys, scope):
         raise MissingMandatoryKeyError(missing_keys, scope)
 
 
-def session_with_retry(retry_configuration):
-    """Instantiate a requests session with the retry configuration if provided
-    by instantiating an HTTPAdapter mounting it into the mounting it into the
-    `requests.Session`.
+def session_with_retry(retry_configuration, verify=True):
+    """Instantiate a requests session.
+
+    Args:
+        retry_configuration [dict]: The retry configuration
+        for a request. (Available for version >= 2.2.0).
+        verify [bool]: SSL certificates used to verify the
+        identity of requested hosts
+
+    Returns:
+        [httpx.Client]: Client
     """
-    session = requests.Session()
+    retry_configuration = retry_configuration or {}
+    retries = retry_configuration.get(MAX_RETRIES_KEY, 0)
 
-    if not retry_configuration:
-        return session
-
-    retry = Retry(total=retry_configuration.get(MAX_RETRIES_KEY, 0))
-    adapter = HTTPAdapter(max_retries=retry)
-    session.mount("http://", adapter)
-    session.mount("https://", adapter)
-
-    return session
+    return Client(
+        transport=HTTPTransport(retries=retries), timeout=None, verify=verify
+    )
