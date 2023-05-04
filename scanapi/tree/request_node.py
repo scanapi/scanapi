@@ -155,19 +155,21 @@ class RequestNode:
         url = self.full_url_path
         console.print(f"\n- Making request {method} {url}", highlight=False)
 
+        options = self.options
+        verify = options.pop("verify", True)
         kwargs = dict(
             headers=self.headers,
             params=self.params,
             json=self.body,
-            allow_redirects=False,
-            **self.options,
+            follow_redirects=False,
+            **options,
         )
 
         if not self._content_type_is_json(kwargs["headers"]):
             kwargs["data"] = kwargs.pop("json")
 
-        session = session_with_retry(self.retry)
-        response = session.request(method, url, **kwargs)
+        with session_with_retry(self.retry, verify) as session:
+            response = session.request(method, url, **kwargs)
 
         extras = dict(self.endpoint.spec_vars)
         extras["response"] = response

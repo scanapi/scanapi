@@ -1,7 +1,7 @@
 import logging
 from itertools import chain
 
-from requests import RequestException
+from httpx import CookieConflict, HTTPError, InvalidURL, StreamError
 
 from scanapi.errors import InvalidKeyError
 from scanapi.evaluators import SpecEvaluator
@@ -171,7 +171,7 @@ class EndpointNode:
         for request in self._get_requests():
             try:
                 yield request.run()
-            except RequestException as e:
+            except (CookieConflict, HTTPError, InvalidURL, StreamError) as e:
                 error_message = (
                     f"\nError to make request `{request.full_url_path}`. "
                     f"\n{str(e)}\n"
