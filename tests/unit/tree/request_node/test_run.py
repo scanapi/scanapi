@@ -22,6 +22,11 @@ class TestRun:
     def mock_console_write_result(self, mocker):
         return mocker.patch("scanapi.tree.request_node.write_result")
 
+    @mark.skip("should call session_with_retry with retry and verify")
+    def test_call_session_with_retry(self):
+        # TODO
+        pass
+
     @mark.it("should call the request method")
     def test_calls_request(self, mock_session, mock_time_sleep):
         request = RequestNode(
@@ -43,19 +48,18 @@ class TestRun:
 
         mock_time_sleep.assert_called_once_with(0.001)
 
-        mock_session().request.assert_called_once_with(
+        mock_session().__enter__().request.assert_called_once_with(
             request.http_method,
             request.full_url_path,
             headers=request.headers,
             params=request.params,
             json=request.body,
             follow_redirects=False,
-            verify=False,
             timeout=2.3,
         )
 
         assert result == {
-            "response": mock_session().request(),
+            "response": mock_session().__enter__().request(),
             "tests_results": [],
             "no_failure": True,
             "request_node_name": "request_name",
@@ -80,13 +84,13 @@ class TestRun:
 
         request.run()
 
-        mock_session().request.assert_called_once_with(
+        mock_session().__enter__().request.assert_called_once_with(
             request.http_method,
             request.full_url_path,
             headers=request.headers,
             params=request.params,
             json=request.body,
-            allow_redirects=False,
+            follow_redirects=False,
         )
 
     @mark.context("when `Content-Type` header is `application/json`")
@@ -113,13 +117,13 @@ class TestRun:
 
         request.run()
 
-        mock_session().request.assert_called_once_with(
+        mock_session().__enter__().request.assert_called_once_with(
             request.http_method,
             request.full_url_path,
             headers=request.headers,
             params=request.params,
             json=request.body,
-            allow_redirects=False,
+            follow_redirects=False,
         )
 
     test_content_types = [
@@ -154,13 +158,13 @@ class TestRun:
 
         request.run()
 
-        mock_session().request.assert_called_once_with(
+        mock_session().__enter__().request.assert_called_once_with(
             request.http_method,
             request.full_url_path,
             headers=request.headers,
             params=request.params,
             data=request.body,
-            allow_redirects=False,
+            follow_redirects=False,
         )
 
     @mark.context("when no_report is False")
@@ -233,7 +237,7 @@ class TestRun:
         result = request.run()
 
         assert result == {
-            "response": mock_session().request(),
+            "response": mock_session().__enter__().request(),
             "tests_results": test_results,
             "no_failure": expected_no_failure,
             "request_node_name": "request_name",

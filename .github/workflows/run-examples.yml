@@ -1,7 +1,6 @@
 name: ScanAPI Examples
 on:
   pull_request:
-  pull_request_target:
   push:
     branches:
       - main
@@ -39,7 +38,7 @@ jobs:
         env:
           BASE_URL: "https://demo-api.fly.dev/api/v1/"
           USER: "scanapi-workflow"
-          PASSWORD: ${{ secrets.DEMO_API_USER_PASSWORD }}
+          PASSWORD: Q*jW@p8pVmHwm2RwQd8ZR8LK
         uses: ./.github/actions/run_examples
         with:
           api-name: Demo API

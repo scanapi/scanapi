@@ -3,5 +3,5 @@ repos:
     hooks:
       - id: make-check
         name: make-check
-        entry: ./scripts/make-format.sh
+        entry: ./scripts/make_check.sh
         language: script
