@@ -1,7 +1,7 @@
 import logging
 
 from pytest import fixture, mark
-from requests import RequestException
+from httpx import HTTPError
 
 from scanapi.exit_code import ExitCode
 from scanapi.tree import EndpointNode
@@ -63,7 +63,7 @@ class TestRun:
     @mark.it("should log the error and change session exit code")
     def test_when_request_fails(self, mock_run_request, mock_session, caplog):
 
-        mock_run_request.side_effect = ["foo", RequestException("error: bar")]
+        mock_run_request.side_effect = ["foo", HTTPError("error: bar")]
 
         node = EndpointNode(
             {

@@ -25,11 +25,11 @@ class TestName:
         )
         assert request.name == "list-users"
 
-    @mark.skip("it should validate mandatory `name` key before")
+    @mark.it("it should validate mandatory `name` key before")
     def test_when_request_has_no_name(self):
         with raises(MissingMandatoryKeyError) as excinfo:
             RequestNode(
                 {}, endpoint=EndpointNode({"name": "foo", "requests": []})
             )
 
-        assert str(excinfo.value) == "Missing name, path at 'request'"
+        assert str(excinfo.value) == "Missing 'name' key(s) at 'request' scope"
