@@ -486,29 +486,29 @@ smmap = ">=3.0.1,<6"
 
 [[package]]
 name = "gitlint"
-version = "0.17.0"
+version = "0.18.0"
 description = "Git commit message linter written in python, checks your commit messages for style."
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "gitlint-0.17.0-py2.py3-none-any.whl", hash = "sha256:46469d5db3f3bca72fa946c159d0733dc8c75211309477676295cf2d80d177b4"},
-    {file = "gitlint-0.17.0.tar.gz", hash = "sha256:8c10c6b404d255b43ddc4a2f5f13bcb10284bc162adfb2c03b10708309009189"},
+    {file = "gitlint-0.18.0-py2.py3-none-any.whl", hash = "sha256:77ad954738b400019c1bc51241abdae5fea28c81d1586ef9fe133b96b503531e"},
+    {file = "gitlint-0.18.0.tar.gz", hash = "sha256:b0edf947a9202ace282d084bbf481a1d0fdb2fba40e32dd4a520bfd3ef6d3963"},
 ]
 
 [package.dependencies]
-gitlint-core = {version = "0.17.0", extras = ["trusted-deps"]}
+gitlint-core = {version = "0.18.0", extras = ["trusted-deps"]}
 
 [[package]]
 name = "gitlint-core"
-version = "0.17.0"
+version = "0.18.0"
 description = "Git commit message linter written in python, checks your commit messages for style."
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "gitlint-core-0.17.0.tar.gz", hash = "sha256:772dfd33effaa8515ca73e901466aa938c19ced894bec6783d19691f57429691"},
-    {file = "gitlint_core-0.17.0-py2.py3-none-any.whl", hash = "sha256:cb99ccd736a698b910385211203bda94bf4ce29086d0c08f8f58a18c40a98377"},
+    {file = "gitlint-core-0.18.0.tar.gz", hash = "sha256:b032eb574f7399aec6a5246a78810bacb7ce9c9fd2d9e4375950549196cae681"},
+    {file = "gitlint_core-0.18.0-py2.py3-none-any.whl", hash = "sha256:6434ca13360e448f9a7b00d24651aabab9b3a1875b4590d20e1d6cb55c78444f"},
 ]
 
 [package.dependencies]
@@ -1662,4 +1662,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.7.13,<4.0.0"
-content-hash = "a9149262250912b8f9eaa23a2710a64ebfaa26535e0e77e95aa6235050c0b0d9"
+content-hash = "b1851e91e4fcb2554cbc509d08477be3997ca31910d8d05cf5b77326e2f1bb36"
