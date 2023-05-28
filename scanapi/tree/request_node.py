@@ -15,6 +15,7 @@ from scanapi.tree.tree_keys import (
     OPTIONS_KEY,
     PARAMS_KEY,
     PATH_KEY,
+    PROXIES_KEY,
     RETRY_KEY,
     TESTS_KEY,
     VARS_KEY,
@@ -45,6 +46,7 @@ class RequestNode:
         DELAY_KEY,
         RETRY_KEY,
         OPTIONS_KEY,
+        PROXIES_KEY,
     )
     ALLOWED_OPTIONS = ("verify", "timeout")
     ALLOWED_HTTP_METHODS = (
@@ -126,6 +128,10 @@ class RequestNode:
         return delay or self.endpoint.delay
 
     @property
+    def proxies(self):
+        return self.spec.get(PROXIES_KEY) or self.endpoint.proxies
+
+    @property
     def body(self):
         body = self.spec.get(BODY_KEY)
 
@@ -168,7 +174,7 @@ class RequestNode:
         if not self._content_type_is_json(kwargs["headers"]):
             kwargs["data"] = kwargs.pop("json")
 
-        with session_with_retry(self.retry, verify) as session:
+        with session_with_retry(self.retry, verify, self.proxies) as session:
             response = session.request(method, url, **kwargs)
 
         extras = dict(self.endpoint.spec_vars)

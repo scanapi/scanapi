@@ -34,6 +34,7 @@ class TestValidate:
                 "delay",
                 tree_keys.VARS_KEY,
                 "options",
+                "proxies",
             ),
             ("name",),
             "endpoint",

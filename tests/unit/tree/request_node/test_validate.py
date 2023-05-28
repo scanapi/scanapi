@@ -37,6 +37,7 @@ class TestValidate:
                 "delay",
                 "retry",
                 "options",
+                "proxies",
             ),
             ("name",),
             "request",

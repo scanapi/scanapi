@@ -1,4 +1,5 @@
 from httpx import Client, HTTPTransport
+from httpx._utils import get_environment_proxies
 
 from scanapi.errors import InvalidKeyError, MissingMandatoryKeyError
 from scanapi.tree.tree_keys import MAX_RETRIES_KEY
@@ -56,7 +57,7 @@ def _validate_required_keys(keys, required_keys, scope):
         raise MissingMandatoryKeyError(missing_keys, scope)
 
 
-def session_with_retry(retry_configuration, verify=True):
+def session_with_retry(retry_configuration=None, verify=True, proxies=None):
     """Instantiate a requests session.
 
     Args:
@@ -64,6 +65,9 @@ def session_with_retry(retry_configuration, verify=True):
         for a request. (Available for version >= 2.2.0).
         verify [bool]: SSL certificates used to verify the
         identity of requested hosts
+        proxies [str or dict]: A string or dictionary mapping proxy
+        keys to proxy URLs. For more details
+        see https://www.python-httpx.org/advanced/#http-proxying
 
     Returns:
         [httpx.Client]: Client
@@ -71,6 +75,12 @@ def session_with_retry(retry_configuration, verify=True):
     retry_configuration = retry_configuration or {}
     retries = retry_configuration.get(MAX_RETRIES_KEY, 0)
 
+    if proxies is None:
+        proxies = get_environment_proxies()
+
     return Client(
-        transport=HTTPTransport(retries=retries), timeout=None, verify=verify
+        transport=HTTPTransport(retries=retries),
+        timeout=None,
+        verify=verify,
+        proxies=proxies,
     )

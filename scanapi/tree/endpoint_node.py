@@ -16,6 +16,7 @@ from scanapi.tree.tree_keys import (
     OPTIONS_KEY,
     PARAMS_KEY,
     PATH_KEY,
+    PROXIES_KEY,
     REQUESTS_KEY,
     ROOT_SCOPE,
     VARS_KEY,
@@ -49,6 +50,7 @@ class EndpointNode:
         DELAY_KEY,
         VARS_KEY,
         OPTIONS_KEY,
+        PROXIES_KEY,
     )
     ALLOWED_OPTIONS = (
         "verify",
@@ -152,6 +154,18 @@ class EndpointNode:
         """
         delay = self.spec.get(DELAY_KEY, 0)
         return delay or getattr(self.parent, DELAY_KEY, 0)
+
+    @property
+    def proxies(self):
+        """Get the proxies configurations.
+
+        Returns:
+            [str]: Defined proxy.
+            [dict]: Proxies configurations.
+            [None]: No proxy defined.
+        """
+        proxies = self.spec.get(PROXIES_KEY)
+        return proxies or getattr(self.parent, PROXIES_KEY, None)
 
     @property
     def is_root(self):
