@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Poetry Setup
         uses: snok/install-poetry@v1
         with:

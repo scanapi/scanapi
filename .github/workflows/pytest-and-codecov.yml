@@ -15,7 +15,7 @@ jobs:
       working_directory: ~/scanapi
     steps:
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
