@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Runt Project Setup
         uses: ./.github/actions/setup
       - name: Test Code Lint
