@@ -41,8 +41,7 @@ def _hide(http_msg, hide_settings):
         attribute (body, headers, url params)
 
     """
-    for http_attr in hide_settings:
-        secret_fields = hide_settings[http_attr]
+    for (http_attr, secret_fields) in hide_settings.items():
         for field in secret_fields:
             _override_info(http_msg, http_attr, field)
 
