@@ -33,7 +33,7 @@ format:
 .PHONY: install
 install:
 	@poetry install
-	@pre-commit install -f -t pre-commit --hook-type commit-msg
+	@poetry run pre-commit install -f -t pre-commit --hook-type commit-msg
 
 .PHONY: sh
 sh:
