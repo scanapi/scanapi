@@ -97,7 +97,7 @@ class TestRun:
         assert len(requests) == 1
 
         assert (
-            "\nError to make request `http://foo.com/second`. \nerror: bar\n"
+            "\nError to make request 'http://foo.com/second'. \nerror: bar\n"
             in caplog.text
         )
 
