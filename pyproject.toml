@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "scanapi"
-version = "2.10.1"
+version = "2.10.2"
 description = "Automated Testing and Documentation for your REST API"
 authors = ["The ScanAPI Organization <cmaiacd@gmail.com>"]
 license = "MIT"
