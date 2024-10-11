@@ -21,6 +21,7 @@ contrib=contrib-title-conventional-commits
 ignore-merge-commits=true
 ignore-revert-commits=true
 ignore-squash-commits=true
+regex-style-search=true
 
 [ignore-by-title]
 # Ignore certain rules for commits of which the title matches a regex

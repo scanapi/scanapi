@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Change requests to httpx. [#208](https://github.com/scanapi/scanapi/issues/208)
 
+### Deprecated
+- Drops support for Python 3.7 and Python 3.8 since their EOL were reached out already [678](https://github.com/scanapi/scanapi/pull/678)
+
 ## [2.9.0] - 2023-03-16
 ### Feature
 - Enable the use of different content types [#521](https://github.com/scanapi/scanapi/issues/521)

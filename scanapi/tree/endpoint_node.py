@@ -173,7 +173,7 @@ class EndpointNode:
                 yield request.run()
             except (CookieConflict, HTTPError, InvalidURL, StreamError) as e:
                 error_message = (
-                    f"\nError to make request `{request.full_url_path}`. "
+                    f"\nError to make request {repr(request.full_url_path)}. "
                     f"\n{str(e)}\n"
                 )
                 logger.error(error_message)
