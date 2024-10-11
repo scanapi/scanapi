@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.10.1] - 2024-11-10
 ### Changed
 - Upgrade Click dependency [681](https://github.com/scanapi/scanapi/pull/681)
 
@@ -277,7 +278,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.10.0...HEAD
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.10.1...HEAD
+[2.10.1]: https://github.com/scanapi/scanapi/compare/v2.10.0...v2.10.1
 [2.10.0]: https://github.com/scanapi/scanapi/compare/v2.9.0...v2.10.0
 [2.9.0]: https://github.com/scanapi/scanapi/compare/v2.8.2...v2.9.0
 [2.8.2]: https://github.com/scanapi/scanapi/compare/v2.8.1...v2.8.2
