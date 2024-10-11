@@ -20,7 +20,7 @@ mypy:
 	@poetry run mypy scanapi
 
 .PHONY: check
-check: black flake8 mypy gitlint
+check: black flake8 mypy
 
 .PHONY: change-version
 change-version:
@@ -47,7 +47,3 @@ run:
 bandit:
 	@bandit -r scanapi
 
-.PHONY: gitlint
-gitlint:
-	@echo "running gitlint"
-	@poetry run gitlint --ignore-stdin
