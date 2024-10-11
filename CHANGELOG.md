@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.10.0] - 2024-11-10
 ### Changed
 - Change requests to httpx. [#208](https://github.com/scanapi/scanapi/issues/208)
 
@@ -271,7 +273,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.9.0...HEAD
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.10.0...HEAD
+[2.10.0]: https://github.com/scanapi/scanapi/compare/v2.9.0...v2.10.0
 [2.9.0]: https://github.com/scanapi/scanapi/compare/v2.8.2...v2.9.0
 [2.8.2]: https://github.com/scanapi/scanapi/compare/v2.8.1...v2.8.2
 [2.8.1]: https://github.com/scanapi/scanapi/compare/v2.8.0...v2.8.1
