@@ -14,7 +14,7 @@ keywords = ["python", "scanapi", "tests", "end2end", "endtoend", "integration te
 scanapi = "scanapi:main"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0.0"
+python = ">=3.10,<4.0"
 appdirs = "^1.4.4"
 curlify2 = "^1.0.1"
 MarkupSafe = "2.1.2"
@@ -40,7 +40,6 @@ flake8 = "7.1.1"
 mypy = "1.11.2"
 types-requests = "^2.32.0"
 types-PyYAML = "~6.0.12"
-types-setuptools = ">=67.7,<69.0"
 requests-mock = "1.12.1"
 
 [tool.isort]
@@ -67,5 +66,5 @@ warn_unused_ignores = true
 addopts="--it"
 
 [build-system]
-requires = ["poetry>=1.0.9",  "poetry-dynamic-versioning"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
