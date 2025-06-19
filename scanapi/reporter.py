@@ -3,7 +3,7 @@ import datetime
 import pathlib
 import webbrowser
 
-from pkg_resources import get_distribution
+from importlib.metadata import version, PackageNotFoundError
 
 from scanapi.console import write_report_path
 from scanapi.session import session
@@ -65,10 +65,15 @@ class Reporter:
             [dict]: values required to render template.
 
         """
+        try:
+            scanapi_version = version("scanapi")
+        except PackageNotFoundError:
+            scanapi_version = "unknown"
+
         return {
             "now": datetime.datetime.now().replace(microsecond=0),
             "project_name": settings.get("project_name", ""),
             "results": results,
             "session": session,
-            "scanapi_version": get_distribution("scanapi").version,
+            "scanapi_version": scanapi_version,
         }

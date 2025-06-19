@@ -11,6 +11,14 @@ fake_results = [
 ]
 
 
+@fixture
+def mock_version(mocker):
+    return mocker.patch(
+        "scanapi.reporter.version",
+        side_effect=lambda pkg: "2.0.0" if pkg == "scanapi" else "unknown",
+    )
+
+
 @mark.describe("reporter")
 @mark.describe("__init__")
 class TestInit:
@@ -68,16 +76,6 @@ class TestWrite:
         return mocker.patch("scanapi.reporter.webbrowser")
 
     @fixture
-    def mock_get_distribution(self, mocker):
-        class MockDistro:
-            @property
-            def version(self):
-                return "2.0.0"
-
-        mock_distr = mocker.patch("scanapi.reporter.get_distribution")
-        mock_distr.return_value = MockDistro()
-
-    @fixture
     def context(self, mocked__session):
         return {
             "now": FakeDatetime(2020, 5, 12, 11, 32, 34),
@@ -96,11 +94,10 @@ class TestWrite:
     @mark.it("should write to default output")
     def test_should_write_to_default_output(
         self,
-        mocker,
         mocked__render,
         mocked__open,
         mocked__session,
-        mock_get_distribution,
+        mock_version,
         context,
     ):
         mocked__render.return_value = "ScanAPI Report"
@@ -116,11 +113,10 @@ class TestWrite:
     @mark.it("should write to custom output")
     def test_should_write_to_custom_output(
         self,
-        mocker,
         mocked__render,
         mocked__open,
         mocked__session,
-        mock_get_distribution,
+        mock_version,
         context,
     ):
         mocked__render.return_value = "ScanAPI Report"
@@ -136,11 +132,10 @@ class TestWrite:
     @mark.it("should handle custom templates")
     def test_should_handle_custom_templates(
         self,
-        mocker,
         mocked__render,
         mocked__open,
         mocked__session,
-        mock_get_distribution,
+        mock_version,
         context,
     ):
         mocked__render.return_value = "ScanAPI Report"
@@ -158,15 +153,49 @@ class TestWrite:
     @mark.it("should open report in browser")
     def test_should_open_report_in_browser(
         self,
-        mocker,
         mocked__render,
         mocked__open,
         mocked__session,
-        mock_get_distribution,
+        mock_version,
         context,
         mocked__webbrowser,
     ):
-
         reporter = Reporter()
         reporter.write(fake_results, True)
         assert mocked__webbrowser.open.call_count == 1
+
+
+@mark.describe("reporter")
+@mark.describe("_build_context")
+class TestBuildContext:
+    @mark.it("should return context with scanapi version when package found")
+    def test_build_context_with_version(self, mock_version):
+        results = fake_results
+        context = Reporter._build_context(results)
+        assert context["scanapi_version"] == "2.0.0"
+        assert context["results"] == results
+        assert "now" in context
+        assert "project_name" in context
+        assert "session" in context
+
+    @mark.it(
+        "should return context with 'unknown' scanapi version when package not found"
+    )
+    def test_build_context_with_package_not_found(self, mocker):
+        # Patch version to raise PackageNotFoundError
+        def raise_not_found(pkg):
+            from importlib.metadata import PackageNotFoundError
+
+            raise PackageNotFoundError
+
+        _ = mocker.patch(
+            "scanapi.reporter.version", side_effect=raise_not_found
+        )
+
+        results = fake_results
+        context = Reporter._build_context(results)
+        assert context["scanapi_version"] == "unknown"
+        assert context["results"] == results
+        assert "now" in context
+        assert "project_name" in context
+        assert "session" in context

@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run First Interaction
-        uses: fjeremic/cron-first-interaction@0.2.0
+        uses: fjeremic/cron-first-interaction@6e473529bfd4fdd0aa0bd74e0e991ddd1286fac7 # v0.2.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           pr-message: |
