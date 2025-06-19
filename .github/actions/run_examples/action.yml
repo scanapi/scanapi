@@ -16,7 +16,7 @@ runs:
     - name: Run Project Setup
       uses: ./.github/actions/setup
     - name: Checkout ScanAPI Examples repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         repository: scanapi/examples
         path: examples
@@ -24,7 +24,7 @@ runs:
       shell: bash
       run: ${{ inputs.command }}
     - name: Upload ${{ inputs.api-name }} ScanAPI Report
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       if: ${{ always() }}
       with:
         name: ${{ inputs.api-name }} ScanAPI Report

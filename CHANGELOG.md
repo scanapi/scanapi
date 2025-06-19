@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD024 -->
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -6,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Replace `pkg_resources` (deprecated) with `importlib.metadata` as the method to retrieve package version. This change removes the dependency on `setuptools` at runtime. [#723](https://github.com/scanapi/scanapi/pull/723)
+- Update GitHub Actions to use commit hashes instead of tags to improve security and reliability. [#723](https://github.com/scanapi/scanapi/pull/723)
+
+### Deprecated
+- Drop support for Python 3.9, which has reached its end of life. [#723](https://github.com/scanapi/scanapi/pull/723)
 
 ## [2.10.2] - 2024-11-10
 ### Removed
