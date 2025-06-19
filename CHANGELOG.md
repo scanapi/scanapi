@@ -8,12 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.11.0] - 2025-06-19
 ### Changed
 - Replace `pkg_resources` (deprecated) with `importlib.metadata` as the method to retrieve package version. This change removes the dependency on `setuptools` at runtime. [#723](https://github.com/scanapi/scanapi/pull/723)
 - Update GitHub Actions to use commit hashes instead of tags to improve security and reliability. [#723](https://github.com/scanapi/scanapi/pull/723)
 
 ### Deprecated
-- Drop support for Python 3.9, which has reached its end of life. [#723](https://github.com/scanapi/scanapi/pull/723)
+- **BREAKING CHANGE:**  Drop support for Python 3.9, which has reached its end of life. [#723](https://github.com/scanapi/scanapi/pull/723)
 
 ## [2.10.2] - 2024-11-10
 ### Removed
@@ -29,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade PyYAML dependecy [678](https://github.com/scanapi/scanapi/pull/678)
 
 ### Deprecated
-- Drops support for Python 3.7 and Python 3.8 since their EOL were reached out already [678](https://github.com/scanapi/scanapi/pull/678)
+- **BREAKING CHANGE:** Drops support for Python 3.7 and Python 3.8 since their EOL were reached out already [678](https://github.com/scanapi/scanapi/pull/678)
 
 ## [2.9.0] - 2023-03-16
 ### Feature
@@ -53,7 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.7.0] - 2022-06-02
 ### Deprecated
-- Drops support for Python 3.6 since its EOL was reached out in December last year [549](https://github.com/scanapi/scanapi/pull/549)
+- **BREAKING CHANGE:** Drops support for Python 3.6 since its EOL was reached out in December last year [549](https://github.com/scanapi/scanapi/pull/549)
 
 ## [2.6.2] - 2022-06-01
 ### Added
@@ -135,10 +137,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add button to copy data from the report page. [#295](https://github.com/scanapi/scanapi/pull/295)
 
 ### Changed
-- Renamed `api.(yaml|json)` to `scanapi.yaml`. [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
-- Remove top-level `api` key in `scanapi.yaml`. [#231](https://github.com/scanapi/scanapi/pull/231)
-- Renamed `project-name`, `hide-request` and `hide-response` to use underscore. [#228](https://github.com/scanapi/scanapi/issues/228)
-- Changed command `scanapi spec-file.yaml` to `scanapi run spec-file.yaml`. [#247](https://github.com/scanapi/scanapi/pull/247)
+- **BREAKING CHANGE:** Renamed `api.(yaml|json)` to `scanapi.yaml`. [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
+- **BREAKING CHANGE:**  Remove top-level `api` key in `scanapi.yaml`. [#231](https://github.com/scanapi/scanapi/pull/231)
+- **BREAKING CHANGE:** Renamed `project-name`, `hide-request` and `hide-response` to use underscore. [#228](https://github.com/scanapi/scanapi/issues/228)
+- **BREAKING CHANGE:** Changed command `scanapi spec-file.yaml` to `scanapi run spec-file.yaml`. [#247](https://github.com/scanapi/scanapi/pull/247)
 - Moved Documentation from README.md to the website. [#250](https://github.com/scanapi/scanapi/pull/250)
 - Local and global configuration. [#254](https://github.com/scanapi/scanapi/pull/254)
 - Moved `bandit` to `dev` in `pyproject.toml`. [#286](https://github.com/scanapi/scanapi/pull/286)
@@ -290,7 +292,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.10.2...HEAD
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.11.0...HEAD
+[2.11.0]: https://github.com/scanapi/scanapi/compare/v2.10.2...v2.11.0
 [2.10.2]: https://github.com/scanapi/scanapi/compare/v2.10.1...v2.10.2
 [2.10.1]: https://github.com/scanapi/scanapi/compare/v2.10.0...v2.10.1
 [2.10.0]: https://github.com/scanapi/scanapi/compare/v2.9.0...v2.10.0
