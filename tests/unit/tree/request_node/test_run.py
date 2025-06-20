@@ -7,7 +7,7 @@ from scanapi.tree import EndpointNode, RequestNode
 @mark.describe("run")
 class TestRun:
     @fixture
-    def mock_session(self, mocker):
+    def mock_session_with_retry(self, mocker):
         return mocker.patch("scanapi.tree.request_node.session_with_retry")
 
     @fixture
@@ -28,7 +28,7 @@ class TestRun:
         pass
 
     @mark.it("should call the request method")
-    def test_calls_request(self, mock_session, mock_time_sleep):
+    def test_calls_request(self, mock_session_with_retry, mock_time_sleep):
         request = RequestNode(
             {
                 "path": "http://foo.com",
@@ -48,7 +48,7 @@ class TestRun:
 
         mock_time_sleep.assert_called_once_with(0.001)
 
-        mock_session().__enter__().request.assert_called_once_with(
+        mock_session_with_retry().__enter__().request.assert_called_once_with(
             request.http_method,
             request.full_url_path,
             headers=request.headers,
@@ -59,7 +59,7 @@ class TestRun:
         )
 
         assert result == {
-            "response": mock_session().__enter__().request(),
+            "response": mock_session_with_retry().__enter__().request(),
             "tests_results": [],
             "no_failure": True,
             "request_node_name": "request_name",
@@ -68,7 +68,7 @@ class TestRun:
 
     @mark.context("when has no `Content-Type` header")
     @mark.it("should use `json` parameter to send body")
-    def test_content_type_is_not_defined(self, mock_session):
+    def test_content_type_is_not_defined(self, mock_session_with_retry):
         request = RequestNode(
             {
                 "path": "http://foo.com",
@@ -84,7 +84,7 @@ class TestRun:
 
         request.run()
 
-        mock_session().__enter__().request.assert_called_once_with(
+        mock_session_with_retry().__enter__().request.assert_called_once_with(
             request.http_method,
             request.full_url_path,
             headers=request.headers,
@@ -95,7 +95,7 @@ class TestRun:
 
     @mark.context("when `Content-Type` header is `application/json`")
     @mark.it("should use `json` parameter to send body")
-    def test_content_type_is_application_json(self, mock_session):
+    def test_content_type_is_application_json(self, mock_session_with_retry):
         request = RequestNode(
             {
                 "path": "http://foo.com",
@@ -117,7 +117,7 @@ class TestRun:
 
         request.run()
 
-        mock_session().__enter__().request.assert_called_once_with(
+        mock_session_with_retry().__enter__().request.assert_called_once_with(
             request.http_method,
             request.full_url_path,
             headers=request.headers,
@@ -140,7 +140,7 @@ class TestRun:
     @mark.context("when `Content-Type` header isn't `application/json`")
     @mark.it("should use `data` parameter to send `body`")
     def test_content_type_is_not_application_json(
-        self, mock_session, content_type
+        self, mock_session_with_retry, content_type
     ):
         request = RequestNode(
             {
@@ -158,7 +158,7 @@ class TestRun:
 
         request.run()
 
-        mock_session().__enter__().request.assert_called_once_with(
+        mock_session_with_retry().__enter__().request.assert_called_once_with(
             request.http_method,
             request.full_url_path,
             headers=request.headers,
@@ -169,7 +169,13 @@ class TestRun:
 
     @mark.context("when no_report is False")
     @mark.it("should call the write_result method")
-    def test_calls_write_result(self, mocker, mock_console_write_result):
+    def test_calls_write_result(
+        self,
+        mocker,
+        mock_console_write_result,
+        mock_session_with_retry,
+        mock_time_sleep,
+    ):
         mocker.patch(
             "scanapi.tree.request_node.settings",
             {
@@ -189,7 +195,13 @@ class TestRun:
 
     @mark.context("when no_report is True")
     @mark.it("should not call the write_result method")
-    def test_doesnt_write_result(self, mocker, mock_console_write_result):
+    def test_doesnt_write_result(
+        self,
+        mocker,
+        mock_console_write_result,
+        mock_session_with_retry,
+        mock_time_sleep,
+    ):
         mocker.patch(
             "scanapi.tree.request_node.settings",
             {
@@ -224,7 +236,7 @@ class TestRun:
         self,
         test_results,
         expected_no_failure,
-        mock_session,
+        mock_session_with_retry,
         mock_run_tests,
         mock_console_write_result,
     ):
@@ -237,7 +249,7 @@ class TestRun:
         result = request.run()
 
         assert result == {
-            "response": mock_session().__enter__().request(),
+            "response": mock_session_with_retry().__enter__().request(),
             "tests_results": test_results,
             "no_failure": expected_no_failure,
             "request_node_name": "request_name",
