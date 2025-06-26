@@ -1,9 +1,15 @@
+name: Lint check
+
 on:
   pull_request:
   push:
     branches:
       - main
-name: Lint check
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   check:
     name: check code

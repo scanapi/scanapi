@@ -1,9 +1,15 @@
 name: ScanAPI Examples
+
 on:
   pull_request:
   push:
     branches:
       - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   poke-api:
     runs-on: ubuntu-latest
