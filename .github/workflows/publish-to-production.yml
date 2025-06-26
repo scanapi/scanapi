@@ -1,7 +1,13 @@
 name: Publish to Production
+
 on:
   release:
     types: [published]
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   build-n-publish:
     name: Publish to PyPI. Build and publish Python 🐍 distributions 📦
