@@ -21,21 +21,50 @@ jobs:
     steps:
       - name: Checkout ScanAPI repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@5db1cf9a59fb97c40a68accab29236f0da7e94db # v5.6.0
         with:
           python-version: ${{ matrix.python-version }}
+
       - name: Poetry Setup
         uses: snok/install-poetry@76e04a911780d5b312d89783f7b1cd627778900a # V1.4.1
         with:
           version: 2.1.3
+
       - name: Install Dependencies
         run: poetry install
+
       - name: Run Test and generate coverage report
         run: |
           make test
+
+      # Upload coverage report only if running on the main repository (not a fork)
       - name: Upload coverage report to codecov.io
+        if: github.event.pull_request.head.repo.full_name == github.repository
         uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
+
+      # For forks (without access to CODECOV_TOKEN), check coverage against a threshold and
+      # fail if below
+      - name: Check coverage threshold on forks
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          coverage=$(poetry run coverage report | tail -1 | awk '{print $4}' | sed 's/%//')
+          echo "Coverage is $coverage%"
+          threshold=98
+          echo "Threshold is $threshold%"
+
+          if [[ -z "$coverage" || ! "$coverage" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+            echo "❌ Coverage value invalid or empty. Failing job."
+            exit 1
+          fi
+
+          if (( $(echo "$coverage < $threshold" | bc -l) )); then
+            echo "❌ Coverage $coverage% is below threshold $threshold%, failing the job."
+            exit 1
+          else
+            echo "✅ Coverage is above threshold."
+          fi
