@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Bumped `httpx` to `^0.27.0`, which brings in `httpcore >=1.0.0` and `h11 >=0.15.0`.
+
+### Security
+- Updated `h11` to `0.16.0` (via `httpx` upgrade) to address [CVE-2025-XXXX](https://github.com/python-hyper/h11/issues/31): fixed lenient parsing of chunked encoding that could allow request smuggling.
+
 ## [2.11.0] - 2025-06-19
 ### Changed
 - Replace `pkg_resources` (deprecated) with `importlib.metadata` as the method to retrieve package version. This change removes the dependency on `setuptools` at runtime. [#723](https://github.com/scanapi/scanapi/pull/723)
