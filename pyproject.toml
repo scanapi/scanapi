@@ -37,7 +37,7 @@ pre-commit = { version = "4.0.1", python = ">=3.9" }
 isort = ">=5.13.2,<7.0.0"
 bandit = "^1.7.10"
 pytest-it = "^0.1.5"
-flake8 = "7.1.1"
+flake8 = "7.3.0"
 mypy = "1.11.2"
 types-requests = "^2.32.0"
 types-PyYAML = "~6.0.12"
