@@ -9,11 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.12.0] - 2025-07-02
 ### Changed
-- Bumped `httpx` to `^0.27.0`, which brings in `httpcore >=1.0.0` and `h11 >=0.15.0`.
+- Bumped `httpx` to `^0.27.0`, which brings in `httpcore >=1.0.0` and `h11 >=0.15.0`. [#755](https://github.com/scanapi/scanapi/pull/755)
 
 ### Security
-- Updated `h11` to `0.16.0` (via `httpx` upgrade) to address [CVE-2025-XXXX](https://github.com/python-hyper/h11/issues/31): fixed lenient parsing of chunked encoding that could allow request smuggling.
+- Updated `h11` to `0.16.0` (via `httpx` upgrade) to address [CVE-2025-XXXX](https://github.com/python-hyper/h11/issues/31): fixed lenient parsing of chunked encoding that could allow request smuggling. [#755](https://github.com/scanapi/scanapi/pull/755)
 
 ## [2.11.0] - 2025-06-19
 ### Changed
@@ -298,7 +299,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.11.0...HEAD
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.12.0...HEAD
+[2.12.0]: https://github.com/scanapi/scanapi/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/scanapi/scanapi/compare/v2.10.2...v2.11.0
 [2.10.2]: https://github.com/scanapi/scanapi/compare/v2.10.1...v2.10.2
 [2.10.1]: https://github.com/scanapi/scanapi/compare/v2.10.0...v2.10.1
