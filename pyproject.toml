@@ -27,7 +27,7 @@ packaging = ">=24,<26"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
-pytest-cov = "5.0.0"
+pytest-cov = "6.2.1"
 pytest-freezegun = "0.4.2"
 pytest-mock = "^3.14.0"
 black = "25.1.0"
