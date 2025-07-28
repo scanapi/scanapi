@@ -23,7 +23,7 @@ jobs:
           command: "poetry run scanapi run ./examples/pokeapi/scanapi.yaml -c ./examples/pokeapi/scanapi.conf -o pokeapi.html"
           output-path: pokeapi.html
 
-  httpbin-api:
+  httpbingo-api:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ScanAPI repository
@@ -31,9 +31,9 @@ jobs:
       - name: Run Examples
         uses: ./.github/actions/run_examples
         with:
-          api-name: httpbin.org
-          command: "poetry run scanapi run ./examples/httpbin-api/httpbin.yaml -c ./examples/httpbin-api/scanapi.conf -o httpbin.html"
-          output-path: httpbin.html
+          api-name: httpbingo.org
+          command: "poetry run scanapi run ./examples/httpbingo-api/httpbingo.yaml -c ./examples/httpbingo-api/scanapi.conf -o httpbingo.html"
+          output-path: httpbingo.html
 
   demo-api:
     runs-on: ubuntu-latest
