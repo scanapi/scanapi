@@ -14,7 +14,7 @@ keywords = ["python", "scanapi", "tests", "end2end", "endtoend", "integration te
 scanapi = "scanapi:main"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<4.0"
+python = ">=3.10,<3.14"
 appdirs = "^1.4.4"
 curlify2 = "^1.0.1"
 MarkupSafe = "2.1.2"
@@ -24,6 +24,7 @@ Jinja2 = "~3.1.0"
 click = ">=8.1.3"
 httpx = ">=0.27,<0.29"
 packaging = ">=24,<26"
+restrictedpython = "^8.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
