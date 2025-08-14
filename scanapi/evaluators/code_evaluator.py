@@ -1,10 +1,4 @@
-# Available imports to be used dinamically in the API spec
-import datetime  # noqa: F401
-import math  # noqa: F401
-import random  # noqa: F401
 import re
-import time  # noqa: F401
-import uuid  # noqa: F401
 
 from RestrictedPython import compile_restricted
 from RestrictedPython.Guards import safe_globals, safe_builtins
@@ -13,6 +7,8 @@ from scanapi.errors import InvalidPythonCodeError
 
 
 class CodeEvaluator:
+    # Configuration: modules available in API spec evaluation
+    ALLOWED_MODULES = ["datetime", "math", "random", "re", "time", "uuid"]
     python_code_pattern = re.compile(
         r"(?P<something_before>\w*)"
         r"(?P<start>\${{)"
@@ -59,6 +55,15 @@ class CodeEvaluator:
             raise InvalidPythonCodeError(str(e), code)
 
     @classmethod
+    def _get_allowed_modules(cls):
+        """Dynamically import allowed modules.
+
+        Returns:
+            dict: Dictionary of module names to imported modules
+        """
+        return {name: __import__(name) for name in cls.ALLOWED_MODULES}
+
+    @classmethod
     def _get_safe_globals(cls, response=None):
         """Create a secure global context for code execution.
 
@@ -75,7 +80,6 @@ class CodeEvaluator:
         safe_context["_iter_unpack_sequence_"] = iter
         safe_context["_getiter_"] = iter
         safe_context["_getattr_"] = getattr
-
         essential_builtins = {
             "all": all,
             "any": any,
@@ -84,15 +88,8 @@ class CodeEvaluator:
         }
         safe_context["__builtins__"].update(essential_builtins)
 
-        # Add allowed modules and functions
-        allowed_modules = {
-            "datetime": datetime,
-            "math": math,
-            "random": random,
-            "re": re,
-            "time": time,
-            "uuid": uuid,
-        }
+        # Add allowed modules via dynamic import
+        allowed_modules = cls._get_allowed_modules()
         safe_context.update(allowed_modules)
 
         # Add response object if provided (for test assertions)
