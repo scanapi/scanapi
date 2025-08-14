@@ -80,6 +80,8 @@ class CodeEvaluator:
         safe_context["_iter_unpack_sequence_"] = iter
         safe_context["_getiter_"] = iter
         safe_context["_getattr_"] = getattr
+        # Enables obj[key] access
+        safe_context["_getitem_"] = lambda obj, key: obj[key]
         essential_builtins = {
             "all": all,
             "any": any,
