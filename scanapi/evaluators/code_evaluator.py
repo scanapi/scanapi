@@ -118,8 +118,13 @@ class CodeEvaluator:
             global_context = cls._get_safe_globals()
 
         try:
+            # Strip whitespace to avoid IndentationError in RestrictedPython
+            clean_code = code.strip()
+
             # Compile the code with restrictions using mode='eval'
-            compiled_code = compile_restricted(code, "<string>", mode="eval")
+            compiled_code = compile_restricted(
+                clean_code, "<string>", mode="eval"
+            )
             if compiled_code is None:
                 raise InvalidPythonCodeError(
                     "Failed to compile restricted code", code
