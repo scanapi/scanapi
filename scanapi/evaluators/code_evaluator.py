@@ -6,6 +6,9 @@ import re
 import time  # noqa: F401
 import uuid  # noqa: F401
 
+from RestrictedPython import compile_restricted
+from RestrictedPython.Guards import safe_globals, safe_builtins
+
 from scanapi.errors import InvalidPythonCodeError
 
 
@@ -56,11 +59,88 @@ class CodeEvaluator:
             raise InvalidPythonCodeError(str(e), code)
 
     @classmethod
-    def _assert_code(cls, code, response):
-        """Assert a Python code statement.
+    def _get_safe_globals(cls, response=None):
+        """Create a secure global context for code execution.
 
-        The eval's global context is enriched with the response to support
-        comprehensions.
+        Args:
+            response: Optional response object for test assertions
+
+        Returns:
+            dict: Safe global context with restricted access
+        """
+        safe_context = safe_globals.copy()
+        safe_context["__builtins__"] = safe_builtins.copy()
+
+        # Add iterator functions for generator expressions and comprehensions
+        safe_context["_iter_unpack_sequence_"] = iter
+        safe_context["_getiter_"] = iter
+        safe_context["_getattr_"] = getattr
+
+        essential_builtins = {
+            "all": all,
+            "any": any,
+            "len": len,
+            "str": str,
+        }
+        safe_context["__builtins__"].update(essential_builtins)
+
+        # Add allowed modules and functions
+        allowed_modules = {
+            "datetime": datetime,
+            "math": math,
+            "random": random,
+            "re": re,
+            "time": time,
+            "uuid": uuid,
+        }
+        safe_context.update(allowed_modules)
+
+        # Add response object if provided (for test assertions)
+        if response is not None:
+            safe_context["response"] = response
+
+        return safe_context
+
+    @classmethod
+    def _safe_eval(cls, code, global_context=None):
+        """Safely evaluate Python code using RestrictedPython with mode='eval'.
+
+        Args:
+            code[string]: Python code to evaluate
+            global_context[dict]: Global context for evaluation
+
+        Returns:
+            Result of code evaluation
+
+        Raises:
+            InvalidPythonCodeError: If code compilation or execution fails
+        """
+        if global_context is None:
+            global_context = cls._get_safe_globals()
+
+        try:
+            # Compile the code with restrictions using mode='eval'
+            compiled_code = compile_restricted(code, "<string>", mode="eval")
+            if compiled_code is None:
+                raise InvalidPythonCodeError(
+                    "Failed to compile restricted code", code
+                )
+
+            # Execute the compiled code securely
+            result = eval(compiled_code, global_context)
+            return result
+
+        except SyntaxError as e:
+            raise InvalidPythonCodeError(f"Syntax error in code: {e}", code)
+        except Exception as e:
+            raise InvalidPythonCodeError(str(e), code)
+
+    @classmethod
+    def _assert_code(cls, code, response):
+        """Assert a Python code statement using RestrictedPython.
+
+        The evaluation's global context is enriched with the response to support
+        comprehensions using RestrictedPython for security.
 
         Args:
             code[string]: python code that ScanAPI needs to assert
@@ -77,8 +157,8 @@ class CodeEvaluator:
             AssertionError: If python statement evaluates False
 
         """
-        global_context = {**globals(), **{"response": response}}
-        ok = eval(code, global_context)  # noqa
+        global_context = cls._get_safe_globals(response)
+        ok = cls._safe_eval(code, global_context)
         return ok, None if ok else code.strip()
 
     @classmethod
@@ -86,6 +166,9 @@ class CodeEvaluator:
         # To avoid circular imports
         from scanapi.evaluators.string_evaluator import StringEvaluator
 
+        global_context = cls._get_safe_globals(response)
+        result = cls._safe_eval(code, global_context)
+
         return StringEvaluator.replace_var_with_value(
-            sequence, match.group(), str(eval(code))
+            sequence, match.group(), str(result)
         )
