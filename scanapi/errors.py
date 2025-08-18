@@ -40,6 +40,7 @@ class InvalidPythonCodeError(MalformedSpecError):
     """Raised when python code defined in the API spec raises an error"""
 
     def __init__(self, error_message, code, *args):
+        self.expression = code
         error_message = (
             f"Invalid Python code defined in the API spec. "
             f"Exception: {error_message}. "
