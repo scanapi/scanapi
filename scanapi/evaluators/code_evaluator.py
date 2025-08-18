@@ -1,9 +1,12 @@
 import re
+import logging
 
 from RestrictedPython import compile_restricted
 from RestrictedPython.Guards import safe_globals, safe_builtins
 
 from scanapi.errors import InvalidPythonCodeError
+
+logger = logging.getLogger(__name__)
 
 
 class CodeEvaluator:
@@ -135,8 +138,14 @@ class CodeEvaluator:
             return result
 
         except SyntaxError as e:
+            logger.error(
+                "Syntax error in Python code: '%s' - %s", clean_code, str(e)
+            )
             raise InvalidPythonCodeError(f"Syntax error in code: {e}", code)
         except Exception as e:
+            logger.error(
+                "Runtime error in Python code: '%s' - %s", clean_code, str(e)
+            )
             raise InvalidPythonCodeError(str(e), code)
 
     @classmethod
