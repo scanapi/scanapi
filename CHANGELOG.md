@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+- Replace unsafe `eval()` with RestrictedPython to prevent arbitrary code execution in API spec evaluation. [#798](https://github.com/scanapi/scanapi/pull/798)
+
 ## [2.12.0] - 2025-07-02
 ### Changed
 - Bumped `httpx` to `^0.27.0`, which brings in `httpcore >=1.0.0` and `h11 >=0.15.0`. [#755](https://github.com/scanapi/scanapi/pull/755)
