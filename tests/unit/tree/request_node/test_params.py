@@ -9,7 +9,7 @@ class TestParams:
     @fixture
     def mock_evaluate(self, mocker):
         mock_func = mocker.patch(
-            "scanapi.tree.request_node.SpecEvaluator.evaluate"
+            "scanapi.evaluators.spec_evaluator.SpecEvaluator.evaluate"
         )
         mock_func.return_value = ""
 
@@ -38,7 +38,11 @@ class TestParams:
         request = RequestNode(
             {"params": params, "path": "http://foo.com", "name": "foo"},
             endpoint=EndpointNode(
-                {"params": endpoint_params, "name": "foo", "requests": [{}],}
+                {
+                    "params": endpoint_params,
+                    "name": "foo",
+                    "requests": [{}],
+                }
             ),
         )
         assert request.params == {"abc": "def", "xxx": "www"}
@@ -57,7 +61,11 @@ class TestParams:
         request = RequestNode(
             {"params": params, "path": "http://foo.com", "name": "foo"},
             endpoint=EndpointNode(
-                {"params": endpoint_params, "name": "foo", "requests": [{}],}
+                {
+                    "params": endpoint_params,
+                    "name": "foo",
+                    "requests": [{}],
+                }
             ),
         )
         assert request.params == {"abc": "def", "xxx": "www"}

@@ -9,7 +9,7 @@ class TestFullPathUrl:
     @fixture
     def mock_evaluate(self, mocker):
         mock_func = mocker.patch(
-            "scanapi.tree.request_node.SpecEvaluator.evaluate"
+            "scanapi.evaluators.spec_evaluator.SpecEvaluator.evaluate"
         )
         mock_func.return_value = ""
 
@@ -67,6 +67,22 @@ class TestFullPathUrl:
         )
         request = RequestNode({"name": "foo", "path": []}, endpoint=endpoint)
         assert request.full_url_path == "http://foo.com/[]"
+
+    @mark.context(
+        "when the request specification has a URL that uses a custom variable"
+    )
+    @mark.it(
+        "should set the full url path as the concatenation of the custom variable "
+    )
+    def test_with_path_custom_var(self):
+        endpoint = EndpointNode(
+            {"name": "foo", "requests": [{}], "path": "http://foo.com/"}
+        )
+        request = RequestNode(
+            {"name": "foo", "path": "/${bar}", "vars": {"bar": "foo-bar"}},
+            endpoint=endpoint,
+        )
+        assert request.full_url_path == "http://foo.com/foo-bar"
 
     @mark.it("should call the evaluate method")
     def test_calls_evaluate(self, mocker, mock_evaluate):

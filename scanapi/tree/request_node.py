@@ -1,9 +1,9 @@
-import logging
 import time
 
-from scanapi.errors import HTTPMethodNotAllowedError
-from scanapi.evaluators.spec_evaluator import SpecEvaluator  # noqa: F401
+from scanapi.console import console, write_result
+from scanapi.errors import HTTPMethodNotAllowedError, InvalidKeyError
 from scanapi.hide_utils import hide_sensitive_info
+from scanapi.settings import settings
 from scanapi.test_status import TestStatus
 from scanapi.tree.testing_node import TestingNode
 from scanapi.tree.tree_keys import (
@@ -12,6 +12,7 @@ from scanapi.tree.tree_keys import (
     HEADERS_KEY,
     METHOD_KEY,
     NAME_KEY,
+    OPTIONS_KEY,
     PARAMS_KEY,
     PATH_KEY,
     RETRY_KEY,
@@ -20,10 +21,17 @@ from scanapi.tree.tree_keys import (
 )
 from scanapi.utils import join_urls, session_with_retry, validate_keys
 
-logger = logging.getLogger(__name__)
-
 
 class RequestNode:
+    """
+    Class that represents a request. It's used as a child of an EndpointNode
+    where each EndpointNode may contain multiple children RequestNode.
+
+    Attributes:
+        spec[dict]: dictionary containing the request's specifications
+        endpoint[EndpointNode]: the parent node
+    """
+
     SCOPE = "request"
     ALLOWED_KEYS = (
         BODY_KEY,
@@ -36,7 +44,9 @@ class RequestNode:
         VARS_KEY,
         DELAY_KEY,
         RETRY_KEY,
+        OPTIONS_KEY,
     )
+    ALLOWED_OPTIONS = ("verify", "timeout")
     ALLOWED_HTTP_METHODS = (
         "GET",
         "POST",
@@ -77,7 +87,24 @@ class RequestNode:
         path = str(self.spec.get(PATH_KEY, ""))
         full_url = join_urls(base_path, path)
 
+        self.endpoint.spec_vars.update(
+            self.spec.get(VARS_KEY, {}),
+            extras=dict(self.endpoint.spec_vars),
+            filter_responses=True,
+        )
+
         return self.endpoint.spec_vars.evaluate(full_url)
+
+    @property
+    def options(self):
+        endpoint_options = self.endpoint.options
+        options = self.spec.get(OPTIONS_KEY, {})
+
+        for option in options:
+            if option not in self.ALLOWED_OPTIONS:
+                raise InvalidKeyError(option, OPTIONS_KEY, self.ALLOWED_OPTIONS)
+
+        return self.endpoint.spec_vars.evaluate({**endpoint_options, **options})
 
     @property
     def headers(self):
@@ -126,29 +153,30 @@ class RequestNode:
 
         method = self.http_method
         url = self.full_url_path
-        logger.info("Making request %s %s", method, url)
+        console.print(f"\n- Making request {method} {url}", highlight=False)
 
-        self.endpoint.spec_vars.update(
-            self.spec.get(VARS_KEY, {}),
-            extras=dict(self.endpoint.spec_vars),
-            filter_responses=True,
-        )
-
-        session = session_with_retry(self.retry)
-        response = session.request(
-            method,
-            url,
+        options = self.options
+        verify = options.pop("verify", True)
+        kwargs = dict(
             headers=self.headers,
             params=self.params,
             json=self.body,
-            allow_redirects=False,
+            follow_redirects=False,
+            **options,
         )
+
+        if not self._content_type_is_json(kwargs["headers"]):
+            kwargs["data"] = kwargs.pop("json")
+
+        with session_with_retry(self.retry, verify) as session:
+            response = session.request(method, url, **kwargs)
 
         extras = dict(self.endpoint.spec_vars)
         extras["response"] = response
 
-        self.endpoint.propagate_spec_vars(
-            self.spec.get(VARS_KEY, {}), extras=extras,
+        self.endpoint.spec_vars.update(
+            self.spec.get(VARS_KEY, {}),
+            extras=extras,
         )
 
         self.endpoint.spec_vars.update({"response": response})
@@ -157,7 +185,7 @@ class RequestNode:
 
         del self.endpoint.spec_vars["response"]
 
-        return {
+        result = {
             "response": response,
             "tests_results": tests_results,
             "no_failure": all(
@@ -165,7 +193,13 @@ class RequestNode:
                 for test_result in tests_results
             ),
             "request_node_name": self.name,
+            "options": self.options,
         }
+
+        if not settings["no_report"]:
+            write_result(result)
+
+        return result
 
     def _run_tests(self):
         """Run all tests cases of request node.
@@ -185,4 +219,19 @@ class RequestNode:
         """
         validate_keys(
             self.spec.keys(), self.ALLOWED_KEYS, self.REQUIRED_KEYS, self.SCOPE
+        )
+
+    @staticmethod
+    def _content_type_is_json(headers):
+        """Check headers for any content-type different than application/json
+
+        Args:
+            headers dict[str, str]: request headers
+
+        Returns:
+            bool: False if convent-type is different then application/json
+        """
+        return not any(
+            k.lower() == "content-type" and v.lower() != "application/json"
+            for k, v in headers.items()
         )

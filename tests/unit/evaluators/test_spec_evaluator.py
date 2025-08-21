@@ -107,7 +107,10 @@ class TestEvaluateString:
     ):
         string = "foo"
         spec_evaluator.evaluate(string)
-        assert mock_string_evaluate.called_once_with(string)
+        assert mock_string_evaluate.call_count == 1
+        mock_string_evaluate.assert_called_once_with(
+            string, spec_evaluator, False
+        )
 
     @mark.describe("evaluate string")
     @mark.it("should call evaluate assertion string")
@@ -116,7 +119,10 @@ class TestEvaluateString:
     ):
         string = "foo"
         spec_evaluator.evaluate_assertion(string)
-        assert mock_string_evaluate.called_once_with(string)
+        assert mock_string_evaluate.call_count == 1
+        mock_string_evaluate.assert_called_once_with(
+            string, spec_evaluator, True
+        )
 
 
 @mark.describe("spec evaluator")

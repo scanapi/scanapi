@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD024 -->
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -11,6 +13,79 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fix the `--browser` flag not working on macOS [#504](https://github.com/scanapi/scanapi/pull/504)
+
+### Security
+- Replace unsafe `eval()` with RestrictedPython to prevent arbitrary code execution in API spec evaluation. [#798](https://github.com/scanapi/scanapi/pull/798)
+
+## [2.12.0] - 2025-07-02
+### Changed
+- Bumped `httpx` to `^0.27.0`, which brings in `httpcore >=1.0.0` and `h11 >=0.15.0`. [#755](https://github.com/scanapi/scanapi/pull/755)
+
+### Security
+- Updated `h11` to `0.16.0` (via `httpx` upgrade) to address [CVE-2025-XXXX](https://github.com/python-hyper/h11/issues/31): fixed lenient parsing of chunked encoding that could allow request smuggling. [#755](https://github.com/scanapi/scanapi/pull/755)
+
+## [2.11.0] - 2025-06-19
+### Changed
+- Replace `pkg_resources` (deprecated) with `importlib.metadata` as the method to retrieve package version. This change removes the dependency on `setuptools` at runtime. [#723](https://github.com/scanapi/scanapi/pull/723)
+- Update GitHub Actions to use commit hashes instead of tags to improve security and reliability. [#723](https://github.com/scanapi/scanapi/pull/723)
+
+### Deprecated
+- **BREAKING CHANGE:**  Drop support for Python 3.9, which has reached its end of life. [#723](https://github.com/scanapi/scanapi/pull/723)
+
+## [2.10.2] - 2024-11-10
+### Removed
+- Gitlint dev dependency [685](https://github.com/scanapi/scanapi/pull/685)
+
+## [2.10.1] - 2024-11-10
+### Changed
+- Upgrade Click dependency [681](https://github.com/scanapi/scanapi/pull/681)
+
+## [2.10.0] - 2024-11-10
+### Changed
+- Change requests to httpx. [#208](https://github.com/scanapi/scanapi/issues/208)
+- Upgrade PyYAML dependecy [678](https://github.com/scanapi/scanapi/pull/678)
+
+### Deprecated
+- **BREAKING CHANGE:** Drops support for Python 3.7 and Python 3.8 since their EOL were reached out already [678](https://github.com/scanapi/scanapi/pull/678)
+
+## [2.9.0] - 2023-03-16
+### Feature
+- Enable the use of different content types [#521](https://github.com/scanapi/scanapi/issues/521)
+
+### Fixed
+- python -m scanapi command [#501](https://github.com/scanapi/scanapi/issues/501)
+
+## [2.8.2] - 2023-03-06
+### Fixed
+- Content field not rendered properly on Chrome [#551](https://github.com/scanapi/scanapi/issues/551)
+
+## [2.8.1] - 2023-03-02
+### Fixed
+- Custom variable evaluated when defined on the path [#508](https://github.com/scanapi/scanapi/issues/508)
+- Add missing `--insecure` flag to cURL command on report based on request options [#555](https://github.com/scanapi/scanapi/pull/555)
+
+## [2.8.0] - 2022-08-11
+### Added
+- Implement new key `options` to request and endpoint nodes [#529](https://github.com/scanapi/scanapi/pull/552)
+
+## [2.7.0] - 2022-06-02
+### Deprecated
+- **BREAKING CHANGE:** Drops support for Python 3.6 since its EOL was reached out in December last year [549](https://github.com/scanapi/scanapi/pull/549)
+
+## [2.6.2] - 2022-06-01
+### Added
+- Print test results summary in console [#497](https://github.com/scanapi/scanapi/issues/497)
+
+### Fixed
+- Error when using list (or any other) comprehension in Python Code [#515](https://github.com/scanapi/scanapi/pull/515)
+
+## [2.6.1] - 2022-04-12
+### Changed
+- Implement new details to help users on visualize related request data. [#506](https://github.com/scanapi/scanapi/pull/506)
+
+### Fixed
+- Fix the `--browser` flag not working on macOS [#504](https://github.com/scanapi/scanapi/pull/504)
+- Error on running ScanAPI. `ImportError: cannot import name 'soft_unicode' from 'markupsafe'` [#534](https://github.com/scanapi/scanapi/pull/534)
 
 ## [2.6.0] - 2021-08-13
 ### Changed
@@ -77,10 +152,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add button to copy data from the report page. [#295](https://github.com/scanapi/scanapi/pull/295)
 
 ### Changed
-- Renamed `api.(yaml|json)` to `scanapi.yaml`. [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
-- Remove top-level `api` key in `scanapi.yaml`. [#231](https://github.com/scanapi/scanapi/pull/231)
-- Renamed `project-name`, `hide-request` and `hide-response` to use underscore. [#228](https://github.com/scanapi/scanapi/issues/228)
-- Changed command `scanapi spec-file.yaml` to `scanapi run spec-file.yaml`. [#247](https://github.com/scanapi/scanapi/pull/247)
+- **BREAKING CHANGE:** Renamed `api.(yaml|json)` to `scanapi.yaml`. [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
+- **BREAKING CHANGE:**  Remove top-level `api` key in `scanapi.yaml`. [#231](https://github.com/scanapi/scanapi/pull/231)
+- **BREAKING CHANGE:** Renamed `project-name`, `hide-request` and `hide-response` to use underscore. [#228](https://github.com/scanapi/scanapi/issues/228)
+- **BREAKING CHANGE:** Changed command `scanapi spec-file.yaml` to `scanapi run spec-file.yaml`. [#247](https://github.com/scanapi/scanapi/pull/247)
 - Moved Documentation from README.md to the website. [#250](https://github.com/scanapi/scanapi/pull/250)
 - Local and global configuration. [#254](https://github.com/scanapi/scanapi/pull/254)
 - Moved `bandit` to `dev` in `pyproject.toml`. [#286](https://github.com/scanapi/scanapi/pull/286)
@@ -232,28 +307,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/camilamaia/scanapi/compare/v2.6.0...HEAD
-[2.6.0]: https://github.com/camilamaia/scanapi/compare/v2.5.0...v2.6.0
-[2.5.0]: https://github.com/camilamaia/scanapi/compare/v2.4.0...v2.5.0
-[2.4.0]: https://github.com/camilamaia/scanapi/compare/v2.3.0...v2.4.0
-[2.3.0]: https://github.com/camilamaia/scanapi/compare/v2.2.0...v2.3.0
-[2.2.0]: https://github.com/camilamaia/scanapi/compare/v2.1.0...v2.2.0
-[2.1.0]: https://github.com/camilamaia/scanapi/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/camilamaia/scanapi/compare/v1.0.5...v2.0.0
-[1.0.5]: https://github.com/camilamaia/scanapi/compare/v1.0.4...v1.0.5
-[1.0.4]: https://github.com/camilamaia/scanapi/compare/v1.0.3...v1.0.4
-[1.0.3]: https://github.com/camilamaia/scanapi/compare/v1.0.2...v1.0.3
-[1.0.2]: https://github.com/camilamaia/scanapi/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/camilamaia/scanapi/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/camilamaia/scanapi/compare/v0.1.0...v1.0.0
-[0.1.0]: https://github.com/camilamaia/scanapi/compare/v0.0.19...v0.1.0
-[0.0.19]: https://github.com/camilamaia/scanapi/compare/v0.0.18...v0.0.19
-[0.0.18]: https://github.com/camilamaia/scanapi/compare/v0.0.17...v0.0.18
-[0.0.17]: https://github.com/camilamaia/scanapi/compare/v0.0.16...v0.0.17
-[0.0.16]: https://github.com/camilamaia/scanapi/compare/v0.0.15...v0.0.16
-[0.0.15]: https://github.com/camilamaia/scanapi/compare/v0.0.14...v0.0.15
-[0.0.14]: https://github.com/camilamaia/scanapi/compare/v0.0.13...v0.0.14
-[0.0.13]: https://github.com/camilamaia/scanapi/compare/v0.0.12...v0.0.13
-[0.0.12]: https://github.com/camilamaia/scanapi/compare/v0.0.11...v0.0.12
-[0.0.11]: https://github.com/camilamaia/scanapi/compare/v0.0.10...v0.0.11
-[0.0.10]: https://github.com/camilamaia/scanapi/releases/tag/v0.0.10
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.12.0...HEAD
+[2.12.0]: https://github.com/scanapi/scanapi/compare/v2.11.0...v2.12.0
+[2.11.0]: https://github.com/scanapi/scanapi/compare/v2.10.2...v2.11.0
+[2.10.2]: https://github.com/scanapi/scanapi/compare/v2.10.1...v2.10.2
+[2.10.1]: https://github.com/scanapi/scanapi/compare/v2.10.0...v2.10.1
+[2.10.0]: https://github.com/scanapi/scanapi/compare/v2.9.0...v2.10.0
+[2.9.0]: https://github.com/scanapi/scanapi/compare/v2.8.2...v2.9.0
+[2.8.2]: https://github.com/scanapi/scanapi/compare/v2.8.1...v2.8.2
+[2.8.1]: https://github.com/scanapi/scanapi/compare/v2.8.0...v2.8.1
+[2.8.0]: https://github.com/scanapi/scanapi/compare/v2.7.0...v2.8.0
+[2.7.0]: https://github.com/scanapi/scanapi/compare/v2.6.2...v2.7.0
+[2.6.2]: https://github.com/scanapi/scanapi/compare/v2.6.1...v2.6.2
+[2.6.1]: https://github.com/scanapi/scanapi/compare/v2.6.0...v2.6.1
+[2.6.0]: https://github.com/scanapi/scanapi/compare/v2.5.0...v2.6.0
+[2.5.0]: https://github.com/scanapi/scanapi/compare/v2.4.0...v2.5.0
+[2.4.0]: https://github.com/scanapi/scanapi/compare/v2.3.0...v2.4.0
+[2.3.0]: https://github.com/scanapi/scanapi/compare/v2.2.0...v2.3.0
+[2.2.0]: https://github.com/scanapi/scanapi/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/scanapi/scanapi/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/scanapi/scanapi/compare/v1.0.5...v2.0.0
+[1.0.5]: https://github.com/scanapi/scanapi/compare/v1.0.4...v1.0.5
+[1.0.4]: https://github.com/scanapi/scanapi/compare/v1.0.3...v1.0.4
+[1.0.3]: https://github.com/scanapi/scanapi/compare/v1.0.2...v1.0.3
+[1.0.2]: https://github.com/scanapi/scanapi/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/scanapi/scanapi/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/scanapi/scanapi/compare/v0.1.0...v1.0.0
+[0.1.0]: https://github.com/scanapi/scanapi/compare/v0.0.19...v0.1.0
+[0.0.19]: https://github.com/scanapi/scanapi/compare/v0.0.18...v0.0.19
+[0.0.18]: https://github.com/scanapi/scanapi/compare/v0.0.17...v0.0.18
+[0.0.17]: https://github.com/scanapi/scanapi/compare/v0.0.16...v0.0.17
+[0.0.16]: https://github.com/scanapi/scanapi/compare/v0.0.15...v0.0.16
+[0.0.15]: https://github.com/scanapi/scanapi/compare/v0.0.14...v0.0.15
+[0.0.14]: https://github.com/scanapi/scanapi/compare/v0.0.13...v0.0.14
+[0.0.13]: https://github.com/scanapi/scanapi/compare/v0.0.12...v0.0.13
+[0.0.12]: https://github.com/scanapi/scanapi/compare/v0.0.11...v0.0.12
+[0.0.11]: https://github.com/scanapi/scanapi/compare/v0.0.10...v0.0.11
+[0.0.10]: https://github.com/scanapi/scanapi/releases/tag/v0.0.10

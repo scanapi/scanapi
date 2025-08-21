@@ -1,14 +1,23 @@
 ![](https://github.com/scanapi/design/raw/main/images/github-hero-dark.png)
 
 <p align="center">
-  <a href="https://app.circleci.com/pipelines/github/scanapi/scanapi?branch=main">
-    <img alt="CircleCI" src="https://img.shields.io/circleci/build/github/scanapi/scanapi">
-  </a>
   <a href="https://codecov.io/gh/scanapi/scanapi">
     <img alt="Codecov" src="https://img.shields.io/codecov/c/github/scanapi/scanapi">
   </a>
-  <a href="https://badge.fury.io/py/scanapi">
-    <img alt="PyPI version" src="https://badge.fury.io/py/scanapi.svg">
+  <a href="https://app.circleci.com/pipelines/github/scanapi/scanapi?branch=main">
+    <img alt="CircleCI" src="https://img.shields.io/circleci/build/github/scanapi/scanapi">
+  </a>
+  <a href="https://github.com/scanapi/scanapi/actions/workflows/lint.yml?query=branch%3Amain">
+    <img alt="LintCheck" src="https://github.com/scanapi/scanapi/workflows/Lint%20check/badge.svg?event=push">
+  </a>
+  <a href="https://github.com/scanapi/scanapi/actions/workflows/run-examples.yml?query=branch%3Amain">
+    <img alt="Examples" src="https://github.com/scanapi/scanapi/actions/workflows/run-examples.yml/badge.svg?branch=main">
+  </a>
+  <a href="https://pypistats.org/packages/scanapi">
+    <img alt="Downloads Per Month" src="https://shields.io/pypi/dm/scanapi">
+  </a>
+  <a href="https://pypi.org/project/scanapi/">
+    <img alt="PyPI version" src="https://shields.io/pypi/v/scanapi">
   </a>
 
   <a href="https://discord.scanapi.dev">
@@ -81,14 +90,9 @@ Then, the lib will hit the specified endpoints and generate a `scanapi-report.ht
     alt="An overview screenshot of the report."
   >
   <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-request.png"
+    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-opened.png"
     width="700"
     alt="A screenshot of the report showing the request details."
-  >
-  <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-response.png"
-    width="700",
-    alt="A screenshot of the report showing the response and test details"
   >
 </p>
 

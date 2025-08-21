@@ -1,6 +1,7 @@
 import logging
 
 from pytest import fixture, mark
+from httpx import HTTPError
 
 from scanapi.exit_code import ExitCode
 from scanapi.tree import EndpointNode
@@ -31,7 +32,10 @@ class TestRun:
                     {
                         "name": "foo",
                         "requests": [
-                            {"name": "First", "path": "http://foo.com/first",},
+                            {
+                                "name": "First",
+                                "path": "http://foo.com/first",
+                            },
                             {
                                 "name": "Second",
                                 "path": "http://foo.com/second",
@@ -59,7 +63,7 @@ class TestRun:
     @mark.it("should log the error and change session exit code")
     def test_when_request_fails(self, mock_run_request, mock_session, caplog):
 
-        mock_run_request.side_effect = ["foo", Exception("error: bar")]
+        mock_run_request.side_effect = ["foo", HTTPError("error: bar")]
 
         node = EndpointNode(
             {
@@ -67,7 +71,10 @@ class TestRun:
                     {
                         "name": "foo",
                         "requests": [
-                            {"name": "First", "path": "http://foo.com/first",},
+                            {
+                                "name": "First",
+                                "path": "http://foo.com/first",
+                            },
                             {
                                 "name": "Second",
                                 "path": "http://foo.com/second",
@@ -90,7 +97,7 @@ class TestRun:
         assert len(requests) == 1
 
         assert (
-            "\nError to make request `http://foo.com/second`. \nerror: bar\n"
+            "\nError to make request 'http://foo.com/second'. \nerror: bar\n"
             in caplog.text
         )
 

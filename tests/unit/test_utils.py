@@ -115,13 +115,11 @@ class TestSessionWithRetry:
     def test_should_not_mount_custom_adapters(self):
         session = session_with_retry({})
 
-        assert session.adapters["http://"].max_retries.total == 0
-        assert session.adapters["https://"].max_retries.total == 0
+        assert session._transport._pool._retries == 0
 
     @mark.context("there is a retry configuration")
     @mark.it("should mount custom adapters")
     def test_should_mount_custom_adapters(self):
         session = session_with_retry({"max_retries": 7})
 
-        assert session.adapters["http://"].max_retries.total == 7
-        assert session.adapters["https://"].max_retries.total == 7
+        assert session._transport._pool._retries == 7

@@ -1,90 +1,52 @@
-on: pull_request
 name: ScanAPI Examples
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   poke-api:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.6.x
-      - name: Poetry Setup
-        uses: snok/install-poetry@v1.1.1
-        with:
-          version: 1.0.9
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@v2
-      - name: Checkout ScanAPI Examples repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Run Examples
+        uses: ./.github/actions/run_examples
         with:
-          repository: scanapi/examples
-          path: examples
-      - name: Install Dependencies
-        run: poetry install
-      - name: Run ScanAPI for PokeAPI
-        run: "poetry run scanapi run ./examples/pokeapi/scanapi.yaml -c ./examples/pokeapi/scanapi.conf -o pokeapi.html"
-      - name: Upload PokeAPI ScanAPI Report
-        uses: actions/upload-artifact@v2
-        if: ${{ always() }}
-        with:
-          name: PokeAPI ScanAPI Report
-          path: pokeapi.html
+          api-name: PokeAPI
+          command: "poetry run scanapi run ./examples/pokeapi/scanapi.yaml -c ./examples/pokeapi/scanapi.conf -o pokeapi.html"
+          output-path: pokeapi.html
 
-  httpbin-api:
+  httpbingo-api:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.6.x
-      - name: Poetry Setup
-        uses: snok/install-poetry@v1.1.1
-        with:
-          version: 1.0.9
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@v2
-      - name: Checkout ScanAPI Examples repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Run Examples
+        uses: ./.github/actions/run_examples
         with:
-          repository: scanapi/examples
-          path: examples
-      - name: Install Dependencies
-        run: poetry install
-      - name: Run ScanAPI for httpbin.org
-        run: "poetry run scanapi run ./examples/httpbin-api/httpbin.yaml -c ./examples/httpbin-api/scanapi.conf -o httpbin.html"
-      - name: Upload httpbin.org ScanAPI Report
-        uses: actions/upload-artifact@v2
-        if: ${{ always() }}
-        with:
-          name: httpbin.org ScanAPI Report
-          path: httpbin.html
+          api-name: httpbingo.org
+          command: "poetry run scanapi run ./examples/httpbingo-api/httpbingo.yaml -c ./examples/httpbingo-api/scanapi.conf -o httpbingo.html"
+          output-path: httpbingo.html
 
   demo-api:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.6.x
-      - name: Poetry Setup
-        uses: snok/install-poetry@v1.1.1
-        with:
-          version: 1.0.9
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@v2
-      - name: Checkout ScanAPI Examples repository
-        uses: actions/checkout@v2
-        with:
-          repository: scanapi/examples
-          path: examples
-      - name: Install Dependencies
-        run: poetry install
-      - name: Run ScanAPI for Demo API
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Run Examples
         env:
-          BASE_URL: "http://demo.scanapi.dev/api/v1/"
-          USER: "guest"
-          PASSWORD: "demoapi123"
-        run: "poetry run scanapi run ./examples/demo-api/scanapi.yaml -c ./examples/demo-api/scanapi.conf -o demo-api.html"
-      - name: Upload Demo API ScanAPI Report
-        uses: actions/upload-artifact@v2
-        if: ${{ always() }}
+          BASE_URL: "https://demo-api.fly.dev/api/v1/"
+          USER: "scanapi-workflow"
+          PASSWORD: Q*jW@p8pVmHwm2RwQd8ZR8LK
+        uses: ./.github/actions/run_examples
         with:
-          name: Demo API ScanAPI Report
-          path: demo-api.html
+          api-name: Demo API
+          command: "poetry run scanapi run ./examples/demo-api/scanapi.yaml -c ./examples/demo-api/scanapi.conf -o demo-api.html"
+          output-path: demo-api.html

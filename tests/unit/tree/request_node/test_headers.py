@@ -9,7 +9,7 @@ class TestHeaders:
     @fixture
     def mock_evaluate(self, mocker):
         mock_func = mocker.patch(
-            "scanapi.tree.request_node.SpecEvaluator.evaluate"
+            "scanapi.evaluators.spec_evaluator.SpecEvaluator.evaluate"
         )
         mock_func.return_value = ""
 
@@ -38,7 +38,11 @@ class TestHeaders:
         request = RequestNode(
             {"headers": headers, "path": "http://foo.com", "name": "foo"},
             endpoint=EndpointNode(
-                {"headers": endpoint_headers, "name": "foo", "requests": [{}],}
+                {
+                    "headers": endpoint_headers,
+                    "name": "foo",
+                    "requests": [{}],
+                }
             ),
         )
         assert request.headers == {"abc": "def", "xxx": "www"}
@@ -57,7 +61,11 @@ class TestHeaders:
         request = RequestNode(
             {"headers": headers, "path": "http://foo.com", "name": "foo"},
             endpoint=EndpointNode(
-                {"headers": endpoint_headers, "name": "foo", "requests": [{}],}
+                {
+                    "headers": endpoint_headers,
+                    "name": "foo",
+                    "requests": [{}],
+                }
             ),
         )
         assert request.headers == {"abc": "def", "xxx": "www"}

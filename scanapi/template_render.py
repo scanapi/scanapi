@@ -8,6 +8,7 @@ def render(template_path, context, is_external=False):
     env = Environment(loader=loader, autoescape=True)
     env.filters["curlify"] = curlify2.to_curl
     env.filters["render_body"] = render_body
+    env.globals["is_bytes"] = lambda o: isinstance(o, bytes)
     chosen_template = env.get_template(template_path)
     return chosen_template.render(**context)
 
@@ -28,5 +29,4 @@ def render_body(request):
     content_type = request.headers.get("Content-Type")
     if content_type in ["application/json", "text/plain"]:
         return request.body.decode()
-    if content_type.startswith("application"):
-        return "Binary content"
+    return f"Can not render. Unsuported content type: {content_type}."

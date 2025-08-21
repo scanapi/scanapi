@@ -11,6 +11,14 @@ fake_results = [
 ]
 
 
+@fixture
+def mock_version(mocker):
+    return mocker.patch(
+        "scanapi.reporter.version",
+        side_effect=lambda pkg: "2.0.0" if pkg == "scanapi" else "unknown",
+    )
+
+
 @mark.describe("reporter")
 @mark.describe("__init__")
 class TestInit:
@@ -64,14 +72,8 @@ class TestWrite:
         return mocker.patch("scanapi.reporter.logger")
 
     @fixture
-    def mock_get_distribution(self, mocker):
-        class MockDistro:
-            @property
-            def version(self):
-                return "2.0.0"
-
-        mock_distr = mocker.patch("scanapi.reporter.get_distribution")
-        mock_distr.return_value = MockDistro()
+    def mocked__webbrowser(self, mocker):
+        return mocker.patch("scanapi.reporter.webbrowser")
 
     @fixture
     def context(self, mocked__session):
@@ -92,16 +94,15 @@ class TestWrite:
     @mark.it("should write to default output")
     def test_should_write_to_default_output(
         self,
-        mocker,
         mocked__render,
         mocked__open,
         mocked__session,
-        mock_get_distribution,
+        mock_version,
         context,
     ):
         mocked__render.return_value = "ScanAPI Report"
         reporter = Reporter()
-        reporter.write(fake_results)
+        reporter.write(fake_results, False)
 
         mocked__render.assert_called_once_with("report.html", context, False)
         mocked__open.assert_called_once_with(
@@ -112,16 +113,15 @@ class TestWrite:
     @mark.it("should write to custom output")
     def test_should_write_to_custom_output(
         self,
-        mocker,
         mocked__render,
         mocked__open,
         mocked__session,
-        mock_get_distribution,
+        mock_version,
         context,
     ):
         mocked__render.return_value = "ScanAPI Report"
         reporter = Reporter("./custom/report-output.html", "html")
-        reporter.write(fake_results)
+        reporter.write(fake_results, False)
 
         mocked__render.assert_called_once_with("html", context, True)
         mocked__open.assert_called_once_with(
@@ -132,16 +132,15 @@ class TestWrite:
     @mark.it("should handle custom templates")
     def test_should_handle_custom_templates(
         self,
-        mocker,
         mocked__render,
         mocked__open,
         mocked__session,
-        mock_get_distribution,
+        mock_version,
         context,
     ):
         mocked__render.return_value = "ScanAPI Report"
         reporter = Reporter(template="my-template.html")
-        reporter.write(fake_results)
+        reporter.write(fake_results, False)
 
         mocked__render.assert_called_once_with(
             "my-template.html", context, True
@@ -151,13 +150,52 @@ class TestWrite:
         )
         mocked__open().write.assert_called_once_with("ScanAPI Report")
 
-    @mark.it("should write without generating report")
-    def test_should_write_without_generating_report(
-        self, mocker, mocked__render, mocked__open, mocked__logger,
+    @mark.it("should open report in browser")
+    def test_should_open_report_in_browser(
+        self,
+        mocked__render,
+        mocked__open,
+        mocked__session,
+        mock_version,
+        context,
+        mocked__webbrowser,
     ):
         reporter = Reporter()
-        reporter.write_without_generating_report(fake_results)
+        reporter.write(fake_results, True)
+        assert mocked__webbrowser.open.call_count == 1
 
-        mocked__render.assert_not_called()
-        mocked__open.assert_not_called()
-        mocked__logger.info.assert_called_once()
+
+@mark.describe("reporter")
+@mark.describe("_build_context")
+class TestBuildContext:
+    @mark.it("should return context with scanapi version when package found")
+    def test_build_context_with_version(self, mock_version):
+        results = fake_results
+        context = Reporter._build_context(results)
+        assert context["scanapi_version"] == "2.0.0"
+        assert context["results"] == results
+        assert "now" in context
+        assert "project_name" in context
+        assert "session" in context
+
+    @mark.it(
+        "should return context with 'unknown' scanapi version when package not found"
+    )
+    def test_build_context_with_package_not_found(self, mocker):
+        # Patch version to raise PackageNotFoundError
+        def raise_not_found(pkg):
+            from importlib.metadata import PackageNotFoundError
+
+            raise PackageNotFoundError
+
+        _ = mocker.patch(
+            "scanapi.reporter.version", side_effect=raise_not_found
+        )
+
+        results = fake_results
+        context = Reporter._build_context(results)
+        assert context["scanapi_version"] == "unknown"
+        assert context["results"] == results
+        assert "now" in context
+        assert "project_name" in context
+        assert "session" in context
