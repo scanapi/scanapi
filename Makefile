@@ -12,7 +12,7 @@ black:
 .PHONY: flake8
 flake8:
 	@echo "running flake8"
-	@poetry run flake8 --ignore=E501,W501,E231,W503
+	@poetry run flake8 --ignore=E501,W501,E231,W503 --exclude=.venv
 
 .PHONY: mypy
 mypy:
