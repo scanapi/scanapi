@@ -20,7 +20,7 @@ jobs:
         uses: ./.github/actions/run_examples
         with:
           api-name: PokeAPI
-          command: "poetry run scanapi run ./examples/pokeapi/scanapi.yaml -c ./examples/pokeapi/scanapi.conf -o pokeapi.html"
+          command: "uv run scanapi run ./examples/pokeapi/scanapi.yaml -c ./examples/pokeapi/scanapi.conf -o pokeapi.html"
           output-path: pokeapi.html
 
   httpbingo-api:
@@ -32,7 +32,7 @@ jobs:
         uses: ./.github/actions/run_examples
         with:
           api-name: httpbingo.org
-          command: "poetry run scanapi run ./examples/httpbingo-api/httpbingo.yaml -c ./examples/httpbingo-api/scanapi.conf -o httpbingo.html"
+          command: "uv run scanapi run ./examples/httpbingo-api/httpbingo.yaml -c ./examples/httpbingo-api/scanapi.conf -o httpbingo.html"
           output-path: httpbingo.html
 
   demo-api:
@@ -48,5 +48,5 @@ jobs:
         uses: ./.github/actions/run_examples
         with:
           api-name: Demo API
-          command: "poetry run scanapi run ./examples/demo-api/scanapi.yaml -c ./examples/demo-api/scanapi.conf -o demo-api.html"
+          command: "uv run scanapi run ./examples/demo-api/scanapi.yaml -c ./examples/demo-api/scanapi.conf -o demo-api.html"
           output-path: demo-api.html

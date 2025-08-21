@@ -1,5 +1,5 @@
 name: Project Setup
-description: Setup Python and Poetry
+description: Setup Python and uv
 runs:
   using: "composite"
   steps:
@@ -7,10 +7,11 @@ runs:
       uses: actions/setup-python@5db1cf9a59fb97c40a68accab29236f0da7e94db # v5.6.0
       with:
         python-version: 3.12.x
-    - name: Poetry Setup
-      uses: snok/install-poetry@76e04a911780d5b312d89783f7b1cd627778900a # v1.4.1
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6.5.0
       with:
-        version: 2.1.3
+        enable-cache: true
+        cache-dependency-glob: "pyproject.toml"
     - name: Install Dependencies
       shell: bash
-      run: poetry install
+      run: uv sync --extra dev
