@@ -36,6 +36,20 @@ class TestGet:
         value = spec_evaluator.get(key)
         assert value == "foo"
 
+    @mark.context("when key exists in global variables")
+    @mark.it("should return value from global variables")
+    def test_should_return_from_global_vars(self):
+        grandparent = EndpointNode({"name": "grandparent"})
+        parent = EndpointNode({"name": "parent"}, grandparent)
+        endpoint = EndpointNode({"name": "endpoint"}, parent)
+
+        # Set a variable at grandparent level
+        grandparent.spec_vars.registry["global_var"] = "global_value"
+
+        spec_evaluator = SpecEvaluator(endpoint, {})
+        value = spec_evaluator.get("global_var")
+        assert value == "global_value"
+
 
 @mark.describe("spec evaluator")
 @mark.describe("del")
