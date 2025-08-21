@@ -1,5 +1,5 @@
 name: Examples Setup
-description: Setup Python and Poetry
+description: Setup Python and uv
 inputs:
   api-name:
     required: true
