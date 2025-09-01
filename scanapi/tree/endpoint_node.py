@@ -1,10 +1,13 @@
+import copy
 import logging
 from itertools import chain
+from typing import Any, Dict, Optional
 
 from httpx import CookieConflict, HTTPError, InvalidURL, StreamError
 
 from scanapi.errors import InvalidKeyError
 from scanapi.evaluators import SpecEvaluator
+from scanapi.evaluators.spec_evaluator import evaluate
 from scanapi.exit_code import ExitCode
 from scanapi.session import session
 from scanapi.tree.request_node import RequestNode
@@ -161,6 +164,48 @@ class EndpointNode:
             [bool]: true if the node has no parent, false otherwise.
         """
         return not self.parent
+
+    def propagate_spec_vars(
+        self,
+        spec_vars: Dict[str, Any],
+        extras: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        """Update the endpoint node spec_vars and propagate those changes
+        to the parent nodes. It only includes new variables.
+
+        Args:
+            spec_vars [dict]: the new spec_vars.
+            extras [dict]: extra variables used to update the spec_vars.
+        """
+        new_spec_vars = {
+            key: value
+            for key, value in spec_vars.items()
+            if key not in self.spec_vars.registry
+        }
+
+        # Evaluate variables using extras but don't store extras in registry
+        extras = extras or {}
+
+        evaluated_vars = {
+            key: evaluate(value, extras) for key, value in new_spec_vars.items()
+        }
+
+        self.spec_vars.registry.update(evaluated_vars)
+
+        if not self.is_root:
+            self.parent.propagate_spec_vars(spec_vars, extras)
+
+    def get_all_vars(self) -> Dict[str, Any]:
+        """Get all variables in spec_vars from the node and its parents.
+
+        Returns:
+            [dict]: dict from the variable's name to its value.
+        """
+        variables = copy.deepcopy(self.spec_vars.registry)
+        if not self.is_root:
+            variables.update(self.parent.get_all_vars())
+
+        return variables
 
     def run(self):
         """Run the requests of the node and all children nodes.

@@ -42,8 +42,9 @@ class SpecEvaluator:
         if key in self:
             return self.registry[key]
 
-        if key in self.endpoint.parent.spec_vars:
-            return self.endpoint.parent.spec_vars[key]
+        all_vars = self.endpoint.get_all_vars()
+        if key in all_vars:
+            return all_vars[key]
 
         raise KeyError(key)
 
