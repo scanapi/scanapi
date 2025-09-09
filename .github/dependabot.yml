@@ -1,22 +1,42 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+# - Version updates (pip):            1st & 15th 09:00 BRT, cooldown 10d, prefix "chore(deps)"
+# - Version updates (actions):        1st & 15th 09:00 BRT, cooldown 10d, prefix "ci(deps)"
+# - Security updates (pip & actions): ENABLE in repo Settings → Code security and analysis
+#     • Dependabot alerts
+#     • Dependabot security updates
+#   These run continuously/daily outside this file and bypass cooldown.
+# Docs:                               https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
 
 version: 2
+
 updates:
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: weekly
-      time: "03:00"
-    open-pull-requests-limit: 10
+      interval: "cron"
+      cronjob: "0 9 1,15 * *"        # 09:00 on the 1st and 15th
+      timezone: "America/Sao_Paulo"
+    cooldown:
+      default-days: 10               # Minimum release age before PRs are opened
+    open-pull-requests-limit: 5
     allow:
-    - dependency-type: direct
-    - dependency-type: indirect
-  - package-ecosystem: github-actions
-    directory: /
+      - dependency-type: direct
+      - dependency-type: indirect
+    labels: ["dependencies", "python"]
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: weekly
-      time: "03:00"
-    open-pull-requests-limit: 10
+      interval: "cron"
+      cronjob: "0 9 1,15 * *"        # 09:00 on the 1st and 15th
+      timezone: "America/Sao_Paulo"
+    cooldown:
+      default-days: 10               # Same cooldown logic for Actions versions
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "ci"]
+    commit-message:
+      prefix: "ci(deps)"
+      include: "scope"
