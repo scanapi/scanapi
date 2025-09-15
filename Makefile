@@ -4,23 +4,18 @@ timestamp = `date -u +'%Y%m%d%H%M%S'`
 test:
 	@uv run pytest --cov=./scanapi --cov-report=xml
 
-.PHONY: black
-black:
-	@echo "running black"
-	@uv run black -l 80 --check . --exclude=.venv
-
-.PHONY: flake8
-flake8:
-	@echo "running flake8"
-	@uv run flake8 --ignore=E501,W501,E231,W503 --exclude=.git,__pycache__,docs/source/conf.py,old,build,dist,.venv
-
 .PHONY: mypy
 mypy:
 	@echo "running mypy"
 	@uv run mypy scanapi
 
-.PHONY: check
-check: black flake8 mypy
+check:
+	@echo "running ruff format (apply)"
+	@uvx ruff format .
+	@echo "running ruff check"
+	@uvx ruff check
+	@echo "running mypy"
+	@uv run mypy scanapi
 
 .PHONY: change-version
 change-version:
