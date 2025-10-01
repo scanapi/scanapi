@@ -43,7 +43,7 @@ dev = [
     "bandit>=1.7.10,<2.0.0",
     "pytest-it>=0.1.5,<0.2.0",
     "flake8==7.3.0",
-    "mypy==1.17.1",
+    "mypy==1.18.2",
     "types-requests>=2.32.0,<3.0.0",
     "types-PyYAML>=6.0.12,<6.1.0",
     "types-setuptools>=68,<81",
