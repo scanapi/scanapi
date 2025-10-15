@@ -19,7 +19,7 @@ classifiers = [
 dependencies = [
     "appdirs>=1.4.4,<2.0.0",
     "curlify2>=1.0.1,<2.0.0",
-    "MarkupSafe==2.1.2",
+    "MarkupSafe==3.0.3",
     "rich==14.1.0",
     "PyYAML>=6.0.2,<6.1.0",
     "Jinja2>=3.1.0,<3.2.0",
