@@ -1,0 +1,16 @@
+name: "Validate PR title"
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+
+permissions:
+  pull-requests: write
+
+jobs:
+  lint_pr:
+    name: Validate
+    uses: cumbucadev/shared-workflows/.github/workflows/validate-pr-title-v1.yml@main
