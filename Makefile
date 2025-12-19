@@ -39,11 +39,6 @@ install:
 	@uv sync --extra dev
 	@uv run pre-commit install -f -t pre-commit --hook-type commit-msg
 
-.PHONY: sh
-sh:
-	@echo "Use 'uv shell' to activate the virtual environment"
-	@uv shell
-
 .PHONY: run
 run:
 	@uv run scanapi
