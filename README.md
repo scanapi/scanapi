@@ -135,7 +135,7 @@ _Made with [contrib.rocks](https://contrib.rocks)._
 </div>
 
 [github-issues]: https://github.com/scanapi/scanapi/issues
-[newcomers-guide]: https://github.com/scanapi/scanapi/wiki/Newcomers
+[newcomers-guide]: wiki/Newcomers.md
 [pip-installation]: https://pip.pypa.io/en/stable/installing/
 [scanapi-examples]: https://github.com/scanapi/examples
 [tutorial]: https://scanapi.dev/tutorials/step01
