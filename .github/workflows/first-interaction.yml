@@ -18,7 +18,7 @@ jobs:
           pr-message: |
             Thank you for supporting ScanAPI, and congratulations on your first contribution! A project committer will shortly review your contribution.
 
-            In the mean time, if you haven't had a chance please skim over the [First Pull Request Guide](https://github.com/scanapi/scanapi/wiki/First-Pull-Request) which all pull requests must adhere to.
+            In the mean time, if you haven't had a chance please skim over the [First Pull Request Guide](https://github.com/scanapi/scanapi/blob/main/wiki/First-Pull-Request.md) which all pull requests must adhere to.
 
             We hope to see you around!
           pr-label: First Contribution

@@ -149,7 +149,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add button to copy data from the report page. [#295](https://github.com/scanapi/scanapi/pull/295)
 
 ### Changed
-- **BREAKING CHANGE:** Renamed `api.(yaml|json)` to `scanapi.yaml`. [#222](https://github.com/scanapi/scanapi/issues/20://github.com/scanapi/scanapi/pull/222)
+- **BREAKING CHANGE:** Renamed `api.(yaml|json)` to `scanapi.yaml`. [#222](https://github.com/scanapi/scanapi/pull/222)
 - **BREAKING CHANGE:**  Remove top-level `api` key in `scanapi.yaml`. [#231](https://github.com/scanapi/scanapi/pull/231)
 - **BREAKING CHANGE:** Renamed `project-name`, `hide-request` and `hide-response` to use underscore. [#228](https://github.com/scanapi/scanapi/issues/228)
 - **BREAKING CHANGE:** Changed command `scanapi spec-file.yaml` to `scanapi run spec-file.yaml`. [#247](https://github.com/scanapi/scanapi/pull/247)
