@@ -140,3 +140,6 @@ _Made with [contrib.rocks](https://contrib.rocks)._
 [scanapi-examples]: https://github.com/scanapi/examples
 [tutorial]: https://scanapi.dev/tutorials/step01
 [website]: https://scanapi.dev
+
+
+>> TESTING PRE-COMMIT HOOK
