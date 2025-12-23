@@ -1,0 +1,36 @@
+name: Publish to Test PyPI
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build-n-publish-test-pypi:
+    if: github.repository == 'scanapi/scanapi'
+    name: Test PyPI - Build and publish Python 🐍 distributions 📦
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Setup Python
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v5.6.0
+        with:
+          python-version: 3.12.x
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6.5.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+      - name: Install Dependencies
+        run: uv sync --extra dev
+      - name: Run pre-release version update
+        run: |
+          make change-version
+      - name: Build and publish to test pypi
+        run: |
+          uv build
+          uv publish --publish-url https://test.pypi.org/legacy/ --token ${{ secrets.TEST_PYPI_TOKEN }}

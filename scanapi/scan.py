@@ -1,27 +1,26 @@
 import logging
-import sys
+
 import yaml
 
 from scanapi.config_loader import load_config_file
+from scanapi.console import write_results, write_summary
 from scanapi.errors import (
     BadConfigurationError,
     EmptyConfigFileError,
-    FileFormatNotSupportedError,
     InvalidKeyError,
     InvalidPythonCodeError,
-    MissingMandatoryKeyError,
 )
 from scanapi.exit_code import ExitCode
 from scanapi.reporter import Reporter
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.tree import EndpointNode
-from scanapi.tree.tree_keys import API_KEY, ROOT_SCOPE
 
 logger = logging.getLogger(__name__)
 
 
 def scan():
+    """Caller function that tries to scans the file and write the report."""
     spec_path = settings["spec_path"]
 
     try:
@@ -34,20 +33,18 @@ def scan():
         error_message = f"API spec file is empty. {str(e)}"
         logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
-    except (yaml.YAMLError, FileFormatNotSupportedError) as e:
-        logger.error(e)
+    except yaml.YAMLError as e:
+        error_message = "Error loading specification file."
+        error_message = "{}\nPyYAML: {}".format(error_message, str(e))
+        logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
 
     try:
-        if API_KEY not in api_spec:
-            raise MissingMandatoryKeyError({API_KEY}, ROOT_SCOPE)
-
-        root_node = EndpointNode(api_spec[API_KEY])
+        root_node = EndpointNode(api_spec)
         results = root_node.run()
 
     except (
         InvalidKeyError,
-        MissingMandatoryKeyError,
         KeyError,
         InvalidPythonCodeError,
     ) as e:
@@ -56,15 +53,40 @@ def scan():
         logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
 
+    _write(results)
+    write_summary()
+    session.exit()
+
+
+def _write(results):
+    """When the user passed the `--no-report` flag: prints the test results to
+    the console output.
+    When the user did not pass the `--no_report flag`: writes the results on a
+    report file and opens it using a browser, if the --browser flag is present.
+
+    Returns:
+        None
+    """
+    no_report = settings["no_report"]
+    open_browser = settings["open_browser"]
+
+    if no_report:
+        write_results(results)
+        return
+
     try:
-        write_report(results)
+        _write_report(results, open_browser)
     except (BadConfigurationError, InvalidPythonCodeError) as e:
         logger.error(e)
         raise SystemExit(ExitCode.USAGE_ERROR)
 
-    session.exit()
 
+def _write_report(results, open_browser):
+    """Constructs a Reporter object and calls the write method of Reporter to
+    push the results to a file.
 
-def write_report(results):
+    Returns:
+        None
+    """
     reporter = Reporter(settings["output_path"], settings["template"])
-    reporter.write(results)
+    reporter.write(results, open_browser)

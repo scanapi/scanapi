@@ -1,6 +1,7 @@
 repos:
--   repo: https://github.com/python/black
-    rev: stable
+  - repo: local
     hooks:
-    - id: black
-      language_version: python3.7
+      - id: make-check
+        name: make-check
+        entry: ./scripts/make_check.sh
+        language: script

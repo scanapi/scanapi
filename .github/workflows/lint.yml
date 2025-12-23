@@ -1,12 +1,25 @@
-on: pull_request
 name: Lint check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
-  black:
-    name: Lint check
+  check:
+    name: check code
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: "Black Code Formatter"
-        uses: "lgeiger/black-action@v1.0.1"
-        with:
-          args: ". --check"
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Runt Project Setup
+        uses: ./.github/actions/setup
+      - name: Test Code Lint
+        run: |
+          make check
+          make mypy

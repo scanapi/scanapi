@@ -1,0 +1,50 @@
+# - Version updates (uv):             1st & 15th 09:00 BRT, cooldown 10d, prefix "chore(deps)"
+# - Version updates (actions):        1st & 15th 09:00 BRT, cooldown 10d, prefix "ci(deps)"
+# - Security updates (uv & actions):  ENABLE in repo Settings → Code security and analysis
+#     • Dependabot alerts
+#     • Dependabot security updates
+#   These run continuously/daily outside this file and bypass cooldown.
+# Docs:                               https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+
+version: 2
+
+updates:
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "cron"
+      cronjob: "0 9 1,15 * *"        # 09:00 on the 1st and 15th
+      timezone: "America/Sao_Paulo"
+    cooldown:
+      default-days: 10               # Minimum release age before PRs are opened
+    open-pull-requests-limit: 1
+    allow:
+      - dependency-type: direct
+      - dependency-type: indirect
+    labels: ["dependencies", "python"]
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    groups:
+      python-dependencies:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "cron"
+      cronjob: "0 9 1,15 * *"        # 09:00 on the 1st and 15th
+      timezone: "America/Sao_Paulo"
+    cooldown:
+      default-days: 10               # Same cooldown logic for Actions versions
+    open-pull-requests-limit: 1
+    labels: ["dependencies", "ci"]
+    commit-message:
+      prefix: "ci(deps)"
+      include: "scope"
+    groups:
+      github-actions:
+        patterns:
+          - "*"

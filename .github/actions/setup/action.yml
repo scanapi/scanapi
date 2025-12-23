@@ -1,0 +1,17 @@
+name: Project Setup
+description: Setup Python and uv
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Python
+      uses: actions/setup-python@5db1cf9a59fb97c40a68accab29236f0da7e94db # v5.6.0
+      with:
+        python-version: 3.12.x
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6.5.0
+      with:
+        enable-cache: true
+        cache-dependency-glob: "pyproject.toml"
+    - name: Install Dependencies
+      shell: bash
+      run: uv sync --extra dev

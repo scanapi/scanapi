@@ -1,0 +1,52 @@
+name: ScanAPI Examples
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  poke-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Run Examples
+        uses: ./.github/actions/run_examples
+        with:
+          api-name: PokeAPI
+          command: "uv run scanapi run ./examples/pokeapi/scanapi.yaml -c ./examples/pokeapi/scanapi.conf -o pokeapi.html"
+          output-path: pokeapi.html
+
+  httpbingo-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Run Examples
+        uses: ./.github/actions/run_examples
+        with:
+          api-name: httpbingo.org
+          command: "uv run scanapi run ./examples/httpbingo-api/httpbingo.yaml -c ./examples/httpbingo-api/scanapi.conf -o httpbingo.html"
+          output-path: httpbingo.html
+
+  demo-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Run Examples
+        env:
+          BASE_URL: "https://demo-api.fly.dev/api/v1/"
+          USER: "scanapi-workflow"
+          PASSWORD: Q*jW@p8pVmHwm2RwQd8ZR8LK
+        uses: ./.github/actions/run_examples
+        with:
+          api-name: Demo API
+          command: "uv run scanapi run ./examples/demo-api/scanapi.yaml -c ./examples/demo-api/scanapi.conf -o demo-api.html"
+          output-path: demo-api.html

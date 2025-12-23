@@ -1,24 +1,43 @@
 #!/usr/bin/env python3
 import datetime
-import logging
+import pathlib
+import webbrowser
 
+from importlib.metadata import version, PackageNotFoundError
+
+from scanapi.console import write_report_path
 from scanapi.session import session
 from scanapi.settings import settings
 from scanapi.template_render import render
 
-logger = logging.getLogger(__name__)
-
 
 class Reporter:
+    """Class that writes the scan report
+
+    Attributes:
+        output_path[str, optional]: Report output path
+        template[str, optional]: Custom report template path
+
+    """
+
     def __init__(self, output_path=None, template=None):
-        self.output_path = output_path or "scanapi-report.html"
+        """Creates a Reporter instance object."""
+        self.output_path = pathlib.Path(output_path or "scanapi-report.html")
         self.template = template
 
-    def write(self, results):
-        logger.info("Writing documentation")
+    def write(self, results, open_in_browser):
+        """Part of the Reporter instance that is responsible for writing
+        scanapi-report.html.
 
-        template_path = self.template if self.template else "html.jinja"
-        has_external_template = True if self.template else False
+        Args:
+            results [generator]: generator of dicts resulting of Request run().
+
+        Returns:
+            None
+
+        """
+        template_path = self.template if self.template else "report.html"
+        has_external_template = bool(self.template)
         context = self._build_context(results)
 
         content = render(template_path, context, has_external_template)
@@ -26,13 +45,35 @@ class Reporter:
         with open(self.output_path, "w", newline="\n") as doc:
             doc.write(content)
 
-        logger.info("\nThe documentation was generated successfully.")
-        logger.info(f"It is available at {self.output_path}")
+        write_report_path(self.output_path.resolve().as_uri())
 
-    def _build_context(self, results):
+        if open_in_browser:
+            self._open_in_browser()
+
+    def _open_in_browser(self):
+        """Open the results file on a browser"""
+        webbrowser.open(self.output_path.resolve().as_uri())
+
+    @staticmethod
+    def _build_context(results):
+        """Build context dict of values required to render template.
+
+        Args:
+            results [generator]: generator of dicts resulting of Request run().
+
+        Returns:
+            [dict]: values required to render template.
+
+        """
+        try:
+            scanapi_version = version("scanapi")
+        except PackageNotFoundError:
+            scanapi_version = "unknown"
+
         return {
             "now": datetime.datetime.now().replace(microsecond=0),
-            "project_name": settings.get("project-name", ""),
+            "project_name": settings.get("project_name", ""),
             "results": results,
             "session": session,
+            "scanapi_version": scanapi_version,
         }

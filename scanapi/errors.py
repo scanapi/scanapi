@@ -1,31 +1,30 @@
 class MalformedSpecError(Exception):
-    pass
+    """Raised when API spec is invalid;
+
+    base class for other exceptions
+    """
 
 
 class HTTPMethodNotAllowedError(MalformedSpecError):
     """Raised when the HTTP method in the API spec is invalid"""
 
-    def __init__(self, method, allowed_methos, *args):
+    def __init__(self, method, allowed_methods, *args):
         message = (
-            f"HTTP method not supported: {method}. Supported methods: {allowed_methos}."
+            f"HTTP method not supported: {method}. "
+            f"Supported methods: {allowed_methods}."
         )
-        super(HTTPMethodNotAllowedError, self).__init__(message, *args)
-
-
-class APIKeyMissingError(MalformedSpecError):
-    """Raised when 'api' key is not specified at root scope in the API spec"""
-
-    def __init__(self, *args):
-        message = "Missing api 'key' at root scope in the API spec"
-        super(APIKeyMissingError, self).__init__(message, *args)
+        super().__init__(message, *args)
 
 
 class InvalidKeyError(MalformedSpecError):
     """Raised when an invalid key is specified in the API spec"""
 
     def __init__(self, key, scope, available_keys, *args):
-        message = f"Invalid key '{key}' at '{scope}' scope. Available keys are: {available_keys}"
-        super(InvalidKeyError, self).__init__(message, *args)
+        message = (
+            f"Invalid key '{key}' at '{scope}' scope. "
+            f"Available keys are: {available_keys}"
+        )
+        super().__init__(message, *args)
 
 
 class MissingMandatoryKeyError(MalformedSpecError):
@@ -34,27 +33,29 @@ class MissingMandatoryKeyError(MalformedSpecError):
     def __init__(self, missing_keys, scope, *args):
         missing_keys_str = ", ".join(f"'{k}'" for k in sorted(missing_keys))
         message = f"Missing {missing_keys_str} key(s) at '{scope}' scope"
-        super(MissingMandatoryKeyError, self).__init__(message, *args)
+        super().__init__(message, *args)
 
 
 class InvalidPythonCodeError(MalformedSpecError):
     """Raised when python code defined in the API spec raises an error"""
 
     def __init__(self, error_message, code, *args):
+        self.expression = code
         error_message = (
             f"Invalid Python code defined in the API spec. "
             f"Exception: {error_message}. "
             f"Code: {code}."
         )
-        super(InvalidPythonCodeError, self).__init__(error_message, *args)
+        super().__init__(error_message, *args)
 
 
 class BadConfigurationError(Exception):
-    """Raised when an environment variable was not set or was badly configured"""
+    """Raised when an environment variable was not set or badly configured."""
 
     def __init__(self, env_var, *args):
-        super(BadConfigurationError, self).__init__(
-            f"{env_var} environment variable not set or badly configured", *args
+        super().__init__(
+            f"{env_var} environment variable not set or badly configured",
+            *args,
         )
 
 
@@ -63,15 +64,11 @@ class EmptyConfigFileError(Exception):
 
     def __init__(self, file_path, *args):
         message = f"File '{file_path}' is empty."
-        super(EmptyConfigFileError, self).__init__(message, *args)
+        super().__init__(message, *args)
 
 
-class FileFormatNotSupportedError(Exception):
-    """Raised when the Config File format is not supported"""
-
-    def __init__(self, file_format, file_path, *args):
-        message = f"The format {file_format} is not supported. Supported formats: '.yaml', '.yml', '.json'. File path: '{file_path}'."
-        super(FileFormatNotSupportedError, self).__init__(message, *args)
+class BadConfigIncludeError(Exception):
+    """Raised when the value of the !include yaml tag is not a scalar."""
 
 
 class EmptyOpenAPIFileError(Exception):

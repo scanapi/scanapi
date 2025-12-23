@@ -1,4 +1,6 @@
 class TestStatus:
+    """Class that holds test statuses - passed, failed or error."""
+
     __test__ = False
     """
     Encodes the valid test status.

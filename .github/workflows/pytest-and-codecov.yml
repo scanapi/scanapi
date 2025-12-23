@@ -1,0 +1,71 @@
+name: Pytest and Codecov
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    env:
+      OS: ubuntu-latest
+      working_directory: ~/scanapi
+    steps:
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v5.6.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6.5.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+
+      - name: Install Dependencies
+        run: uv sync --extra dev
+
+      - name: Run Test and generate coverage report
+        run: |
+          make test
+
+      # Upload coverage report only if running on the main repository (not a fork)
+      - name: Upload coverage report to codecov.io
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+
+      # For forks (without access to CODECOV_TOKEN), check coverage against a threshold and
+      # fail if below
+      - name: Check coverage threshold on forks
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          coverage=$(uv run coverage report | tail -1 | awk '{print $4}' | sed 's/%//')
+          echo "Coverage is $coverage%"
+          threshold=98
+          echo "Threshold is $threshold%"
+
+          if [[ -z "$coverage" || ! "$coverage" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+            echo "❌ Coverage value invalid or empty. Failing job."
+            exit 1
+          fi
+
+          if (( $(echo "$coverage < $threshold" | bc -l) )); then
+            echo "❌ Coverage $coverage% is below threshold $threshold%, failing the job."
+            exit 1
+          else
+            echo "✅ Coverage is above threshold."
+          fi

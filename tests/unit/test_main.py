@@ -1,36 +1,72 @@
+import logging
 import os
 
+import yaml
 from click.testing import CliRunner
+from pytest import mark
 
-from scanapi.main import run, convert
+from scanapi.cli import run, convert
+
+log = logging.getLogger(__name__)
+runner = CliRunner()
 
 
-class TestMain:
-    class TestRun:
-        def test_call_save_preferences(self, mocker):
-            runner = CliRunner()
-            mock_save_preferences = mocker.patch(
-                "scanapi.settings.Settings.save_preferences"
-            )
+def yaml_error(*args, **kwargs):
+    raise yaml.YAMLError("error foo")
+
+
+@mark.describe("main")
+@mark.describe("run")
+class TestRun:
+    @mark.context("when nothing wrong happens")
+    @mark.it("should call save preferences")
+    def test_call_save_preferences(self, mocker):
+        mock_save_preferences = mocker.patch(
+            "scanapi.settings.Settings.save_preferences"
+        )
+        result = runner.invoke(run, ["--output-path", "my_output.html"])
+
+        assert result.exit_code == 4
+        mock_save_preferences.assert_called_once_with(
+            **{
+                "spec_path": None,
+                "output_path": "my_output.html",
+                "no_report": False,
+                "open_browser": False,
+                "config_path": None,
+                "template": None,
+            }
+        )
+
+    @mark.context("when something wrong happens")
+    @mark.it("should log an error")
+    def test_should_log_error(self, mocker, caplog):
+        mock_save_preferences = mocker.patch(
+            "scanapi.settings.Settings.save_preferences",
+            side_effect=yaml_error,
+        )
+
+        with caplog.at_level(logging.ERROR):
             result = runner.invoke(run, ["--output-path", "my_output.html"])
 
+            assert mock_save_preferences.called
             assert result.exit_code == 4
-            mock_save_preferences.assert_called_once_with(
-                **{
-                    "spec_path": None,
-                    "output_path": "my_output.html",
-                    "config_path": None,
-                    "template": None,
-                }
-            )
 
-    class TestConvert:
-        def test_should_call_openapi_to_yaml(self, mocker):
-            runner = CliRunner()
-            mock_openapi_to_yaml = mocker.patch("scanapi.main.openapi_to_yaml")
-            result = runner.invoke(convert, '../data/openapi.json')
-            os.remove('./api.yaml')
+        assert (
+            "Error loading configuration file.\nPyYAML: error foo"
+            in caplog.text
+        )
 
-            assert result.exit_code == 0
 
-            mock_openapi_to_yaml.assert_called_once_with('../data/openapi.json')
+@mark.describe("main")
+@mark.describe("convert")
+class TestConvert:
+    def test_should_call_openapi_to_yaml(self, mocker):
+        runner = CliRunner()
+        mock_openapi_to_yaml = mocker.patch("scanapi.main.openapi_to_yaml")
+        result = runner.invoke(convert, "../data/openapi.json")
+        os.remove("./api.yaml")
+
+        assert result.exit_code == 0
+
+        mock_openapi_to_yaml.assert_called_once_with("../data/openapi.json")

@@ -1,12 +1,7 @@
-import logging
-import requests
-
-from scanapi.test_status import TestStatus
 from scanapi.session import session
-from scanapi.tree.tree_keys import NAME_KEY, ASSERT_KEY
+from scanapi.test_status import TestStatus
+from scanapi.tree.tree_keys import ASSERT_KEY, NAME_KEY
 from scanapi.utils import validate_keys
-
-logger = logging.getLogger(__name__)
 
 
 class TestingNode:
@@ -25,11 +20,11 @@ class TestingNode:
 
     @property
     def name(self):
-        return self["name"]
+        return self[NAME_KEY]
 
     @property
     def assertion(self):
-        return self["assert"]
+        return self[ASSERT_KEY]
 
     @property
     def full_name(self):
@@ -37,7 +32,10 @@ class TestingNode:
 
     def run(self):
         try:
-            passed, failure = self.request.endpoint.vars.evaluate_assertion(
+            (
+                passed,
+                failure,
+            ) = self.request.endpoint.spec_vars.evaluate_assertion(
                 self.assertion
             )
 
@@ -49,7 +47,6 @@ class TestingNode:
             error = str(e)
 
         self._process_result(status)
-        self._log_result(status, failure)
 
         return {
             "name": self.full_name,
@@ -58,7 +55,14 @@ class TestingNode:
             "error": error,
         }
 
-    def _process_result(self, status):
+    @staticmethod
+    def _process_result(status):
+        """Increment the number of session errors/failures/successes
+        depending on the test status.
+
+        Args:
+            status [string]: the status of the test: passed, failed or error.
+        """
         if status == TestStatus.ERROR:
             session.increment_errors()
             return
@@ -69,11 +73,6 @@ class TestingNode:
 
         if status == TestStatus.PASSED:
             session.increment_successes()
-
-    def _log_result(self, status, failure):
-        logger.debug("\a [%s] %s", status.upper(), self.full_name)
-        if failure:
-            logger.debug("\t  %s is false", failure)
 
     def _validate(self):
         validate_keys(
