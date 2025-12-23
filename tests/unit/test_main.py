@@ -1,5 +1,4 @@
 import logging
-import os
 
 import yaml
 from click.testing import CliRunner
@@ -63,10 +62,9 @@ class TestRun:
 class TestConvert:
     def test_should_call_openapi_to_yaml(self, mocker):
         runner = CliRunner()
-        mock_openapi_to_yaml = mocker.patch("scanapi.main.openapi_to_yaml")
-        result = runner.invoke(convert, "../data/openapi.json")
-        os.remove("./api.yaml")
+        mock_openapi_to_yaml = mocker.patch("scanapi.cli.openapi_to_yaml")
+        result = runner.invoke(convert, "tests/data/openapi.json")
 
         assert result.exit_code == 0
 
-        mock_openapi_to_yaml.assert_called_once_with("../data/openapi.json")
+        mock_openapi_to_yaml.assert_called_once_with("tests/data/openapi.json")
