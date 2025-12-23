@@ -1,6 +1,6 @@
-# - Version updates (pip):            1st & 15th 09:00 BRT, cooldown 10d, prefix "chore(deps)"
+# - Version updates (uv):             1st & 15th 09:00 BRT, cooldown 10d, prefix "chore(deps)"
 # - Version updates (actions):        1st & 15th 09:00 BRT, cooldown 10d, prefix "ci(deps)"
-# - Security updates (pip & actions): ENABLE in repo Settings → Code security and analysis
+# - Security updates (uv & actions):  ENABLE in repo Settings → Code security and analysis
 #     • Dependabot alerts
 #     • Dependabot security updates
 #   These run continuously/daily outside this file and bypass cooldown.
@@ -10,7 +10,7 @@
 version: 2
 
 updates:
-  - package-ecosystem: "pip"
+  - package-ecosystem: "uv"
     directory: "/"
     schedule:
       interval: "cron"
