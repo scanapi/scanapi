@@ -69,19 +69,3 @@ class EmptyConfigFileError(Exception):
 
 class BadConfigIncludeError(Exception):
     """Raised when the value of the !include yaml tag is not a scalar."""
-
-
-class EmptyOpenAPIFileError(Exception):
-    """Raised when the OpenAPI JSON file is empty"""
-
-    def __init__(self, file_path, *args):
-        message = f"File '{file_path}' is empty."
-        super(EmptyOpenAPIFileError, self).__init__(message, *args)
-
-
-class InvalidOpenAPIFileError(Exception):
-    """Raised when the OpenAPI JSON file is invalid"""
-
-    def __init__(self, file_path, *args):
-        message = f"File '{file_path}' is not a valid OpenAPI JSON spec file."
-        super(InvalidOpenAPIFileError, self).__init__(message, *args)
