@@ -1,6 +1,8 @@
+from typing import cast
+
 from prance import ResolvingParser
 
-created_variables: list[str] = []
+created_variables: set[str] = set()
 
 def get_spec_version(specs: dict) -> str:
     spec_version: str | None = None
@@ -16,10 +18,22 @@ def get_spec_version(specs: dict) -> str:
 def get_api_name(specs: dict) -> str:
     return str(specs["info"]["title"])
 
-def openapi_to_scanapi(openapi_path: str, base_url: str) -> dict:
+def get_api_target_name(operation: dict, path: str) -> str:
+    return str(operation.get(
+        "summary", operation.get(
+            "operationId", path
+        )
+    )).replace("/", "_").replace(" ", "_")
+
+def get_openapi_specs(openapi_path: str) -> dict:
+    parser = ResolvingParser(openapi_path)
+    parser.parse()
+    return cast(dict, parser.specification)
+
+def openapi_to_scanapi(specs: dict, base_url: str) -> dict:
     """
-    Converts a OpenAPI JSON file into a ScanAPI friendly YAML file.
-    :param openapi_path: Path to the OpenAPI File
+    Converts a OpenAPI specification into a ScanAPI friendly YAML file.
+    :param specs: dictionary representing the OpenAPI specs
     :param base_url: Base URL for the API
     :return: ScanAPI YAML file
     """
@@ -27,26 +41,28 @@ def openapi_to_scanapi(openapi_path: str, base_url: str) -> dict:
         "endpoints": [{"name": None, "path": base_url, "requests": []}]
     }
 
-    parser = ResolvingParser(openapi_path)
-    parser.parse()
-    specs = parser.specification
     specs_version = get_spec_version(specs)
     print(f"OpenAPI/Swagger version detected: {specs_version}\n")
+
+    if not specs_version.startswith("3"):
+        raise ValueError("OpenAPI/Swagger version 3 is required to use this feature.")
     api_name = get_api_name(specs)
     base_yaml["endpoints"][0]["name"] = api_name
+
+    security_schemes = get_security_schemes(specs)
 
     paths = specs["paths"]
     for path, path_item in paths.items():
         for method, operation in path_item.items():
-            operation_id = operation.get("operationId", path.strip("/"))
+            operation_id = get_api_target_name(operation, path)
             required_params = get_required_params(operation)
             parsed_path = path if not required_params else add_variables_to_path(path, required_params, operation_id)
             api_target = {
                 "name": operation_id,
                 "path": parsed_path,
-                "method": method,
-                "tests": get_tests(operation)
+                "method": method
             }
+            api_target["tests"] = get_tests(operation)
             if "requestBody" in operation and "content" in operation["requestBody"]:
                 api_target_body = None
 
@@ -62,12 +78,31 @@ def openapi_to_scanapi(openapi_path: str, base_url: str) -> dict:
 
                 if api_target_body is not None:
                     api_target["body"] = api_target_body
+            operation_security = operation.get("security", [])
+            if len(operation_security) > 0:
+                for security in operation_security:
+                    for name, scopes in security.items():
+                        for security_scheme in security_schemes:
+                            if security_scheme["name"] == name:
+                                security_type = security_scheme["scheme"]
+                                if security_type == "bearer":
+                                    api_target["headers"] = {
+                                        "Authorization": "Bearer ${bearer_token}"
+                                    }
+                                    created_variables.add("bearer_token")
+                                elif security_type == "basic":
+                                    api_target["headers"] = {
+                                        "Authorization": "Basic ${basic_auth_token}"
+                                    }
+                                    created_variables.add("basic_auth_token")
+                                break
             base_yaml["endpoints"][0]["requests"].append(api_target)
     
-    print("The following variables were created in the generated ScanAPI YAML file:")
-    for variable in created_variables:
-        print("- ${" + variable + "}")
-    print("See https://scanapi.dev/docs_v1/specification/custom_variables and https://scanapi.dev/docs_v1/specification/environment_variables for more information.\n")
+    if len(created_variables) > 0:
+        print("The following variables were created in the generated ScanAPI YAML file:")
+        for variable in created_variables:
+            print("- ${" + variable + "}")
+        print("See https://scanapi.dev/docs_v1/specification/custom_variables and https://scanapi.dev/docs_v1/specification/environment_variables for more information.\n")
     return base_yaml
 
 # returns the required properties from a schema
@@ -78,7 +113,7 @@ def get_required_properties_from_schema(schema: dict, operation_id: str) -> dict
         for property in schema["required"]:
             property_variable = operation_id + "_" + property
             required_properties[property] = "${" + property_variable + "}"
-            created_variables.append(property_variable)
+            created_variables.add(property_variable)
     return required_properties
 
 def add_variables_to_path(path: str, params: list, operation_id: str) -> str:
@@ -93,7 +128,7 @@ def add_variables_to_path(path: str, params: list, operation_id: str) -> str:
             # scanapi expects variable notation (/snippets/${id})
             path_param_name = f"{operation_id}_{param['name']}"
             parsed_path = parsed_path.replace(f"{{{param['name']}}}", "${" + path_param_name + "}")
-            created_variables.append(path_param_name)
+            created_variables.add(path_param_name)
     return parsed_path
 
 # focuses on the minimal required parameters for performing the request
@@ -108,13 +143,30 @@ def get_required_params(operation: dict) -> list:
                 })
     return params
 
+# focuses on successful responses for minimal smoke testing
 def get_tests(operation: dict) -> list:
     tests = []
     if "responses" in operation:
         for status_code, details in operation["responses"].items():
+            if not status_code.startswith("2"):
+                continue
             # details is a dict with content (dict) and description (str)
             tests.append({
                 "name": f"status_code_is_{status_code}",
                 "assert": f"${{{{response.status_code == {status_code}}}}}"
             })
     return tests
+
+def get_security_schemes(specs: dict) -> list:
+    security_schemes = []
+    if "components" in specs and "securitySchemes" in specs["components"]:
+        for name, security_scheme in specs["components"]["securitySchemes"].items():
+            if security_scheme["type"] not in ["http", "oauth2"]:
+                continue
+            # TODO: we assume oauth2 always uses bearer token
+            # which is untrue. see https://swagger.io/docs/specification/v3_0/authentication/
+            security_schemes.append({
+                "name": name,
+                "scheme": security_scheme.get("scheme", "bearer")
+            })
+    return security_schemes
