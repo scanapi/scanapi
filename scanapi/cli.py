@@ -6,6 +6,7 @@ from importlib.metadata import version
 from rich.logging import RichHandler
 
 from scanapi.exit_code import ExitCode
+from scanapi.openapi_to_scanapi import openapi_to_scanapi, get_openapi_specs
 from scanapi.scan import scan
 from scanapi.settings import settings
 
@@ -106,3 +107,33 @@ def run(
         raise SystemExit(ExitCode.USAGE_ERROR)
 
     scan()
+
+
+@main.command(context_settings=CONTEXT_SETTINGS)
+@click.option(
+    "-b",
+    "--base-url",
+    "base_url",
+    type=str,
+    help="Base URL for the API.",
+    default="${BASE_URL}",
+)
+@click.option(
+    "-o",
+    "--output-path",
+    "output_path",
+    default="scanapi.yaml",
+    type=click.Path(),
+    help="ScanAPI YAML output path.",
+)
+@click.argument("openapi_path", type=click.Path(exists=True), required=True)
+def convert(openapi_path, base_url, output_path):
+    """
+    Converts a OpenAPI JSON file into a ScanAPI friendly YAML file.
+    OPENAPI_PATH argument is the OpenAPI JSON file path.
+    """
+    specs = get_openapi_specs(openapi_path)
+    scanapi_yaml = openapi_to_scanapi(specs, base_url)
+    with open(output_path, "w") as file:
+        yaml.dump(scanapi_yaml, file, default_flow_style=False, sort_keys=False, indent=4)
+    print(f'File successfully converted and exported as "{output_path}"!')

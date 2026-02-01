@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Allow variables to be used globally across endpoints [#265](https://github.com/scanapi/scanapi/issues/265)
+- Command convert, to convert a OpenAPI JSON file to a ScanAPI YAML friendly file [#12](https://github.com/scanapi/scanapi/issues/12)
 
 ### Security
 - Replace unsafe `eval()` with RestrictedPython to prevent arbitrary code execution in API spec evaluation. [#798](https://github.com/scanapi/scanapi/pull/798)
