@@ -60,11 +60,13 @@ class TestRun:
 @mark.describe("main")
 @mark.describe("convert")
 class TestConvert:
-    def test_should_call_openapi_to_yaml(self, mocker):
-        runner = CliRunner()
-        mock_openapi_to_yaml = mocker.patch("scanapi.cli.openapi_to_yaml")
-        result = runner.invoke(convert, "tests/data/openapi.json")
+    def test_convert_should_call_openapi_to_scanapi(self, mocker):
+        mock_openapi_to_scanapi = mocker.patch(
+            "scanapi.cli.openapi_to_scanapi", return_value={"endpoints": []}
+        )
+        result = runner.invoke(convert, ["tests/data/openapi.json"])
 
         assert result.exit_code == 0
-
-        mock_openapi_to_yaml.assert_called_once_with("tests/data/openapi.json")
+        mock_openapi_to_scanapi.assert_called_once_with(
+            "tests/data/openapi.json", "${BASE_URL}"
+        )
