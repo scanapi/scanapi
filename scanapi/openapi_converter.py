@@ -26,6 +26,11 @@ class OpenAPIConverter:
         "HEAD",
         "OPTIONS",
     )
+    BODY_CONTENT_TYPES = (
+        "application/x-www-form-urlencoded",
+        "application/json",
+        "multipart/form-data",
+    )
 
     def __init__(self, spec_path: str):
         self.created_variables: set[str] = set()
@@ -107,7 +112,10 @@ class OpenAPIConverter:
             for name, security_scheme in self.specs["components"][
                 "securitySchemes"
             ].items():
-                if security_scheme.get("type") not in self.SECURITY_SCHEME_TYPES:
+                if (
+                    security_scheme.get("type")
+                    not in self.SECURITY_SCHEME_TYPES
+                ):
                     continue
                 # TODO: we assume oauth2 always uses bearer token
                 # which is untrue. see https://swagger.io/docs/specification/v3_0/authentication/
@@ -197,41 +205,18 @@ class OpenAPIConverter:
                     and "content" in operation["requestBody"]
                 ):
                     api_target_body = None
-
+                    content = operation["requestBody"]["content"]
+                    available_content_types = content.keys()
                     # prioritize application/x-www-form-urlencoded over other content types
-                    available_content_types = operation["requestBody"][
-                        "content"
-                    ].keys()
-                    if (
-                        "application/x-www-form-urlencoded"
-                        in available_content_types
-                    ):
-                        api_target_body = (
-                            self._get_required_properties_from_schema(
-                                operation["requestBody"]["content"][
-                                    "application/x-www-form-urlencoded"
-                                ]["schema"],
-                                operation_id,
+                    for content_type in self.BODY_CONTENT_TYPES:
+                        if content_type in available_content_types:
+                            api_target_body = (
+                                self._get_required_properties_from_schema(
+                                    content[content_type]["schema"],
+                                    operation_id,
+                                )
                             )
-                        )
-                    elif "application/json" in available_content_types:
-                        api_target_body = (
-                            self._get_required_properties_from_schema(
-                                operation["requestBody"]["content"][
-                                    "application/json"
-                                ]["schema"],
-                                operation_id,
-                            )
-                        )
-                    elif "multipart/form-data" in available_content_types:
-                        api_target_body = (
-                            self._get_required_properties_from_schema(
-                                operation["requestBody"]["content"][
-                                    "multipart/form-data"
-                                ]["schema"],
-                                operation_id,
-                            )
-                        )
+                            break
 
                     if api_target_body is not None:
                         api_target["body"] = api_target_body
