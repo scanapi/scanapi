@@ -278,20 +278,27 @@ def get_api_target_name(operation: dict, path: str, method: str) -> str:
     )
 
 
-# focuses on the minimal required parameters for performing the request
 def get_required_params(operation: dict) -> list:
+    """
+    Filters the received operation for required parameters. Path
+    parameters are always required (see https://swagger.io/docs/specification/v3_0/describing-parameters/#path-parameters).
+
+    Returns:
+        [list[dict]]: Parameter name and location (in)
+    """
     params = []
     if "parameters" in operation:
         for param in operation["parameters"]:
-            if param.get("required", False):
-                params.append(
-                    {
-                        "name": param["name"],
-                        "in": param.get(
-                            "in"
-                        ),  # TODO: check if there is a default value for `in`
-                    }
-                )
+            if not param.get("required", False):
+                continue
+            # TODO: should we skip falsy names such as an empty string?
+            name = param.get("name")
+            if name is None:
+                continue
+            _in = param.get("in")
+            if _in is None:
+                continue
+            params.append({"name": name, "in": _in})
     return params
 
 
