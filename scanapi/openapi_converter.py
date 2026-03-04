@@ -17,6 +17,15 @@ class OpenAPIConverter:
     """
 
     SECURITY_SCHEME_TYPES = ("http", "oauth2", "bearer")
+    VALID_HTTP_METHODS = (
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "HEAD",
+        "OPTIONS",
+    )
 
     def __init__(self, spec_path: str):
         self.created_variables: set[str] = set()
@@ -166,6 +175,8 @@ class OpenAPIConverter:
         paths = self.specs["paths"]
         for path, path_item in paths.items():
             for method, operation in path_item.items():
+                if method.upper() not in self.VALID_HTTP_METHODS:
+                    continue
                 operation_id = get_api_target_name(operation, path)
                 required_params = get_required_params(operation)
                 parsed_path = (
