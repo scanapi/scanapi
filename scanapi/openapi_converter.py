@@ -258,8 +258,21 @@ class OpenAPIConverter:
 
 
 def get_api_target_name(operation: dict, path: str, method: str) -> str:
+    """
+    Generates a variable friendly name for a request. Prioritizes the summary,
+    then operationId and, if none is defined, fall back to using the method_path format.
+
+    Changes all slashes and spaces to underscores.
+
+    Returns:
+        [str]: generated target name
+    """
     return (
-        str(operation.get("summary", operation.get("operationId", f"{method}_{path}")))
+        str(
+            operation.get(
+                "summary", operation.get("operationId", f"{method}_{path}")
+            )
+        )
         .replace("/", "_")
         .replace(" ", "_")
     )
