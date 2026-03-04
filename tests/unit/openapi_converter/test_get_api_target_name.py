@@ -9,7 +9,9 @@ class TestGetApiTargetName:
     @mark.it("should use summary, replacing spaces with underscores")
     def test_uses_summary(self):
         operation = {"summary": "List all users"}
-        assert get_api_target_name(operation, "/users", "get") == "List_all_users"
+        assert (
+            get_api_target_name(operation, "/users", "get") == "List_all_users"
+        )
 
     @mark.context("when operation has no summary but has operationId")
     @mark.it("should use operationId")
@@ -32,13 +34,19 @@ class TestGetApiTargetName:
     @mark.it("should replace slashes with underscores")
     def test_replaces_slashes(self):
         operation = {"operationId": "get/users/active"}
-        assert get_api_target_name(operation, "/users", "get") == "get_users_active"
+        assert (
+            get_api_target_name(operation, "/users", "get")
+            == "get_users_active"
+        )
 
     @mark.context("when the name contains spaces")
     @mark.it("should replace spaces with underscores")
     def test_replaces_spaces(self):
         operation = {"summary": "Get user by id"}
-        assert get_api_target_name(operation, "/users/{id}", "get") == "Get_user_by_id"
+        assert (
+            get_api_target_name(operation, "/users/{id}", "get")
+            == "Get_user_by_id"
+        )
 
     @mark.context("when the name is a non-string value")
     @mark.it("should return it as a string")

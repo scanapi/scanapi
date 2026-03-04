@@ -18,7 +18,7 @@ class TestAddVariablesToPath:
     def test_no_params_path_unchanged(self, converter):
         result = converter._add_variables_to_path("/users", [], "list_users")
         assert result == "/users"
-    
+
     @mark.context("when there are no parameters")
     @mark.it("shouldn't add anything to the created_variables")
     def test_no_params_created_variables_unchanged(self, converter):
@@ -29,7 +29,9 @@ class TestAddVariablesToPath:
     @mark.it("should replace curly braces with scanapi variable notation")
     def test_path_param(self, converter):
         params = [{"name": "id", "in": "path"}]
-        result = converter._add_variables_to_path("/users/{id}", params, "get_user")
+        result = converter._add_variables_to_path(
+            "/users/{id}", params, "get_user"
+        )
         assert result == "/users/${get_user_id}"
 
     @mark.context("when there is a path parameter")
@@ -45,12 +47,14 @@ class TestAddVariablesToPath:
         params = [{"name": "search", "in": "query"}]
         converter._add_variables_to_path("/users", params, "list_users")
         assert len(converter.created_variables) == 0
-    
+
     @mark.context("when there is a query parameter")
     @mark.it("should return the path unchanged")
     def test_ignores_query_param_path(self, converter):
         params = [{"name": "search", "in": "query"}]
-        result = converter._add_variables_to_path("/users", params, "list_users")
+        result = converter._add_variables_to_path(
+            "/users", params, "list_users"
+        )
         assert result == "/users"
 
     @mark.context("when there are both path and query parameters")
@@ -72,9 +76,7 @@ class TestAddVariablesToPath:
             {"name": "id", "in": "path"},
             {"name": "format", "in": "query"},
         ]
-        converter._add_variables_to_path(
-            "/users/{id}", params, "get_user"
-        )
+        converter._add_variables_to_path("/users/{id}", params, "get_user")
         assert len(converter.created_variables) == 1
         assert "get_user_id" in converter.created_variables
 
