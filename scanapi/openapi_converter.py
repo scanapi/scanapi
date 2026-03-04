@@ -35,6 +35,7 @@ class OpenAPIConverter:
     def __init__(self, spec_path: str):
         self.created_variables: set[str] = set()
         self.specs = self._get_openapi_specs(spec_path)
+        self._validate_openapi_spec_version()
 
     def _get_openapi_specs(self, spec_path: str) -> dict:
         """Leverages [prance](https://github.com/RonnyPfannschmidt/prance) to resolve
