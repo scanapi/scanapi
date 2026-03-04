@@ -181,7 +181,7 @@ class OpenAPIConverter:
 
         security_schemes = self._get_security_schemes()
 
-        paths = self.specs["paths"]
+        paths = self.specs.get("paths", {})
         for path, path_item in paths.items():
             for method, operation in path_item.items():
                 if method.upper() not in self.VALID_HTTP_METHODS:
