@@ -302,8 +302,15 @@ def get_required_params(operation: dict) -> list:
     return params
 
 
-# focuses on successful responses for minimal smoke testing
 def get_tests(operation: dict) -> list:
+    """
+    Generates basic HTTP status code validation tests based on operation responses.
+
+    Focuses on successful responses for minimal smoke testing.
+
+    Returns:
+        [list[dict]]: Test name and assertion
+    """
     tests = []
     if "responses" in operation:
         for status_code, details in operation["responses"].items():
