@@ -110,10 +110,15 @@ class OpenAPIConverter:
                 )
         return security_schemes
 
-    # returns the required properties from a schema
     def _get_required_properties_from_schema(
         self, schema: dict, operation_id: str
-    ) -> dict[str, str]:
+    ) -> dict[str, str] | None:
+        """
+        Formats required properties for a given request body schema as a dictionary.
+
+        Returns:
+            [dict|None]: Keys are property names and values are custom variables created using the operation_id and the property name.
+        """
         required_properties = None
         if "required" in schema:
             required_properties = {}
