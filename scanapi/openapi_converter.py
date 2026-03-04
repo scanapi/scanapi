@@ -107,7 +107,7 @@ class OpenAPIConverter:
             for name, security_scheme in self.specs["components"][
                 "securitySchemes"
             ].items():
-                if security_scheme["type"] not in self.SECURITY_SCHEME_TYPES:
+                if security_scheme.get("type") not in self.SECURITY_SCHEME_TYPES:
                     continue
                 # TODO: we assume oauth2 always uses bearer token
                 # which is untrue. see https://swagger.io/docs/specification/v3_0/authentication/
