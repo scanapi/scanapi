@@ -186,7 +186,7 @@ class OpenAPIConverter:
             for method, operation in path_item.items():
                 if method.upper() not in self.VALID_HTTP_METHODS:
                     continue
-                operation_id = get_api_target_name(operation, path)
+                operation_id = get_api_target_name(operation, path, method)
                 required_params = get_required_params(operation)
                 parsed_path = (
                     path
@@ -257,9 +257,9 @@ class OpenAPIConverter:
         return base_yaml
 
 
-def get_api_target_name(operation: dict, path: str) -> str:
+def get_api_target_name(operation: dict, path: str, method: str) -> str:
     return (
-        str(operation.get("summary", operation.get("operationId", path)))
+        str(operation.get("summary", operation.get("operationId", f"{method}_{path}")))
         .replace("/", "_")
         .replace(" ", "_")
     )
