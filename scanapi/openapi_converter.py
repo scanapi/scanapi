@@ -139,9 +139,9 @@ class OpenAPIConverter:
         required_properties = None
         if "required" in schema:
             required_properties = {}
-            for property in schema["required"]:
-                property_variable = operation_id + "_" + property
-                required_properties[property] = "${" + property_variable + "}"
+            for prop_name in schema["required"]:
+                property_variable = operation_id + "_" + prop_name
+                required_properties[prop_name] = "${" + property_variable + "}"
                 self.created_variables.add(property_variable)
         return required_properties
 
