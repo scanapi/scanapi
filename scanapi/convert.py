@@ -16,7 +16,7 @@ def convert(openapi_path: str, base_url: str, output_path: str) -> None:
 
     Uses [prance](https://github.com/RonnyPfannschmidt/prance) for resolving
     and parsing the OpenAPI schema.
-    
+
     Returns:
         None
     """
@@ -29,6 +29,10 @@ def convert(openapi_path: str, base_url: str, output_path: str) -> None:
         parser = prance.ResolvingParser(openapi_path)
     except scanner.ScannerError as e:
         error_message = f"Couldn't parse received yaml file: {str(e)}"
+        logger.error(error_message)
+        raise SystemExit(1)
+    except AttributeError as e:
+        error_message = f"Couldn't parse received json file: {str(e)}"
         logger.error(error_message)
         raise SystemExit(1)
     except prance.ValidationError as e:
