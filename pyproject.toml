@@ -28,6 +28,7 @@ dependencies = [
     "packaging>=24,<26",
     "restrictedpython>=8.0,<9.0",
     "prance>=25.4.8.0",
+    "openapi-spec-validator>=0.8.4",
 ]
 
 [project.optional-dependencies]
