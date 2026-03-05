@@ -1,0 +1,16 @@
+---
+# Example of an invalid YAML configuration
+app_name: "MyApp": "ok"
+version: 1.2
+enabled: true
+database:
+  host: "localhost"
+  port: 5432
+  users:
+    - "admin"
+    - "dev_user"
+features:
+  - "login"
+  - "signup"
+  - "dashboard"
+...
