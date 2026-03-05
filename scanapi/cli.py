@@ -6,8 +6,8 @@ from importlib.metadata import version
 from rich.logging import RichHandler
 
 from scanapi.exit_code import ExitCode
-from scanapi.openapi_converter import OpenAPIConverter
 from scanapi.scan import scan
+from scanapi.convert import convert as _convert
 from scanapi.settings import settings
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
@@ -132,14 +132,10 @@ def convert(openapi_path, base_url, output_path):
     Converts a OpenAPI JSON file into a ScanAPI friendly YAML file.
     OPENAPI_PATH argument is the OpenAPI JSON file path.
     """
-    converter = OpenAPIConverter(openapi_path)
-    scanapi_yaml = converter.convert(base_url)
-    with open(output_path, "w") as file:
-        yaml.dump(
-            scanapi_yaml,
-            file,
-            default_flow_style=False,
-            sort_keys=False,
-            indent=4,
-        )
-    print(f'File successfully converted and exported as "{output_path}"!')
+    logging.basicConfig(
+        level="INFO",
+        format="%(message)s",
+        datefmt="[%X]",
+        handlers=[RichHandler(show_time=False, markup=True, show_path=False)],
+    )
+    _convert(openapi_path, base_url, output_path)

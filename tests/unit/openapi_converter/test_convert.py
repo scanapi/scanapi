@@ -20,7 +20,7 @@ class TestConvert:
             "openapi": "3.0.0",
             "info": {"title": "My API"},
         }
-        result = converter.convert("https://api.example.com")
+        result, _ = converter.convert("https://api.example.com")
         assert result == {
             "endpoints": [
                 {
@@ -39,7 +39,7 @@ class TestConvert:
             "info": {"title": "My API"},
             "paths": {},
         }
-        result = converter.convert("https://api.example.com")
+        result, _ = converter.convert("https://api.example.com")
         assert result == {
             "endpoints": [
                 {
@@ -65,7 +65,7 @@ class TestConvert:
                 }
             },
         }
-        result = converter.convert("https://api.example.com")
+        result, _ = converter.convert("https://api.example.com")
         requests = result["endpoints"][0]["requests"]
         assert len(requests) == 1
         assert requests[0]["name"] == "list_users"
@@ -88,7 +88,7 @@ class TestConvert:
                 }
             },
         }
-        result = converter.convert("https://api.example.com")
+        result, _ = converter.convert("https://api.example.com")
         requests = result["endpoints"][0]["requests"]
         assert len(requests) == 1
         assert requests[0]["method"] == "get"
@@ -121,7 +121,7 @@ class TestConvert:
                 }
             },
         }
-        result = converter.convert("https://api.example.com")
+        result, _ = converter.convert("https://api.example.com")
         request = result["endpoints"][0]["requests"][0]
         assert request["body"] == {"username": "${create_user_username}"}
 
@@ -146,7 +146,7 @@ class TestConvert:
                 }
             },
         }
-        result = converter.convert("https://api.example.com")
+        result, _ = converter.convert("https://api.example.com")
         request = result["endpoints"][0]["requests"][0]
         assert request["headers"] == {"Authorization": "Bearer ${bearer_token}"}
         assert "bearer_token" in converter.created_variables
@@ -172,7 +172,7 @@ class TestConvert:
                 }
             },
         }
-        result = converter.convert("https://api.example.com")
+        result, _ = converter.convert("https://api.example.com")
         request = result["endpoints"][0]["requests"][0]
         assert request["headers"] == {
             "Authorization": "Basic ${basic_auth_token}"
@@ -197,7 +197,7 @@ class TestConvert:
                 }
             },
         }
-        result = converter.convert("https://api.example.com")
+        result, _ = converter.convert("https://api.example.com")
         request = result["endpoints"][0]["requests"][0]
         assert request["path"] == "/users/${get_user_id}"
 
@@ -228,7 +228,7 @@ class TestConvert:
                 }
             },
         }
-        result = converter.convert("https://api.example.com")
+        result, _ = converter.convert("https://api.example.com")
         request = result["endpoints"][0]["requests"][0]
         assert "body" not in request
 
@@ -267,6 +267,6 @@ class TestConvert:
                 }
             },
         }
-        result = converter.convert("https://api.example.com")
+        result, _ = converter.convert("https://api.example.com")
         request = result["endpoints"][0]["requests"][0]
         assert request["body"] == {"form_field": "${login_form_field}"}

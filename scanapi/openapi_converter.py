@@ -1,19 +1,11 @@
-from typing import cast
-
-from prance import ResolvingParser
-
-
 class OpenAPIConverter:
     """
     Class responsible for parsing an OpenAPI schema and generating
     a skeleton ScanAPI yaml file with correct endpoints, request methods
     and authentication schema.
 
-    Uses [prance](https://github.com/RonnyPfannschmidt/prance) for resolving
-    and parsing the OpenAPI schema.
-
     Attributes:
-        spec_path[str]: path to the OpenAPI spec file. Either YAML or JSON.
+        specs[dict]: Dictionary parsed from the OpenAPI schema.
     """
 
     SECURITY_SCHEME_TYPES = ("http", "oauth2", "bearer")
@@ -32,21 +24,10 @@ class OpenAPIConverter:
         "multipart/form-data",
     )
 
-    def __init__(self, spec_path: str):
+    def __init__(self, specs: dict):
         self.created_variables: set[str] = set()
-        self.specs = self._get_openapi_specs(spec_path)
+        self.specs = specs
         self._validate_openapi_spec_version()
-
-    def _get_openapi_specs(self, spec_path: str) -> dict:
-        """Leverages [prance](https://github.com/RonnyPfannschmidt/prance) to resolve
-        the received OpenAPI spec file.
-
-        Returns:
-            [dict]: Parsed OpenAPI specification
-        """
-        parser = ResolvingParser(spec_path)
-        parser.parse()
-        return cast(dict, parser.specification)
 
     def _get_spec_version(self) -> str:
         """Reads the version from parsed specification
@@ -165,12 +146,15 @@ class OpenAPIConverter:
                 self.created_variables.add(path_param_name)
         return parsed_path
 
-    def convert(self, base_url: str) -> dict:
+    def convert(self, base_url: str) -> tuple:
         """
         Runs the convertion algorithm and returns a YAML convertable dictionary.
 
         :param specs: dictionary representing the OpenAPI specs
         :param base_url: Base URL for the API
+
+        Returns:
+            [tuple]: converted YAML dictionary and set of created variables
         """
         base_yaml: dict = {
             "endpoints": [{"name": None, "path": base_url, "requests": []}]
@@ -245,16 +229,7 @@ class OpenAPIConverter:
                                     break
                 base_yaml["endpoints"][0]["requests"].append(api_target)
 
-        if len(self.created_variables) > 0:
-            print(
-                "The following variables were created in the generated ScanAPI YAML file:"
-            )
-            for variable in self.created_variables:
-                print("- ${" + variable + "}")
-            print(
-                "See https://scanapi.dev/docs_v1/specification/custom_variables and https://scanapi.dev/docs_v1/specification/environment_variables for more information.\n"
-            )
-        return base_yaml
+        return base_yaml, self.created_variables
 
 
 def get_api_target_name(operation: dict, path: str, method: str) -> str:
