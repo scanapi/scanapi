@@ -13,15 +13,7 @@ class SpecEvaluator:
     """
 
     def __init__(self, endpoint, spec_vars, extras=None, filter_responses=True):
-        """Initialise the evaluator with an endpoint and its spec variables.
-
-        Args:
-            endpoint: The endpoint whose variables are being evaluated.
-            spec_vars: Dictionary of variable names to unevaluated expressions.
-            extras: Optional dictionary of additional variables to merge.
-            filter_responses: If True, exclude variables that reference response
-                values (these cannot be resolved before the request is made).
-        """
+        """Initialise the evaluator with an endpoint and its spec variables."""
         self.endpoint = endpoint
         self.registry = {}
         self.update(spec_vars, extras=extras, filter_responses=filter_responses)
@@ -43,13 +35,7 @@ class SpecEvaluator:
         return _evaluate_str(element, self, is_a_test_case=True)
 
     def update(self, spec_vars, extras=None, filter_responses=False):
-        """Merge new variables into the registry after evaluating them.
-
-        Args:
-            spec_vars: Dictionary of variable names to unevaluated expressions.
-            extras: Optional dictionary of additional pre-resolved variables.
-            filter_responses: If True, exclude variables referencing response values.
-        """
+        """Merge new variables into the registry after evaluating them."""
         if extras is None:
             extras = {}
 
