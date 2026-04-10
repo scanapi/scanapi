@@ -212,7 +212,7 @@ class OpenAPIConverter:
                 operation_security = operation.get("security", [])
                 if len(operation_security) > 0:
                     for security in operation_security:
-                        for name, scopes in security.items():
+                        for name, _ in security.items():
                             for security_scheme in security_schemes:
                                 if security_scheme["name"] == name:
                                     security_type = security_scheme["scheme"]
