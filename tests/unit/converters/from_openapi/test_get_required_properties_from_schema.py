@@ -1,16 +1,16 @@
 from pytest import fixture, mark
 
-from scanapi.openapi_converter import OpenAPIConverter
+from scanapi.converters.from_openapi import OpenAPIToScanAPIConverter
 
 
 @fixture
 def converter():
-    instance = object.__new__(OpenAPIConverter)
+    instance = object.__new__(OpenAPIToScanAPIConverter)
     instance.created_variables = set()
     return instance
 
 
-@mark.describe("openapi converter")
+@mark.describe("openapi to scanapi converter")
 @mark.describe("_get_required_properties_from_schema")
 class TestGetRequiredPropertiesFromSchema:
     @mark.context("when schema has no required key")

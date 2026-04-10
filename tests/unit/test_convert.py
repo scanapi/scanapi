@@ -39,7 +39,7 @@ class TestConvert:
         converter_mock.convert.return_value = {"test": "test"}, set()
 
         mocker.patch(
-            "scanapi.convert.OpenAPIConverter", return_value=converter_mock
+            "scanapi.convert.OpenAPIToScanAPIConverter", return_value=converter_mock
         )
 
         yaml_dump_mock = mocker.patch("scanapi.convert.yaml.dump")
@@ -73,7 +73,7 @@ class TestConvert:
         )
 
         mocker.patch(
-            "scanapi.convert.OpenAPIConverter", return_value=converter_mock
+            "scanapi.convert.OpenAPIToScanAPIConverter", return_value=converter_mock
         )
 
         mocker.patch("scanapi.convert.yaml.dump")

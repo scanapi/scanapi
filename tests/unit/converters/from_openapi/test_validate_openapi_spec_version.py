@@ -1,16 +1,16 @@
 from pytest import fixture, mark, raises
 
-from scanapi.openapi_converter import OpenAPIConverter
+from scanapi.converters.from_openapi import OpenAPIToScanAPIConverter
 
 
 @fixture
 def converter():
-    instance = object.__new__(OpenAPIConverter)
+    instance = object.__new__(OpenAPIToScanAPIConverter)
     instance.created_variables = set()
     return instance
 
 
-@mark.describe("openapi converter")
+@mark.describe("openapi to scanapi converter")
 @mark.describe("_validate_openapi_spec_version")
 class TestValidateOpenAPISpecVersion:
     @mark.context("when spec version starts with '3'")

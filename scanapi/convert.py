@@ -2,7 +2,7 @@ import logging
 
 import prance
 from typing import cast
-from scanapi.openapi_converter import OpenAPIConverter
+from scanapi.converters.from_openapi import OpenAPIToScanAPIConverter
 import yaml
 from ruamel.yaml import scanner
 from rich.console import Console
@@ -42,7 +42,7 @@ def convert(openapi_path: str, base_url: str, output_path: str) -> None:
 
     parser.parse()
     openapi_spec = cast(dict, parser.specification)
-    converter = OpenAPIConverter(openapi_spec)
+    converter = OpenAPIToScanAPIConverter(openapi_spec)
     scanapi_yaml, created_variables = converter.convert(base_url)
     with open(output_path, "w") as file:
         yaml.dump(
