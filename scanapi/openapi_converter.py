@@ -150,6 +150,29 @@ class OpenAPIConverter:
                 self.created_variables.add(path_param_name)
         return parsed_path
 
+    def _get_api_target_body(
+        self, operation: dict, operation_id: str
+    ) -> dict[str, str] | None:
+        """Checks whether the current API target expects a request body. Loops
+        over supported body content types and uses the first content type
+        with a defined request body.
+
+        Returns:
+            [dict|None]: Keys are property names and values are custom variables created using the operation_id and the property name.
+        """
+        api_target_body = None
+        content = operation["requestBody"]["content"]
+        available_content_types = content.keys()
+        # prioritize application/x-www-form-urlencoded over other content types
+        for content_type in self.BODY_CONTENT_TYPES:
+            if content_type in available_content_types:
+                api_target_body = self._get_required_properties_from_schema(
+                    content[content_type]["schema"],
+                    operation_id,
+                )
+                return api_target_body
+        return api_target_body
+
     def convert(self, base_url: str) -> tuple:
         """
         Runs the convertion algorithm and returns a YAML convertable dictionary.
@@ -193,22 +216,12 @@ class OpenAPIConverter:
                     "requestBody" in operation
                     and "content" in operation["requestBody"]
                 ):
-                    api_target_body = None
-                    content = operation["requestBody"]["content"]
-                    available_content_types = content.keys()
-                    # prioritize application/x-www-form-urlencoded over other content types
-                    for content_type in self.BODY_CONTENT_TYPES:
-                        if content_type in available_content_types:
-                            api_target_body = (
-                                self._get_required_properties_from_schema(
-                                    content[content_type]["schema"],
-                                    operation_id,
-                                )
-                            )
-                            break
-
+                    api_target_body = self._get_api_target_body(
+                        operation, operation_id
+                    )
                     if api_target_body is not None:
                         api_target["body"] = api_target_body
+
                 operation_security = operation.get("security", [])
                 if len(operation_security) > 0:
                     for security in operation_security:
