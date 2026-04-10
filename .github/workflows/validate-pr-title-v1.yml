@@ -13,4 +13,4 @@ permissions:
 jobs:
   lint_pr:
     name: Validate
-    uses: cumbucadev/shared-workflows/.github/workflows/validate-pr-title-v1.yml@main
+    uses: cumbucadev/shared-workflows/.github/workflows/validate-pr-title-v1.yml@49332cfa05f5ae23377cf549a4d1b4b7b24112e0
