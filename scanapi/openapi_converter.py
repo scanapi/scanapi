@@ -36,7 +36,8 @@ class OpenAPIConverter:
             [str]: version string
 
         Raises:
-            [ValueError]: Couldn't find version key on parsed specification"""
+            [ValueError]: Couldn't find version key on parsed specification
+        """
         spec_version: str | None = None
         if "openapi" in self.specs:
             spec_version = self.specs.get("openapi")
@@ -56,7 +57,8 @@ class OpenAPIConverter:
             None
 
         Raises:
-            [ValueError]: Unsupported OpenAPI specification version"""
+            [ValueError]: Unsupported OpenAPI specification version
+        """
         specs_version = self._get_spec_version()
         print(f"OpenAPI/Swagger version detected: {specs_version}\n")
 
@@ -69,7 +71,8 @@ class OpenAPIConverter:
         """Reads title from the spec info tag.
 
         Returns:
-            [str|None]: Title if present, otherwise None"""
+            [str|None]: Title if present, otherwise None
+        """
         info = self.specs.get("info", None)
         if info is None:
             return None
@@ -85,7 +88,8 @@ class OpenAPIConverter:
         Reference: <https://swagger.io/docs/specification/v3_0/authentication/#describing-security>
 
         Returns:
-            [list[dict]]: name and type of found security schemes."""
+            [list[dict]]: name and type of found security schemes.
+        """
         security_schemes = []
         if (
             "components" in self.specs
