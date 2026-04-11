@@ -100,7 +100,7 @@ class SpecEvaluator:
             Value for the given key.
 
         Raises:
-            KeyError: If the key is not present in the registry or 
+            KeyError: If the key is not present in the registry or
             endpoint variables.
         """
         if key in self:
@@ -168,7 +168,7 @@ def evaluate(expression, spec_vars):
 
     Args:
         expression: The expression/value to evaluate.
-        spec_vars: SpecEvaluator instance or 
+        spec_vars: SpecEvaluator instance or
                    variable registry used during evaluation.
 
     Returns:
@@ -186,7 +186,8 @@ def _evaluate_str(element, spec_vars, is_a_test_case=False):
         element: String expression from the spec.
         spec_vars: SpecEvaluator instance or
                    variable registry used during evaluation.
-        is_a_test_case: Whether this evaluation is happening in a test case context.
+        is_a_test_case: Whether this evaluation is happening in
+                        a test case context.
 
     Returns:
         The evaluated result of the string expression.
@@ -196,7 +197,7 @@ def _evaluate_str(element, spec_vars, is_a_test_case=False):
 
 @evaluate.register(dict)
 def _evaluate_dict(element, spec_vars):
-     """Recursively evaluate dictionary values.
+    """Recursively evaluate dictionary values.
 
     Args:
         element: Dictionary containing expressions/values.
@@ -206,7 +207,7 @@ def _evaluate_dict(element, spec_vars):
     Returns:
         A dictionary with evaluated values.
     """
-     return {key: evaluate(value, spec_vars) for key, value in element.items()}
+        return {key: evaluate(value, spec_vars) for key, value in element.items()}
 
 
 @evaluate.register(list)
