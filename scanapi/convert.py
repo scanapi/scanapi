@@ -6,12 +6,13 @@ from scanapi.converters.from_openapi import OpenAPIToScanAPIConverter
 import yaml
 from ruamel.yaml import scanner
 from rich.console import Console
+from scanapi.settings import settings
 
 logger = logging.getLogger(__name__)
 console = Console()
 
 
-def convert(openapi_path: str, base_url: str, output_path: str) -> None:
+def openapi_to_scanapi():
     """Caller function that tries to convert the specification file and write the report.
 
     Uses [prance](https://github.com/RonnyPfannschmidt/prance) for resolving
@@ -20,6 +21,10 @@ def convert(openapi_path: str, base_url: str, output_path: str) -> None:
     Returns:
         None
     """
+    openapi_path = settings["input_path"]
+    base_url = settings["base_url"]
+    output_path = settings["output_path"]
+
     logger.info(
         f"Loading file [deep_sky_blue1 underline]{openapi_path}",
         extra={"highlighter": None},
