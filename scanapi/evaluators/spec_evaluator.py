@@ -35,7 +35,6 @@ class SpecEvaluator:
             The evaluated value of the element.
         """
         return evaluate(element, self)
-        
 
     def evaluate_assertion(self, element):
         """Evaluate an assertion element.
@@ -79,7 +78,8 @@ class SpecEvaluator:
             default: Value to return if the key does not exist.
 
         Returns:
-            Value associated with the given key or `default` if key is not present.
+            Value associated with the given key or
+            `default` if key is not present.
         """
         try:
             return self[key]
@@ -100,7 +100,8 @@ class SpecEvaluator:
             Value for the given key.
 
         Raises:
-            KeyError: If the key is not present in the registry or endpoint variables.
+            KeyError: If the key is not present in the registry or 
+            endpoint variables.
         """
         if key in self:
             return self.registry[key]
@@ -167,21 +168,24 @@ def evaluate(expression, spec_vars):
 
     Args:
         expression: The expression/value to evaluate.
-        spec_vars: SpecEvaluator instance or variable registry used during evaluation.
+        spec_vars: SpecEvaluator instance or 
+                   variable registry used during evaluation.
 
     Returns:
-        The evaluated result (or the original expression if no evaluation is needed).
+        The evaluated result (or the original expression if
+        no evaluation is needed).
     """
     return expression
 
 
 @evaluate.register(str)
 def _evaluate_str(element, spec_vars, is_a_test_case=False):
-     """Evaluate a string expression using the StringEvaluator.
+    """Evaluate a string expression using the StringEvaluator.
 
     Args:
         element: String expression from the spec.
-        spec_vars: SpecEvaluator instance or variable registry used during evaluation.
+        spec_vars: SpecEvaluator instance or
+                   variable registry used during evaluation.
         is_a_test_case: Whether this evaluation is happening in a test case context.
 
     Returns:
@@ -196,7 +200,8 @@ def _evaluate_dict(element, spec_vars):
 
     Args:
         element: Dictionary containing expressions/values.
-        spec_vars: SpecEvaluator instance or variable registry used during evaluation.
+        spec_vars: SpecEvaluator instance or
+                   variable registry used during evaluation.
 
     Returns:
         A dictionary with evaluated values.
@@ -211,7 +216,8 @@ def _evaluate_collection(elements, spec_vars):
 
     Args:
         elements: A list/tuple containing expressions/values.
-        spec_vars: SpecEvaluator instance or variable registry used during evaluation.
+        spec_vars: SpecEvaluator instance or
+                   variable registry used during evaluation.
 
     Returns:
         A list with evaluated elements.
