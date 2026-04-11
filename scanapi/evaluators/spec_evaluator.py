@@ -191,7 +191,7 @@ def _evaluate_str(element, spec_vars, is_a_test_case=False):
     Returns:
         The evaluated result of the string expression.
     """
-     return StringEvaluator.evaluate(element, spec_vars, is_a_test_case)
+    return StringEvaluator.evaluate(element, spec_vars, is_a_test_case)
 
 
 @evaluate.register(dict)
