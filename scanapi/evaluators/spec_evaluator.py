@@ -13,7 +13,7 @@ class SpecEvaluator:
     """
 
     def __init__(self, endpoint, spec_vars, extras=None, filter_responses=True):
-         """Initialize a SpecEvaluator.
+        """Initialize a SpecEvaluator.
 
         Args:
             endpoint: Endpoint instance for which the spec is being evaluated.
@@ -21,31 +21,31 @@ class SpecEvaluator:
             extras: Optional extra variables to include in the registry.
             filter_responses: Whether to filter out response-related variables.
         """
-         self.endpoint = endpoint
-         self.registry = {}
-         self.update(spec_vars, extras=extras, filter_responses=filter_responses)
+        self.endpoint = endpoint
+        self.registry = {}
+        self.update(spec_vars, extras=extras, filter_responses=filter_responses)
 
     def evaluate(self, element):
         """Evaluate a spec element.
 
-    Args:
-        element: Spec element/expression to evaluate.
+        Args:
+            element: Spec element/expression to evaluate.
 
-    Returns:
-        The evaluated value of the element.
-    """
+        Returns:
+            The evaluated value of the element.
+        """
         return evaluate(element, self)
         
 
     def evaluate_assertion(self, element):
         """Evaluate an assertion element.
 
-    Args:
-        element: Assertion expression from a test case.
+        Args:
+            element: Assertion expression from a test case.
 
-    Returns:
-        Result of the evaluated assertion.
-    """
+        Returns:
+            Result of the evaluated assertion.
+        """
         return _evaluate_str(element, self, is_a_test_case=True)
 
     def update(self, spec_vars, extras=None, filter_responses=False):
@@ -59,7 +59,6 @@ class SpecEvaluator:
             extras: Optional extra variables to include in the registry.
             filter_responses: Whether to filter out response-related variables.
         """
-
         if extras is None:
             extras = {}
 
@@ -82,15 +81,14 @@ class SpecEvaluator:
         Returns:
             Value associated with the given key or `default` if key is not present.
         """
-
         try:
             return self[key]
         except KeyError:
             return default
 
     def __repr__(self):
-         """Return a string representation of the evaluator registry."""
-         return self.registry.__repr__()
+        """Return a string representation of the evaluator registry."""
+        return self.registry.__repr__()
 
     def __getitem__(self, key):
         """Retrieve a variable value from the registry.
@@ -114,7 +112,7 @@ class SpecEvaluator:
         raise KeyError(key)
 
     def __delitem__(self, key):
-         """Delete a variable from the registry.
+        """Delete a variable from the registry.
 
         Args:
             key: Variable name to delete.
@@ -122,9 +120,9 @@ class SpecEvaluator:
         Raises:
             KeyError: If the key is not present in the registry.
         """
-         if key in self:
+        if key in self:
             del self.registry[key]
-         else:
+        else:
             raise KeyError(key)
 
     def __contains__(self, key):
@@ -140,9 +138,9 @@ class SpecEvaluator:
 
     def keys(self):
         """Returns a copy of the dictionary's list of keys.
+
         Returns:
             [list]: list of keys.
-
         """
         return self.registry.keys()
 

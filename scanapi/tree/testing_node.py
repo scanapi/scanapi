@@ -5,6 +5,12 @@ from scanapi.utils import validate_keys
 
 
 class TestingNode:
+    """Represents a test node defined in the ScanAPI specification.
+
+    A TestingNode validates a test definition, executing its assertion
+    against the evaluated API response, and reporting the result status.
+    """
+
     __test__ = False
     SCOPE = "test"
     ALLOWED_KEYS = (ASSERT_KEY, NAME_KEY)
@@ -31,6 +37,20 @@ class TestingNode:
         return f"{self.request.endpoint.name}::{self.request.name}::{self.name}"
 
     def run(self):
+        """Run the test assertion and return its result.
+
+        This method evaluates the assertion defined in the test,
+        updates the global session counters based on the outcome,
+        and returns a dictionary describing the test execution.
+
+        Returns:
+            dict: A dictionary containing:
+                - name (str): Full hierarchical name of the test.
+                - status (TestStatus): Result of the test execution.
+                - failure (any): Assertion failure details, if available.
+                - error (str): Error message if an exception was raised.
+        """
+
         try:
             (
                 passed,
