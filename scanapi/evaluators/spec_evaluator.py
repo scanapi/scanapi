@@ -207,7 +207,7 @@ def _evaluate_dict(element, spec_vars):
     Returns:
         A dictionary with evaluated values.
     """
-        return {key: evaluate(value, spec_vars) for key, value in element.items()}
+    return {key: evaluate(value, spec_vars) for key, value in element.items()}
 
 
 @evaluate.register(list)
