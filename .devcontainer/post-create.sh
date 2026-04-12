@@ -9,7 +9,7 @@ echo "🚀 Setting up ScanAPI development environment..."
 
 # Update system packages
 echo "📦 Updating system packages..."
-apt-get update && apt-get upgrade -y
+apt-get update && apt-get upgrade -y || true
 
 # Install uv for faster dependency management
 echo "📥 Installing uv..."
@@ -18,6 +18,14 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # Navigate to workspace
 cd /workspaces/scanapi
+
+# Create virtual environment
+echo "🔧 Creating Python virtual environment..."
+uv venv
+
+# Activate virtual environment
+echo "✅ Activating virtual environment..."
+source .venv/bin/activate
 
 # Install development dependencies with uv
 echo "📚 Installing project dependencies with uv..."
