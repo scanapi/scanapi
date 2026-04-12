@@ -14,14 +14,14 @@ apt-get update && apt-get upgrade -y || true
 # Install uv for faster dependency management
 echo "📥 Installing uv..."
 curl -LsSf https://astral.sh/uv/install.sh | sh
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Navigate to workspace
 cd /workspaces/scanapi
 
 # Create virtual environment
 echo "🔧 Creating Python virtual environment..."
-$HOME/.cargo/bin/uv venv
+uv venv --clear
 
 # Activate virtual environment by setting PATH
 export PATH="/workspaces/scanapi/.venv/bin:$PATH"
@@ -29,7 +29,7 @@ export VIRTUAL_ENV="/workspaces/scanapi/.venv"
 
 # Install development dependencies with uv
 echo "📚 Installing project dependencies with uv..."
-$HOME/.cargo/bin/uv pip install -e ".[dev]"
+uv pip install -e ".[dev]"
 
 # Install pre-commit hooks
 echo "🔧 Setting up pre-commit hooks..."
