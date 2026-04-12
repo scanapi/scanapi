@@ -18,22 +18,24 @@
         │ runs again             │
         └────────────┬───────────┘
                      │
-        ┌────────────▼──────────────────┐
-        │ 1. Update packages (apt)       │
-        │ 2. Install uv                  │
-        │ 3. Install dependencies (.dev) │
-        │ 4. Setup pre-commit            │
-        │ 5. Run initial checks          │
-        └────────────┬──────────────────┘
+        ┌────────────▼──────────────────────────┐
+        │ 1. Update packages (apt)              │
+        │ 2. Install uv                         │
+        │ 3. Install dependencies (.dev)        │
+        │ 4. Clone examples repo                │
+        │ 5. Setup pre-commit                   │
+        │ 6. Run initial checks                 │
+        └────────────┬──────────────────────────┘
                      │
                      ▼
-        ┌────────────────────────┐
-        │ ✨ Ready for DEV!       │
-        │                         │
-        │ VS Code + Extensions    │
-        │ Python 3.12             │
-        │ All tools               │
-        └────────────────────────┘
+        ┌────────────────────────────────────┐
+        │ ✨ Ready for DEV!                   │
+        │                                     │
+        │ VS Code + Extensions                │
+        │ Python 3.12                         │
+        │ All tools                           │
+        │ Examples repo cloned & ready        │
+        └────────────────────────────────────┘
 ```
 
 ## File Structure - What You Got

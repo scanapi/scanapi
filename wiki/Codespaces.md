@@ -82,6 +82,38 @@ uv run pytest tests/unit/test_config_loader.py::test_name -v
 uv run pytest --cov=scanapi --cov-report=html
 ```
 
+## 🧪 Testing with Examples
+
+The `examples` repository is **automatically cloned during setup** at `/workspaces/examples`. You can test ScanAPI with real API specifications right away!
+
+### Available Examples
+
+**PokèAPI**
+
+```bash
+uv run scanapi run ../examples/pokeapi/scanapi.yaml -c ../examples/pokeapi/scanapi.conf -o ../examples/pokeapi/scanapi-report.html
+# Open: ../examples/pokeapi/scanapi-report.html
+```
+
+**Demo-API**
+
+```bash
+uv run scanapi run ../examples/demo-api/scanapi.yaml -c ../examples/demo-api/scanapi.conf -o ../examples/demo-api/scanapi-report.html
+# Open: ../examples/demo-api/scanapi-report.html
+```
+
+### Workspace Structure
+
+After setup, your `/workspaces/` looks like:
+
+```
+/workspaces/
+├── scanapi/           # Main project
+├── examples/          # Test examples (auto-cloned)
+```
+
+Perfect for testing and learning!
+
 ## 🔧 Customization
 
 ### Modify the setup

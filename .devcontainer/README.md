@@ -53,6 +53,27 @@ gh codespace create -b main -R scanapi/scanapi
 # Type: "Dev Containers: Reopen in Container"
 ```
 
+## 🧪 Testing with Examples
+
+The [ScanAPI examples](https://github.com/scanapi/examples) repository is **automatically cloned** during container setup at `/workspaces/examples`.
+
+This gives you immediate access to test examples:
+
+```bash
+# Your workspace after setup:
+/workspaces/
+├── scanapi/               # Main project
+└── examples/              # Auto-cloned examples
+    ├── pokeapi/
+    ├── demo-api/
+    └── ...
+
+# Test examples:
+uv run scanapi run ../examples/pokeapi/scanapi.yaml -c ../examples/pokeapi/scanapi.conf -o ../examples/pokeapi/scanapi-report.html
+```
+
+No need for manual setup—everything is ready to test!
+
 ## 📋 Dependencies Structure
 
 ```

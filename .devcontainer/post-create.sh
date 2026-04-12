@@ -27,6 +27,19 @@ uv pip install -e ".[dev]"
 echo "🔧 Setting up pre-commit hooks..."
 uv run pre-commit install
 
+# Clone examples repository for testing
+echo "📚 Cloning ScanAPI examples for testing..."
+cd /workspaces
+if [ ! -d "examples" ]; then
+  git clone https://github.com/scanapi/examples.git
+  echo "✅ Examples cloned to /workspaces/examples"
+else
+  echo "✅ Examples already present"
+fi
+
+# Return to scanapi folder
+cd /workspaces/scanapi
+
 # Run initial checks to verify setup
 echo "✅ Running initial checks..."
 uv run ruff check . --select=E,W --show-fixes 2>/dev/null || true

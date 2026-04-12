@@ -44,6 +44,18 @@ If you cloned the repository and want to use Codespaces:
 | `make check` | Lint + MyPy |
 | `make format` | Auto-format code |
 
+## 🧪 Test with Examples
+
+Examples are auto-cloned during setup! Quick test:
+
+```bash
+# PokèAPI example
+uv run scanapi run ../examples/pokeapi/scanapi.yaml -c ../examples/pokeapi/scanapi.conf -o ../examples/pokeapi/scanapi-report.html
+
+# Demo-API example
+uv run scanapi run ../examples/demo-api/scanapi.yaml -c ../examples/demo-api/scanapi.conf -o ../examples/demo-api/scanapi-report.html
+```
+
 ---
 
 👉 See [Codespaces.md](Codespaces.md) for full documentation!

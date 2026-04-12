@@ -30,6 +30,7 @@ wiki/
 - uv (ultra-fast package manager)
 - Git + GitHub CLI
 - Build tools
+- **Examples repo auto-cloned** (ready to test!)
 
 **Development:**
 - pytest + plugins
