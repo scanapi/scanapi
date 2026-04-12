@@ -21,15 +21,15 @@ cd /workspaces/scanapi
 
 # Create virtual environment
 echo "🔧 Creating Python virtual environment..."
-uv venv
+$HOME/.cargo/bin/uv venv
 
-# Activate virtual environment
-echo "✅ Activating virtual environment..."
-source .venv/bin/activate
+# Activate virtual environment by setting PATH
+export PATH="/workspaces/scanapi/.venv/bin:$PATH"
+export VIRTUAL_ENV="/workspaces/scanapi/.venv"
 
 # Install development dependencies with uv
 echo "📚 Installing project dependencies with uv..."
-uv pip install -e ".[dev]"
+$HOME/.cargo/bin/uv pip install -e ".[dev]"
 
 # Install pre-commit hooks
 echo "🔧 Setting up pre-commit hooks..."
