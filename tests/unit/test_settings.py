@@ -1,11 +1,23 @@
 from pytest import fixture, mark, raises
 
-from scanapi.settings import settings
+from scanapi.settings import Settings, settings, DEFAULT_SETTINGS
 
 
 @fixture
 def mock_load_config_file(mocker):
     return mocker.patch("scanapi.settings.load_config_file")
+
+
+@fixture(autouse=True)
+def reset_settings():
+    """
+    Reset global settings before each test using real defaults.
+    """
+    settings.clear()
+    settings.update(Settings())
+    yield
+    settings.clear()
+    settings.update(Settings())
 
 
 @fixture
@@ -37,9 +49,8 @@ def mock_has_global_config_file(mocker):
 class TestInit:
     @mark.it("should init with default values")
     def test_should_init_with_default_values(self):
-        assert settings["spec_path"] == "scanapi.yaml"
-        assert settings["output_path"] is None
-        assert settings["template"] is None
+        s = Settings()
+        assert s == DEFAULT_SETTINGS
 
 
 @mark.describe("settings")
@@ -158,6 +169,8 @@ class TestSaveClickPreferences:
             "no_report": False,
             "open_browser": False,
             "config_path": "path/config-path",
+            "base_url": "${BASE_URL}",
+            "input_path": None,
         }
 
 

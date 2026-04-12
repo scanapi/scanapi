@@ -10,6 +10,15 @@ GLOBAL_CONFIG_PATH = os.path.join(
 )
 
 LOCAL_CONFIG_PATH = "./scanapi.conf"
+DEFAULT_SETTINGS = {
+    "spec_path": "scanapi.yaml",
+    "output_path": None,
+    "template": None,
+    "no_report": False,
+    "open_browser": False,
+    "input_path": None,
+    "base_url": "${BASE_URL}",
+}
 
 
 class Settings(dict):
@@ -17,28 +26,25 @@ class Settings(dict):
 
     def __init__(self):
         """
-        Constructs a Settings object with dictionary keys spec_path, output_path
-        and template.
+        Constructs a Settings object with default values for all possible preferences.
         """
-        self["spec_path"] = "scanapi.yaml"
-        self["output_path"] = None
-        self["template"] = None
-        self["no_report"] = False
-        self["open_browser"] = False
-
         super().__init__()
+        self.update(DEFAULT_SETTINGS)
 
     def save_config_file_preferences(self, config_path=None):
         """Saves the Settings object config file preferences."""
+        path = None
+
         if config_path:
-            self["config_path"] = config_path
-            self.update(**load_config_file(config_path))
+            path = config_path
         elif self.has_local_config_file:
-            self["config_path"] = LOCAL_CONFIG_PATH
-            self.update(**load_config_file(LOCAL_CONFIG_PATH))
+            path = LOCAL_CONFIG_PATH
         elif self.has_global_config_file:
-            self["config_path"] = GLOBAL_CONFIG_PATH
-            self.update(**load_config_file(GLOBAL_CONFIG_PATH))
+            path = GLOBAL_CONFIG_PATH
+
+        if path:
+            self["config_path"] = path
+            self.update(**load_config_file(path))
 
     def save_click_preferences(self, **preferences):
         """Saves all preference items to the Settings object."""
@@ -49,11 +55,7 @@ class Settings(dict):
 
     def save_preferences(self, **click_preferences):
         """Caller function that begins the saving of Setting preferences."""
-        config_path = (
-            click_preferences["config_path"]
-            if "config_path" in click_preferences
-            else None
-        )
+        config_path = click_preferences.get("config_path")
         self.save_config_file_preferences(config_path)
         self.save_click_preferences(**click_preferences)
 
