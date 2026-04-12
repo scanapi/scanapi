@@ -305,7 +305,7 @@ def get_tests(operation: dict) -> list:
     """
     tests = []
     if "responses" in operation:
-        for status_code, details in operation["responses"].items():
+        for status_code, _ in operation["responses"].items():
             # Handle string response keys from OpenAPI such as 2XX
             # see https://swagger.io/docs/specification/v3_0/describing-responses/#http-status-codes
             if not status_code.isdigit():
