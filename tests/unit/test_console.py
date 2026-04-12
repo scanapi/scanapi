@@ -44,7 +44,6 @@ class TestWriteResult:
     @mark.context("when tests results contains one success")
     @mark.it("should print the success result")
     def test_write_success(self, mocked__console):
-
         tests_results = [
             {
                 "name": "should_be_success",
@@ -116,7 +115,6 @@ class TestWriteResult:
 class TestLogReport:
     @mark.it("should write report path")
     def test(self, mocked__console):
-
         write_report_path("http://localhost:8080")
 
         mocked__console.print.assert_called_once_with(
@@ -165,7 +163,6 @@ class TestWriteSummary:
     @mark.context("when session has no tests")
     @mark.it("should print the success summary")
     def test_write_without_tests(self, mocked__console, mocked__session):
-
         mocked__session.failures = 0
         mocked__session.successes = 0
 

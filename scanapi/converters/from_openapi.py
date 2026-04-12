@@ -1,4 +1,4 @@
-class OpenAPIConverter:
+class OpenAPIToScanAPIConverter:
     """
     Class responsible for parsing an OpenAPI schema and generating
     a skeleton ScanAPI yaml file with correct endpoints, request methods

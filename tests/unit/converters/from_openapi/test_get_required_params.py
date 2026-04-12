@@ -1,6 +1,6 @@
 from pytest import mark
 
-from scanapi.openapi_converter import get_required_params
+from scanapi.converters.from_openapi import get_required_params
 
 
 @mark.describe("get_required_params")

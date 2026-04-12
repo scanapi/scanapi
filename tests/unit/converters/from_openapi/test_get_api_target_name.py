@@ -1,6 +1,6 @@
 from pytest import mark
 
-from scanapi.openapi_converter import get_api_target_name
+from scanapi.converters.from_openapi import get_api_target_name
 
 
 @mark.describe("get_api_target_name")

@@ -1,6 +1,6 @@
 from pytest import mark
 
-from scanapi.openapi_converter import get_tests
+from scanapi.converters.from_openapi import get_tests
 
 
 @mark.describe("get_tests")

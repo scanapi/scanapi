@@ -38,7 +38,6 @@ class TestLoadConfigFile:
     @mark.context("file does not exist")
     @mark.it("should raise an exception")
     def test_should_raise_exception(self):
-
         with raises(FileNotFoundError) as excinfo:
             load_config_file("invalid/path.yaml")
 
@@ -58,7 +57,6 @@ class TestLoadConfigFile:
     @mark.context("include file does not exist")
     @mark.it("should raise an exception")
     def test_should_raise_exception_3(self):
-
         with raises(FileNotFoundError) as excinfo:
             load_config_file("tests/data/api_invalid_path_include.yaml")
 
