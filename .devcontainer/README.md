@@ -126,7 +126,7 @@ If you need environment variables, add them in `devcontainer.json`:
 
 - [Dev Containers Documentation](https://containers.dev/)
 - [GitHub Codespaces Docs](https://docs.github.com/en/codespaces)
-- [ScanAPI Development Guide](../wiki/Codespaces.md)
+- [ScanAPI Development Guide](../wiki/Run-ScanAPI-in-Dev-Env.md)
 - [Contributing Guide](../CONTRIBUTING.md)
 
 ## ✅ Verifying Configuration
@@ -154,4 +154,4 @@ which pytest           # Should return path
 
 ---
 
-For complete documentation, see [Codespaces.md](../wiki/Codespaces.md)
+For complete documentation, see [Run ScanAPI in Dev Env](../wiki/Run-ScanAPI-in-Dev-Env.md)
