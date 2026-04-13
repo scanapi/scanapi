@@ -5,7 +5,7 @@
     <img alt="Codecov" src="https://img.shields.io/codecov/c/github/scanapi/scanapi">
   </a>
   <a href="https://github.com/scanapi/scanapi/actions/workflows/lint.yml?query=branch%3Amain">
-    <img alt="LintCheck" src="https://github.com/scanapi/scanapi/workflows/Lint%20check/badge.svg?event=push">
+    <img alt="LintCheck" src="https://github.com/scanapi/scanapi/actions/workflows/lint.yml/badge.svg?branch=main">
   </a>
   <a href="https://github.com/scanapi/scanapi/actions/workflows/run-examples.yml?query=branch%3Amain">
     <img alt="Examples" src="https://github.com/scanapi/scanapi/actions/workflows/run-examples.yml/badge.svg?branch=main">
