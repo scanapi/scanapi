@@ -1,61 +1,47 @@
 # First Pull Request
 
-How to submit a pull request:
+This guide walks you through the process of contributing code and opening a pull request.
 
-- [1. Create a GitHub Account](#1-create-a-github-account)
-- [2. Install Git](#2-install-git)
-- [3. Fork the Project](#3-fork-the-project)
-- [4. Clone your Fork](#4-clone-your-fork)
-- [5. Create a New Branch](#5-create-a-new-branch)
-- [6. Run ScanAPI locally](#6-run-scanapi-locally)
-- [7. Make your changes](#7-make-your-changes)
-- [8. Test your changes](#8-test-your-changes)
-- [9. Commit and push your changes](#9-commit-and-push-your-changes)
-- [10. Add changelog entries](#10-add-changelog-entries)
-- [11. Create a GitHub PR](#11-create-a-github-pr)
-- [12. Update your branch if needed](#12-update-your-branch-if-needed)
+At this point, it is expected that you already:
 
-### 1. Create a GitHub Account
+* have a GitHub account
+* forked the repository
+* set up your environment (locally or with Codespaces)
+* have an issue assigned to you
 
-Make sure you have a [GitHub account](https://github.com/join)
+Now, let’s go step by step.
 
-### 2. Install Git
+* [1. Create a New Branch](#1-create-a-new-branch)
+* [2. Make your changes](#2-make-your-changes)
+* [3. Test your changes](#3-test-your-changes)
+* [4. Commit and push your changes](#4-commit-and-push-your-changes)
+* [5. Add changelog entries](#5-add-changelog-entries)
+* [6. Create a GitHub PR](#6-create-a-github-pr)
+* [7. Follow up on your Pull Request](#7-follow-up-on-your-pull-request)
 
-Make sure you have [Git installed](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+## 1. Create a New Branch
 
-### 3. Fork the Project
-
-[Fork the ScanAPI repository](https://guides.github.com/activities/forking/)
-
-### 4. Clone your Fork
-
-[Clone](https://docs.github.com/en/enterprise/2.13/user/articles/cloning-a-repository) your fork locally
-
-### 5. Create a New Branch
-
-Go into the ScanAPI folder:
+Go into the ScanAPI folder (if you are not already there):
 
 ```bash
-$ cd scanapi
-```
+cd scanapi
+````
 
-And create a new branch:
+Create a new branch using the issue number:
 
 ```bash
-$ git switch -c <issue_number>
+git switch -c <issue_number>
 ```
 
-### 6. Run ScanAPI locally
+## 2. Make your changes
 
-[Run ScanAPI locally](Run-ScanAPI-Locally.md)
+Now you can implement your changes in the code.
 
-### 7. Make your changes
+We document code using docstrings. Modules, classes, functions, and methods should
+be documented. If your changes modify behavior or parameters, make sure to update
+the corresponding docstrings.
 
-Now is the step where you can implement your changes in the code.
-
-It is important to notice that we document our code using [docstrings](https://www.python.org/dev/peps/pep-0257/#what-is-a-docstring). Modules, classes, functions, and methods should be documented. Your changes should also be well documented and should reflect updated docstrings if any of the params were changed for a class/attributes or even functions.
-
-We follow the given pattern below to keep consistency in the docstrings:
+We follow this pattern:
 
 ```python
 class Example:
@@ -64,7 +50,6 @@ class Example:
     Attributes:
         spec[dict]: Short explanation here
         parent[type, optional]: Short explanation here
-
     """
 
     def __init__(self, spec, parent=None):
@@ -79,52 +64,140 @@ class Example:
 
         Returns:
             value[str]: Short explanation here
-
         """
         value = field_name.get('node')
         return value
 ```
 
-One last thing to keep in mind while self-documenting code with docstrings that you can ignore docstrings in property decorators and magic methods.
+You can skip docstrings for property decorators and magic methods.
 
-### 8. Test your changes
+## 3. Test your changes
 
-#### 8.1 Write new tests
+### 3.1 Write new tests
 
-Make sure you have created the necessary tests for every new change you made. Please, visit the page [Writing Tests](Writing-Tests.md) to find the instructions of how to create tests
+Make sure you create tests for any new behavior: [Writing Tests](Writing-Tests.md).
 
-#### 8.2 Make sure all tests passed
+### 3.2 Run all tests
 
-[Run all the tests](Run-ScanAPI-Locally.md#tests) and make sure that they all passed.
+Run all tests and ensure they pass: [Run tests](Run-ScanAPI-in-Dev-Env.md#tests).
+Pull requests will not be merged if tests are missing or failing.
 
-PRs will not be merged if there is any test missing or failing.
+## 4. Commit and push your changes
 
-### 9. Commit and push your changes
-
-Commit the changes:
-
-```bash
-$ git commit -a -m "<commit_message>"
-```
-
-We encourage you to follow these rules to write great commit messages: https://www.conventionalcommits.org/en/v1.0.0/
-
-Push your commit to GitHub
+Before committing, review your changes:
 
 ```bash
-$ git push --set-upstream origin <issue_number>
+git status
+git diff
 ```
 
-Create the number of changes/commits you need and push them.
+Add files intentionally, one by one:
 
-### 10. Add changelog entries
+```bash
+git add <file>
+```
 
-[Add a CHANGELOG entry](Changelog-Guide.md)
+Then commit:
 
-### 11. Create a GitHub PR
+```bash
+git commit -m "<commit_message>"
+```
 
-[Create a GitHub PR](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+Commit messages must follow the Conventional Commits specification:
+[https://www.conventionalcommits.org/en/v1.0.0/](https://www.conventionalcommits.org/en/v1.0.0/)
 
-### 12. Update your branch if needed.
+Push your branch:
 
-Make sure your branch is updated with main.
+```bash
+git push --set-upstream origin <issue_number>
+```
+
+You can create multiple commits as needed.
+
+## 5. Add changelog entries
+
+Make sure your change is documented: [Changelog Guide](Changelog-Guide.md).
+
+## 6. Create a GitHub PR
+
+Before opening your PR, it is recommended to make sure your branch is up to date:
+
+```bash
+git pull origin main
+```
+
+Open a pull request to the main repository:
+
+[https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
+
+Make sure to:
+
+* reference the issue (e.g. `closes #123`)
+* clearly explain your changes
+
+## 7. Follow up on your Pull Request
+
+After opening your PR, your work is not finished yet. You need to follow the review process until it is merged.
+
+### 7.1 Monitor your PR
+
+* Check your PR regularly on GitHub
+* Watch for:
+
+  * Review comments
+  * Requested changes
+  * Approvals
+
+### 7.2 Address feedback
+
+If a reviewer requests changes:
+
+1. Update your code locally
+2. Commit your changes
+3. Push again to the same branch
+
+```bash
+git commit -a -m "fix: address review feedback"
+git push
+```
+
+The PR will update automatically.
+
+### 7.3 Keep your branch up to date
+
+While your PR is open, new changes may be merged into `main`.
+
+To avoid conflicts, update your branch when needed:
+
+```bash
+git pull origin main
+```
+
+If there are conflicts:
+
+* resolve them in your editor
+* commit the merge
+
+In ScanAPI, Pull Requests are merged using squash merge. Because of that, using `git pull` (merge) is the simplest and safest approach.
+
+### 7.4 Wait for approval
+
+Your PR will be merged after:
+
+* required changes are addressed
+* reviewers approve the PR
+
+### 7.5 Merge process
+
+A maintainer will:
+
+* review your final changes
+* merge your PR (using squash merge)
+
+You don’t need to merge it yourself.
+
+### Tips
+
+* Keep PRs small and focused (faster reviews)
+* Respond to comments clearly (what you changed)
+* Don’t hesitate to ask questions if something is unclear

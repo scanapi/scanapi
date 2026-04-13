@@ -115,7 +115,9 @@ This tutorial helps you to create integration tests for your REST API using Scan
 
 ## Contributing
 
-Collaboration is super welcome! We prepared the [Newcomers Guide][newcomers-guide] to help you in the first steps. Every little bit of help counts! Feel free to create new [GitHub issues][github-issues] and interact here.
+Collaboration is super welcome! Check out our [contribution guide][contribution-guide] to get
+started. Every little bit of help counts! Feel free to create new [GitHub issues][github-issues] and
+interact here.
 
 Let's build it together 🚀🚀
 
@@ -135,7 +137,7 @@ _Made with [contrib.rocks](https://contrib.rocks)._
 </div>
 
 [github-issues]: https://github.com/scanapi/scanapi/issues
-[newcomers-guide]: wiki/Newcomers.md
+[contribution-guide]: CONTRIBUTING.md
 [pip-installation]: https://pip.pypa.io/en/stable/installing/
 [scanapi-examples]: https://github.com/scanapi/examples
 [tutorial]: https://scanapi.dev/tutorials/step01
