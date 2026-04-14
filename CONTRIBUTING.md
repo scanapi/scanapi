@@ -2,6 +2,16 @@
 
 Thanks for taking the time to contribute! 🙇‍♀️🙇‍♂️ Every contribution, big or small, makes a difference. This guide will help you get started with contributing to ScanAPI.
 
+## 0. Table of Content (TOC)
+
+- [1. Create a GitHub Account](#1-create-a-github-account)
+- [2. Fork the repository](#2-fork-the-repository)
+- [3. Set up your environment](#3-set-up-your-environment)
+- [4. Choose a task to work on](#4-choose-a-task-to-work-on)
+- [5. Claim the issue](#5-claim-the-issue)
+- [6. Open your first pull request](#6-open-your-first-pull-request)
+- [Final notes](#final-notes)
+
 ## 1. Create a GitHub Account
 
 Make sure you have an account on GitHub.
