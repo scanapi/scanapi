@@ -2,7 +2,7 @@
 
 Thanks for taking the time to contribute! 🙇‍♀️🙇‍♂️ Every contribution, big or small, makes a difference. This guide will help you get started with contributing to ScanAPI.
 
-## 0. Table of Content (TOC)
+## Contents
 
 - [1. Create a GitHub Account](#1-create-a-github-account)
 - [2. Fork the repository](#2-fork-the-repository)
