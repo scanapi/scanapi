@@ -269,7 +269,6 @@ class TestScan:
                 scan()
 
         mock_write_report.assert_called_once_with([response], False)
-        assert excinfo.type == SystemExit
         assert excinfo.value.code == ExitCode.USAGE_ERROR
         assert "bad template" in caplog.text
 
@@ -308,6 +307,5 @@ class TestScan:
                 scan()
 
         mock_write_report.assert_called_once_with([response], False)
-        assert excinfo.type == SystemExit
         assert excinfo.value.code == ExitCode.USAGE_ERROR
         assert "invalid python code" in caplog.text
