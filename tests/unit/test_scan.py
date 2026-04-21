@@ -264,9 +264,10 @@ class TestScan:
         )
 
         caplog.clear()
-        with caplog.at_level(logging.ERROR, logger="scanapi.scan"):
-            with raises(SystemExit) as excinfo:
-                scan()
+        with caplog.at_level(
+            logging.ERROR, logger="scanapi.scan"
+        ), raises(SystemExit) as excinfo:
+            scan()
 
         mock_write_report.assert_called_once_with([response], False)
         assert excinfo.value.code == ExitCode.USAGE_ERROR
@@ -302,9 +303,10 @@ class TestScan:
         )
 
         caplog.clear()
-        with caplog.at_level(logging.ERROR, logger="scanapi.scan"):
-            with raises(SystemExit) as excinfo:
-                scan()
+        with caplog.at_level(
+            logging.ERROR, logger="scanapi.scan"
+        ), raises(SystemExit) as excinfo:
+            scan()
 
         mock_write_report.assert_called_once_with([response], False)
         assert excinfo.value.code == ExitCode.USAGE_ERROR
