@@ -283,7 +283,6 @@ def get_required_params(operation: dict) -> list:
         for param in operation["parameters"]:
             if not param.get("required", False):
                 continue
-            # TODO: should we skip falsy names such as an empty string?
             name = param.get("name")
             if name is None:
                 continue
