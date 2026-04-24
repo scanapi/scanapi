@@ -137,8 +137,6 @@ class OpenAPIToScanAPIConverter:
         parsed_path = path
         for param in params:
             if param["in"] == "query":
-                # TODO: this could be later implemented if we have additional
-                # information such as expected responses, etc
                 continue
             if param["in"] == "path":
                 # path param is generally curly braced (/snippets/{id}/) and
