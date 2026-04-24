@@ -43,7 +43,7 @@ def openapi_to_scanapi():
         raise SystemExit(1)
     except prance.ValidationError as e:
         error_message = "Invalid OpenAPI schema.\n"
-        error_message += "Conversion currently requires a valid OpenAPI 3.x document.\n"
+        error_message += "Conversion requires a valid OpenAPI 3.x document.\n"
         error_message += f"Details: {str(e)}"
         logger.error(error_message)
         raise SystemExit(1)
