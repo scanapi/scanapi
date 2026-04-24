@@ -156,4 +156,4 @@ class TestOpenAPIToScanAPI:
             assert excinfo.type == SystemExit
             assert excinfo.value.code == 1
 
-            assert "Couldn't parse OpenAPI schema" in caplog.text
+            assert "Invalid OpenAPI schema" in caplog.text
