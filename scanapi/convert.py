@@ -1,11 +1,12 @@
 import logging
+from typing import cast
 
 import prance
-from typing import cast
-from scanapi.converters.from_openapi import OpenAPIToScanAPIConverter
 import yaml
-from ruamel.yaml import scanner
 from rich.console import Console
+from ruamel.yaml import scanner
+
+from scanapi.converters.from_openapi import OpenAPIToScanAPIConverter
 from scanapi.settings import settings
 
 logger = logging.getLogger(__name__)
