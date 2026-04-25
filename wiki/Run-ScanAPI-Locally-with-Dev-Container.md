@@ -1,5 +1,18 @@
 # Run ScanAPI locally with Dev Container
 
+## Contents
+
+- [Dev Container setup](#dev-container-setup)
+- [1. Install requirements](#1-install-requirements)
+- [2. Clone your fork](#2-clone-your-fork)
+- [3. Open in Dev Container](#3-open-in-dev-container)
+- [4. Verify the environment](#4-verify-the-environment)
+  - [4.1 Check ScanAPI version](#41-check-scanapi-version)
+  - [4.2 Run project checks](#42-run-project-checks)
+- [5. Run your first scan](#5-run-your-first-scan)
+- [6. View the report](#6-view-the-report)
+- [7. Try another example](#7-try-another-example)
+
 > For the centralized comparison of all supported ScanAPI development environments, see [Run ScanAPI in Dev Env](Run-ScanAPI-in-Dev-Env.md).
 
 Running ScanAPI using a Dev Container is an alternative to manual setup.
