@@ -91,13 +91,13 @@ executes the requests, and validates the responses.
 If you try to run ScanAPI without a specification file:
 
 ```bash
-uv run scanapi
+uv run scanapi run
 ```
 
 You will see an error like:
 
-```bash
-ERROR:scanapi:Could not find API spec file: scanapi.yaml.
+```plaintext
+ERROR    Could not find API spec file: scanapi.yaml. [Errno 2] No such file or directory: 'scanapi.yaml'
 ```
 
 This happens because ScanAPI looks for a `scanapi.yaml` file by default.
