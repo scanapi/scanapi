@@ -34,7 +34,7 @@ jobs:
           cache-dependency-glob: "pyproject.toml"
 
       - name: Install Dependencies
-        run: uv sync --extra dev
+        run: uv sync --extra dev --prerelease=allow
 
       - name: Run Test and generate coverage report
         run: |
