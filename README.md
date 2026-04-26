@@ -58,6 +58,16 @@ for each response and will receive a full real-time diagnostic report of the API
 $ pip install scanapi
 ```
 
+#### Install with pipx (isolated CLI)
+
+If `pip install scanapi` collides with the dependencies in your project's environment, install it with [pipx][pipx] instead. pipx gives ScanAPI its own virtual environment and still puts the `scanapi` command on your PATH:
+
+```bash
+$ pipx install scanapi
+```
+
+This is the recommended path when you want ScanAPI as a standalone CLI rather than a project dependency.
+
 ### Basic Usage
 
 You will need to write the API's specification and save it as a **YAML** or **JSON** file.
@@ -139,6 +149,7 @@ _Made with [contrib.rocks](https://contrib.rocks)._
 [github-issues]: https://github.com/scanapi/scanapi/issues
 [contribution-guide]: CONTRIBUTING.md
 [pip-installation]: https://pip.pypa.io/en/stable/installing/
+[pipx]: https://pipx.pypa.io/
 [scanapi-examples]: https://github.com/scanapi/examples
 [tutorial]: https://scanapi.dev/tutorials/step01
 [website]: https://scanapi.dev
