@@ -18,6 +18,18 @@ At this point, it is expected that you already:
 * have a GitHub account
 * forked the repository
 
+[Local Setup](#local-setup)
+- [1. Install requirements](#1-install-requirements)
+- [2. Clone your fork](#2-clone-your-fork)
+- [3. Clone the examples repository](#3-clone-the-examples-repository)
+- [4. Install dependencies](#4-install-dependencies)
+- [5. Verify the environment](#5-verify-the-environment)
+- - [5.1 Check ScanAPI version](#51-check-scanapi-version)
+- - [5.2 Run project checks](#52-run-project-checks)
+- [6. Run your first scan](#6-run-your-first-scan)
+- [7. View the report](#7-view-the-report)
+- [8. Try another example](#8-try-another-example)
+
 ## Local Setup
 
 ## 1. Install requirements
