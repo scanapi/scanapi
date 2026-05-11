@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.13.1] - 2026-05-11
+### Added
+- fix: update pyproject.toml to correspond to current stable python version 3.14.
+
 ## [2.13.0] - 2026-05-11
 ### Added
 - Allow variables to be used globally across endpoints [#810](https://github.com/scanapi/scanapi/pull/810)
@@ -308,7 +312,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.13.0...HEAD
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.13.1...HEAD
+[2.13.1]: https://github.com/scanapi/scanapi/compare/v2.13.0...v2.13.1
 [2.13.0]: https://github.com/scanapi/scanapi/compare/v2.12.0...v2.13.0
 [2.12.0]: https://github.com/scanapi/scanapi/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/scanapi/scanapi/compare/v2.10.2...v2.11.0

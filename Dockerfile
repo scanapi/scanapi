@@ -9,7 +9,7 @@ RUN python -m pip install --no-cache-dir pip==26.0.1 \
     setuptools==82.0.1 \
     --hash=sha256:a59e362652f08dcd477c78bb6e7bd9d80a7995bc73ce773050228a348ce2e5bb
 
-RUN python -m pip install --no-cache-dir scanapi==2.13.0
+RUN python -m pip install --no-cache-dir scanapi==2.13.1
 
 COPY . /app
 
