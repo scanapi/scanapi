@@ -7,6 +7,10 @@
 ## What type of change is this?
 <!--- Bug Fix or Feature or Breaking Change i.e fix or feature that would cause existing functionality to not work as expected -->
 
+## AI Assistance Disclosure (REQUIRED)
+- [ ] No AI tools were used in preparing this PR.
+- [ ] If AI tools were used, I have disclosed which ones, and fully reviewed and verified their output.
+
 ## Checklist
 <!-- Please evaluate each item and mark all checkboxes. -->
 
