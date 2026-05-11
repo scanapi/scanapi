@@ -8,8 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.13.0] - 2026-05-11
 ### Added
-- Allow variables to be used globally across endpoints [#265](https://github.com/scanapi/scanapi/issues/265)
+- Allow variables to be used globally across endpoints [#810](https://github.com/scanapi/scanapi/pull/810)
 
 - `from openapi` command: convert an OpenAPI document (JSON or YAML) into ScanAPI format. [#866](https://github.com/scanapi/scanapi/pull/866)
 
@@ -306,7 +308,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.12.0...HEAD
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.13.0...HEAD
+[2.13.0]: https://github.com/scanapi/scanapi/compare/v2.12.0...v2.13.0
 [2.12.0]: https://github.com/scanapi/scanapi/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/scanapi/scanapi/compare/v2.10.2...v2.11.0
 [2.10.2]: https://github.com/scanapi/scanapi/compare/v2.10.1...v2.10.2

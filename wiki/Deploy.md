@@ -31,7 +31,7 @@ And add the version links, like [this](https://github.com/scanapi/scanapi/commit
 
 ### Create the PR
 
-Create a PR named `Release <version>` containing these two changes above.
+Create a new branch called 'v<version-number>' and create a PR named `Release <version>` containing these two changes above.
 
 [Example of Release PR](https://github.com/scanapi/scanapi/commit/86e89e6ab52bbf64e058c02dbfdbbb1500066bff)
 
