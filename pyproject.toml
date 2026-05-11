@@ -1,11 +1,11 @@
 [project]
 name = "scanapi"
-version = "2.13.0"
+version = "2.13.1"
 description = "Automated Testing and Documentation for your REST API"
 authors = [{name = "The ScanAPI Organization", email = "cmaiacd@gmail.com"}]
 license = "MIT"
 readme = "README.md"
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.10,<3.15"
 keywords = ["python", "scanapi", "tests", "end2end", "endtoend", "integration tests", "json", "apis", "api rest"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -15,6 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
     "appdirs>=1.4.4,<2.0.0",
