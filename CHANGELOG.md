@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.13.1] - 2026-05-11
-### Added
-- fix: update pyproject.toml to correspond to current stable python version 3.14.
+## [2.13.1] - 2026-05-12
+### Fixed
+- Update `requires-python` constraint to allow installation on Python 3.14 [#915](https://github.com/scanapi/scanapi/pull/915)
 
 ## [2.13.0] - 2026-05-11
 ### Added
