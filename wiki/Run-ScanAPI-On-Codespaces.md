@@ -11,6 +11,25 @@ At this point, it is expected that you already:
 * have a GitHub account
 * forked the repository
 
+## Table of Contents (TOC)
+- [1. Open your fork in Codespaces](#1-open-your-fork-in-codespaces)
+- [2. Wait for setup to finish](#2-wait-for-setup-to-finish)
+- [3. Add the examples folder](#3-add-the-examples-folder)
+  - [3.1 Add the folder](#31-add-the-folder)
+  - [3.2 Save the workspace](#32-save-the-workspace)
+  - [3.3 Reopen later](#33-reopen-later)
+- [4. Verify the environment](#4-verify-the-environment)
+  - [4.1 Check ScanAPI is installed](#41-check-scanapi-is-installed)
+  - [4.2 Run project checks](#42-run-project-checks)
+- [5. Run your first scan](#5-run-your-first-scan)
+- [6. View the report (browser)](#6-view-the-report-browser)
+- [7. Try another example](#7-try-another-example)
+- [8. Troubleshooting](#8-troubleshooting)
+  - [8.1 Rebuild container](#81-rebuild-container)
+  - [8.2 Reinstall dependencies](#82-reinstall-dependencies)
+  - [8.3 Fix pre-commit](#83-fix-pre-commit)
+  - [8.4 Clear caches](#84-clear-caches)
+
 ## 1. Open your fork in Codespaces
 
 - Go to your fork (e.g. `https://github.com/<your-user>/scanapi`)
