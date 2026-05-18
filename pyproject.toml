@@ -86,6 +86,9 @@ addopts="--it"
 [tool.setuptools.packages.find]
 include = ["scanapi*"]
 
+[tool.setuptools]
+include-package-data = true
+
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
