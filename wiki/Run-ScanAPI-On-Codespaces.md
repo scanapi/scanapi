@@ -178,7 +178,7 @@ uv run scanapi run ../examples/demo-api/scanapi.yaml \
 If something doesn’t work as expected, the steps below cover the most common issues
 and how to fix them. Use these commands to reset or repair your environment when needed.
 
-### Rebuild container
+### 8.1 Rebuild container
 
 If something is broken or outdated:
 
@@ -187,7 +187,7 @@ If something is broken or outdated:
 
 This recreates the environment from scratch.
 
-### Reinstall dependencies
+### 8.2 Reinstall dependencies
 
 If something seems inconsistent or broken:
 
@@ -197,7 +197,7 @@ uv pip install -e ".[dev]" --force-reinstall
 
 This reinstalls all project dependencies.
 
-### Fix pre-commit
+### 8.3 Fix pre-commit
 
 If hooks are not running:
 
@@ -207,7 +207,7 @@ uv run pre-commit install --install-hooks
 
 This ensures checks run automatically before commits.
 
-### Clear caches
+### 8.4 Clear caches
 
 If you see strange test or lint behavior:
 
