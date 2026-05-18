@@ -1,1 +1,1 @@
-include scanapi/templates/html.jinja
+recursive-include scanapi/templates *
