@@ -148,7 +148,9 @@ class TestOpenAPIToScanAPI:
     def test_handles_invalid_openapi_schema(self, caplog):
         with caplog.at_level(logging.ERROR):
             with raises(SystemExit) as excinfo:
-                settings["input_path"] = "tests/data/convert/no_version_definition.yaml"
+                settings["input_path"] = (
+                    "tests/data/convert/no_version_definition.yaml"
+                )
                 settings["base_url"] = "$BASE_URL"
                 settings["output_path"] = "scanapi.yaml"
                 openapi_to_scanapi()
