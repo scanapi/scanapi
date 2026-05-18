@@ -29,6 +29,10 @@ Add a new version title with the new version number and the current date, like [
 
 And add the version links, like [this](https://github.com/scanapi/scanapi/commit/86e89e6ab52bbf64e058c02dbfdbbb1500066bff#diff-4ac32a78649ca5bdd8e0ba38b7006a1eR69-R70)
 
+### Check/update pyproject.toml
+
+Verify if `requires-python` and `classifiers` variables are up to date and correspond current Python LTS
+
 ### Create the PR
 
 Create a new branch called 'v<version-number>' and create a PR named `Release <version>` containing these two changes above.
