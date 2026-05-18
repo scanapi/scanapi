@@ -1,0 +1,22 @@
+name: 'Close stale issues and PRs'
+
+on:
+  workflow_call:
+  schedule:
+    - cron: '00 4 * * *'
+
+permissions:
+  actions: write
+  issues: write
+  pull-requests: write
+
+env:
+  ISSUE_STALE_DAYS: '45'
+  PR_STALE_DAYS: '30'
+  ISSUE_CLOSE_DAYS: '60'
+  PR_CLOSE_DAYS: '45'
+
+jobs:
+  close_stale_issues:
+    name: Close stale issues and PRs
+    uses: cumbucadev/shared-workflows/.github/workflows/close-stale-issues-v1.yml@2535d1542434bda3afa064424a687f0c368db494
