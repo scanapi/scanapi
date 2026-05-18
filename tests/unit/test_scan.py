@@ -236,9 +236,7 @@ class TestScan:
         assert excinfo.type == SystemExit
         assert excinfo.value.code == 0
 
-    @mark.context(
-        "when _write_report raises BadConfigurationError"
-    )
+    @mark.context("when _write_report raises BadConfigurationError")
     @mark.it("should log an error and exit with usage error")
     def test_should_log_error_and_exit_with_usage_error_when_bad_configuration_error(
         self, mocker, caplog, response
@@ -264,18 +262,17 @@ class TestScan:
         )
 
         caplog.clear()
-        with caplog.at_level(
-            logging.ERROR, logger="scanapi.scan"
-        ), raises(SystemExit) as excinfo:
+        with (
+            caplog.at_level(logging.ERROR, logger="scanapi.scan"),
+            raises(SystemExit) as excinfo,
+        ):
             scan()
 
         mock_write_report.assert_called_once_with([response], False)
         assert excinfo.value.code == ExitCode.USAGE_ERROR
         assert "bad template" in caplog.text
 
-    @mark.context(
-        "when _write_report raises InvalidPythonCodeError"
-    )
+    @mark.context("when _write_report raises InvalidPythonCodeError")
     @mark.it("should log an error and exit with usage error")
     def test_should_log_error_and_exit_with_usage_error_when_invalid_python_code_error(
         self, mocker, caplog, response
@@ -297,15 +294,14 @@ class TestScan:
         mocker.patch("scanapi.scan.EndpointNode.run", return_value=[response])
         mock_write_report = mocker.patch(
             "scanapi.scan._write_report",
-            side_effect=InvalidPythonCodeError(
-                "invalid python code", "foo()"
-            ),
+            side_effect=InvalidPythonCodeError("invalid python code", "foo()"),
         )
 
         caplog.clear()
-        with caplog.at_level(
-            logging.ERROR, logger="scanapi.scan"
-        ), raises(SystemExit) as excinfo:
+        with (
+            caplog.at_level(logging.ERROR, logger="scanapi.scan"),
+            raises(SystemExit) as excinfo,
+        ):
             scan()
 
         mock_write_report.assert_called_once_with([response], False)

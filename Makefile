@@ -43,3 +43,22 @@ run:
 bandit:
 	@uv run bandit -r scanapi
 
+.PHONY: docs-install
+docs-install:
+	@echo "Installing docs dev dependencies"
+	@uv sync --extra dev
+
+.PHONY: docs-serve
+docs-serve:
+	@echo "Starting mkdocs server (hot-reload)"
+	@uv run mkdocs serve
+
+.PHONY: docs-build
+docs-build:
+	@echo "Building MkDocs site into ./site"
+	@uv run mkdocs build
+
+.PHONY: docs-clean
+docs-clean:
+	@echo "Cleaning generated site directory"
+	@rm -rf site

@@ -79,9 +79,7 @@ class TestFromOpenAPI:
         mock_save_preferences = mocker.patch(
             "scanapi.settings.Settings.save_preferences"
         )
-        mock_openapi_to_scanapi = mocker.patch(
-            "scanapi.cli.openapi_to_scanapi"
-        )
+        mock_openapi_to_scanapi = mocker.patch("scanapi.cli.openapi_to_scanapi")
 
         result = runner.invoke(
             main,
@@ -116,9 +114,7 @@ class TestConfigureLogging:
         mock_rich_handler = mocker.patch(
             "scanapi.cli.RichHandler", return_value=mocker.Mock()
         )
-        mock_basic_config = mocker.patch(
-            "scanapi.cli.logging.basicConfig"
-        )
+        mock_basic_config = mocker.patch("scanapi.cli.logging.basicConfig")
 
         configure_logging("DEBUG")
 
@@ -132,9 +128,7 @@ class TestConfigureLogging:
         mock_logger = mocker.Mock()
         mock_logger.handlers = [mocker.Mock()]
         mocker.patch("scanapi.cli.logging.getLogger", return_value=mock_logger)
-        mock_basic_config = mocker.patch(
-            "scanapi.cli.logging.basicConfig"
-        )
+        mock_basic_config = mocker.patch("scanapi.cli.logging.basicConfig")
 
         configure_logging("INFO")
 

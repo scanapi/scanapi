@@ -1,0 +1,46 @@
+site_name: "ScanAPI"
+site_description: "ScanAPI documentation generated with MkDocs and mkdocstrings"
+site_url: https://scanapi.dev
+repo_url: https://github.com/scanapi/scanapi
+repo_name: scanapi/scanapi
+nav:
+  - Home: index.md
+  - API:
+    - Overview: api.md
+    - Modules: api/modules.md
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          # Ensure the project root is importable so mkdocstrings can import `scanapi`
+          setup_commands:
+            - "import sys, os; sys.path.insert(0, os.path.abspath('.'))"
+          options:
+            show_root_toc: true
+  - autorefs
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+    - scheme: slate
+      primary: blue
+      accent: blue
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      use_pygments: true
+  - attr_list
+  - md_in_html
