@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.13.2] - 2026-05-18
+### Fixed
+- Include report templates in package distributions to prevent runtime failures during report generation [#920](https://github.com/scanapi/scanapi/pull/920)
+
 ## [2.13.1] - 2026-05-18
 ### Fixed
 - Update `requires-python` constraint to allow installation on Python 3.14 [#915](https://github.com/scanapi/scanapi/pull/915)
@@ -312,7 +316,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.13.1...HEAD
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.13.2...HEAD
+[2.13.1]: https://github.com/scanapi/scanapi/compare/v2.13.1...v2.13.2
 [2.13.1]: https://github.com/scanapi/scanapi/compare/v2.13.0...v2.13.1
 [2.13.0]: https://github.com/scanapi/scanapi/compare/v2.12.0...v2.13.0
 [2.12.0]: https://github.com/scanapi/scanapi/compare/v2.11.0...v2.12.0

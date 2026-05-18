@@ -1432,7 +1432,7 @@ wheels = [
 
 [[package]]
 name = "scanapi"
-version = "2.13.1"
+version = "2.13.2"
 source = { editable = "." }
 dependencies = [
     { name = "appdirs" },

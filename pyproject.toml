@@ -1,6 +1,6 @@
 [project]
 name = "scanapi"
-version = "2.13.1"
+version = "2.13.2"
 description = "Automated Testing and Documentation for your REST API"
 authors = [{name = "The ScanAPI Organization", email = "cmaiacd@gmail.com"}]
 license = "MIT"
