@@ -109,6 +109,7 @@ You should see the installed version printed in the terminal.
 ### 4.2 Run project checks
 
 ```bash
+make install   # ensures all of the dependencies are installed
 make test      # runs tests to verify everything works
 make lint      # checks code style with ruff
 make mypy      # runs type checking
@@ -185,6 +186,14 @@ Once you've successfully run your first scan, you can explore other examples to
 better understand how ScanAPI works with different APIs and configurations.
 
 The repository includes multiple ready-to-run scenarios.
+
+Some of the scenarios have their own environment setup. To turn on this environment run.
+
+```bash
+source ../examples/demo-api/.env
+```
+
+Afterwards you can run the scenario.
 
 ```bash
 uv run scanapi run ../examples/demo-api/scanapi.yaml \
