@@ -118,8 +118,9 @@ class OpenAPIToScanAPIConverter:
         Formats required properties for a given request body schema as a dictionary.
 
         Returns:
-            dict|None: Keys are property names and values are custom variables created
-            using the operation_id and the property name.
+            dict|None: Keys are property names and values are custom
+            variables created using the operation_id and the
+            property name.
         """
         required_properties = None
         if "required" in schema:

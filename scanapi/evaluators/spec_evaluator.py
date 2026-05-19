@@ -16,12 +16,12 @@ class SpecEvaluator:
         """Initialize a SpecEvaluator.
 
         Args:
-            endpoint (EndpointNode): Endpoint instance for which the spec 
+            endpoint (EndpointNode): Endpoint instance for which the spec
             is being evaluated.
             spec_vars (dict): Variables defined in the ScanAPI specification.
-            extras (dict, optional): Optional extra variables to include in 
+            extras (dict, optional): Optional extra variables to include in
             the registry.
-            filter_responses (bool): Whether to filter out response-related 
+            filter_responses (bool): Whether to filter out response-related
             variables.
 
         """
@@ -60,9 +60,9 @@ class SpecEvaluator:
         Args:
             spec_vars (dict): Mapping of spec variable names to
             expressions/values.
-            extras (dict, optional): Optional extra variables to 
+            extras (dict, optional): Optional extra variables to
             include in the registry.
-            filter_responses (bool): Whether to filter out response-related 
+            filter_responses (bool): Whether to filter out response-related
             variables.
         """
         if extras is None:

@@ -28,8 +28,8 @@ class StringEvaluator:
         Args:
             sequence (string): sequence of characters to be evaluated
             spec_vars (dict): dictionary containing the SpecEvaluator variables
-            is_a_test_case (bool): indicator for checking if the given 
-            evaluation is a test case
+            is_a_test_case (bool): indicator for checking if the given
+            evaluation is a test case.
 
         Returns:
             tuple: a tuple containing:
