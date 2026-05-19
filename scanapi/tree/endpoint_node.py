@@ -3,7 +3,8 @@ import logging
 from itertools import chain
 from typing import Any, Dict, Optional
 
-from httpx import CookieConflict, HTTPError, InvalidURL, NetworkError, StreamError, TimeoutException
+from httpx import CookieConflict, HTTPError, InvalidURL, NetworkError, StreamError, \
+                  TimeoutException
 
 from scanapi.errors import InvalidKeyError
 from scanapi.evaluators import SpecEvaluator
@@ -217,10 +218,10 @@ class EndpointNode:
             try:
                 yield request.run()
             except (NetworkError, TimeoutException) as e:
-                # NetworkErrors and TimeoutException are hard errors and should exit early
+                # These are hard errors and should exit early with an error
                 error_message = (
-                    f"\nError while connecting for request {request.full_url_path!r}"
-                    f"\n{str(e)}\n"
+                    f"\nError while connecting for request"
+                    f" {request.full_url_path!r}\n{str(e)}\n"
                 )
                 logger.error(error_message)
                 session.exit_code = ExitCode.REQUEST_ERROR
@@ -234,7 +235,6 @@ class EndpointNode:
                 logger.error(error_message)
                 session.exit_code = ExitCode.REQUEST_ERROR
                 continue
-
 
     def _validate(self):
         """Private method that checks if the specification has any invalid key
