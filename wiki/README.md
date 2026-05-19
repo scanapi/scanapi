@@ -1,37 +1,55 @@
 # ScanAPI Wiki
 
-Welcome to the ScanAPI wiki! 📃 This wiki contains contributing guides and how-tos for the ScanAPI main repository.
+This wiki contains guides and how-tos for contributing to the ScanAPI project.
 
-## Content
+## New to ScanAPI?
 
-### For New Contributors
+Start here:
 
-- [Newcomers](Newcomers.md) - Introduction for new contributors
-  - [First Pull Request](First-Pull-Request.md) - How to submit your first pull request
-  - [Run ScanAPI Locally](Run-ScanAPI-Locally.md) - How to run ScanAPI locally
-  - [Changelog Guide](Changelog-Guide.md) - How to add changelog entries
-  - [Writing Tests](Writing-Tests.md) - Guide for writing tests
+* [CONTRIBUTING.md](../CONTRIBUTING.md)
 
-### Project Management
+This guide walks you through the full contribution flow, from setup to opening your first PR.
 
-- [Managing Dependencies](Managing-Dependencies.md) - How to manage dependencies with uv
-- [Deploy](Deploy.md) - How to deploy new versions
+## Wiki contents
 
-### Sprints and Events
+### Contribution workflow
 
-- [Sprints](Sprints.md) - Information about sprints
-  - [EuroPython 2021](EuroPython-2021.md) - EuroPython 2021 sprint
-  - [Mentored Sprints at PyCon India 2021](Mentored-Sprints-at-PyCon-India-2021.md) - PyCon India mentored sprints
+- [CONTRIBUTING.md](../CONTRIBUTING.md) – Overview of how to contribute, including guidelines,
+workflow, and project expectations
+- [First Pull Request](First-Pull-Request.md) – Step-by-step guide to submit your first contribution
+- [Writing Tests](Writing-Tests.md) – How to write and run tests
+- [Changelog Guide](Changelog-Guide.md) – How to document your changes
+- [Managing Dependencies](Managing-Dependencies.md) – How dependencies are managed with uv
 
----
+### Development Environment
 
-## Useful Links
+* [Run ScanAPI in Dev Env](Run-ScanAPI-in-Dev-Env.md) -
+  Overview of all supported environments and guidance on how to choose the best option
+* [Run ScanAPI on GitHub Codespaces](Run-ScanAPI-On-Codespaces.md)
+  Run ScanAPI in a cloud-based development environment with no local setup
+* [Run ScanAPI locally with Dev Container](Run-ScanAPI-Locally-with-Dev-Container.md) -
+  Run ScanAPI locally using a containerized environment with isolated dependencies
+* [Run ScanAPI locally manually](Run-ScanAPI-Locally-Manually.md) -
+  Run ScanAPI using a local Python environment with manual dependency management
 
-- 🌐 Website: https://scanapi.dev
-- 📚 Official documentation: https://scanapi.dev/docs.html
-- 📖 Official tutorial: https://scanapi.dev/tutorials/step01.html
-- 🔍 DeepWiki: https://deepwiki.com/scanapi/scanapi
-- 💬 Discord Server: https://discord.scanapi.dev
-- 🐦 Twitter: http://twitter.com/scanapi_
-- 📦 PyPI: https://pypi.org/project/scanapi/
-- 🐳 Docker Hub: https://hub.docker.com/r/camilamaia/scanapi
+### Project maintenance
+
+- [Deploy](Deploy.md) – How to release new versions
+
+### Events and community
+
+- [Sprints](Sprints.md) - Overview of sprint initiatives, how they work, and how to participate
+  - [EuroPython 2021](EuroPython-2021.md)
+  - [Mentored Sprints at PyCon India 2021](Mentored-Sprints-at-PyCon-India-2021.md)
+
+## Useful external links
+
+- Website: https://scanapi.dev
+- Documentation: https://scanapi.dev/docs.html
+- Tutorial: https://scanapi.dev/tutorials/step01.html
+- DeepWiki: https://deepwiki.com/scanapi/scanapi
+- Discord: https://discord.scanapi.dev
+- Twitter: http://twitter.com/scanapi_
+- PyPI: https://pypi.org/project/scanapi/
+- Docker Hub: https://hub.docker.com/r/camilamaia/scanapi
+- GitHub: https://github.com/scanapi/scanapi

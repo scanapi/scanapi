@@ -5,7 +5,11 @@ from jinja2 import Environment, FileSystemLoader, PackageLoader
 def render(template_path, context, is_external=False):
     """Controller function that handles the Jinja2 rending of the template."""
     loader = _loader(is_external)
-    env = Environment(loader=loader, autoescape=True)
+    env = Environment(
+        loader=loader,
+        autoescape=True,
+        extensions=["jinja2_humanize_extension.HumanizeExtension"],
+    )
     env.filters["curlify"] = curlify2.to_curl
     env.filters["render_body"] = render_body
     env.globals["is_bytes"] = lambda o: isinstance(o, bytes)

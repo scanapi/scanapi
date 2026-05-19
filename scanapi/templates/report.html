@@ -568,7 +568,7 @@
                                         response time
                                     </td>
                                     <td class="wordbreak">
-                                        {{ response.elapsed.total_seconds() }} s
+                                        {{ response.elapsed.total_seconds()|humanize_precisedelta() }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -656,7 +656,7 @@
                 <span><strong>PASSED:</strong> {{session.successes}}</span>
                 <span><strong>FAILURES:</strong> {{session.failures}}</span>
                 <span><strong>ERRORS:</strong> {{session.errors}}</span>
-                <span><strong>Total Time:</strong> {{ session.elapsed_time() }}</span>
+                <span><strong>Total Time:</strong> {{ session.elapsed_time()|humanize_precisedelta() }}</span>
             </div>
         </div>
     </div>

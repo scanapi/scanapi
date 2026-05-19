@@ -48,7 +48,7 @@ Once you have picked one to tackle, go to the issue's page and send a comment sa
 
 Ok, it is time to start working. First things first, let's run ScanAPI locally, so you can have the development environment working:
 
-[Guide to Run ScanAPI Locally](Run-ScanAPI-Locally.md)
+[Run ScanAPI in Dev Env](Run-ScanAPI-in-Dev-Env.md)
 
 ## Submit your changes for review
 

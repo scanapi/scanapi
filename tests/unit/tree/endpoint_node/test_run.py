@@ -23,7 +23,6 @@ class TestRun:
     @mark.context("when requests are successful")
     @mark.it("should return the responses of the requests")
     def test_when_requests_are_successful(self, mock_run_request):
-
         mock_run_request.side_effect = ["foo", "bar"]
 
         node = EndpointNode(
@@ -62,7 +61,6 @@ class TestRun:
     @mark.context("when there is an error during a request")
     @mark.it("should log the error and change session exit code")
     def test_when_request_fails(self, mock_run_request, mock_session, caplog):
-
         mock_run_request.side_effect = ["foo", HTTPError("error: bar")]
 
         node = EndpointNode(

@@ -276,9 +276,9 @@ class TestErrorMessages:
             CodeEvaluator.evaluate(sequence, {})
 
         error = excinfo.value
-        assert hasattr(
-            error, "expression"
-        ), "Error should have expression attribute"
+        assert hasattr(error, "expression"), (
+            "Error should have expression attribute"
+        )
         assert expected_code in error.expression
 
 

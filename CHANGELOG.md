@@ -8,8 +8,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Update Total time delta and response time delta in the HTML report to be more easily human readable
+
+## [2.13.2] - 2026-05-18
+### Fixed
+- Include report templates in package distributions to prevent runtime failures during report generation [#920](https://github.com/scanapi/scanapi/pull/920)
+
+## [2.13.1] - 2026-05-18
+### Fixed
+- Update `requires-python` constraint to allow installation on Python 3.14 [#915](https://github.com/scanapi/scanapi/pull/915)
+
+## [2.13.0] - 2026-05-11
 ### Added
-- Allow variables to be used globally across endpoints [#265](https://github.com/scanapi/scanapi/issues/265)
+- Allow variables to be used globally across endpoints [#810](https://github.com/scanapi/scanapi/pull/810)
+
+- `from openapi` command: convert an OpenAPI document (JSON or YAML) into ScanAPI format. [#866](https://github.com/scanapi/scanapi/pull/866)
 
 ### Security
 - Replace unsafe `eval()` with RestrictedPython to prevent arbitrary code execution in API spec evaluation. [#798](https://github.com/scanapi/scanapi/pull/798)
@@ -304,7 +318,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.12.0...HEAD
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.13.2...HEAD
+[2.13.1]: https://github.com/scanapi/scanapi/compare/v2.13.1...v2.13.2
+[2.13.1]: https://github.com/scanapi/scanapi/compare/v2.13.0...v2.13.1
+[2.13.0]: https://github.com/scanapi/scanapi/compare/v2.12.0...v2.13.0
 [2.12.0]: https://github.com/scanapi/scanapi/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/scanapi/scanapi/compare/v2.10.2...v2.11.0
 [2.10.2]: https://github.com/scanapi/scanapi/compare/v2.10.1...v2.10.2

@@ -18,7 +18,7 @@ Dependency updates are regularly reviewed to ensure compatibility with supported
     <img alt="Codecov" src="https://img.shields.io/codecov/c/github/scanapi/scanapi">
   </a>
   <a href="https://github.com/scanapi/scanapi/actions/workflows/lint.yml?query=branch%3Amain">
-    <img alt="LintCheck" src="https://github.com/scanapi/scanapi/workflows/Lint%20check/badge.svg?event=push">
+    <img alt="LintCheck" src="https://github.com/scanapi/scanapi/actions/workflows/lint.yml/badge.svg?branch=main">
   </a>
   <a href="https://github.com/scanapi/scanapi/actions/workflows/run-examples.yml?query=branch%3Amain">
     <img alt="Examples" src="https://github.com/scanapi/scanapi/actions/workflows/run-examples.yml/badge.svg?branch=main">
@@ -55,6 +55,7 @@ for each response and will receive a full real-time diagnostic report of the API
 - [Documentation](#documentation)
 - [Tutorial](#tutorial)
 - [Examples](#examples)
+- [Dependency Management](#dependency-management)
 - [Contributing](#contributing)
 - [Contributors](#️-contributors)
 - [Supporters Through Time](#supporters-through-time)
@@ -70,6 +71,16 @@ for each response and will receive a full real-time diagnostic report of the API
 ```bash
 $ pip install scanapi
 ```
+
+#### Install with pipx (isolated CLI)
+
+If `pip install scanapi` collides with the dependencies in your project's environment, install it with [pipx][pipx] instead. pipx gives ScanAPI its own virtual environment and still puts the `scanapi` command on your PATH:
+
+```bash
+$ pipx install scanapi
+```
+
+This is the recommended path when you want ScanAPI as a standalone CLI rather than a project dependency.
 
 ### Basic Usage
 
@@ -126,9 +137,23 @@ This tutorial helps you to create integration tests for your REST API using Scan
 
 [![Watch the video](https://raw.githubusercontent.com/scanapi/scanapi/main/images/youtube-scanapi-tutorial.png)](https://www.youtube.com/watch?v=JIo4sA8LHco&t=2s)
 
+## Dependency Management
+
+ScanAPI aims to minimize dependency conflicts and ensure a smooth developer experience. Most dependencies are specified as compatible version ranges to allow flexibility and avoid unnecessary conflicts. However, a few dependencies are strictly pinned for stability:
+
+- **MarkupSafe==3.0.3**: Pinned to the latest version for security and compatibility. Relax if future versions are verified safe.
+- **pytest-freezegun==0.4.2**: This package is unmaintained and only 0.4.2 is available. Strict pin is required for test stability.
+- **requests-mock==1.12.1**: Pinned to the latest version for compatibility. Relax if future versions are verified safe.
+
+All other dependencies use safe version ranges (e.g., `>=X.Y,<X+1.0`) to reduce the likelihood of dependency conflicts. If you encounter issues with dependency installation, please open an issue or PR.
+
+Dependency updates are regularly reviewed to ensure compatibility with supported Python versions and CI stability.
+
 ## Contributing
 
-Collaboration is super welcome! We prepared the [Newcomers Guide][newcomers-guide] to help you in the first steps. Every little bit of help counts! Feel free to create new [GitHub issues][github-issues] and interact here.
+Collaboration is super welcome! Check out our [contribution guide][contribution-guide] to get
+started. Every little bit of help counts! Feel free to create new [GitHub issues][github-issues] and
+interact here.
 
 Let's build it together 🚀🚀
 
@@ -148,8 +173,9 @@ _Made with [contrib.rocks](https://contrib.rocks)._
 </div>
 
 [github-issues]: https://github.com/scanapi/scanapi/issues
-[newcomers-guide]: wiki/Newcomers.md
+[contribution-guide]: CONTRIBUTING.md
 [pip-installation]: https://pip.pypa.io/en/stable/installing/
+[pipx]: https://pipx.pypa.io/
 [scanapi-examples]: https://github.com/scanapi/examples
 [tutorial]: https://scanapi.dev/tutorials/step01
 [website]: https://scanapi.dev

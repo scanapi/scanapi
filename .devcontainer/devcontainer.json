@@ -1,0 +1,78 @@
+{
+  "name": "ScanAPI Development",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.debugpy",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        "ms-python.mypy-type-checker",
+        "ms-vscode.makefile-tools",
+        "eamodio.gitlens",
+        "GitHub.copilot",
+        "ms-vscode.remote-explorer"
+      ],
+      "settings": {
+        "[python]": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": "ms-python.black-formatter",
+          "editor.codeActionsOnSave": {
+            "source.fixAll.ruff": "explicit",
+            "source.organizeImports.ruff": "explicit"
+          }
+        },
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": false,
+        "python.linting.ruffEnabled": true,
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": [
+          "tests"
+        ],
+        "editor.rulers": [
+          88
+        ],
+        "editor.formatOnSave": true,
+        "files.watcherExclude": {
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true,
+          "**/node_modules/**": true,
+          "**/.pytest_cache/**": true,
+          "**/.venv/**": true,
+          "**/dist/**": true,
+          "**/.eggs/**": true,
+          "**/*.egg-info/**": true
+        }
+      }
+    }
+  },
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/home/vscode/.local/bin"
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached"
+  ],
+  "forwardPorts": [
+    8000,
+    9000
+  ],
+  "portsAttributes": {
+    "8000": {
+      "label": "ScanAPI Server",
+      "onAutoForward": "notify"
+    },
+    "9000": {
+      "label": "Documentation Server",
+      "onAutoForward": "notify"
+    }
+  },
+  "remoteUser": "vscode",
+  "updateContentCommand": "bash .devcontainer/post-create.sh"
+}
