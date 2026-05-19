@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update Total time delta and response time delta in the HTML report to be more easily human readable
 
 ### Fixed
-- Non-reachable APIs (NetworkError, TimeoutException) will now exit and report the test as errored
+- Non-reachable APIs (NetworkError, TimeoutException) will now exit and report the test as errored [#946](https://github.com/scanapi/scanapi/pull/946).
 
 ## [2.13.2] - 2026-05-18
 ### Fixed
