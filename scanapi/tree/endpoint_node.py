@@ -3,7 +3,8 @@ import logging
 from itertools import chain
 from typing import Any, Dict, Optional
 
-from httpx import CookieConflict, HTTPError, InvalidURL, StreamError
+from httpx import CookieConflict, HTTPError, InvalidURL, NetworkError, \
+                  StreamError, TimeoutException
 
 from scanapi.errors import InvalidKeyError
 from scanapi.evaluators import SpecEvaluator
@@ -216,6 +217,16 @@ class EndpointNode:
         for request in self._get_requests():
             try:
                 yield request.run()
+            except (NetworkError, TimeoutException) as e:
+                # These are hard errors and should exit early with an error
+                error_message = (
+                    f"\nError while connecting for request"
+                    f" {request.full_url_path!r}\n{str(e)}\n"
+                )
+                logger.error(error_message)
+                session.exit_code = ExitCode.REQUEST_ERROR
+                session.increment_errors()
+                return
             except (CookieConflict, HTTPError, InvalidURL, StreamError) as e:
                 error_message = (
                     f"\nError to make request {repr(request.full_url_path)}. "
