@@ -22,10 +22,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@v6
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@c36620d31c7c7ec313ef2145f8e83b0d8bb8f869 # v3.26.12
+        uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
           queries: security-and-quality
@@ -33,9 +33,9 @@ jobs:
       # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
       # If this step fails, then you should remove it and run the build manually (see below).
       - name: Autobuild
-        uses: github/codeql-action/autobuild@c36620d31c7c7ec313ef2145f8e83b0d8bb8f869 # v3.26.12
+        uses: github/codeql-action/autobuild@v3
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@c36620d31c7c7ec313ef2145f8e83b0d8bb8f869 # v3.26.12
+        uses: github/codeql-action/analyze@v3
         with:
           category: "/language:python"
