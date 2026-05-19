@@ -1,16 +1,3 @@
-[//]: # (Dependency Management Section)
-
-## Dependency Management
-
-ScanAPI aims to minimize dependency conflicts and ensure a smooth developer experience. Most dependencies are specified as compatible version ranges to allow flexibility and avoid unnecessary conflicts. However, a few dependencies are strictly pinned for stability:
-
-- **MarkupSafe==3.0.3**: Pinned to the latest version for security and compatibility. Relax if future versions are verified safe.
-- **pytest-freezegun==0.4.2**: This package is unmaintained and only 0.4.2 is available. Strict pin is required for test stability.
-- **requests-mock==1.12.1**: Pinned to the latest version for compatibility. Relax if future versions are verified safe.
-
-All other dependencies use safe version ranges (e.g., `>=X.Y,<X+1.0`) to reduce the likelihood of dependency conflicts. If you encounter issues with dependency installation, please open an issue or PR.
-
-Dependency updates are regularly reviewed to ensure compatibility with supported Python versions and CI stability.
 ![](https://github.com/scanapi/design/raw/main/images/github-hero-dark.png)
 
 <p align="center">
@@ -55,7 +42,6 @@ for each response and will receive a full real-time diagnostic report of the API
 - [Documentation](#documentation)
 - [Tutorial](#tutorial)
 - [Examples](#examples)
-- [Dependency Management](#dependency-management)
 - [Contributing](#contributing)
 - [Contributors](#️-contributors)
 - [Supporters Through Time](#supporters-through-time)
@@ -136,18 +122,6 @@ You can find complete examples at [scanapi/examples][scanapi-examples]!
 This tutorial helps you to create integration tests for your REST API using ScanAPI
 
 [![Watch the video](https://raw.githubusercontent.com/scanapi/scanapi/main/images/youtube-scanapi-tutorial.png)](https://www.youtube.com/watch?v=JIo4sA8LHco&t=2s)
-
-## Dependency Management
-
-ScanAPI aims to minimize dependency conflicts and ensure a smooth developer experience. Most dependencies are specified as compatible version ranges to allow flexibility and avoid unnecessary conflicts. However, a few dependencies are strictly pinned for stability:
-
-- **MarkupSafe==3.0.3**: Pinned to the latest version for security and compatibility. Relax if future versions are verified safe.
-- **pytest-freezegun==0.4.2**: This package is unmaintained and only 0.4.2 is available. Strict pin is required for test stability.
-- **requests-mock==1.12.1**: Pinned to the latest version for compatibility. Relax if future versions are verified safe.
-
-All other dependencies use safe version ranges (e.g., `>=X.Y,<X+1.0`) to reduce the likelihood of dependency conflicts. If you encounter issues with dependency installation, please open an issue or PR.
-
-Dependency updates are regularly reviewed to ensure compatibility with supported Python versions and CI stability.
 
 ## Contributing
 
