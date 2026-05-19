@@ -212,7 +212,7 @@ class EndpointNode:
 
         Returns:
             [iterator]: Iterator that yields the test result of each request.
-        """    
+        """
         for request in self._get_requests():
             try:
                 yield request.run()
