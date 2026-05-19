@@ -217,7 +217,7 @@ class EndpointNode:
             try:
                 yield request.run()
             except (NetworkError, TimeoutException) as e:
-                # Network
+                # NetworkErrors and TimeoutException are hard errors and should exit early
                 error_message = (
                     f"\nError while connecting for request {request.full_url_path!r}"
                     f"\n{str(e)}\n"
