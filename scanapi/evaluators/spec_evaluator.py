@@ -141,7 +141,7 @@ class SpecEvaluator:
         """Returns a copy of the dictionary's list of keys.
 
         Returns:
-            [list]: list of keys.
+            list: list of keys.
         """
         return self.registry.keys()
 
@@ -152,7 +152,7 @@ class SpecEvaluator:
         Any items with a ``response.*`` reference in their value are left out.
 
         Returns:
-            [dict]: filtered dictionary.
+            dict: filtered dictionary.
 
         """
         pattern = re.compile(r"(?:(\s*response\.\w+))")

@@ -48,8 +48,8 @@ class Example:
     """Explain the purpose of the class
 
     Attributes:
-        spec[dict]: Short explanation here
-        parent[type, optional]: Short explanation here
+        spec (dict): Short explanation here
+        parent (type, optional): Short explanation here
     """
 
     def __init__(self, spec, parent=None):
@@ -60,10 +60,10 @@ class Example:
         """Purpose of the function
 
         Args:
-            field_name[str]: Short explanation here
+            field_name (str): Short explanation here
 
         Returns:
-            value[str]: Short explanation here
+            str: Short explanation here
         """
         value = field_name.get('node')
         return value

@@ -28,8 +28,8 @@ class RequestNode:
     where each EndpointNode may contain multiple children RequestNode.
 
     Attributes:
-        spec[dict]: dictionary containing the request's specifications
-        endpoint[EndpointNode]: the parent node
+        spec (dict): dictionary containing the request's specifications
+        endpoint (EndpointNode): the parent node
     """
 
     SCOPE = "request"
@@ -145,7 +145,7 @@ class RequestNode:
         """Make HTTP requests and generating test results for the given URLs.
 
         Returns:
-            [dict]: HTTP response and test results with request node name,
+            dict: HTTP response and test results with request node name,
             to be used by the report template.
 
         """
@@ -205,7 +205,7 @@ class RequestNode:
         """Run all tests cases of request node.
 
         Returns:
-            [dict]: Return a dict with test result.
+            dict: Return a dict with test result.
 
         """
         return [test.run() for test in self.tests]
@@ -226,7 +226,7 @@ class RequestNode:
         """Check headers for any content-type different than application/json
 
         Args:
-            headers dict[str, str]: request headers
+            headers (dict[str, str]): request headers
 
         Returns:
             bool: False if convent-type is different then application/json

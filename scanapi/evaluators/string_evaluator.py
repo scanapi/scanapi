@@ -26,15 +26,15 @@ class StringEvaluator:
         environment variables present on it
 
         Args:
-            sequence[string]: sequence of characters to be evaluated
-            spec_vars[dict]: dictionary containing the SpecEvaluator variables
-            is_a_test_case[bool]: indicator for checking if the given evaluation
+            sequence (string): sequence of characters to be evaluated
+            spec_vars (dict): dictionary containing the SpecEvaluator variables
+            is_a_test_case (bool): indicator for checking if the given evaluation
             is a test case
 
         Returns:
             tuple: a tuple containing:
-                -  [Boolean]: True if python statement is valid
-                -  [string]: None if valid evaluation, tested code otherwise
+                -  Boolean: True if python statement is valid
+                -  string: None if valid evaluation, tested code otherwise
 
         """
         sequence = cls._evaluate_env_var(sequence)
@@ -48,10 +48,10 @@ class StringEvaluator:
         variables present on it
 
         Args:
-            sequence[string]: sequence of characters to be evaluated
+            sequence (string): sequence of characters to be evaluated
 
         Returns:
-            sequence[string]: sequence of characters with all valid
+            sequence (string): sequence of characters with all valid
             environment variables replaced
         """
         matches = cls.variable_pattern.finditer(sequence)
@@ -79,11 +79,11 @@ class StringEvaluator:
         variables present on it
 
         Args:
-            sequence[string]: sequence of characters to be evaluated
-            spec_vars[dict]: dictionary containing the SpecEvaluator variables
+            sequence (string): sequence of characters to be evaluated
+            spec_vars (dict): dictionary containing the SpecEvaluator variables
 
         Returns:
-            sequence[string]: sequence of characters with all valid
+            sequence (string): sequence of characters with all valid
             custom variables replaced
         """
         matches = cls.variable_pattern.finditer(sequence)
@@ -111,12 +111,12 @@ class StringEvaluator:
         of a variable with its value
 
         Args:
-            sequence[string]: sequence of characters to be evaluated
-            variable[string]: variable to be replaced
-            variable_value[any]: value that will replace the variable
+            sequence (string): sequence of characters to be evaluated
+            variable (string): variable to be replaced
+            variable_value (any): value that will replace the variable
 
         Returns:
-            sequence[string]: sequence of characters with all occurrences of
+            sequence (string): sequence of characters with all occurrences of
             the current variable replaced
         """
         if variable == sequence:

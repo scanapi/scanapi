@@ -30,9 +30,9 @@ def _validate_allowed_keys(keys, available_keys, scope):
     """Private function that checks if the spec keys are allowed.
 
     Args:
-        keys [list of strings]: the specification keys
-        available_keys [tuple of string]: the available keys for that scope
-        scope [string]: the scope of the current node: 'root', 'endpoint',
+        keys (list of strings): the specification keys
+        available_keys (tuple of string): the available keys for that scope
+        scope (string): the scope of the current node: 'root', 'endpoint',
         'request' or 'test'
 
     """
@@ -45,9 +45,9 @@ def _validate_required_keys(keys, required_keys, scope):
     """Private function that checks if there is any required key missing.
 
     Args:
-        keys [list of strings]: the specification keys
-        required_keys [tuple of string]: the required keys for that scope
-        scope [string]: the scope of the current node: 'root', 'endpoint',
+        keys (list of strings): the specification keys
+        required_keys (tuple of string): the required keys for that scope
+        scope (string): the scope of the current node: 'root', 'endpoint',
         'request' or 'test'
 
     """
@@ -60,13 +60,13 @@ def session_with_retry(retry_configuration, verify=True):
     """Instantiate a requests session.
 
     Args:
-        retry_configuration [dict]: The retry configuration
+        retry_configuration (dict): The retry configuration
         for a request. (Available for version >= 2.2.0).
-        verify [bool]: SSL certificates used to verify the
+        verify (bool): SSL certificates used to verify the
         identity of requested hosts
 
     Returns:
-        [httpx.Client]: Client
+        httpx.Client: Client
     """
     retry_configuration = retry_configuration or {}
     retries = retry_configuration.get(MAX_RETRIES_KEY, 0)

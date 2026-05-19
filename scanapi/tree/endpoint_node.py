@@ -34,10 +34,10 @@ class EndpointNode:
     where each EndpointNode may contain multiple children EndpointNodes.
 
     Attributes:
-        spec[dict]: dictionary containing the endpoint's specifications
-        parent[EndpointNode, optional]: the parent node
-        child_nodes[list of EndpointNodes]: the children nodes
-        spec_vars[SpecEvaluator]: evaluator used to evaluate expressions
+        spec (dict): dictionary containing the endpoint's specifications
+        parent (EndpointNode, optional): the parent node
+        child_nodes (list of EndpointNodes): the children nodes
+        spec_vars (SpecEvaluator): evaluator used to evaluate expressions
                                   and store spec variables
     """
 
@@ -87,7 +87,7 @@ class EndpointNode:
         if it is not a root node.
 
         Returns:
-            [str]: The endpoint's name.
+            str: The endpoint's name.
         """
         name = self.spec.get(NAME_KEY, "")
 
@@ -103,7 +103,7 @@ class EndpointNode:
         evaluated.
 
         Returns:
-            [str]: The endpoint's url.
+            str: The endpoint's url.
         """
         path = str(self.spec.get(PATH_KEY, "")).strip()
         url = join_urls(self.parent.path, path) if self.parent else path
@@ -116,7 +116,7 @@ class EndpointNode:
         The options of the call include the parent's options.
 
         Returns:
-            [dict]: the keyword used in the endpoint call.
+            dict: the keyword used in the endpoint call.
         """
         options = self._get_specs(OPTIONS_KEY)
         for option in options:
@@ -131,7 +131,7 @@ class EndpointNode:
         call include the parent's headers.
 
         Returns:
-            [dict]: the headers used in the endpoint call.
+            dict: the headers used in the endpoint call.
         """
         return self._get_specs(HEADERS_KEY)
 
@@ -141,7 +141,7 @@ class EndpointNode:
         call include the parent's parameters.
 
         Returns:
-            [dict]: the parameters used in the endpoint call.
+            (dict): the parameters used in the endpoint call.
         """
         return self._get_specs(PARAMS_KEY)
 
@@ -151,7 +151,7 @@ class EndpointNode:
         call.
 
         Returns:
-            [int]: the time to be waited.
+            int: the time to be waited.
         """
         delay = self.spec.get(DELAY_KEY, 0)
         return delay or getattr(self.parent, DELAY_KEY, 0)
@@ -161,7 +161,7 @@ class EndpointNode:
         """Check if the EndpointNode is a root node.
 
         Returns:
-            [bool]: true if the node has no parent, false otherwise.
+            bool: true if the node has no parent, false otherwise.
         """
         return not self.parent
 
@@ -174,8 +174,8 @@ class EndpointNode:
         to the parent nodes. It only includes new variables.
 
         Args:
-            spec_vars [dict]: the new spec_vars.
-            extras [dict]: extra variables used to update the spec_vars.
+            spec_vars (dict): the new spec_vars.
+            extras (dict): extra variables used to update the spec_vars.
         """
         new_spec_vars = {
             key: value
@@ -199,7 +199,7 @@ class EndpointNode:
         """Get all variables in spec_vars from the node and its parents.
 
         Returns:
-            [dict]: dict from the variable's name to its value.
+            dict: dict from the variable's name to its value.
         """
         variables = copy.deepcopy(self.spec_vars.registry)
         if not self.is_root:
@@ -211,7 +211,7 @@ class EndpointNode:
         """Run the requests of the node and all children nodes.
 
         Returns:
-            [iterator]: Iterator that yields the test result of each request.
+            iterator: Iterator that yields the test result of each request.
         """
         for request in self._get_requests():
             try:
@@ -240,10 +240,10 @@ class EndpointNode:
         """Get a specification of the endpoint.
 
         Args:
-            field_name [str]: name of the specification field.
+            field_name (str): name of the specification field.
 
         Returns:
-            [dict]: a dictionary containing the values of the field.
+            dict: a dictionary containing the values of the field.
         """
         values = self.spec.get(field_name, {})
         parent_values = getattr(self.parent, field_name, None)
@@ -257,7 +257,7 @@ class EndpointNode:
         """Get all requests from the node and children nodes as RequestNodes.
 
         Returns:
-            [iterator]: Iterator that yields a RequestNode for
+            iterator: Iterator that yields a RequestNode for
             each request.
         """
         return chain(
