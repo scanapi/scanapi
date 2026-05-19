@@ -20,7 +20,8 @@ def openapi_to_scanapi():
     and parsing the OpenAPI schema.
 
     Returns:
-        None
+        None: This function does not return a value. It executes the
+            specification conversion and writes the resulting report.
     """
     openapi_path = settings["input_path"]
     base_url = settings["base_url"]

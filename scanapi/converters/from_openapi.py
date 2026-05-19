@@ -5,7 +5,7 @@ class OpenAPIToScanAPIConverter:
     and authentication schema.
 
     Attributes:
-        specs[dict]: Dictionary parsed from the OpenAPI schema.
+        specs (dict): Dictionary parsed from the OpenAPI schema.
     """
 
     SECURITY_SCHEME_TYPES = ("http", "oauth2", "bearer")
@@ -33,10 +33,10 @@ class OpenAPIToScanAPIConverter:
         """Reads the version from parsed specification
 
         Returns:
-            [str]: version string
+            str: version string
 
         Raises:
-            [ValueError]: Couldn't find version key on parsed specification
+            ValueError: Couldn't find version key on parsed specification
         """
         spec_version: str | None = None
         if "openapi" in self.specs:
@@ -57,7 +57,7 @@ class OpenAPIToScanAPIConverter:
             None
 
         Raises:
-            [ValueError]: Unsupported OpenAPI specification version
+            ValueError: Unsupported OpenAPI specification version
         """
         specs_version = self._get_spec_version()
         print(f"OpenAPI/Swagger version detected: {specs_version}\n")
@@ -71,7 +71,7 @@ class OpenAPIToScanAPIConverter:
         """Reads title from the spec info tag.
 
         Returns:
-            [str|None]: Title if present, otherwise None
+            str | None: Title if present, otherwise None
         """
         info = self.specs.get("info", None)
         if info is None:
@@ -88,7 +88,7 @@ class OpenAPIToScanAPIConverter:
         Reference: <https://swagger.io/docs/specification/v3_0/authentication/#describing-security>
 
         Returns:
-            [list[dict]]: name and type of found security schemes.
+            list[dict]: name and type of found security schemes.
         """
         security_schemes = []
         if (
@@ -118,7 +118,9 @@ class OpenAPIToScanAPIConverter:
         Formats required properties for a given request body schema as a dictionary.
 
         Returns:
-            [dict|None]: Keys are property names and values are custom variables created using the operation_id and the property name.
+            dict|None: Keys are property names and values are custom
+            variables created using the operation_id and the
+            property name.
         """
         required_properties = None
         if "required" in schema:
@@ -154,7 +156,10 @@ class OpenAPIToScanAPIConverter:
         with a defined request body.
 
         Returns:
-            [dict|None]: Keys are property names and values are custom variables created using the operation_id and the property name.
+            dict|None: Keys are property names and values are custom
+                variables created using the operation_id and the
+                property name.
+
         """
         api_target_body = None
         content = operation["requestBody"]["content"]
@@ -177,7 +182,7 @@ class OpenAPIToScanAPIConverter:
         :param base_url: Base URL for the API
 
         Returns:
-            [tuple]: converted YAML dictionary and set of created variables
+            tuple: converted YAML dictionary and set of created variables
         """
         base_yaml: dict = {
             "endpoints": [{"name": None, "path": base_url, "requests": []}]
@@ -253,7 +258,7 @@ def get_api_target_name(operation: dict, path: str, method: str) -> str:
     Changes all slashes and spaces to underscores.
 
     Returns:
-        [str]: generated target name
+        str: generated target name
     """
     return (
         str(
@@ -272,7 +277,7 @@ def get_required_params(operation: dict) -> list:
     parameters are always required (see https://swagger.io/docs/specification/v3_0/describing-parameters/#path-parameters).
 
     Returns:
-        [list[dict]]: Parameter name and location (in)
+        list[dict]: Parameter name and location (in)
     """
     params = []
     if "parameters" in operation:
@@ -296,7 +301,7 @@ def get_tests(operation: dict) -> list:
     Focuses on successful responses for minimal smoke testing.
 
     Returns:
-        [list[dict]]: Test name and assertion
+        list[dict]: Test name and assertion
     """
     tests = []
     if "responses" in operation:
