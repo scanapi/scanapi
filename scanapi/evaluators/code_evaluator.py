@@ -64,7 +64,11 @@ class CodeEvaluator:
         Returns:
             dict: Dictionary of module names to imported modules
         """
-        return {name: __import__(name) for name in cls.ALLOWED_MODULES}  # nosec B301
+        # nosec B301: imports are constrained by cls.ALLOWED_MODULES.
+        return {
+            name: __import__(name)
+            for name in cls.ALLOWED_MODULES
+        }
 
     @classmethod
     def _get_safe_globals(cls, response=None):
