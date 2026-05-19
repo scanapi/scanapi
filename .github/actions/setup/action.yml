@@ -14,4 +14,4 @@ runs:
         cache-dependency-glob: "pyproject.toml"
     - name: Install Dependencies
       shell: bash
-      run: uv sync --extra dev
+      run: uv sync --extra dev --prerelease=allow
