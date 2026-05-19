@@ -17,6 +17,7 @@ plugins:
           setup_commands:
             - "import sys, os; sys.path.insert(0, os.path.abspath('.'))"
           options:
+            docstring_style: google
             show_root_toc: true
   - autorefs
 theme:
