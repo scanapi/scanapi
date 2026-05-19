@@ -1,0 +1,4 @@
+name: "ScanAPI CodeQL Configuration"
+disable-default-queries: false
+paths-ignore:
+  - tests/**
