@@ -1,43 +1,45 @@
-# Run ScanAPI locally manually
+# Run ScanAPI locally with Dev Container
 
-> For the centralized comparison of all supported ScanAPI development environments, see [Run ScanAPI in Dev Env](Run-ScanAPI-in-Dev-Env.md).
+## Contents
 
-Running ScanAPI locally is an important step when contributing to the project.
+- [Dev Container setup](#dev-container-setup)
+- [1. Install requirements](#1-install-requirements)
+- [2. Clone your fork](#2-clone-your-fork)
+- [3. Open in Dev Container](#3-open-in-dev-container)
+- [4. Verify the environment](#4-verify-the-environment)
+  - [4.1 Check ScanAPI version](#41-check-scanapi-version)
+  - [4.2 Run project checks](#42-run-project-checks)
+- [5. Run your first scan](#5-run-your-first-scan)
+- [6. View the report](#6-view-the-report)
+- [7. Try another example](#7-try-another-example)
+
+> For the centralized comparison of all supported ScanAPI development environments, see [Run ScanAPI in Dev Env](/contributor-guide/run-scanapi-in-dev-env/).
+
+Running ScanAPI using a Dev Container is an alternative to manual setup.
+
 It allows you to:
 
-* confirm your environment is correctly set up
-* run tests before and after your changes
-* validate that your changes behave as expected
-* experiment with real API scenarios using examples
+* use a pre-configured environment with all dependencies installed
+* avoid conflicts with your local system
+* work in the same setup used in Codespaces and CI
 
-This guide walks you through how to set up ScanAPI locally, run your first scan,
-and view the generated reports.
+This guide walks you through how to open the project in a Dev Container,
+verify the setup, run your first scan, and view the results.
 
 At this point, it is expected that you already:
 
 * have a GitHub account
 * forked the repository
 
-[Local Setup](#local-setup)
-- [1. Install requirements](#1-install-requirements)
-- [2. Clone your fork](#2-clone-your-fork)
-- [3. Clone the examples repository](#3-clone-the-examples-repository)
-- [4. Install dependencies](#4-install-dependencies)
-- [5. Verify the environment](#5-verify-the-environment)
-- - [5.1 Check ScanAPI version](#51-check-scanapi-version)
-- - [5.2 Run project checks](#52-run-project-checks)
-- [6. Run your first scan](#6-run-your-first-scan)
-- [7. View the report](#7-view-the-report)
-- [8. Try another example](#8-try-another-example)
-
-## Local Setup
+## Dev Container setup
 
 ## 1. Install requirements
 
 Make sure you have the following installed:
 
-- Python 3.10+
-- uv (https://docs.astral.sh/uv/#installation)
+- VS Code: https://code.visualstudio.com/
+- Dev Containers extension: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
+- Docker: https://docs.docker.com/get-docker/
 
 ## 2. Clone your fork
 
@@ -50,44 +52,37 @@ cd scanapi
 
 Replace `your-username` with your GitHub username.
 
-## 3. Clone the examples repository
+## 3. Open in Dev Container
 
-ScanAPI provides ready-to-run examples that we will use here to test and explore
-the tool:
-[https://github.com/scanapi/examples](https://github.com/scanapi/examples)
+Open the project in VS Code.
 
-Open another terminal (outside the `scanapi` folder) and clone:
+Then:
 
-```bash
-git clone git@github.com:scanapi/examples.git
-```
+* Click **"Reopen in Container"** when prompted
+  or
+* Open Command Palette (`⌘⇧P` or `Ctrl+Shift+P`) and run:
+  `Dev Containers: Reopen in Container`
 
-Your workspace should now look like:
+Wait for the container to build (first time takes ~2–3 minutes).
 
-```
-scanapi/
-examples/
-```
+## 4. Verify the environment
 
-## 4. Install dependencies
+The Dev Container automatically:
 
-Install all project dependencies (inside scanapi folder):
-
-```bash
-make install
-```
-
-## 5. Verify the environment
+* installs all dependencies
+* configures the Python environment
+* sets up pre-commit hooks
+* clones the examples repository
 
 Before running your first scan, check that everything is working correctly.
 
-### 5.1 Check ScanAPI version
+### 4.1 Check ScanAPI version
 
 ```bash
 uv run scanapi --version
 ```
 
-### 5.2 Run project checks
+### 4.2 Run project checks
 
 ```bash
 make test      # run tests
@@ -98,7 +93,7 @@ make check     # lint + mypy
 
 If these commands run without errors, your environment is correctly set up.
 
-## 6. Run your first scan
+## 5. Run your first scan
 
 Now that your environment is ready, it is time to run your first scan.
 
@@ -134,7 +129,7 @@ This will:
 * execute API tests defined in the example
 * generate an HTML report with the results
 
-## 7. View the report
+## 6. View the report
 
 After running a scan, ScanAPI generates an HTML report with the results.
 
@@ -144,7 +139,7 @@ Open the generated file:
 ../examples/pokeapi/scanapi-report.html
 ```
 
-## 8. Try another example
+## 7. Try another example
 
 Once you've successfully run your first scan, you can explore other examples to
 better understand how ScanAPI works with different APIs and configurations.
