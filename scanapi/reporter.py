@@ -33,7 +33,8 @@ class Reporter:
             results (generator): generator of dicts resulting of Request run().
 
         Returns:
-            None
+            None: This function does not return a value. It creates and writes
+              the 'scanapi-report.html' file with the test results.
 
         """
         template_path = self.template if self.template else "report.html"

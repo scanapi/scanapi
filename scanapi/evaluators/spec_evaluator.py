@@ -16,10 +16,11 @@ class SpecEvaluator:
         """Initialize a SpecEvaluator.
 
         Args:
-            endpoint: Endpoint instance for which the spec is being evaluated.
-            spec_vars: Variables defined in the ScanAPI specification.
-            extras: Optional extra variables to include in the registry.
-            filter_responses: Whether to filter out response-related variables.
+            endpoint (EndpointNode): Endpoint instance for which the spec is being evaluated.
+            spec_vars (dict): Variables defined in the ScanAPI specification.
+            extras (dict, optional): Optional extra variables to include in the registry.
+            filter_responses (bool): Whether to filter out response-related variables.
+
         """
         self.endpoint = endpoint
         self.registry = {}
@@ -29,10 +30,10 @@ class SpecEvaluator:
         """Evaluate a spec element.
 
         Args:
-            element: Spec element/expression to evaluate.
+            element (Any): Spec element/expression to evaluate.
 
         Returns:
-            The evaluated value of the element.
+            Any: The evaluated value of the element.
         """
         return evaluate(element, self)
 
@@ -40,10 +41,10 @@ class SpecEvaluator:
         """Evaluate an assertion element.
 
         Args:
-            element: Assertion expression from a test case.
+            element (Any): Assertion expression from a test case.
 
         Returns:
-            Result of the evaluated assertion.
+            Any: Result of the evaluated assertion.
         """
         return _evaluate_str(element, self, is_a_test_case=True)
 
@@ -54,9 +55,9 @@ class SpecEvaluator:
         `extras` during evaluation) and updates the internal registry.
 
         Args:
-            spec_vars: Mapping of spec variable names to expressions/values.
-            extras: Optional extra variables to include in the registry.
-            filter_responses: Whether to filter out response-related variables.
+            spec_vars (dict): Mapping of spec variable names to expressions/values.
+            extras (dict, optional): Optional extra variables to include in the registry.
+            filter_responses (bool): Whether to filter out response-related variables.
         """
         if extras is None:
             extras = {}
@@ -74,13 +75,14 @@ class SpecEvaluator:
         """Retrieve a value from the registry.
 
         Args:
-            key: Name of the variable to retrieve.
-            default: Value to return if the key does not exist.
+            key (str): Name of the variable to retrieve.
+            default (Any): Value to return if the key does not exist.
 
         Returns:
-            Value associated with the given key or
+            Any: Value associated with the given key or
             `default` if key is not present.
         """
+
         try:
             return self[key]
         except KeyError:
@@ -94,14 +96,15 @@ class SpecEvaluator:
         """Retrieve a variable value from the registry.
 
         Args:
-            key: Variable name to retrieve.
+            key (str): Variable name to retrieve.
 
         Returns:
-            Value for the given key.
+            Any: Value for the given key.
 
         Raises:
             KeyError: If the key is not present in the registry or
             endpoint variables.
+        
         """
         if key in self:
             return self.registry[key]
@@ -116,7 +119,7 @@ class SpecEvaluator:
         """Delete a variable from the registry.
 
         Args:
-            key: Variable name to delete.
+            key (str): Variable name to delete.
 
         Raises:
             KeyError: If the key is not present in the registry.
@@ -130,10 +133,10 @@ class SpecEvaluator:
         """Check whether a variable exists in the registry.
 
         Args:
-            key: Variable name.
+            key (str): Variable name.
 
         Returns:
-            True if the variable exists in the registry, otherwise False.
+            bool: True if the variable exists in the registry, otherwise False.
         """
         return key in self.registry
 
