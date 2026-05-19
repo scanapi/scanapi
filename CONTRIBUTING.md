@@ -6,3 +6,12 @@ Our Contributing documentation is available at our [Wiki](https://github.com/sca
 
 Also, as one of the repositories under the `scanapi` GitHub organization, this repository follows
 the [ScanAPI Contributing Guideline](https://github.com/scanapi/contributors/blob/master/CONTRIBUTING.md).
+
+## Code Quality & Security
+
+This repository uses automated tools to maintain high code quality and security standards:
+
+- **CodeQL Analysis**: GitHub's native static application security testing (SAST) tool that scans for security vulnerabilities and code quality issues.
+- **Bandit**: Python-specific security linter that identifies common security issues in Python code.
+
+These tools run automatically on all commits and pull requests. If you encounter any security warnings, please address them before requesting review. For more information about security best practices, see our [Security Policy](SECURITY.md).
