@@ -51,7 +51,7 @@ def write_summary():
     """Write tests summary in console
 
     Returns:
-        None: None: This function does not return a value. It prints the execution
+        None: This function does not return a value. It prints the execution
             time and test results summary directly to the console output.
     """
     elapsed_time = round(session.elapsed_time().total_seconds(), 2)

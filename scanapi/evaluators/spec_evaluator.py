@@ -16,10 +16,13 @@ class SpecEvaluator:
         """Initialize a SpecEvaluator.
 
         Args:
-            endpoint (EndpointNode): Endpoint instance for which the spec is being evaluated.
+            endpoint (EndpointNode): Endpoint instance for which the spec 
+            is being evaluated.
             spec_vars (dict): Variables defined in the ScanAPI specification.
-            extras (dict, optional): Optional extra variables to include in the registry.
-            filter_responses (bool): Whether to filter out response-related variables.
+            extras (dict, optional): Optional extra variables to include in 
+            the registry.
+            filter_responses (bool): Whether to filter out response-related 
+            variables.
 
         """
         self.endpoint = endpoint
@@ -55,9 +58,12 @@ class SpecEvaluator:
         `extras` during evaluation) and updates the internal registry.
 
         Args:
-            spec_vars (dict): Mapping of spec variable names to expressions/values.
-            extras (dict, optional): Optional extra variables to include in the registry.
-            filter_responses (bool): Whether to filter out response-related variables.
+            spec_vars (dict): Mapping of spec variable names to
+            expressions/values.
+            extras (dict, optional): Optional extra variables to 
+            include in the registry.
+            filter_responses (bool): Whether to filter out response-related 
+            variables.
         """
         if extras is None:
             extras = {}
@@ -82,7 +88,6 @@ class SpecEvaluator:
             Any: Value associated with the given key or
             `default` if key is not present.
         """
-
         try:
             return self[key]
         except KeyError:
@@ -104,7 +109,6 @@ class SpecEvaluator:
         Raises:
             KeyError: If the key is not present in the registry or
             endpoint variables.
-        
         """
         if key in self:
             return self.registry[key]
