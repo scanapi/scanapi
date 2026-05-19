@@ -190,7 +190,7 @@ The repository includes multiple ready-to-run scenarios.
 Some of the scenarios have their own environment setup. To turn on this environment run.
 
 ```bash
-source ../examples/demo-api/.env activate
+source ../examples/demo-api/.env
 ```
 
 Afterwards you can run the scenario.
