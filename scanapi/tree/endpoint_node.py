@@ -3,8 +3,8 @@ import logging
 from itertools import chain
 from typing import Any, Dict, Optional
 
-from httpx import CookieConflict, HTTPError, InvalidURL, NetworkError, StreamError, \
-                  TimeoutException
+from httpx import CookieConflict, HTTPError, InvalidURL, NetworkError, \
+                  StreamError, TimeoutException
 
 from scanapi.errors import InvalidKeyError
 from scanapi.evaluators import SpecEvaluator
