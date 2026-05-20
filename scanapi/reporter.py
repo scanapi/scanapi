@@ -15,8 +15,8 @@ class Reporter:
     """Class that writes the scan report
 
     Attributes:
-        output_path[str, optional]: Report output path
-        template[str, optional]: Custom report template path
+        output_path (str, optional): Report output path
+        template (str, optional): Custom report template path
 
     """
 
@@ -30,10 +30,11 @@ class Reporter:
         scanapi-report.html.
 
         Args:
-            results [generator]: generator of dicts resulting of Request run().
+            results (generator): generator of dicts resulting of Request run().
 
         Returns:
-            None
+            None: This function does not return a value. It creates and writes
+              the 'scanapi-report.html' file with the test results.
 
         """
         template_path = self.template if self.template else "report.html"
@@ -59,10 +60,10 @@ class Reporter:
         """Build context dict of values required to render template.
 
         Args:
-            results [generator]: generator of dicts resulting of Request run().
+            results (generator): generator of dicts resulting of Request run().
 
         Returns:
-            [dict]: values required to render template.
+            dict: values required to render template.
 
         """
         try:
