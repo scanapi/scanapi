@@ -6,13 +6,13 @@ ScanAPI can be run in three supported development environments.
 Choose your setup:
 
 1. **GitHub Codespaces (recommended)**
-   [Run ScanAPI on GitHub Codespaces](Run-ScanAPI-On-Codespaces.md)
+   [Run ScanAPI on GitHub Codespaces](/contributor-guide/run-scanapi-on-codespaces/)
 
 2. **Local Dev Container**
-   [Run ScanAPI locally with Dev Container](Run-ScanAPI-Locally-with-Dev-Container.md)
+   [Run ScanAPI locally with Dev Container](/contributor-guide/run-scanapi-locally-with-dev-container/)
 
 3. **Manual local setup**
-   [Run ScanAPI locally manually](Run-ScanAPI-Locally-Manually.md)
+   [Run ScanAPI locally manually](/contributor-guide/run-scanapi-locally-manually/)
 
 If you're new to the project, just follow the Codespaces guide and you’ll be ready in minutes.
 The sections below explain when you might want to choose a different option.

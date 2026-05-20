@@ -60,11 +60,11 @@ Once you have picked one to tackle, go to the issue's page and send a comment sa
 
 ## Run ScanAPI locally
 
-Ok, it is time to start working. First things first, let's run ScanAPI locally, so you can have the development environment working: [Run ScanAPI in Dev Env](Run-ScanAPI-in-Dev-Env.md).
+Ok, it is time to start working. First things first, let's run ScanAPI locally, so you can have the development environment working: [Run ScanAPI in Dev Env](/contributor-guide/run-scanapi-in-dev-env/).
 
 ## Submit your changes for review
 
-Once you have made your changes, it is time to open your pull request: [First-Pull-Request doc](./First-Pull-Request.md)
+Once you have made your changes, it is time to open your pull request: [First-Pull-Request doc](/contributor-guide/first-pull-request/)
 
 ## Wait for the reviews
 

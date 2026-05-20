@@ -8,6 +8,22 @@ nav:
   - API:
     - Overview: api.md
     - Modules: api/modules.md
+  - Contributor Guide:
+      - Introduction: contributor-guide/README.md
+      - Contributing: contributor-guide/contributing.md
+      - Changelog Guide: contributor-guide/changelog-guide.md
+      - Deploy: contributor-guide/deploy.md
+      - EuroPython 2021: contributor-guide/europython-2021.md
+      - First Pull Request: contributor-guide/first-pull-request.md
+      - Managing Dependencies: contributor-guide/managing-dependencies.md
+      - Mentored Sprints at PyCon India 2021: contributor-guide/mentored-sprints-at-pycon-india-2021.md
+      - Run ScanAPI in Dev Env: contributor-guide/run-scanapi-in-dev-env.md
+      - Run ScanAPI Locally Manually: contributor-guide/run-scanapi-locally-manually.md
+      - Run ScanAPI Locally with Dev Container: contributor-guide/run-scanapi-locally-with-dev-container.md
+      - Run ScanAPI on Codespaces: contributor-guide/run-scanapi-on-codespaces.md
+      - Sprints: contributor-guide/sprints.md
+      - Writing Tests: contributor-guide/writing-tests.md
+
 plugins:
   - search
   - mkdocstrings:
