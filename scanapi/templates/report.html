@@ -479,7 +479,14 @@
 
         <!-- summary_box -->
         <div class="summary__endpoint">
-            {% for result in results -%}
+            {% for child_endpoint_name, result_group in results | group_by_child_endpoint -%}
+            {% set outer_loop = loop %}
+            <div class="endpoint" id="endpoint_{{ outer_loop.index | string }}">
+            <input type="checkbox" class="endpoint__checkbox" id="chck_{{ outer_loop.index | string }}" />
+            <label class="endpoint__title" for="chck_{{ outer_loop.index | string }}">
+                <span class=http_method>{{ child_endpoint_name }} </span>
+            </label>
+            {% for result in result_group %}
             {% set response = result["response"] %}
             {% set tests = result["tests_results"] %}
             {% set endpoint_status_label = "P" if result["no_failure"] else "F" %}
@@ -487,11 +494,11 @@
             {% set options = result["options"] %}
             {% set verify = options.get("verify", True) %}
 
-            <div class="endpoint" id="endpoint_{{ loop.index | string }}">
-                <input type="checkbox" class="endpoint__checkbox" id="chck_{{ loop.index | string }}" />
-                <label class="endpoint__title" for="chck_{{ loop.index | string }}">
+                <div class="endpoint" id="endpoint_{{ outer_loop.index | string }}_{{ loop.index | string }}">
+                <input type="checkbox" class="endpoint__checkbox" id="chck_{{ outer_loop.index | string }}_{{ loop.index | string }}" />
+                <label class="endpoint__title" for="chck_{{ outer_loop.index | string }}_{{ loop.index | string }}">
                     <span class="endpoint__url">
-                        <img data-anchor="endpoint_{{ loop.index | string }}" class="copy__link_anchor_url" src="https://scanapi.s3.us-east-2.amazonaws.com/assets/images/icons/link.svg">
+                        <img data-anchor="endpoint_{{ outer_loop.index | string }}_{{ loop.index | string }}" class="copy__link_anchor_url" src="https://scanapi.s3.us-east-2.amazonaws.com/assets/images/icons/link.svg">
                         <span class="http_method">{{request.method}}</span> {{ request.path_url }}
                         <span class="endpoint__request_node_name">{{ result.request_node_name }}</span>
                     </span>
@@ -647,7 +654,9 @@
                 </div>
             </div>
             {% endfor %}
+        {% endfor %}
         </div>
+            </div>
 
         {% set final_status = "passed" if session.succeed else "failed" %}
         <div class="summary__tests summary__tests--{{final_status}}">
