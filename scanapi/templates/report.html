@@ -254,6 +254,35 @@
             line-break: anywhere;
         }
 
+        .endpoint--group {
+            margin-bottom: 20px;
+        }
+
+        .endpoint__content--group {
+            padding-top: 16px;
+        }
+
+        .endpoint__title--group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            background-color: #e9ecef;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .endpoint__title--group .endpoint__titleInfo {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .endpoint--group > .endpoint__checkbox:checked + .endpoint__title {
+            border-radius: 10px;
+        }
+
         .http_method {
             font-weight: bold;
         }
@@ -494,8 +523,10 @@
                     class="endpoint__title endpoint__title--group"
                     for="group_chck_{{ outer_loop.index }}"
                 >
-                    <span class="http_method">
-                        {{ child_endpoint_name }}
+                    <span class="endpoint__titleInfo">
+                        <span class="http_method">
+                            {{ child_endpoint_name }}
+                        </span>
                     </span>
                 </label>
 
@@ -508,7 +539,7 @@
             {% set options = result["options"] %}
             {% set verify = options.get("verify", True) %}
 
-                <div class="endpoint" id="endpoint_{{ outer_loop.index | string }}_{{ loop.index | string }}">
+            <div class="endpoint" id="endpoint_{{ outer_loop.index | string }}_{{ loop.index | string }}">
                 <input type="checkbox" class="endpoint__checkbox" id="chck_{{ outer_loop.index | string }}_{{ loop.index | string }}" />
                 <label class="endpoint__title" for="chck_{{ outer_loop.index | string }}_{{ loop.index | string }}">
                     <span class="endpoint__url">
@@ -672,7 +703,6 @@
         </div>
         {% endfor %}
         </div>
-            </div>
 
         {% set final_status = "passed" if session.succeed else "failed" %}
         <div class="summary__tests summary__tests--{{final_status}}">
