@@ -2,7 +2,8 @@
 import datetime
 import pathlib
 import webbrowser
-from importlib.metadata import PackageNotFoundError, version
+
+from importlib.metadata import version, PackageNotFoundError
 
 from scanapi.console import write_report_path
 from scanapi.session import session
