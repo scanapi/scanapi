@@ -35,9 +35,12 @@ git switch -c <issue_number>
 
 ## 2. Make your changes
 
-Now you can implement your changes in the code.
+Now you can start implementing your changes in the code. Besides the
+implementation itself, keep in mind that ScanAPI follows conventions for type
+hints and documentation. The sections below explain these guidelines in more
+detail.
 
-### Type hints
+### 2.1 Type hints
 
 ScanAPI uses type hints to make the code easier to understand and to catch
 mistakes earlier with static analysis tools such as `mypy`.
@@ -58,9 +61,11 @@ Use precise types when they are easy to express, and avoid `Any` unless the
 value can genuinely have multiple unrelated shapes. For more details and
 examples, see [PEP 484](https://peps.python.org/pep-0484/).
 
-We document code using docstrings. Modules, classes, functions, and methods should
-be documented. If your changes modify behavior or parameters, make sure to update
-the corresponding docstrings.
+### 2.2 Docstrings
+
+We document code using docstrings. Modules, classes, functions, and methods
+should be documented. If your changes modify behavior or parameters, make sure
+to update the corresponding docstrings.
 
 We follow this pattern:
 
