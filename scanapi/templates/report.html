@@ -481,11 +481,25 @@
         <div class="summary__endpoint">
             {% for child_endpoint_name, result_group in results | group_by_child_endpoint -%}
             {% set outer_loop = loop %}
-            <div class="endpoint" id="endpoint_{{ outer_loop.index | string }}">
-            <input type="checkbox" class="endpoint__checkbox" id="chck_{{ outer_loop.index | string }}" />
-            <label class="endpoint__title" for="chck_{{ outer_loop.index | string }}">
-                <span class=http_method>{{ child_endpoint_name }} </span>
-            </label>
+
+            <div class="endpoint endpoint--group" id="endpoint_group_{{ outer_loop.index }}">
+
+                <input
+                    type="checkbox"
+                    class="endpoint__checkbox"
+                    id="group_chck_{{ outer_loop.index }}"
+                />
+
+                <label
+                    class="endpoint__title endpoint__title--group"
+                    for="group_chck_{{ outer_loop.index }}"
+                >
+                    <span class="http_method">
+                        {{ child_endpoint_name }}
+                    </span>
+                </label>
+
+                <div class="endpoint__content endpoint__content--group">
             {% for result in result_group %}
             {% set response = result["response"] %}
             {% set tests = result["tests_results"] %}
@@ -654,6 +668,8 @@
                 </div>
             </div>
             {% endfor %}
+            </div>
+        </div>
         {% endfor %}
         </div>
             </div>
