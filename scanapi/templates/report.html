@@ -508,7 +508,7 @@
 
         <!-- summary_box -->
         <div class="summary__endpoint">
-            {% for child_endpoint_name, result_group in results | group_by_child_endpoint -%}
+            {% for top_level_endpoint_name, result_group in results | group_by_top_level_endpoint -%}
             {% set outer_loop = loop %}
 
             <div class="endpoint endpoint--group" id="endpoint_group_{{ outer_loop.index }}">
@@ -525,7 +525,7 @@
                 >
                     <span class="endpoint__titleInfo">
                         <span class="http_method">
-                            {{ child_endpoint_name }}
+                            {{ top_level_endpoint_name }}
                         </span>
                     </span>
                 </label>

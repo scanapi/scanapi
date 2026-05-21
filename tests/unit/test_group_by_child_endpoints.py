@@ -1,11 +1,11 @@
 from pytest import mark
 
-from scanapi.template_render import group_by_child_endpoints
+from scanapi.template_render import group_by_top_level_endpoint
 
 
 @mark.describe("template_render")
-@mark.describe("group_by_child_endpoints")
-class TestGroupByChildEndpoints:
+@mark.describe("group_by_top_level_endpoint")
+class TestGroupByTopLevelEndpoint:
     @mark.context("given nested requests results")
     @mark.it("should group them by the endpoint closest to root")
     def test_group_nested_endpoints(self):
@@ -19,7 +19,7 @@ class TestGroupByChildEndpoints:
 
         grouped_results = [
             (endpoint_name, list(results))
-            for endpoint_name, results in group_by_child_endpoints(results)
+            for endpoint_name, results in group_by_top_level_endpoint(results)
         ]
 
         assert len(grouped_results) == 2
@@ -43,7 +43,7 @@ class TestGroupByChildEndpoints:
 
         grouped_results = [
             (endpoint_name, list(results))
-            for endpoint_name, results in group_by_child_endpoints(results)
+            for endpoint_name, results in group_by_top_level_endpoint(results)
         ]
 
         assert len(grouped_results) == 1
@@ -64,7 +64,7 @@ class TestGroupByChildEndpoints:
 
         grouped_results = [
             (endpoint_name, list(results))
-            for endpoint_name, results in group_by_child_endpoints(results)
+            for endpoint_name, results in group_by_top_level_endpoint(results)
         ]
 
         assert len(grouped_results) == 2
