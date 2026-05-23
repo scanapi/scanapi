@@ -27,7 +27,7 @@ People do. Whether consumers or developers, the end users of software are human 
 
 ## Where is ScanAPI changelog?
 
-ScanAPI changelog is available at [CHANGELOG.md](../CHANGELOG.md)
+ScanAPI changelog is available at [CHANGELOG.md](https://github.com/scanapi/scanapi/blob/main/CHANGELOG.md)
 
 ## Guiding Principles
 
@@ -77,7 +77,7 @@ source: http://www.obsis.unb.br/gitlab/help/development/changelog.md
 
 ## How to add a changelog entry
 
-The changelog is available in the file [CHANGELOG.md](../CHANGELOG.md).
+The changelog is available in the file [CHANGELOG.md](https://github.com/scanapi/scanapi/blob/main/CHANGELOG.md).
 
 First you need to identify the type of your change. Type of changes:
 

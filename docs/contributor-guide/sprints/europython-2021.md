@@ -60,11 +60,11 @@ Once you have picked one to tackle, go to the issue's page and send a comment sa
 
 ## Run ScanAPI locally
 
-Ok, it is time to start working. First things first, let's run ScanAPI locally, so you can have the development environment working: [Run ScanAPI in Dev Env](/contributor-guide/run-scanapi-in-dev-env/).
+Ok, it is time to start working. First things first, let's run ScanAPI locally, so you can have the development environment working: [Run ScanAPI in Dev Env](../run-scanapi-in-dev-env.md).
 
 ## Submit your changes for review
 
-Once you have made your changes, it is time to open your pull request: [First-Pull-Request doc](/contributor-guide/first-pull-request/)
+Once you have made your changes, it is time to open your pull request: [First-Pull-Request doc](../first-pull-request.md)
 
 ## Wait for the reviews
 
@@ -76,10 +76,10 @@ What happens when my PR was accepted and all checks are passing? We will merge t
 
 ## Useful Links
 
-- Website: https://scanapi.dev
-- Official documentation: https://scanapi.dev/docs.html
-- Official tutorial: https://scanapi.dev/tutorials/step01.html
-- Discord Server: https://discord.scanapi.dev
-- Twitter: http://twitter.com/scanapi_
-- EuroPython 2021 Sprints: https://ep2021.europython.eu/events/sprints/
-- EuroPython 2021 Registration: https://ep2021.europython.eu/registration/buy-tickets/#sprint
+- Website: <https://scanapi.dev>
+- Official documentation: <https://scanapi.dev/docs.html>
+- Official tutorial: <https://scanapi.dev/tutorials/step01.html>
+- Discord Server: <https://discord.scanapi.dev>
+- Twitter: <https://twitter.com/scanapi_>
+- EuroPython 2021 Sprints: <https://ep2021.europython.eu/events/sprints/>
+- EuroPython 2021 Registration: <https://ep2021.europython.eu/registration/buy-tickets/#sprint>

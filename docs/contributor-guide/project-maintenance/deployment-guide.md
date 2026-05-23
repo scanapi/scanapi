@@ -1,4 +1,4 @@
-# Deploy
+# Deployment Guide
 
 Here you will find how to deploy a new production version of ScanAPI.
 
@@ -17,7 +17,7 @@ Steps:
 
 ### Bump the lib Version
 
-Check the last release number at https://pypi.org/project/scanapi/#history
+Check the last release number at <https://pypi.org/project/scanapi/#history>
 
 Increment the version number in the `pyproject.toml` according to the version you have just got: https://github.com/scanapi/scanapi/blob/main/pyproject.toml#L3
 

@@ -1,4 +1,4 @@
-# Managing Dependencies
+# Dependencies Guide
 
 We use [uv](https://docs.astral.sh/uv/) to manage dependencies. Please check the sections below for instructions on adding or removing dependencies.
 

@@ -5,24 +5,36 @@ repo_url: https://github.com/scanapi/scanapi
 repo_name: scanapi/scanapi
 nav:
   - Home: index.md
-  - API:
+  - User Guide: user-guide/index.md
+  - API Documentation:
     - Overview: api.md
     - Modules: api/modules.md
   - Contributor Guide:
-      - Introduction: contributor-guide/README.md
-      - Contributing: contributor-guide/contributing.md
-      - Changelog Guide: contributor-guide/changelog-guide.md
-      - Deploy: contributor-guide/deploy.md
-      - EuroPython 2021: contributor-guide/europython-2021.md
+      - contributor-guide/index.md
       - First Pull Request: contributor-guide/first-pull-request.md
-      - Managing Dependencies: contributor-guide/managing-dependencies.md
-      - Mentored Sprints at PyCon India 2021: contributor-guide/mentored-sprints-at-pycon-india-2021.md
-      - Run ScanAPI in Dev Env: contributor-guide/run-scanapi-in-dev-env.md
-      - Run ScanAPI Locally Manually: contributor-guide/run-scanapi-locally-manually.md
-      - Run ScanAPI Locally with Dev Container: contributor-guide/run-scanapi-locally-with-dev-container.md
-      - Run ScanAPI on Codespaces: contributor-guide/run-scanapi-on-codespaces.md
-      - Sprints: contributor-guide/sprints.md
-      - Writing Tests: contributor-guide/writing-tests.md
+      - Run ScanAPI in Dev Env:
+        - contributor-guide/run-scanapi-dev/index.md
+        - On Codespaces: contributor-guide/run-scanapi-dev/codespaces.md
+        - Local Manually: contributor-guide/run-scanapi-dev/local-manually.md
+        - Local with Dev Container: contributor-guide/run-scanapi-dev/local-dev-container.md
+      - Tests Guide: contributor-guide/tests-guide.md
+      - Changelog Guide: contributor-guide/changelog-guide.md
+      - Dependencies Guide: contributor-guide/dependencies-guide.md
+      - Project Maintenance:
+        - Deployment Guide: contributor-guide/project-maintenance/deployment-guide.md
+      - Sprints:
+        - contributor-guide/sprints/index.md
+        - EuroPython 2021: contributor-guide/sprints/europython-2021.md
+        - PyCon India 2021: contributor-guide/sprints/pycon-india-2021.md
+      - Useful Links:
+        - Website: https://scanapi.dev
+        - Tutorial: https://scanapi.dev/tutorials/step01.html
+        - DeepWiki: https://deepwiki.com/scanapi/scanapi
+        - PyPI: https://pypi.org/project/scanapi/
+        - Docker Hub: https://hub.docker.com/r/camilamaia/scanapi
+        - GitHub: https://github.com/scanapi/scanapi
+        - Discord: https://scanapi.dev/discord
+        - Twitter: https://twitter.com/scanapi_
 
 plugins:
   - search
@@ -46,6 +58,8 @@ theme:
       primary: blue
       accent: blue
   features:
+    - navigation.expand
+    - navigation.indexes
     - navigation.instant
     - navigation.tracking
     - navigation.tabs

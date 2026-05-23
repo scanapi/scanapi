@@ -2,7 +2,7 @@
 
 This guide walks you through the process of contributing code and opening a pull request.
 
-At this point, it is expected that you already:
+**At this point, it is expected that you already:**
 
 * have a GitHub account
 * forked the repository
@@ -15,9 +15,10 @@ Now, let’s go step by step.
 * [2. Make your changes](#2-make-your-changes)
 * [3. Test your changes](#3-test-your-changes)
 * [4. Commit and push your changes](#4-commit-and-push-your-changes)
-* [5. Add changelog entries](#5-add-changelog-entries)
-* [6. Create a GitHub PR](#6-create-a-github-pr)
+* [5. Create a GitHub PR](#5-create-a-github-pr)
+* [6. Add a changelog entry](#6-add-a-changelog-entry)
 * [7. Follow up on your Pull Request](#7-follow-up-on-your-pull-request)
+* [8. Tips](#8-tips)
 
 ## 1. Create a New Branch
 
@@ -75,11 +76,11 @@ You can skip docstrings for property decorators and magic methods.
 
 ### 3.1 Write new tests
 
-Make sure you create tests for any new behavior: [Writing Tests](/contributor-guide/writing-tests/).
+Make sure you create tests for any new behavior: [Tests Guide](tests-guide.md).
 
 ### 3.2 Run all tests
 
-Run all tests and ensure they pass: [Run tests](/contributor-guide/run-scanapi-in-dev-env/#tests).
+Run all tests and ensure they pass: `make test` ([Run tests](tests-guide.md#run)).
 Pull requests will not be merged if tests are missing or failing.
 
 ## 4. Commit and push your changes
@@ -114,11 +115,8 @@ git push --set-upstream origin <issue_number>
 
 You can create multiple commits as needed.
 
-## 5. Add changelog entries
 
-Make sure your change is documented: [Changelog Guide](/contributor-guide/changelog-guide/).
-
-## 6. Create a GitHub PR
+## 5. Create a GitHub PR
 
 Before opening your PR, it is recommended to make sure your branch is up to date:
 
@@ -134,6 +132,20 @@ Make sure to:
 
 * reference the issue (e.g. `closes #123`)
 * clearly explain your changes
+
+## 6. Add a changelog entry
+
+1. Add an entry to document your change: [Changelog Guide](changelog-guide.md) (if applicable)
+2. Commit your update
+3. Push again to the same branch
+
+```bash
+git add CHANGELOG.md
+git commit -m "docs: add a changelog entry"
+git push
+```
+
+The PR will update automatically.
 
 ## 7. Follow up on your Pull Request
 
@@ -196,7 +208,7 @@ A maintainer will:
 
 You don’t need to merge it yourself.
 
-### Tips
+## 8. Tips
 
 * Keep PRs small and focused (faster reviews)
 * Respond to comments clearly (what you changed)
