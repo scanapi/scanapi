@@ -60,7 +60,7 @@ Once you have picked one to tackle, go to the issue's page and send a comment sa
 
 ## Run ScanAPI locally
 
-Ok, it is time to start working. First things first, let's run ScanAPI locally, so you can have the development environment working: [Run ScanAPI in Dev Env](../run-scanapi-in-dev-env.md).
+Ok, it is time to start working. First things first, let's run ScanAPI locally, so you can have the development environment working: [Run ScanAPI in Dev Env](../run-scanapi-dev/index.md).
 
 ## Submit your changes for review
 
