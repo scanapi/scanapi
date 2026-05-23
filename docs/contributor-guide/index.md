@@ -1,4 +1,4 @@
-# Contributing
+# Contributor Guide
 
 Thanks for taking the time to contribute! 🙇‍♀️🙇‍♂️ Every contribution, big or small, makes a difference. This guide will help you get started with contributing to ScanAPI.
 
@@ -43,7 +43,7 @@ Running the project allows you to:
 
 You can do this either locally on your machine or in the cloud. Both options lead to the same result, so choose what fits you best:
 
-- [Run ScanAPI in Dev Env](/contributor-guide/run-scanapi-in-dev-env/) – Compare Codespaces, Dev Container, and manual local setup
+- [Run ScanAPI in Dev Env](run-scanapi-dev/index.md) – Compare Codespaces, Dev Container, and manual local setup
 
 Codespaces runs everything in the browser with zero setup, which makes it ideal for quick onboarding. Running locally gives you more control if you already have a development environment configured.
 
@@ -83,7 +83,7 @@ This helps avoid duplicated work and keeps contributions organized.
 
 ## 6. Open your first pull request
 
-Once you’ve picked an issue and are ready to start contributing, follow the guide below. It will walk you through the complete workflow, from making changes to opening your pull request: [First Pull Request](/contributor-guide/first-pull-request/)
+Once you’ve picked an issue and are ready to start contributing, follow the guide below. It will walk you through the complete workflow, from making changes to opening your pull request: [First Pull Request](first-pull-request.md)
 
 ## Final notes
 
@@ -93,9 +93,6 @@ tests are already very valuable.
 
 Ask questions, take ownership of issues, and iterate based on feedback. That’s how
 meaningful contributions happen.
-
-We also recommend exploring the project [Contributer Guide](/contributor-guide/), which contains
-additional guides and resources to help you throughout the contribution process.
 
 As one of the repositories under the `scanapi` GitHub organization, this repository follows the
 [ScanAPI Contributing Guideline](https://github.com/scanapi/contributors/blob/master/CONTRIBUTING.md).

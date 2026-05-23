@@ -1,4 +1,4 @@
-# Writing Tests
+# Tests Guide
 
 Tests are located in the `tests` folder. We only have unit tests in the project for now.
 
@@ -6,6 +6,7 @@ Tests are located in the `tests` folder. We only have unit tests in the project 
 
 - [Unit Tests](#unit-tests)
   - [Tools](#tools)
+  - [Run](#run)
   - [Folder Structure](#folder-structure)
   - [How to create a test](#how-to-create-a-test)
   - [Examples](#examples)
@@ -18,6 +19,32 @@ For unit tests, we use [pytest](https://docs.pytest.org/en/stable/) and [pytest-
 
 - [pytest](https://docs.pytest.org/en/stable/)
 - [pytest-it](https://pypi.org/project/pytest-it/)
+
+### Run
+
+To run all unit tests:
+
+```bash
+make tests
+```
+
+To run a specific test file:
+
+```bash
+uv run pytest tests/unit/test_scan.py
+```
+
+To run a specific test class:
+
+```bash
+uv run pytest tests/unit/test_scan.py::TestScan
+```
+
+To run a specific test:
+
+```bash
+uv run pytest tests/unit/test_scan.py::TestScan::test_should_log_error
+```
 
 ### Folder Structure
 

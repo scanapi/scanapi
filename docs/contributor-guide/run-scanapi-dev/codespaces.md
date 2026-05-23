@@ -1,6 +1,6 @@
 # Run ScanAPI on GitHub Codespaces
 
-> For the centralized comparison of all supported ScanAPI development environments, see [Run ScanAPI in Dev Env](Run-ScanAPI-in-Dev-Env.md).
+> For the centralized comparison of all supported ScanAPI development environments, see [Run ScanAPI in Dev Env](index.md).
 
 GitHub Codespaces gives you a ready-to-use development environment in the browser,
 with everything preconfigured. With ScanAPI, that means you can start running tests
