@@ -1,4 +1,4 @@
-# Contributing
+# Contributor Guide
 
 Thanks for taking the time to contribute! 🙇‍♀️🙇‍♂️ Every contribution, big or small, makes a difference. This guide will help you get started with contributing to ScanAPI.
 

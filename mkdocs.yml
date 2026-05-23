@@ -8,7 +8,7 @@ nav:
     - index.md
     - Changelog: changelog.md
   - User Guide: user-guide/index.md
-  - API Documentation:
+  - API Reference:
     - Overview: api.md
     - Modules: api/modules.md
   - Contributor Guide:
@@ -28,7 +28,7 @@ nav:
         - contributor-guide/sprints/index.md
         - EuroPython 2021: contributor-guide/sprints/europython-2021.md
         - PyCon India 2021: contributor-guide/sprints/pycon-india-2021.md
-      - Useful Links:
+      - Useful Resources:
         - Website: https://scanapi.dev
         - Tutorial: https://scanapi.dev/tutorials/step01.html
         - DeepWiki: https://deepwiki.com/scanapi/scanapi
