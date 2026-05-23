@@ -26,15 +26,15 @@ class CodeEvaluator:
         present on it
 
         Args:
-            sequence[string]: sequence of characters to be evaluated
-            spec_vars[dict]: dictionary containing the SpecEvaluator variables
-            is_a_test_case[bool]: indicator for checking if the given evaluation
-            is a test case
+            sequence (string): sequence of characters to be evaluated
+            spec_vars (dict): dictionary containing the SpecEvaluator variables
+            is_a_test_case (bool): indicator for checking if the given
+            evaluation is a test case
 
         Returns:
             tuple: a tuple containing:
-                -  [Boolean]: True if python statement is valid
-                -  [string]: None if valid evaluation, tested code otherwise
+                -  Boolean: True if python statement is valid
+                -  string: None if valid evaluation, tested code otherwise
 
         Raises:
             InvalidPythonCodeError: If receives invalid python statements
@@ -108,8 +108,8 @@ class CodeEvaluator:
         """Safely evaluate Python code using RestrictedPython with mode='eval'.
 
         Args:
-            code[string]: Python code to evaluate
-            global_context[dict]: Global context for evaluation
+            code (string): Python code to evaluate
+            global_context (dict): Global context for evaluation
 
         Returns:
             Result of code evaluation
@@ -156,15 +156,15 @@ class CodeEvaluator:
         comprehensions using RestrictedPython for security.
 
         Args:
-            code[string]: python code that ScanAPI needs to assert
-            response[requests.Response]: the response for the current request
+            code (string): python code that ScanAPI needs to assert
+            response (requests.Response): the response for the current request
             that is being tested
 
         Returns:
             tuple: a tuple containing:
-                -  [Boolean]: a boolean that indicates if assert
+                -  Boolean: a boolean that indicates if assert
                 is True/False
-                -  [string]: None if valid evaluation, code tested otherwise
+                -  string: None if valid evaluation, code tested otherwise
 
         Raises:
             AssertionError: If python statement evaluates False

@@ -74,8 +74,8 @@ class Example:
     """Explain the purpose of the class
 
     Attributes:
-        spec[dict]: Short explanation here
-        parent[type, optional]: Short explanation here
+        spec (dict): Short explanation here
+        parent (type, optional): Short explanation here
     """
 
     def __init__(self, spec, parent=None):
@@ -86,10 +86,10 @@ class Example:
         """Purpose of the function
 
         Args:
-            field_name[str]: Short explanation here
+            field_name (str): Short explanation here
 
         Returns:
-            value[str]: Short explanation here
+            str: Short explanation here
         """
         value = field_name.get('node')
         return value
@@ -101,11 +101,11 @@ You can skip docstrings for property decorators and magic methods.
 
 ### 3.1 Write new tests
 
-Make sure you create tests for any new behavior: [Writing Tests](Writing-Tests.md).
+Make sure you create tests for any new behavior: [Writing Tests](/contributor-guide/writing-tests/).
 
 ### 3.2 Run all tests
 
-Run all tests and ensure they pass: [Run tests](Run-ScanAPI-in-Dev-Env.md#tests).
+Run all tests and ensure they pass: [Run tests](/contributor-guide/run-scanapi-in-dev-env/#tests).
 Pull requests will not be merged if tests are missing or failing.
 
 ## 4. Commit and push your changes
@@ -142,7 +142,7 @@ You can create multiple commits as needed.
 
 ## 5. Add changelog entries
 
-Make sure your change is documented: [Changelog Guide](Changelog-Guide.md).
+Make sure your change is documented: [Changelog Guide](/contributor-guide/changelog-guide/).
 
 ## 6. Create a GitHub PR
 
