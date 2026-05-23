@@ -48,7 +48,8 @@ plugins:
             - "import sys, os; sys.path.insert(0, os.path.abspath('.'))"
           options:
             docstring_style: google
-            show_root_toc: true
+            extra:
+              show_root_toc: true
   - autorefs
 theme:
   name: material

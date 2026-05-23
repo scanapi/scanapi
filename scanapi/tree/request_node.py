@@ -1,4 +1,5 @@
 import time
+from typing import Any, Iterator, cast
 
 from scanapi.console import console, write_result
 from scanapi.errors import HTTPMethodNotAllowedError, InvalidKeyError
@@ -58,7 +59,7 @@ class RequestNode:
     )
     REQUIRED_KEYS = (NAME_KEY,)
 
-    def __init__(self, spec, endpoint):
+    def __init__(self, spec: dict[str, Any], endpoint: Any) -> None:
         self.spec = spec
         self.endpoint = endpoint
         self._validate()
@@ -66,23 +67,23 @@ class RequestNode:
     def __repr__(self):
         return f"<{self.__class__.__name__} {self.full_url_path}>"
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: str) -> Any:
         return self.spec[item]
 
     @property
-    def http_method(self):
-        method = self.spec.get(METHOD_KEY, "get").upper()
+    def http_method(self) -> str:
+        method = str(self.spec.get(METHOD_KEY, "get")).upper()
         if method not in self.ALLOWED_HTTP_METHODS:
             raise HTTPMethodNotAllowedError(method, self.ALLOWED_HTTP_METHODS)
 
         return method
 
     @property
-    def name(self):
-        return self[NAME_KEY]
+    def name(self) -> str:
+        return str(self[NAME_KEY])
 
     @property
-    def full_url_path(self):
+    def full_url_path(self) -> str:
         base_path = self.endpoint.path
         path = str(self.spec.get(PATH_KEY, ""))
         full_url = join_urls(base_path, path)
@@ -93,10 +94,10 @@ class RequestNode:
             filter_responses=True,
         )
 
-        return self.endpoint.spec_vars.evaluate(full_url)
+        return str(self.endpoint.spec_vars.evaluate(full_url))
 
     @property
-    def options(self):
+    def options(self) -> dict[str, Any]:
         endpoint_options = self.endpoint.options
         options = self.spec.get(OPTIONS_KEY, {})
 
@@ -104,44 +105,53 @@ class RequestNode:
             if option not in self.ALLOWED_OPTIONS:
                 raise InvalidKeyError(option, OPTIONS_KEY, self.ALLOWED_OPTIONS)
 
-        return self.endpoint.spec_vars.evaluate({**endpoint_options, **options})
+        return cast(
+            dict[str, Any],
+            self.endpoint.spec_vars.evaluate({**endpoint_options, **options}),
+        )
 
     @property
-    def headers(self):
+    def headers(self) -> dict[str, Any]:
         endpoint_headers = self.endpoint.headers
         headers = self.spec.get(HEADERS_KEY, {})
 
-        return self.endpoint.spec_vars.evaluate({**endpoint_headers, **headers})
+        return cast(
+            dict[str, Any],
+            self.endpoint.spec_vars.evaluate({**endpoint_headers, **headers}),
+        )
 
     @property
-    def params(self):
+    def params(self) -> dict[str, Any]:
         endpoint_params = self.endpoint.params
         params = self.spec.get(PARAMS_KEY, {})
 
-        return self.endpoint.spec_vars.evaluate({**endpoint_params, **params})
+        return cast(
+            dict[str, Any],
+            self.endpoint.spec_vars.evaluate({**endpoint_params, **params}),
+        )
 
     @property
-    def delay(self):
+    def delay(self) -> int:
         delay = self.spec.get(DELAY_KEY, 0)
-        return delay or self.endpoint.delay
+        return int(delay or self.endpoint.delay)
 
     @property
-    def body(self):
+    def body(self) -> Any:
         body = self.spec.get(BODY_KEY)
 
         return self.endpoint.spec_vars.evaluate(body)
 
     @property
-    def tests(self):
+    def tests(self) -> Iterator[TestingNode]:
         return (
             TestingNode(spec, self) for spec in self.spec.get(TESTS_KEY, [])
         )
 
     @property
-    def retry(self):
+    def retry(self) -> Any:
         return self.spec.get(RETRY_KEY)
 
-    def run(self):
+    def run(self) -> dict[str, Any]:
         """Make HTTP requests and generating test results for the given URLs.
 
         Returns:
@@ -201,7 +211,7 @@ class RequestNode:
 
         return result
 
-    def _run_tests(self):
+    def _run_tests(self) -> list[dict[str, Any]]:
         """Run all tests cases of request node.
 
         Returns:
@@ -210,7 +220,7 @@ class RequestNode:
         """
         return [test.run() for test in self.tests]
 
-    def _validate(self):
+    def _validate(self) -> None:
         """Validate spec keys.
 
         Returns:
@@ -222,7 +232,7 @@ class RequestNode:
         )
 
     @staticmethod
-    def _content_type_is_json(headers):
+    def _content_type_is_json(headers: dict[str, Any]) -> bool:
         """Check headers for any content-type different than application/json
 
         Args:

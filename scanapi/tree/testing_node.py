@@ -1,3 +1,5 @@
+from typing import Any
+
 from scanapi.session import session
 from scanapi.test_status import TestStatus
 from scanapi.tree.tree_keys import ASSERT_KEY, NAME_KEY
@@ -16,27 +18,27 @@ class TestingNode:
     ALLOWED_KEYS = (ASSERT_KEY, NAME_KEY)
     REQUIRED_KEYS = (NAME_KEY, ASSERT_KEY)
 
-    def __init__(self, spec, request):
+    def __init__(self, spec: dict[str, Any], request: Any) -> None:
         self.spec = spec
         self.request = request
         self._validate()
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: str) -> Any:
         return self.spec[item]
 
     @property
-    def name(self):
-        return self[NAME_KEY]
+    def name(self) -> str:
+        return str(self[NAME_KEY])
 
     @property
-    def assertion(self):
+    def assertion(self) -> Any:
         return self[ASSERT_KEY]
 
     @property
-    def full_name(self):
+    def full_name(self) -> str:
         return f"{self.request.endpoint.name}::{self.request.name}::{self.name}"
 
-    def run(self):
+    def run(self) -> dict[str, Any]:
         """Run the test assertion and return its result.
 
         This method evaluates the assertion defined in the test,
@@ -76,12 +78,12 @@ class TestingNode:
         }
 
     @staticmethod
-    def _process_result(status):
+    def _process_result(status: str) -> None:
         """Increment the number of session errors/failures/successes
         depending on the test status.
 
         Args:
-            status [string]: the status of the test: passed, failed or error.
+            status (str): the status of the test: passed, failed or error.
         """
         if status == TestStatus.ERROR:
             session.increment_errors()
@@ -94,7 +96,7 @@ class TestingNode:
         if status == TestStatus.PASSED:
             session.increment_successes()
 
-    def _validate(self):
+    def _validate(self) -> None:
         validate_keys(
             self.spec.keys(), self.ALLOWED_KEYS, self.REQUIRED_KEYS, self.SCOPE
         )

@@ -17,9 +17,8 @@ def hide_sensitive_info(response):
     string `SENSITIVE_INFORMATION`.
 
     Args:
-        response (requests.models.Response): the response that has
-        information to be hidden.
-
+        response (requests.models.Response): Response containing
+            sensitive information to be hidden.
     """
     report_settings = settings.get("report", {})
     request = response.request

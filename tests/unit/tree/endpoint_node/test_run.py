@@ -105,7 +105,9 @@ class TestRun:
 
     @mark.context("when there is an error reaching the endpoint [NetworkError]")
     @mark.it("should log the error and change session exit code")
-    def test_when_endpoint_errors_network(self, mock_run_request, mock_session, caplog):
+    def test_when_endpoint_errors_network(
+        self, mock_run_request, mock_session, caplog
+    ):
         mock_run_request.side_effect = ["foo", NetworkError("error: bar")]
 
         node = EndpointNode(
@@ -148,9 +150,13 @@ class TestRun:
 
         assert mock_session.exit_code == ExitCode.REQUEST_ERROR
 
-    @mark.context("when there is an error reaching the endpoint [TimeoutException]")
+    @mark.context(
+        "when there is an error reaching the endpoint [TimeoutException]"
+    )
     @mark.it("should log the error and change session exit code")
-    def test_when_endpoint_errors_timeout(self, mock_run_request, mock_session, caplog):
+    def test_when_endpoint_errors_timeout(
+        self, mock_run_request, mock_session, caplog
+    ):
         mock_run_request.side_effect = ["foo", TimeoutException("error: bar")]
 
         node = EndpointNode(
