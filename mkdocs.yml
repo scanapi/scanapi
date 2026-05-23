@@ -4,7 +4,9 @@ site_url: https://scanapi.dev
 repo_url: https://github.com/scanapi/scanapi
 repo_name: scanapi/scanapi
 nav:
-  - Home: index.md
+  - Home:
+    - index.md
+    - Changelog: changelog.md
   - User Guide: user-guide/index.md
   - API Documentation:
     - Overview: api.md
@@ -73,5 +75,6 @@ markdown_extensions:
       alternate_style: true
   - pymdownx.highlight:
       use_pygments: true
+  - pymdownx.snippets
   - attr_list
   - md_in_html

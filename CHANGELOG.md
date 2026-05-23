@@ -322,7 +322,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix vars interpolation.
 
 [Unreleased]: https://github.com/scanapi/scanapi/compare/v2.13.2...HEAD
-[2.13.1]: https://github.com/scanapi/scanapi/compare/v2.13.1...v2.13.2
+[2.13.2]: https://github.com/scanapi/scanapi/compare/v2.13.1...v2.13.2
 [2.13.1]: https://github.com/scanapi/scanapi/compare/v2.13.0...v2.13.1
 [2.13.0]: https://github.com/scanapi/scanapi/compare/v2.12.0...v2.13.0
 [2.12.0]: https://github.com/scanapi/scanapi/compare/v2.11.0...v2.12.0
