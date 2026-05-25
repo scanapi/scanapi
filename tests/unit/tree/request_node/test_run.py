@@ -64,6 +64,7 @@ class TestRun:
             "no_failure": True,
             "request_node_name": "request_name",
             "options": {"timeout": 2.3, "verify": False},
+            "endpoint_name": "endpoint_name",
         }
 
     @mark.context("when has no `Content-Type` header")
@@ -254,4 +255,5 @@ class TestRun:
             "no_failure": expected_no_failure,
             "request_node_name": "request_name",
             "options": {},
+            "endpoint_name": "endpoint_name",
         }
