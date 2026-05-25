@@ -53,6 +53,7 @@ plugins:
   - autorefs
 theme:
   name: material
+  custom_dir: overrides
   logo: assets/images/scanapi-icon.svg
   favicon: assets/images/scanapi-icon.svg
   palette:
@@ -80,6 +81,11 @@ theme:
 
 extra_css:
   - stylesheets/extra.css
+
+extra:
+  scanapi_logo:
+    light: assets/images/scanapi-icon.svg
+    dark: assets/images/scanapi-icon-dark.svg
 
 markdown_extensions:
   - pymdownx.superfences
