@@ -28,3 +28,7 @@
   background-color: var(--scanapi-coral);
   color: var(--scanapi-black);
 }
+
+[data-md-color-scheme="slate"] .md-logo img {
+  content: url("../assets/images/scanapi-icon-dark.svg");
+}
