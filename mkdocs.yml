@@ -7,10 +7,45 @@ nav:
   - Home:
     - index.md
     - Changelog: changelog.md
-  - User Guide: user-guide/index.md
+  - User Guide:
+    - user-guide/index.md
+    - Docs:
+      - Quick Start:
+        - user-guide/docs/index.md
+      - Specification:
+          - Basic Structure: user-guide/docs/specification/basic_structure.md
+          - API Specification Keys: user-guide/docs/specification/api_specification_keys.md
+          - API Spec in Multiple Files: user-guide/docs/specification/api_spec_in_multiple_files.md
+          - Chaining Requests: user-guide/docs/specification/chaining_requests.md
+          - Custom Variables: user-guide/docs/specification/custom_variables.md
+          - Environment Variables: user-guide/docs/specification/environment_variables.md
+          - Python Code: user-guide/docs/specification/python_code.md
+          - Retry: user-guide/docs/specification/retry.md
+      - Configuration:
+          - Config File: user-guide/docs/configuration/config_file.md
+          - Custom Report: user-guide/docs/configuration/custom_report.md
+          - Hiding Sensitive Information: user-guide/docs/configuration/hiding_sensitive_information.md
+          - ScanAPI CLI: user-guide/docs/configuration/scanapi_cli.md
+    - Tutorial:
+      - Setup: user-guide/tutorial/step01.md
+      - API Sign Up: user-guide/tutorial/step02.md
+      - Run: user-guide/tutorial/step03.md
+      - Tests: user-guide/tutorial/step04.md
+      - Env Vars: user-guide/tutorial/step05.md
+      - Hide Info: user-guide/tutorial/step06.md
+      - Chaining Requests: user-guide/tutorial/step07.md
+      - Nested Endpoints: user-guide/tutorial/step08.md
+      - Default Values: user-guide/tutorial/step09.md
+      - Include: user-guide/tutorial/step10.md
+      - Project Name: user-guide/tutorial/step11.md
+      - Custom Report: user-guide/tutorial/step12.md
+      - Add to Project: user-guide/tutorial/step13.md
+
+
   - API Reference:
     - Overview: api.md
     - Modules: api/modules.md
+
   - Contributor Guide:
       - contributor-guide/index.md
       - First Pull Request: contributor-guide/first-pull-request.md
@@ -72,6 +107,7 @@ theme:
     - navigation.expand
     - navigation.indexes
     - navigation.instant
+    - navigation.footer
     - navigation.tracking
     - navigation.tabs
     - navigation.top
