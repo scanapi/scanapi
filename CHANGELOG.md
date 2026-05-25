@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Changed standard report template so it groups requests by top level endpoints in a collapsible [951](github.com/scanapi/scanapi/pull/951)
+- Changed standard report template so it groups requests by top level endpoints in a collapsible [#951](https://github.com/scanapi/scanapi/pull/951).
 
 ### Changed
 - Update Total time delta and response time delta in the HTML report to be more easily human readable
