@@ -1,3 +1,5 @@
+import itertools
+
 import curlify2
 from jinja2 import Environment, FileSystemLoader, PackageLoader
 
@@ -12,6 +14,7 @@ def render(template_path, context, is_external=False):
     )
     env.filters["curlify"] = curlify2.to_curl
     env.filters["render_body"] = render_body
+    env.filters["group_by_top_level_endpoint"] = group_by_top_level_endpoint
     env.globals["is_bytes"] = lambda o: isinstance(o, bytes)
     chosen_template = env.get_template(template_path)
     return chosen_template.render(**context)
@@ -34,3 +37,23 @@ def render_body(request):
     if content_type in ["application/json", "text/plain"]:
         return request.body.decode()
     return f"Can not render. Unsuported content type: {content_type}."
+
+
+def group_by_top_level_endpoint(results):
+    """
+    Groups results by endpoint name
+
+    Args:
+        [iterator]: iterator of request results
+
+    Returns:
+        [iterator]: an iterator with tuples containing the endpoint name
+        and an iterator for all request results of that endpoint
+    """
+
+    def by_top_level_endpoint_name(result):
+        endpoint_name = result["endpoint_name"]
+        root, *generations = endpoint_name.split("::")
+        return generations[0] if generations else root or "root"
+
+    return itertools.groupby(results, by_top_level_endpoint_name)

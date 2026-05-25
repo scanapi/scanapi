@@ -204,6 +204,7 @@ class RequestNode:
             ),
             "request_node_name": self.name,
             "options": self.options,
+            "endpoint_name": self.endpoint.name,
         }
 
         if not settings["no_report"]:
