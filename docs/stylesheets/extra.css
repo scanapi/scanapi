@@ -1,0 +1,34 @@
+:root {
+  --scanapi-black: #000000;
+  --scanapi-coral: #ff7163;
+  --scanapi-white: #ffffff;
+}
+
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: var(--scanapi-white);
+  --md-primary-bg-color: var(--scanapi-black);
+  --md-accent-fg-color: var(--scanapi-coral);
+  --md-typeset-a-color: var(--scanapi-coral);
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: var(--scanapi-black);
+  --md-primary-bg-color: var(--scanapi-white);
+  --md-accent-fg-color: var(--scanapi-coral);
+  --md-default-bg-color: var(--scanapi-black);
+  --md-typeset-a-color: var(--scanapi-coral);
+}
+
+.md-button,
+.md-button--primary {
+  border-color: var(--scanapi-coral);
+}
+
+.md-button--primary {
+  background-color: var(--scanapi-coral);
+  color: var(--scanapi-black);
+}
+
+[data-md-color-scheme="slate"] .md-logo img {
+  content: url("../assets/images/scanapi-icon-dark.svg");
+}
