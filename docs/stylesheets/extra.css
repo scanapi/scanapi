@@ -28,15 +28,3 @@
   background-color: var(--scanapi-coral);
   color: var(--scanapi-black);
 }
-
-.scanapi-logo--dark {
-  display: none;
-}
-
-[data-md-color-scheme="slate"] .scanapi-logo--light {
-  display: none;
-}
-
-[data-md-color-scheme="slate"] .scanapi-logo--dark {
-  display: block;
-}
