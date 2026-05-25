@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="320px" height="320px" viewBox="0 0 320 320" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <title>ScanAPI icon</title>
+  <g id="icon-light" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <rect fill="#FFFFFF" x="0" y="0" width="320" height="320"></rect>
+    <g id="scanapi" transform="translate(66.000000, 60.000000)">
+      <path d="M13,50 L174,50 C171.693275,16.5590845 145.62087,0 93.5,0 C41.3791301,0 15.3067247,16.5590845 13,50 Z" id="Path" stroke="#5B666D" stroke-width="12"></path>
+      <path d="M46,56 L46,120.711657 C46,138.524099 37.5772375,151.914168 25.9349004,152.936091 C13.6812902,154.01167 5.26216162,141.425257 5.00601176,121.644141 L5,120.711657 L15.0434184,120.711657 C15.0434184,135.870444 19.8873015,143.287544 25.0650994,142.833055 C30.4891635,142.356949 35.7240149,134.211959 35.9490538,121.56165 L35.9565816,120.711657 L35.9565816,56 L46,56 Z" id="Path" fill="#5B666D" fill-rule="nonzero"></path>
+      <circle id="Oval" fill="#5B666D" cx="10" cy="116" r="10"></circle>
+      <circle id="Oval" fill="#5B666D" cx="66" cy="190" r="10"></circle>
+      <circle id="Oval" fill="#5B666D" cx="93" cy="165" r="10"></circle>
+      <circle id="Oval" fill="#5B666D" cx="123" cy="134" r="10"></circle>
+      <circle id="Oval" fill="#5B666D" cx="179" cy="116" r="10"></circle>
+      <path d="M185,56 L185,120.711657 C185,138.524099 176.577238,151.914168 164.9349,152.936091 C152.68129,154.01167 144.262162,141.425257 144.006012,121.644141 L144,120.711657 L154.043418,120.711657 C154.043418,135.870444 158.887301,143.287544 164.065099,142.833055 C169.489164,142.356949 174.724015,134.211959 174.949054,121.56165 L174.956582,120.711657 L174.956582,56 L185,56 Z" id="Path" fill="#5B666D" fill-rule="nonzero" transform="translate(164.500000, 104.500000) scale(-1, 1) translate(-164.500000, -104.500000) "></path>
+      <polygon id="Path" fill="#5B666D" fill-rule="nonzero" points="71 53 71 185 60 185 60 53"></polygon>
+      <polygon id="Path" fill="#5B666D" fill-rule="nonzero" points="98 53 98 159 87 159 87 53"></polygon>
+      <polygon id="Path" fill="#5B666D" fill-rule="nonzero" points="129 53 129 129 118 129 118 53"></polygon>
+      <polygon id="Path" fill="#FF7163" fill-rule="nonzero" transform="translate(92.500000, 30.500000) rotate(-90.000000) translate(-92.500000, -30.500000) " points="98 -15 98 76 87 76 87 -15"></polygon>
+    </g>
+  </g>
+</svg>

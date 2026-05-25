@@ -53,13 +53,15 @@ plugins:
   - autorefs
 theme:
   name: material
+  logo: assets/images/scanapi-icon.svg
+  favicon: assets/images/scanapi-icon.svg
   palette:
     - scheme: default
-      primary: blue
-      accent: blue
+      primary: custom
+      accent: custom
     - scheme: slate
-      primary: blue
-      accent: blue
+      primary: custom
+      accent: custom
   features:
     - navigation.expand
     - navigation.indexes
@@ -69,6 +71,9 @@ theme:
     - navigation.top
     - search.suggest
     - search.highlight
+
+extra_css:
+  - stylesheets/extra.css
 
 markdown_extensions:
   - pymdownx.superfences
