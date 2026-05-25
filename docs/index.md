@@ -4,7 +4,7 @@ ScanAPI helps you automate API testing and documentation from YAML-based API spe
 
 ## Quick Start
 
-- [User Guide](user-guide/index.md) — Learn how to install, configure, and run ScanAPI.
+- [User Guide](user-guide/docs/index.md) — Learn how to install, configure, and run ScanAPI.
 - [API Reference](api.md) — Browse the generated Python API docs from `scanapi` docstrings.
 - [Contributor Guide](contributor-guide/index.md) — Get started contributing to the project.
 - [Changelog](changelog.md) — See what changed in recent releases.
