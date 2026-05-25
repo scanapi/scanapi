@@ -11,8 +11,36 @@ permissions:
   pull-requests: write
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      run_examples: ${{ steps.changed-files.outputs.run_examples }}
+    steps:
+      - name: Check changed files
+        id: changed-files
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "run_examples=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          changed_files="$(gh api "repos/${REPOSITORY}/pulls/${PR_NUMBER}/files" --paginate --jq '.[].filename')"
+          non_docs_files="$(printf '%s\n' "$changed_files" | grep -Ev '^(docs/|mkdocs\.yml$|\.readthedocs\.yaml$|\.github/workflows/run-examples\.yml$)' || true)"
+
+          if [ -n "$non_docs_files" ]; then
+            echo "run_examples=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run_examples=false" >> "$GITHUB_OUTPUT"
+          fi
+
   poke-api:
     runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.run_examples == 'true'
     steps:
       - name: Checkout ScanAPI repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -25,6 +53,8 @@ jobs:
 
   httpbingo-api:
     runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.run_examples == 'true'
     steps:
       - name: Checkout ScanAPI repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -37,6 +67,8 @@ jobs:
 
   demo-api:
     runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.run_examples == 'true'
     steps:
       - name: Checkout ScanAPI repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
