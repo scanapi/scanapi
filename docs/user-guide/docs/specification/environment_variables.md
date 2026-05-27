@@ -24,4 +24,4 @@ endpoints:
 
 ScanAPI would call the following `http://demo.scanapi.dev/api/health/` then.
 
-**Heads up: the variable name must be in upper case.**
+**Heads up: the variable name must be in uppercase.**

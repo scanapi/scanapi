@@ -258,7 +258,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved black check from CircleCI to github actions. [#136](https://github.com/scanapi/scanapi/pull/136)
 
 ### Fixed
-- Cases where custom var has upper case letters. [#99](https://github.com/scanapi/scanapi/pull/99)
+- Cases where custom var has uppercase letters. [#99](https://github.com/scanapi/scanapi/pull/99)
 
 ### Removed
 - Request with no endpoints. [#116](https://github.com/scanapi/scanapi/pull/116)
