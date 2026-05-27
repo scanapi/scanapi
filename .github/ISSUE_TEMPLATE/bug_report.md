@@ -21,5 +21,5 @@ assignees:
 ### How to reproduce the the bug ?
 <!-- Steps to reproduce the issue. -->
 
-### Anthing else we need to know?
+### Anything else we need to know?
 <!-- Add any other additional details about the issue. -->
