@@ -60,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.10.0] - 2024-11-10
 ### Changed
 - Change requests to httpx. [#208](https://github.com/scanapi/scanapi/issues/208)
-- Upgrade PyYAML dependecy [678](https://github.com/scanapi/scanapi/pull/678)
+- Upgrade PyYAML dependency [678](https://github.com/scanapi/scanapi/pull/678)
 
 ### Deprecated
 - **BREAKING CHANGE:** Drops support for Python 3.7 and Python 3.8 since their EOL were reached out already [678](https://github.com/scanapi/scanapi/pull/678)
@@ -165,7 +165,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bandit security audit tool. [#219](https://github.com/scanapi/scanapi/pull/219)
 - Add Sphinx auto-documentation. [#230](https://github.com/scanapi/scanapi/pull/230)
 - Add workflow to package/publish to Test PyPi. [#239](https://github.com/scanapi/scanapi/pull/239)
-- Add Github Action workflow for First-time contributors. [#290](https://github.com/scanapi/scanapi/pull/290)
+- Add GitHub Action workflow for First-time contributors. [#290](https://github.com/scanapi/scanapi/pull/290)
 - Add button to copy data from the report page. [#295](https://github.com/scanapi/scanapi/pull/295)
 
 ### Changed
@@ -258,7 +258,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved black check from CircleCI to github actions. [#136](https://github.com/scanapi/scanapi/pull/136)
 
 ### Fixed
-- Cases where custom var has upper case letters. [#99](https://github.com/scanapi/scanapi/pull/99)
+- Cases where custom var has uppercase letters. [#99](https://github.com/scanapi/scanapi/pull/99)
 
 ### Removed
 - Request with no endpoints. [#116](https://github.com/scanapi/scanapi/pull/116)

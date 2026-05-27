@@ -47,7 +47,7 @@ The folder structure should look like this now:
 |___  snippets.yaml
 ```
 
-Let's run ScanAPI using the new csv template and sava the results in the `scanapi-report.csv` file:
+Let's run ScanAPI using the new csv template and save the results in the `scanapi-report.csv` file:
 
 ```shell
 $ scanapi run -t csv_template.jinja -o scanapi-report.csv

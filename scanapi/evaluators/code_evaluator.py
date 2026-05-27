@@ -40,7 +40,7 @@ class CodeEvaluator:
         Returns:
             tuple: Tuple containing:
                 - bool: True if Python statement is valid.
-                - str | None: None if evaluation is valid, otherwise the
+                - str | None: None if evaluation is valid; otherwise, the
                     tested code.
 
         Raises:

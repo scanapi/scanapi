@@ -29,7 +29,7 @@ class TestOpenAPIToScanAPI:
         openapi_to_scanapi()
         mock_resolving_parser.assert_called_once_with("openapi.json")
 
-    @mark.context("when the convertion runs successfully")
+    @mark.context("when the conversion runs successfully")
     @mark.it("should write to the output_path")
     def test_writes_to_output_path(self, mocker):
         parser_mock = mocker.Mock()
@@ -65,7 +65,7 @@ class TestOpenAPIToScanAPI:
             indent=4,
         )
 
-    @mark.context("when the convertion generates created_variables")
+    @mark.context("when the conversion generates created_variables")
     @mark.it("should print the variables to the console")
     def test_prints_created_variables(self, mocker, capsys):
         parser_mock = mocker.Mock()

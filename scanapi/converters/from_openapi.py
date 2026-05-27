@@ -71,7 +71,7 @@ class OpenAPIToScanAPIConverter:
         """Reads title from the spec info tag.
 
         Returns:
-            str | None: Title if present, otherwise None
+            str | None: Title if present; otherwise, None
         """
         info = self.specs.get("info", None)
         if info is None:
@@ -176,7 +176,7 @@ class OpenAPIToScanAPIConverter:
 
     def convert(self, base_url: str) -> tuple:
         """
-        Runs the convertion algorithm and returns a YAML convertable dictionary.
+        Runs the conversion algorithm and returns a YAML convertable dictionary.
 
         :param specs: dictionary representing the OpenAPI specs
         :param base_url: Base URL for the API

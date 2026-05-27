@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: 🐛 Create a a bug report.
+about: 🐛 Create a bug report.
 labels: Bug, Needs Triage
 assignees: 
 
@@ -18,8 +18,8 @@ assignees:
 ### Expected behavior ?
 <!-- A clear and concise description of what you expected to happen. -->
 
-### How to reproduce the the bug ?
+### How to reproduce the bug ?
 <!-- Steps to reproduce the issue. -->
 
-### Anthing else we need to know?
+### Anything else we need to know?
 <!-- Add any other additional details about the issue. -->
