@@ -28,7 +28,7 @@ class TestOptions:
         assert request.options == options
 
     @mark.context(
-        "when request and enpoint spec has a options with same keys defined"
+        "when request and endpoint spec has a options with same keys defined"
     )
     @mark.it("should priorize the options attribute values of request")
     def test_when_request_and_endpoint_has_options(self):
