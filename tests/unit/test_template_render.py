@@ -52,7 +52,7 @@ class TestRender:
         }
         request.body = b""
         assert (
-            "Can not render. Unsuported content type: application/octet-stream."
+            "Cannot render. Unsuported content type: application/octet-stream."
             == render_body(request)
         )
 

@@ -36,7 +36,7 @@ def render_body(request):
     content_type = request.headers.get("Content-Type")
     if content_type in ["application/json", "text/plain"]:
         return request.body.decode()
-    return f"Can not render. Unsuported content type: {content_type}."
+    return f"Cannot render. Unsuported content type: {content_type}."
 
 
 def group_by_top_level_endpoint(results):
