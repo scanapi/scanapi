@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: 🐛 Create a a bug report.
+about: 🐛 Create a bug report.
 labels: Bug, Needs Triage
 assignees: 
 
