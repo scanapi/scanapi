@@ -176,7 +176,7 @@ class OpenAPIToScanAPIConverter:
 
     def convert(self, base_url: str) -> tuple:
         """
-        Runs the convertion algorithm and returns a YAML convertable dictionary.
+        Runs the conversion algorithm and returns a YAML convertable dictionary.
 
         :param specs: dictionary representing the OpenAPI specs
         :param base_url: Base URL for the API
