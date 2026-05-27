@@ -4,7 +4,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ GitHub → Code → Codespaces → Create codespace on main      │
+│ GitHub → Code → Codespaces → Create codespace on main       │
 └────────────────────┬────────────────────────────────────────┘
                      │
                      ▼
@@ -29,12 +29,12 @@
                      │
                      ▼
         ┌────────────────────────────────────┐
-        │ ✨ Ready for DEV!                   │
-        │                                     │
-        │ VS Code + Extensions                │
-        │ Python 3.12                         │
-        │ All tools                           │
-        │ Examples repo cloned & ready        │
+        │ ✨ Ready for DEV!                  │
+        │                                    │
+        │ VS Code + Extensions               │
+        │ Python 3.12                        │
+        │ All tools                          │
+        │ Examples repo cloned & ready       │
         └────────────────────────────────────┘
 ```
 
@@ -104,31 +104,31 @@ Tools
 ┌─────────────────────────────────────────┐
 │  GitHub Codespaces / Dev Container      │
 ├─────────────────────────────────────────┤
-│                                          │
-│  VS Code Browser Interface               │
-│  ├── Python Extension                    │
-│  ├── Pylance (IntelliSense)              │
-│  ├── Ruff Linter (real-time)             │
-│  ├── MyPy Type Checker (real-time)       │
-│  ├── Debugger (F5)                       │
-│  ├── Integrated Terminal                 │
-│  └── Pre-commit Integration              │
-│                                          │
+│                                         │
+│  VS Code Browser Interface              │
+│  ├── Python Extension                   │
+│  ├── Pylance (IntelliSense)             │
+│  ├── Ruff Linter (real-time)            │
+│  ├── MyPy Type Checker (real-time)      │
+│  ├── Debugger (F5)                      │
+│  ├── Integrated Terminal                │
+│  └── Pre-commit Integration             │
+│                                         │
 ├─────────────────────────────────────────┤
-│  Container (Linux/Bullseye)              │
-│  ├── Python 3.12                         │
-│  ├── uv (package manager)                │
-│  ├── pytest (testing framework)          │
-│  ├── ruff (linter/formatter)             │
-│  ├── mypy (type checker)                 │
-│  ├── sphinx (documentation)              │
-│  ├── pre-commit (git hooks)              │
-│  └── Git + GitHub CLI                    │
-│                                          │
+│  Container (Linux/Bullseye)             │
+│  ├── Python 3.12                        │
+│  ├── uv (package manager)               │
+│  ├── pytest (testing framework)         │
+│  ├── ruff (linter/formatter)            │
+│  ├── mypy (type checker)                │
+│  ├── sphinx (documentation)             │
+│  ├── pre-commit (git hooks)             │
+│  └── Git + GitHub CLI                   │
+│                                         │
 ├─────────────────────────────────────────┤
-│  Forwarded Ports                         │
-│  ├── 8000 (app server)                   │
-│  └── 9000 (documentation)                │
+│  Forwarded Ports                        │
+│  ├── 8000 (app server)                  │
+│  └── 9000 (documentation)               │
 └─────────────────────────────────────────┘
 ```
 
@@ -160,10 +160,10 @@ uv run pre-commit run --all-files
          │
          ▼
 ┌─────────────────────────────┐
-│ VS Code detects:             │
-│ - Syntax errors              │
-│ - Type issues (MyPy)         │
-│ - Linting problems (Ruff)    │
+│ VS Code detects:            │
+│ - Syntax errors             │
+│ - Type issues (MyPy)        │
+│ - Linting problems (Ruff)   │
 └────────┬────────────────────┘
          │
          ├─ Auto fix (on save)
