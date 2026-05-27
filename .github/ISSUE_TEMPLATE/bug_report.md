@@ -18,7 +18,7 @@ assignees:
 ### Expected behavior ?
 <!-- A clear and concise description of what you expected to happen. -->
 
-### How to reproduce the the bug ?
+### How to reproduce the bug ?
 <!-- Steps to reproduce the issue. -->
 
 ### Anything else we need to know?
