@@ -60,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.10.0] - 2024-11-10
 ### Changed
 - Change requests to httpx. [#208](https://github.com/scanapi/scanapi/issues/208)
-- Upgrade PyYAML dependecy [678](https://github.com/scanapi/scanapi/pull/678)
+- Upgrade PyYAML dependency [678](https://github.com/scanapi/scanapi/pull/678)
 
 ### Deprecated
 - **BREAKING CHANGE:** Drops support for Python 3.7 and Python 3.8 since their EOL were reached out already [678](https://github.com/scanapi/scanapi/pull/678)
