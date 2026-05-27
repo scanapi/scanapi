@@ -71,7 +71,7 @@ class OpenAPIToScanAPIConverter:
         """Reads title from the spec info tag.
 
         Returns:
-            str | None: Title if present, otherwise None
+            str | None: Title if present; otherwise, None
         """
         info = self.specs.get("info", None)
         if info is None:
