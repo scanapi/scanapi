@@ -30,7 +30,7 @@ class TestOptions:
     @mark.context(
         "when request and endpoint spec has options with same keys defined"
     )
-    @mark.it("should priorize the options attribute values of request")
+    @mark.it("should prioritize the options attribute values of request")
     def test_when_request_and_endpoint_has_options(self):
         endpoint_options = {"timeout": 1.2}
         request_options = {"timeout": 1.3}
