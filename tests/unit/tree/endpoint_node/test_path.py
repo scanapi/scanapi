@@ -38,7 +38,7 @@ class TestPath:
         assert node.path == "http://foo.com/api/foo"
 
     @mark.context(
-        "When parent spec has a path ending with slash and node path beggins with a slash"
+        "When parent spec has a path ending with slash and node path begins with a slash"
     )
     @mark.it(
         "should set path as the concatenation of parent and node paths "

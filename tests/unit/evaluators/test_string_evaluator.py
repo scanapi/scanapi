@@ -115,7 +115,7 @@ class TestEvaluateCustomVar:
     ]
 
     @mark.context("when matches the pattern")
-    @mark.context("when code does not contain the pre saved customvar")
+    @mark.context("when code does not contain the pre saved custom var")
     @mark.it("should return sequence")
     @mark.parametrize("sequence", test_data)
     def test_should_return_sequence_2(self, sequence):
@@ -134,7 +134,7 @@ class TestEvaluateCustomVar:
     ]
 
     @mark.context("when matches the pattern")
-    @mark.context("when code contains the pre saved customvar")
+    @mark.context("when code contains the pre saved custom var")
     @mark.it("should return sequence with evaluated custom var")
     @mark.parametrize("sequence, expected", test_data)
     def test_should_return_sequence_3(self, sequence, expected):
