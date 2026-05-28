@@ -1,5 +1,6 @@
 import os
 import re
+from typing import Any
 
 from scanapi.errors import BadConfigurationError
 from scanapi.evaluators.code_evaluator import CodeEvaluator
@@ -21,20 +22,26 @@ class StringEvaluator:
     )  # ${<variable>}
 
     @classmethod
-    def evaluate(cls, sequence, spec_vars, is_a_test_case=False):
+    def evaluate(
+        cls,
+        sequence: str,
+        spec_vars: dict[str, Any],
+        is_a_test_case: bool = False,
+    ) -> Any:
         """Receives a sequence of characters and evaluates any custom or
         environment variables present on it
 
         Args:
-            sequence[string]: sequence of characters to be evaluated
-            spec_vars[dict]: dictionary containing the SpecEvaluator variables
-            is_a_test_case[bool]: indicator for checking if the given evaluation
-            is a test case
+            sequence (string): sequence of characters to be evaluated
+                spec_vars (dict): dictionary containing the SpecEvaluator
+                variables
+            is_a_test_case (bool): indicator for checking if the given
+                evaluation is a test case.
 
         Returns:
             tuple: a tuple containing:
-                -  [Boolean]: True if python statement is valid
-                -  [string]: None if valid evaluation, tested code otherwise
+                -  Boolean: True if python statement is valid
+                -  string: None if valid evaluation, tested code otherwise
 
         """
         sequence = cls._evaluate_env_var(sequence)
@@ -43,15 +50,15 @@ class StringEvaluator:
         return CodeEvaluator.evaluate(sequence, spec_vars, is_a_test_case)
 
     @classmethod
-    def _evaluate_env_var(cls, sequence):
+    def _evaluate_env_var(cls, sequence: str) -> str:
         """Receives a sequence of characters and evaluates any environment
         variables present on it
 
         Args:
-            sequence[string]: sequence of characters to be evaluated
+            sequence (string): sequence of characters to be evaluated
 
         Returns:
-            sequence[string]: sequence of characters with all valid
+            sequence (string): sequence of characters with all valid
             environment variables replaced
         """
         matches = cls.variable_pattern.finditer(sequence)
@@ -74,16 +81,20 @@ class StringEvaluator:
         return sequence
 
     @classmethod
-    def _evaluate_custom_var(cls, sequence, spec_vars):
+    def _evaluate_custom_var(
+        cls,
+        sequence: str,
+        spec_vars: dict[str, Any],
+    ) -> str:
         """Receives a sequence of characters and evaluates any custom
         variables present on it
 
         Args:
-            sequence[string]: sequence of characters to be evaluated
-            spec_vars[dict]: dictionary containing the SpecEvaluator variables
+            sequence (string): sequence of characters to be evaluated
+            spec_vars (dict): dictionary containing the SpecEvaluator variables
 
         Returns:
-            sequence[string]: sequence of characters with all valid
+            sequence (string): sequence of characters with all valid
             custom variables replaced
         """
         matches = cls.variable_pattern.finditer(sequence)
@@ -106,17 +117,22 @@ class StringEvaluator:
         return sequence
 
     @classmethod
-    def replace_var_with_value(cls, sequence, variable, variable_value):
+    def replace_var_with_value(
+        cls,
+        sequence: str,
+        variable: str,
+        variable_value: Any,
+    ) -> Any:
         """Receives a sequence of characters and replaces every occurrence
         of a variable with its value
 
         Args:
-            sequence[string]: sequence of characters to be evaluated
-            variable[string]: variable to be replaced
-            variable_value[any]: value that will replace the variable
+            sequence (string): sequence of characters to be evaluated
+            variable (string): variable to be replaced
+            variable_value (any): value that will replace the variable
 
         Returns:
-            sequence[string]: sequence of characters with all occurrences of
+            sequence (string): sequence of characters with all occurrences of
             the current variable replaced
         """
         if variable == sequence:

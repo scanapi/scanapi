@@ -17,9 +17,8 @@ def hide_sensitive_info(response):
     string `SENSITIVE_INFORMATION`.
 
     Args:
-        response [requests.models.Response]: the response that has
-        information to be hidden.
-
+        response (requests.models.Response): Response containing
+            sensitive information to be hidden.
     """
     report_settings = settings.get("report", {})
     request = response.request
@@ -35,9 +34,9 @@ def _hide(http_msg, hide_settings):
     _override_info to have sensitive data replaced.
 
     Args:
-        http_msg [requests.models.PreparedRequest / requests.models.Response]:
+        http_msg (requests.models.PreparedRequest / requests.models.Response):
         the request or the response that has information to be hidden.
-        hide_settings [dic]: the fields that need to be hidden for each http
+        hide_settings (dict): the fields that need to be hidden for each http
         attribute (body, headers, url params)
 
     """
@@ -52,11 +51,11 @@ def _override_info(http_msg, http_attr, secret_field):
     'SENSITIVE_INFORMATION'.
 
     Args:
-        http_msg [requests.models.PreparedRequest / requests.models.Response]:
+        http_msg (requests.models.PreparedRequest / requests.models.Response):
         the request or the response that has information to be hidden.
-        http_attr [string]: the http_attr that has a field to be hidden: body,
+        http_attr (string): the http_attr that has a field to be hidden: body,
         headers, url or params
-        secret_field [string]: the secret field which its value must be hidden.
+        secret_field (string): the secret field which its value must be hidden.
 
     """
     if http_attr == URL:
@@ -74,9 +73,9 @@ def _override_url(http_msg, secret_field):
     'SENSITIVE_INFORMATION' in URLs.
 
     Args:
-        http_msg [requests.models.PreparedRequest / requests.models.Response]:
+        http_msg (requests.models.PreparedRequest / requests.models.Response):
         the request or the response that has information to be hidden.
-        secret_field [string]: the secret field which its value must be hidden
+        secret_field (string): the secret field which its value must be hidden
         in the URL.
 
     """
@@ -96,9 +95,9 @@ def _override_headers(http_msg, secret_field):
     'SENSITIVE_INFORMATION' in the request/response headers.
 
     Args:
-        http_msg [requests.models.PreparedRequest / requests.models.Response]:
+        http_msg (requests.models.PreparedRequest / requests.models.Response):
         the request or the response that has information to be hidden.
-        secret_field [string]: the secret field which its value must be hidden
+        secret_field (string): the secret field which its value must be hidden
         in the request/response headers.
 
     """
@@ -111,9 +110,9 @@ def _override_params(http_msg, secret_field):
     'SENSITIVE_INFORMATION' in the request/response params.
 
     Args:
-        http_msg [requests.models.PreparedRequest / requests.models.Response]:
+        http_msg (requests.models.PreparedRequest / requests.models.Response):
         the request or the response that has information to be hidden.
-        secret_field [string]: the secret field which its value must be hidden
+        secret_field (string): the secret field which its value must be hidden
         in the request/response params.
 
     """
@@ -139,9 +138,9 @@ def _override_body(http_msg, secret_field):
     'SENSITIVE_INFORMATION' in the request/response body/content.
 
     Args:
-        http_msg [requests.models.PreparedRequest / requests.models.Response]:
+        http_msg (requests.models.PreparedRequest / requests.models.Response):
         the request or the response that has information to be hidden.
-        secret_field [string]: the secret field which its value must be hidden
+        secret_field (string): the secret field which its value must be hidden
         in the request/response body/content.
 
     """
@@ -156,11 +155,11 @@ def _get_json_body(http_msg):
     """Private method that gets the json body/content of a request/response.
 
     Args:
-        http_msg [requests.models.PreparedRequest / requests.models.Response]:
+        http_msg (requests.models.PreparedRequest / requests.models.Response):
         the request or the response that has information to be hidden.
 
     Returns:
-        [dict]: the json body/content of the request/response.
+        dict: the json body/content of the request/response.
 
     """
     try:
@@ -179,11 +178,11 @@ def _get_body(http_msg):
     """Private method that gets the body/content of a request/response.
 
     Args:
-        http_msg [requests.models.PreparedRequest / requests.models.Response]:
+        http_msg (requests.models.PreparedRequest / requests.models.Response):
         the request or the response that has information to be hidden.
 
     Returns:
-        [bytes]: the body/content of the request/response.
+        bytes: the body/content of the request/response.
     """
     if not hasattr(http_msg, "body"):
         return http_msg._content
@@ -195,9 +194,9 @@ def _set_json_body(http_msg, value):
     """Private method that sets the json body/content of a request/response.
 
     Args:
-        http_msg [requests.models.PreparedRequest / requests.models.Response]:
+        http_msg (requests.models.PreparedRequest / requests.models.Response):
         the request or the response that has information to be hidden.
-        value [dict]: the json body/content of the request/response.
+        value (dict): the json body/content of the request/response.
 
     """
     value = json.dumps(value).encode("utf-8")
@@ -208,9 +207,9 @@ def _set_body(http_msg, value):
     """Private method that sets the body/content of a request/response.
 
     Args:
-        http_msg [requests.models.PreparedRequest / requests.models.Response]:
+        http_msg (requests.models.PreparedRequest / requests.models.Response):
         the request or the response that has information to be hidden.
-        value [bytes]: the body/content of the request/response.
+        value (bytes): the body/content of the request/response.
 
     """
     if not hasattr(http_msg, "body"):

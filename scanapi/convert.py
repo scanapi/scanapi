@@ -13,14 +13,11 @@ logger = logging.getLogger(__name__)
 console = Console()
 
 
-def openapi_to_scanapi():
+def openapi_to_scanapi() -> None:
     """Caller function that tries to convert the specification file and write the report.
 
     Uses [prance](https://github.com/RonnyPfannschmidt/prance) for resolving
     and parsing the OpenAPI schema.
-
-    Returns:
-        None
     """
     openapi_path = settings["input_path"]
     base_url = settings["base_url"]

@@ -16,7 +16,7 @@
   <a href="https://pypi.org/project/scanapi/">
     <img alt="PyPI version" src="https://shields.io/pypi/v/scanapi">
   </a>
-  <a href="https://discord.scanapi.dev">
+  <a href="https://scanapi.dev/discord">
     <img alt="Discord" src="https://img.shields.io/discord/847208162993242162?color=7389D8&label=discord&logo=6A7EC2&logoColor=ffffff&style=flat-square">
   </a>
 </p>

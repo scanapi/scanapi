@@ -1,9 +1,16 @@
 import copy
 import logging
 from itertools import chain
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Iterator, Optional
 
-from httpx import CookieConflict, HTTPError, InvalidURL, StreamError
+from httpx import (
+    CookieConflict,
+    HTTPError,
+    InvalidURL,
+    NetworkError,
+    StreamError,
+    TimeoutException,
+)
 
 from scanapi.errors import InvalidKeyError
 from scanapi.evaluators import SpecEvaluator
@@ -34,10 +41,10 @@ class EndpointNode:
     where each EndpointNode may contain multiple children EndpointNodes.
 
     Attributes:
-        spec[dict]: dictionary containing the endpoint's specifications
-        parent[EndpointNode, optional]: the parent node
-        child_nodes[list of EndpointNodes]: the children nodes
-        spec_vars[SpecEvaluator]: evaluator used to evaluate expressions
+        spec (dict): dictionary containing the endpoint's specifications
+        parent (EndpointNode, optional): the parent node
+        child_nodes (list of EndpointNodes): the children nodes
+        spec_vars (SpecEvaluator): evaluator used to evaluate expressions
                                   and store spec variables
     """
 
@@ -82,41 +89,41 @@ class EndpointNode:
         return f"<{self.__class__.__name__} {self.name}>"
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Get the endpoint's name. The name is prepended by the parent's name,
         if it is not a root node.
 
         Returns:
-            [str]: The endpoint's name.
+            str: The endpoint's name.
         """
         name = self.spec.get(NAME_KEY, "")
 
         if self.is_root or not self.parent.name:
-            return name
+            return str(name)
 
         return f"{self.parent.name}::{name}"
 
     @property
-    def path(self):
+    def path(self) -> str:
         """Get the endpoint's path. The path is prepended by the parent's path,
         if it is not a root node. The returned path already has all variables
         evaluated.
 
         Returns:
-            [str]: The endpoint's url.
+            str: The endpoint's url.
         """
         path = str(self.spec.get(PATH_KEY, "")).strip()
         url = join_urls(self.parent.path, path) if self.parent else path
 
-        return self.spec_vars.evaluate(url)
+        return str(self.spec_vars.evaluate(url))
 
     @property
-    def options(self):
+    def options(self) -> dict[str, Any]:
         """Get the keywords arguments used in the endpoint call.
         The options of the call include the parent's options.
 
         Returns:
-            [dict]: the keyword used in the endpoint call.
+            dict: the keyword used in the endpoint call.
         """
         options = self._get_specs(OPTIONS_KEY)
         for option in options:
@@ -126,42 +133,42 @@ class EndpointNode:
         return options
 
     @property
-    def headers(self):
+    def headers(self) -> dict[str, Any]:
         """Get the headers used in the endpoint call. The headers of the
         call include the parent's headers.
 
         Returns:
-            [dict]: the headers used in the endpoint call.
+            dict: the headers used in the endpoint call.
         """
         return self._get_specs(HEADERS_KEY)
 
     @property
-    def params(self):
+    def params(self) -> dict[str, Any]:
         """Get the parameters used in the endpoint call. The parameters of the
         call include the parent's parameters.
 
         Returns:
-            [dict]: the parameters used in the endpoint call.
+            dict: the parameters used in the endpoint call.
         """
         return self._get_specs(PARAMS_KEY)
 
     @property
-    def delay(self):
+    def delay(self) -> int:
         """Get the time in milliseconds to be waited before making the endpoint
         call.
 
         Returns:
-            [int]: the time to be waited.
+            int: the time to be waited.
         """
         delay = self.spec.get(DELAY_KEY, 0)
-        return delay or getattr(self.parent, DELAY_KEY, 0)
+        return int(delay or getattr(self.parent, DELAY_KEY, 0))
 
     @property
-    def is_root(self):
+    def is_root(self) -> bool:
         """Check if the EndpointNode is a root node.
 
         Returns:
-            [bool]: true if the node has no parent, false otherwise.
+            bool: true if the node has no parent, false otherwise.
         """
         return not self.parent
 
@@ -174,8 +181,8 @@ class EndpointNode:
         to the parent nodes. It only includes new variables.
 
         Args:
-            spec_vars [dict]: the new spec_vars.
-            extras [dict]: extra variables used to update the spec_vars.
+            spec_vars (dict): the new spec_vars.
+            extras (dict): extra variables used to update the spec_vars.
         """
         new_spec_vars = {
             key: value
@@ -199,7 +206,7 @@ class EndpointNode:
         """Get all variables in spec_vars from the node and its parents.
 
         Returns:
-            [dict]: dict from the variable's name to its value.
+            dict: dict from the variable's name to its value.
         """
         variables = copy.deepcopy(self.spec_vars.registry)
         if not self.is_root:
@@ -207,15 +214,25 @@ class EndpointNode:
 
         return variables
 
-    def run(self):
+    def run(self) -> Iterator[dict[str, Any]]:
         """Run the requests of the node and all children nodes.
 
         Returns:
-            [iterator]: Iterator that yields the test result of each request.
+            iterator: Iterator that yields the test result of each request.
         """
         for request in self._get_requests():
             try:
                 yield request.run()
+            except (NetworkError, TimeoutException) as e:
+                # These are hard errors and should exit early with an error
+                error_message = (
+                    f"\nError while connecting for request"
+                    f" {request.full_url_path!r}\n{str(e)}\n"
+                )
+                logger.error(error_message)
+                session.exit_code = ExitCode.REQUEST_ERROR
+                session.increment_errors()
+                return
             except (CookieConflict, HTTPError, InvalidURL, StreamError) as e:
                 error_message = (
                     f"\nError to make request {repr(request.full_url_path)}. "
@@ -236,28 +253,30 @@ class EndpointNode:
 
         validate_keys(self.spec.keys(), self.ALLOWED_KEYS, required_keys, scope)
 
-    def _get_specs(self, field_name):
+    def _get_specs(self, field_name: str) -> dict[str, Any]:
         """Get a specification of the endpoint.
 
         Args:
-            field_name [str]: name of the specification field.
+            field_name (str): name of the specification field.
 
         Returns:
-            [dict]: a dictionary containing the values of the field.
+            dict: a dictionary containing the values of the field.
         """
-        values = self.spec.get(field_name, {})
-        parent_values = getattr(self.parent, field_name, None)
+        values: dict[str, Any] = self.spec.get(field_name, {})
+        parent_values: dict[str, Any] | None = getattr(
+            self.parent, field_name, None
+        )
 
         if parent_values:
             return {**parent_values, **values}
 
         return values
 
-    def _get_requests(self):
+    def _get_requests(self) -> Iterator[RequestNode]:
         """Get all requests from the node and children nodes as RequestNodes.
 
         Returns:
-            [iterator]: Iterator that yields a RequestNode for
+            iterator: Iterator that yields a RequestNode for
             each request.
         """
         return chain(

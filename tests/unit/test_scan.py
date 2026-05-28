@@ -72,7 +72,7 @@ class TestScan:
         )
 
     @mark.context("when the api spec file is empty")
-    @mark.it("should an log error")
+    @mark.it("should log an error")
     def test_should_log_error_2(self, mocker, caplog):
         mocker.patch(
             "scanapi.scan.load_config_file", side_effect=empty_config_file

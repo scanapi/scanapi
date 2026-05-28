@@ -42,7 +42,7 @@ class TestFullPathUrl:
         assert request.full_url_path == "http://foo.com/api/foo"
 
     @mark.context(
-        "When endpoint spec has an url ending with slash and request url beggins with a slash"
+        "When endpoint spec has an url ending with slash and request url begins with a slash"
     )
     @mark.it(
         "should set full url path as the concatenation of endpoint and request paths "

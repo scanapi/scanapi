@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for taking the time to contribute! 🙇‍♀️🙇‍♂️ Every contribution, big or small, makes a difference. This guide will help you get started with contributing to ScanAPI.
+Thanks for taking the time to contribute! 🙇‍♀️🙇‍♂️ Every little bit of help counts!
 
 ## Contents
 
@@ -112,3 +112,4 @@ As one of the repositories under the `scanapi` GitHub organization, this reposit
 [ScanAPI Contributing Guideline](https://github.com/scanapi/contributors/blob/master/CONTRIBUTING.md).
 
 We’re glad you’re here 🚀
+The Contributing documentation is available at our [Contributor Guide](https://scanapi.readthedocs.io/en/latest/contributor-guide/).

@@ -2,6 +2,7 @@
 import datetime
 import pathlib
 import webbrowser
+from typing import Any, Iterable
 
 from importlib.metadata import version, PackageNotFoundError
 
@@ -15,26 +16,30 @@ class Reporter:
     """Class that writes the scan report
 
     Attributes:
-        output_path[str, optional]: Report output path
-        template[str, optional]: Custom report template path
+        output_path (str, optional): Report output path
+        template (str, optional): Custom report template path
 
     """
 
-    def __init__(self, output_path=None, template=None):
+    def __init__(
+        self,
+        output_path: str | None = None,
+        template: str | None = None,
+    ):
         """Creates a Reporter instance object."""
         self.output_path = pathlib.Path(output_path or "scanapi-report.html")
         self.template = template
 
-    def write(self, results, open_in_browser):
+    def write(
+        self,
+        results: Iterable[dict[str, Any]],
+        open_in_browser: bool,
+    ) -> None:
         """Part of the Reporter instance that is responsible for writing
         scanapi-report.html.
 
         Args:
-            results [generator]: generator of dicts resulting of Request run().
-
-        Returns:
-            None
-
+            results (generator): generator of dicts resulting of Request run().
         """
         template_path = self.template if self.template else "report.html"
         has_external_template = bool(self.template)
@@ -55,14 +60,14 @@ class Reporter:
         webbrowser.open(self.output_path.resolve().as_uri())
 
     @staticmethod
-    def _build_context(results):
+    def _build_context(results: Iterable[dict[str, Any]]) -> dict[str, Any]:
         """Build context dict of values required to render template.
 
         Args:
-            results [generator]: generator of dicts resulting of Request run().
+            results (generator): generator of dicts resulting of Request run().
 
         Returns:
-            [dict]: values required to render template.
+            dict: values required to render template.
 
         """
         try:

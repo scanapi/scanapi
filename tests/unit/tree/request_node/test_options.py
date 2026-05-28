@@ -16,7 +16,7 @@ class TestOptions:
 
         return mock_func
 
-    @mark.context("when request spec has a options defined")
+    @mark.context("when request spec has options defined")
     @mark.it("should set the options attribute accordingly")
     def test_when_request_has_options(self):
         options = {"timeout": 1.1}
@@ -28,9 +28,9 @@ class TestOptions:
         assert request.options == options
 
     @mark.context(
-        "when request and enpoint spec has a options with same keys defined"
+        "when request and endpoint spec has options with same keys defined"
     )
-    @mark.it("should priorize the options attribute values of request")
+    @mark.it("should prioritize the options attribute values of request")
     def test_when_request_and_endpoint_has_options(self):
         endpoint_options = {"timeout": 1.2}
         request_options = {"timeout": 1.3}

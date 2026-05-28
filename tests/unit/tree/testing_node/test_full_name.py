@@ -7,7 +7,7 @@ from scanapi.tree import EndpointNode, RequestNode, TestingNode
 @mark.describe("full_name")
 class TestFullName:
     @mark.it(
-        "should set the full_name attribute as the concatanation of the parents' names separated by ::"
+        "should set the full_name attribute as the concatenation of the parents' names separated by ::"
     )
     def test_full_name(self):
         endpoint_node = EndpointNode({"name": "foo"})

@@ -1,0 +1,22 @@
+name: Changed Files Check
+description: Detect documentation-only pull request changes for workflow job gating.
+
+outputs:
+  docs_only:
+    description: Whether every changed file is documentation-related.
+    value: ${{ steps.docs-filter.outputs.docs_only }}
+
+runs:
+  using: composite
+  steps:
+    - name: Detect documentation-only changes
+      id: docs-filter
+      uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+      with:
+        predicate-quantifier: every
+        filters: |
+          docs_only:
+            - 'docs/**'
+            - 'mkdocs.yml'
+            - '.readthedocs.yaml'
+            - '*.md'

@@ -1,5 +1,6 @@
 import re
 import logging
+from typing import Any
 
 from RestrictedPython import compile_restricted
 from RestrictedPython.Guards import safe_globals, safe_builtins
@@ -21,25 +22,30 @@ class CodeEvaluator:
     )  # ${{<python_code>}}
 
     @classmethod
-    def evaluate(cls, sequence, spec_vars, is_a_test_case=False):
-        """Receives a sequence of characters and evaluates any python code
-        present on it
+    def evaluate(
+        cls,
+        sequence: Any,
+        spec_vars: dict[str, Any],
+        is_a_test_case: bool = False,
+    ) -> Any:
+        """Receive a sequence of characters and evaluate Python code present in
+        it.
 
         Args:
-            sequence[string]: sequence of characters to be evaluated
-            spec_vars[dict]: dictionary containing the SpecEvaluator variables
-            is_a_test_case[bool]: indicator for checking if the given evaluation
-            is a test case
+            sequence (str): Sequence of characters to be evaluated.
+            spec_vars (dict): Dictionary containing SpecEvaluator variables.
+            is_a_test_case (bool): Indicator for checking whether the
+                given evaluation is a test case.
 
         Returns:
-            tuple: a tuple containing:
-                -  [Boolean]: True if python statement is valid
-                -  [string]: None if valid evaluation, tested code otherwise
+            tuple: Tuple containing:
+                - bool: True if Python statement is valid.
+                - str | None: None if evaluation is valid; otherwise, the
+                    tested code.
 
         Raises:
-            InvalidPythonCodeError: If receives invalid python statements
-            (eg. 1/0)
-
+            InvalidPythonCodeError: Raised when receiving invalid Python
+                statements (e.g. 1/0).
         """
         match = cls.python_code_pattern.search(str(sequence))
 
@@ -58,7 +64,7 @@ class CodeEvaluator:
             raise InvalidPythonCodeError(str(e), code)
 
     @classmethod
-    def _get_allowed_modules(cls):
+    def _get_allowed_modules(cls) -> dict[str, Any]:
         """Dynamically import allowed modules.
 
         Returns:
@@ -71,7 +77,7 @@ class CodeEvaluator:
         }
 
     @classmethod
-    def _get_safe_globals(cls, response=None):
+    def _get_safe_globals(cls, response: Any = None) -> dict[str, Any]:
         """Create a secure global context for code execution.
 
         Args:
@@ -80,7 +86,7 @@ class CodeEvaluator:
         Returns:
             dict: Safe global context with restricted access
         """
-        safe_context = safe_globals.copy()
+        safe_context: dict[str, Any] = safe_globals.copy()
         safe_context["__builtins__"] = safe_builtins.copy()
 
         # Add iterator functions for generator expressions and comprehensions
@@ -108,12 +114,16 @@ class CodeEvaluator:
         return safe_context
 
     @classmethod
-    def _safe_eval(cls, code, global_context=None):
+    def _safe_eval(
+        cls,
+        code: str,
+        global_context: dict[str, Any] | None = None,
+    ) -> Any:
         """Safely evaluate Python code using RestrictedPython with mode='eval'.
 
         Args:
-            code[string]: Python code to evaluate
-            global_context[dict]: Global context for evaluation
+            code (string): Python code to evaluate
+            global_context (dict): Global context for evaluation
 
         Returns:
             Result of code evaluation
@@ -161,15 +171,15 @@ class CodeEvaluator:
         comprehensions using RestrictedPython for security.
 
         Args:
-            code[string]: python code that ScanAPI needs to assert
-            response[requests.Response]: the response for the current request
+            code (string): python code that ScanAPI needs to assert
+            response (requests.Response): the response for the current request
             that is being tested
 
         Returns:
             tuple: a tuple containing:
-                -  [Boolean]: a boolean that indicates if assert
+                -  Boolean: a boolean that indicates if assert
                 is True/False
-                -  [string]: None if valid evaluation, code tested otherwise
+                -  string: None if valid evaluation, code tested otherwise
 
         Raises:
             AssertionError: If python statement evaluates False

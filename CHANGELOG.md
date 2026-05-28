@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
+- Changed standard report template so it groups requests by top level endpoints in a collapsible [#951](https://github.com/scanapi/scanapi/pull/951).
+
+### Changed
 - Update Total time delta and response time delta in the HTML report to be more easily human readable
+
+### Fixed
+- Non-reachable APIs (NetworkError, TimeoutException) will now exit and report the test as errored [#946](https://github.com/scanapi/scanapi/pull/946).
 
 ## [2.13.2] - 2026-05-18
 ### Fixed
@@ -54,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.10.0] - 2024-11-10
 ### Changed
 - Change requests to httpx. [#208](https://github.com/scanapi/scanapi/issues/208)
-- Upgrade PyYAML dependecy [678](https://github.com/scanapi/scanapi/pull/678)
+- Upgrade PyYAML dependency [678](https://github.com/scanapi/scanapi/pull/678)
 
 ### Deprecated
 - **BREAKING CHANGE:** Drops support for Python 3.7 and Python 3.8 since their EOL were reached out already [678](https://github.com/scanapi/scanapi/pull/678)
@@ -159,7 +165,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bandit security audit tool. [#219](https://github.com/scanapi/scanapi/pull/219)
 - Add Sphinx auto-documentation. [#230](https://github.com/scanapi/scanapi/pull/230)
 - Add workflow to package/publish to Test PyPi. [#239](https://github.com/scanapi/scanapi/pull/239)
-- Add Github Action workflow for First-time contributors. [#290](https://github.com/scanapi/scanapi/pull/290)
+- Add GitHub Action workflow for First-time contributors. [#290](https://github.com/scanapi/scanapi/pull/290)
 - Add button to copy data from the report page. [#295](https://github.com/scanapi/scanapi/pull/295)
 
 ### Changed
@@ -252,7 +258,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved black check from CircleCI to github actions. [#136](https://github.com/scanapi/scanapi/pull/136)
 
 ### Fixed
-- Cases where custom var has upper case letters. [#99](https://github.com/scanapi/scanapi/pull/99)
+- Cases where custom var has uppercase letters. [#99](https://github.com/scanapi/scanapi/pull/99)
 
 ### Removed
 - Request with no endpoints. [#116](https://github.com/scanapi/scanapi/pull/116)
@@ -319,7 +325,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix vars interpolation.
 
 [Unreleased]: https://github.com/scanapi/scanapi/compare/v2.13.2...HEAD
-[2.13.1]: https://github.com/scanapi/scanapi/compare/v2.13.1...v2.13.2
+[2.13.2]: https://github.com/scanapi/scanapi/compare/v2.13.1...v2.13.2
 [2.13.1]: https://github.com/scanapi/scanapi/compare/v2.13.0...v2.13.1
 [2.13.0]: https://github.com/scanapi/scanapi/compare/v2.12.0...v2.13.0
 [2.12.0]: https://github.com/scanapi/scanapi/compare/v2.11.0...v2.12.0

@@ -1,7 +1,7 @@
 import logging
 
 from pytest import fixture, mark
-from httpx import HTTPError
+from httpx import HTTPError, NetworkError, TimeoutException
 
 from scanapi.exit_code import ExitCode
 from scanapi.tree import EndpointNode
@@ -60,7 +60,7 @@ class TestRun:
 
     @mark.context("when there is an error during a request")
     @mark.it("should log the error and change session exit code")
-    def test_when_request_fails(self, mock_run_request, mock_session, caplog):
+    def test_when_request_errors(self, mock_run_request, mock_session, caplog):
         mock_run_request.side_effect = ["foo", HTTPError("error: bar")]
 
         node = EndpointNode(
@@ -96,6 +96,102 @@ class TestRun:
 
         assert (
             "\nError to make request 'http://foo.com/second'. \nerror: bar\n"
+            in caplog.text
+        )
+
+        assert mock_run_request.call_count == 2
+
+        assert mock_session.exit_code == ExitCode.REQUEST_ERROR
+
+    @mark.context("when there is an error reaching the endpoint [NetworkError]")
+    @mark.it("should log the error and change session exit code")
+    def test_when_endpoint_errors_network(
+        self, mock_run_request, mock_session, caplog
+    ):
+        mock_run_request.side_effect = ["foo", NetworkError("error: bar")]
+
+        node = EndpointNode(
+            {
+                "endpoints": [
+                    {
+                        "name": "foo",
+                        "requests": [
+                            {
+                                "name": "First",
+                                "path": "http://foo.com/first",
+                            },
+                            {
+                                "name": "Second",
+                                "path": "http://foo.com/second",
+                            },
+                        ],
+                    }
+                ],
+                "name": "node",
+                "requests": [],
+            }
+        )
+
+        requests = []
+        with caplog.at_level(logging.ERROR):
+            requests_gen = node.run()
+
+            for request in requests_gen:
+                requests.append(request)
+
+        assert len(requests) == 1
+
+        assert (
+            "\nError while connecting for request 'http://foo.com/second'\nerror: bar\n"
+            in caplog.text
+        )
+
+        assert mock_run_request.call_count == 2
+
+        assert mock_session.exit_code == ExitCode.REQUEST_ERROR
+
+    @mark.context(
+        "when there is an error reaching the endpoint [TimeoutException]"
+    )
+    @mark.it("should log the error and change session exit code")
+    def test_when_endpoint_errors_timeout(
+        self, mock_run_request, mock_session, caplog
+    ):
+        mock_run_request.side_effect = ["foo", TimeoutException("error: bar")]
+
+        node = EndpointNode(
+            {
+                "endpoints": [
+                    {
+                        "name": "foo",
+                        "requests": [
+                            {
+                                "name": "First",
+                                "path": "http://foo.com/first",
+                            },
+                            {
+                                "name": "Second",
+                                "path": "http://foo.com/second",
+                            },
+                        ],
+                    }
+                ],
+                "name": "node",
+                "requests": [],
+            }
+        )
+
+        requests = []
+        with caplog.at_level(logging.ERROR):
+            requests_gen = node.run()
+
+            for request in requests_gen:
+                requests.append(request)
+
+        assert len(requests) == 1
+
+        assert (
+            "\nError while connecting for request 'http://foo.com/second'\nerror: bar\n"
             in caplog.text
         )
 
