@@ -43,6 +43,10 @@ run:
 bandit:
 	@uv run bandit -r scanapi
 
+.PHONY: bandit-report
+bandit-report:
+	@uv run bandit -r scanapi -f json -o bandit-report.json
+
 .PHONY: docs-install
 docs-install:
 	@echo "Installing docs dev dependencies"
