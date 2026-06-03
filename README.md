@@ -19,6 +19,9 @@
   <a href="https://scanapi.dev/discord">
     <img alt="Discord" src="https://img.shields.io/discord/847208162993242162?color=7389D8&label=discord&logo=6A7EC2&logoColor=ffffff&style=flat-square">
   </a>
+  <a href="https://scorecard.dev/viewer/?uri=github.com/scanapi/scanapi">
+    <img alt="OpenSSF Scorecard" src="https://api.scorecard.dev/projects/github.com/scanapi/scanapi/badge">
+  </a>
 </p>
 
 A library for **your API** that provides:
