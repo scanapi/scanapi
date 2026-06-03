@@ -1,0 +1,40 @@
+name: Bandit Security Check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+  security-events: write
+
+jobs:
+  bandit:
+    name: Bandit Security Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@5db1cf9a59fb97c40a68accab29236f0da7e94db # v5.6.0
+        with:
+          python-version: '3.13'
+
+      - name: Run Bandit security check
+        continue-on-error: true
+        run: make bandit-report
+
+      - name: Upload Bandit report as artifact
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: bandit-report
+          path: bandit-report.json
+          retention-days: 30
+
+      - name: Display Bandit findings
+        if: always()
+        continue-on-error: true
+        run: make bandit

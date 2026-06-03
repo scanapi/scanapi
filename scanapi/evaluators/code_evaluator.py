@@ -70,7 +70,11 @@ class CodeEvaluator:
         Returns:
             dict: Dictionary of module names to imported modules
         """
-        return {name: __import__(name) for name in cls.ALLOWED_MODULES}
+        # nosec B301: imports are constrained by cls.ALLOWED_MODULES.
+        return {
+            name: __import__(name)
+            for name in cls.ALLOWED_MODULES
+        }
 
     @classmethod
     def _get_safe_globals(cls, response: Any = None) -> dict[str, Any]:
@@ -143,8 +147,9 @@ class CodeEvaluator:
                     "Failed to compile restricted code", code
                 )
 
-            # Execute the compiled code securely
-            result = eval(compiled_code, global_context)
+            # Execute the compiled code securely; RestrictedPython compiles
+            # user code with safety restrictions before it reaches eval.
+            result = eval(compiled_code, global_context)  # nosec B307
             return result
 
         except SyntaxError as e:
