@@ -8,16 +8,22 @@ on:
   schedule:
     - cron: '0 6 * * 1'
 
+# Default restrictive permissions at the top level.
+# Job-level permissions override (not inherit) these,
+# so each job explicitly declares what it needs.
 permissions:
   contents: read
-  security-events: write
-  packages: read
-  actions: read
 
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # explicitly repeated from top-level
+      security-events: write
+      packages: read
+      actions: read
+
     strategy:
       fail-fast: false
       matrix:
