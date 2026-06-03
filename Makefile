@@ -41,7 +41,7 @@ run:
 
 .PHONY: bandit
 bandit:
-	@uv run bandit -r scanapi
+	@uv run bandit -r scanapi -v
 
 .PHONY: bandit-report
 bandit-report:

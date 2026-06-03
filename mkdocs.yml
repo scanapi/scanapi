@@ -13,19 +13,19 @@ nav:
       - Quick Start:
         - user-guide/docs/index.md
       - Specification:
-        - Basic Structure: user-guide/docs/specification/basic_structure.md
-        - API Specification Keys: user-guide/docs/specification/api_specification_keys.md
-        - API Spec in Multiple Files: user-guide/docs/specification/api_spec_in_multiple_files.md
-        - Chaining Requests: user-guide/docs/specification/chaining_requests.md
-        - Custom Variables: user-guide/docs/specification/custom_variables.md
-        - Environment Variables: user-guide/docs/specification/environment_variables.md
-        - Python Code: user-guide/docs/specification/python_code.md
-        - Retry: user-guide/docs/specification/retry.md
+          - Basic Structure: user-guide/docs/specification/basic_structure.md
+          - API Specification Keys: user-guide/docs/specification/api_specification_keys.md
+          - API Spec in Multiple Files: user-guide/docs/specification/api_spec_in_multiple_files.md
+          - Chaining Requests: user-guide/docs/specification/chaining_requests.md
+          - Custom Variables: user-guide/docs/specification/custom_variables.md
+          - Environment Variables: user-guide/docs/specification/environment_variables.md
+          - Python Code: user-guide/docs/specification/python_code.md
+          - Retry: user-guide/docs/specification/retry.md
       - Configuration:
-        - Config File: user-guide/docs/configuration/config_file.md
-        - Custom Report: user-guide/docs/configuration/custom_report.md
-        - Hiding Sensitive Information: user-guide/docs/configuration/hiding_sensitive_information.md
-        - ScanAPI CLI: user-guide/docs/configuration/scanapi_cli.md
+          - Config File: user-guide/docs/configuration/config_file.md
+          - Custom Report: user-guide/docs/configuration/custom_report.md
+          - Hiding Sensitive Information: user-guide/docs/configuration/hiding_sensitive_information.md
+          - ScanAPI CLI: user-guide/docs/configuration/scanapi_cli.md
     - Tutorial:
       - Setup: user-guide/tutorial/step01.md
       - API Sign Up: user-guide/tutorial/step02.md
@@ -40,37 +40,38 @@ nav:
       - Project Name: user-guide/tutorial/step11.md
       - Custom Report: user-guide/tutorial/step12.md
       - Add to Project: user-guide/tutorial/step13.md
+
+
   - API Reference:
     - Overview: api.md
     - Modules: api/modules.md
 
   - Contributor Guide:
-    - contributor-guide/index.md
-    - Contributing: contributing.md
-    - First Pull Request: contributor-guide/first-pull-request.md
-    - Run ScanAPI in Dev Env:
-      - contributor-guide/run-scanapi-dev/index.md
-      - On Codespaces: contributor-guide/run-scanapi-dev/codespaces.md
-      - Local Manually: contributor-guide/run-scanapi-dev/local-manually.md
-      - Local with Dev Container: contributor-guide/run-scanapi-dev/local-dev-container.md
-    - Tests Guide: contributor-guide/tests-guide.md
-    - Changelog Guide: contributor-guide/changelog-guide.md
-    - Dependencies Guide: contributor-guide/dependencies-guide.md
-    - Project Maintenance:
-      - Deployment Guide: contributor-guide/project-maintenance/deployment-guide.md
-    - Sprints:
-      - contributor-guide/sprints/index.md
-      - EuroPython 2021: contributor-guide/sprints/europython-2021.md
-      - PyCon India 2021: contributor-guide/sprints/pycon-india-2021.md
-    - Useful Resources:
-      - Website: https://scanapi.dev
-      - Tutorial: https://scanapi.dev/tutorials/step01.html
-      - DeepWiki: https://deepwiki.com/scanapi/scanapi
-      - PyPI: https://pypi.org/project/scanapi/
-      - Docker Hub: https://hub.docker.com/r/camilamaia/scanapi
-      - GitHub: https://github.com/scanapi/scanapi
-      - Discord: https://scanapi.dev/discord
-      - Twitter: https://twitter.com/scanapi_
+      - contributor-guide/index.md
+      - First Pull Request: contributor-guide/first-pull-request.md
+      - Run ScanAPI in Dev Env:
+        - contributor-guide/run-scanapi-dev/index.md
+        - On Codespaces: contributor-guide/run-scanapi-dev/codespaces.md
+        - Local Manually: contributor-guide/run-scanapi-dev/local-manually.md
+        - Local with Dev Container: contributor-guide/run-scanapi-dev/local-dev-container.md
+      - Tests Guide: contributor-guide/tests-guide.md
+      - Changelog Guide: contributor-guide/changelog-guide.md
+      - Dependencies Guide: contributor-guide/dependencies-guide.md
+      - Project Maintenance:
+        - Deployment Guide: contributor-guide/project-maintenance/deployment-guide.md
+      - Sprints:
+        - contributor-guide/sprints/index.md
+        - EuroPython 2021: contributor-guide/sprints/europython-2021.md
+        - PyCon India 2021: contributor-guide/sprints/pycon-india-2021.md
+      - Useful Resources:
+        - Website: https://scanapi.dev
+        - Tutorial: https://scanapi.dev/tutorials/step01.html
+        - DeepWiki: https://deepwiki.com/scanapi/scanapi
+        - PyPI: https://pypi.org/project/scanapi/
+        - Docker Hub: https://hub.docker.com/r/camilamaia/scanapi
+        - GitHub: https://github.com/scanapi/scanapi
+        - Discord: https://scanapi.dev/discord
+        - Twitter: https://twitter.com/scanapi_
 
 plugins:
   - search

@@ -1,5 +1,5 @@
 # Contributing
 
-Thanks for taking the time to contribute! 🙇‍♀️🙇‍♂️ The full contributing guide now lives in the documentation site.
+Thanks for taking the time to contribute! 🙇‍♀️🙇‍♂️ Every little bit of help counts!
 
-Please read the [Contributing guide](docs/contributing.md) and the [Contributor Guide](https://scanapi.readthedocs.io/en/latest/contributor-guide/) for setup steps, workflow, and best practices.
+The Contributing documentation is available at our [Contributor Guide](https://scanapi.readthedocs.io/en/latest/contributor-guide/).
