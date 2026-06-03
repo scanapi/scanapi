@@ -37,4 +37,4 @@ jobs:
       - name: Display Bandit findings
         if: always()
         continue-on-error: true
-        run: bandit -r scanapi -v
+        run: make bandit
