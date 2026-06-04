@@ -8,7 +8,6 @@ on:
 permissions:
   issues: write
   pull-requests: write
-  actions: write
 
 env:
   ISSUE_STALE_DAYS: '45'
@@ -19,4 +18,6 @@ env:
 jobs:
   close_stale_issues:
     name: Close stale issues and PRs
+    permissions:
+      actions: write
     uses: cumbucadev/shared-workflows/.github/workflows/close-stale-issues-v1.yml@2535d1542434bda3afa064424a687f0c368db494
