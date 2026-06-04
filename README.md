@@ -156,8 +156,8 @@ _Made with [contrib.rocks](https://contrib.rocks)._
 ## Supporters Through Time
 
 <div style="display: flex; gap: 20px; align-items: center;">
-  <a href="https://www.lambdatest.com/?utm_source=scanapi&utm_medium=sponsor" target="_blank">
-      <img src="https://www.lambdatest.com/blue-logo.png" style="vertical-align: middle;" width="100" />
+  <a href="https://www.testmu.ai/" target="_blank">
+      <img src="./images/testmu-logo.svg" style="vertical-align: middle;" width="130" alt="TestMu AI Logo" />
   </a>
   <img src="./images/red-hat-logo.png" width="100" alt="Red Hat Logo">
 </div>
