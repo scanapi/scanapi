@@ -46,7 +46,7 @@ dev = [
     "pymdown-extensions>=10.21.3,<11.0.0",
     "pytest>=9.0.3,<10.0.0",
     "pytest-cov>=7.0.0,<8.0.0",
-    "pytest-freezegun==0.4.2",  # Unmaintained; strict pin required for stability
+    "time-machine>=2.15.0",
     "pytest-it>=0.1.5,<0.2.0",
     "pytest-mock>=3.14.0,<4.0.0",
     "requests-mock>=1.12,<2.0.0",
@@ -97,3 +97,4 @@ include-package-data = true
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
