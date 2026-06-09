@@ -1,5 +1,6 @@
 from random import randrange
 
+import time_machine
 from pytest import mark, raises
 
 from scanapi.session import Session
@@ -36,7 +37,7 @@ class TestSucceed:
 @mark.describe("start")
 class TestStart:
     @mark.it("should initialize started_at with current time")
-    @mark.freeze_time("2020-06-15 18:54:57")
+    @time_machine.travel("2020-06-15 18:54:57", tick=False)
     def test_init_started_at(self):
         session = Session()
 
@@ -108,10 +109,9 @@ class TestIncrementErrors:
 @mark.describe("elapsed_time")
 class TestElapsedTime:
     @mark.it("should return time")
-    @mark.freeze_time("2020-06-15 18:54:57")
-    def test_return_time(self, freezer):
+    @time_machine.travel("2020-06-15 18:54:57", tick=False)
+    def test_return_time(self):
         session = Session()
 
-        freezer.move_to("2020-06-15 18:56:38")
-
-        assert str(session.elapsed_time()) == "0:01:41"
+        with time_machine.travel("2020-06-15 18:56:38", tick=False):
+            assert str(session.elapsed_time()) == "0:01:41"

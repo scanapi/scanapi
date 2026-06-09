@@ -1,6 +1,7 @@
 import pathlib
+from datetime import datetime
 
-from freezegun.api import FakeDatetime
+import time_machine
 from pytest import fixture, mark
 
 from scanapi.reporter import Reporter
@@ -57,8 +58,12 @@ class TestInit:
 
 @mark.describe("reporter")
 @mark.describe("write")
-@mark.freeze_time("2020-05-12 11:32:34")
 class TestWrite:
+    @fixture(autouse=True)
+    def freeze_time(self):
+        with time_machine.travel("2020-05-12 11:32:34", tick=False):
+            yield
+
     @fixture
     def mocked__render(self, mocker):
         return mocker.patch("scanapi.reporter.render")
@@ -78,7 +83,7 @@ class TestWrite:
     @fixture
     def context(self, mocked__session):
         return {
-            "now": FakeDatetime(2020, 5, 12, 11, 32, 34),
+            "now": datetime(2020, 5, 12, 11, 32, 34),
             "project_name": "",
             "results": fake_results,
             "session": mocked__session,

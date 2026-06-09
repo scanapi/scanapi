@@ -83,7 +83,7 @@ Python 3.12
 │   ├── httpx, packaging, restrictedpython
 │   └── MarkupSafe (pinned: 3.0.3)
 └── Development
-    ├── Testing: pytest, pytest-cov, pytest-freezegun, pytest-mock
+    ├── Testing: pytest, pytest-cov, time-machine, pytest-mock
     ├── Linting: ruff, pre-commit
     ├── Type checking: mypy, types-*
     ├── Documentation: sphinx, sphinx_rtd_theme
