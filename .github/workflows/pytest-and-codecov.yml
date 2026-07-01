@@ -16,7 +16,7 @@ jobs:
       docs_only: ${{ steps.changed-files.outputs.docs_only }}
     steps:
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Check changed files
         id: changed-files
@@ -34,7 +34,7 @@ jobs:
       working_directory: ~/scanapi
     steps:
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v5.6.0
@@ -42,7 +42,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install uv
-        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b #v8.1.0
+        uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 #v8.2.0
         with:
           enable-cache: true
           cache-dependency-glob: "pyproject.toml"
@@ -57,7 +57,7 @@ jobs:
       # Upload coverage report only if running on the main repository (not a fork)
       - name: Upload coverage report to codecov.io
         if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
-        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
