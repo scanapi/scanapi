@@ -12,7 +12,7 @@ def render(template_path, context, is_external=False):
         autoescape=True,
         extensions=["jinja2_humanize_extension.HumanizeExtension"],
     )
-    env.filters["curlify"] = curlify.to_curl()
+    env.filters["curlify"] = curlify.to_curl
     env.filters["render_body"] = render_body
     env.filters["group_by_top_level_endpoint"] = group_by_top_level_endpoint
     env.globals["is_bytes"] = lambda o: isinstance(o, bytes)
