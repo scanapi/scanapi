@@ -1,6 +1,7 @@
 name: "Close stale issues and PRs"
 
 on:
+  pull_request:
   workflow_call:
   schedule:
     - cron: "00 4 * * *"
