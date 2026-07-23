@@ -1,52 +1,20 @@
-# Quick Start
+# Docs
 
-## Requirements
+- [Quick Start](quick_start.md)
 
-- [pip][pip-installation]
+## Specification
 
-## How to install
+- [Basic Structure](specification/basic_structure.md)
+- [API Specification Keys](specification/api_specification_keys.md)
+- [API Spec in Multiple Files](specification/api_spec_in_multiple_files.md)
+- [Chaining Requests](specification/chaining_requests.md)
+- [Custom Variables](specification/chaining_requests.md)
+- [Environment Variables](specification/environment_variables.md)
+- [Python Code](specification/python_code.md)
+- [Retry](specification/retry.md)
 
-```bash
-$ pip install scanapi
-```
-
-## Basic Usage
-
-You will need to write the API's specification and save it as a **YAML** or **JSON** file.
-For example:
-
-```yaml
-endpoints:
-  - name: scanapi-demo # The API's name of your API
-    path: http://demo.scanapi.dev/api/v1 # The API's base url
-    requests:
-      - name: list_all_users # The name of the first request
-        path: users/ # The path of the first request
-        method: get # The HTTP method of the first request
-        tests:
-          - name: status_code_is_200 # The name of the first test for this request
-            assert: ${{ response.status_code == 200 }} # The assertion
-```
-
-And run the scanapi command
-
-```bash
-$ scanapi run <file_path>
-```
-
-Then, the lib will hit the specified endpoints and generate a `scanapi-report.html` file with the report results.
-
-<p align="center">
-  <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-closed.png"
-    width="700"
-    alt="An overview screenshot of the report."
-  >
-  <img
-    src="https://raw.githubusercontent.com/scanapi/scanapi/main/images/report-print-opened.png"
-    width="700"
-    alt="A screenshot of the report showing the request details."
-  >
-</p>
-
-[pip-installation]: https://pip.pypa.io/en/stable/installing/
+## Configuration
+- [Config File](configuration/config_file.md)
+- [Custom Report](configuration/custom_report.md)
+- [Hiding Sensitive Information](configuration/hiding_sensitive_information.md)
+- [ScanAPI CLI](configuration/scanapi_cli.md)
