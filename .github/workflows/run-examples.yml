@@ -11,8 +11,17 @@ permissions:
   pull-requests: write
 
 jobs:
+  build-package:
+    name: Build Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ScanAPI repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Build and Inspect
+        uses: hynek/build-and-inspect-python-package@v2.18.0
   changes:
     runs-on: ubuntu-latest
+    needs: build-package
     outputs:
       docs_only: ${{ steps.changed-files.outputs.docs_only }}
     steps:
@@ -28,6 +37,10 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.docs_only != 'true' }}
     steps:
+      - name: Download artifact from build package job
+        uses: actions/download-artifact@v3.2.0
+        with:
+          name: dist
       - name: Checkout ScanAPI repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Run Examples
@@ -42,6 +55,10 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.docs_only != 'true' }}
     steps:
+      - name: Download artifact from build package job
+        uses: actions/download-artifact@v3.2.0
+        with:
+          name: dist
       - name: Checkout ScanAPI repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Run Examples
@@ -56,6 +73,10 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.docs_only != 'true' }}
     steps:
+      - name: Download artifact from build package job
+        uses: actions/download-artifact@v3.2.0
+        with:
+          name: dist
       - name: Checkout ScanAPI repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Run Examples
