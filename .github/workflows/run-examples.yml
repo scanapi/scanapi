@@ -22,7 +22,7 @@ jobs:
       - name: Upload distributions
         uses: actions/upload-artifact@v4
         with:
-          name: python-dists
+          name: dist
           path: dist/
   changes:
     runs-on: ubuntu-latest
