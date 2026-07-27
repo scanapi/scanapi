@@ -25,6 +25,29 @@ change-version:
 	sed -i.bak 's/^version = .*/version = "'$$new_version'"/' pyproject.toml && rm pyproject.toml.bak; \
 	echo "Updated version to $$new_version"
 
+.PHONY: change-version-RC
+change-version-RC:
+	@current_version=$$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/'); \
+	base_version=$$(echo $$current_version | cut -f-3 -d.); \
+	new_version="$$base_version.rc$(timestamp)"; \
+	sed -i.bak 's/^version = .*/version = "'$$new_version'"/' pyproject.toml && rm pyproject.toml.bak; \
+	echo "Updated version to $$new_version"
+
+.PHONY: change-version-beta
+change-version-beta:
+	@current_version=$$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/'); \
+	base_version=$$(echo $$current_version | cut -f-3 -d.); \
+	new_version="$$base_version.b$(timestamp)"; \
+	sed -i.bak 's/^version = .*/version = "'$$new_version'"/' pyproject.toml && rm pyproject.toml.bak; \
+	echo "Updated version to $$new_version"
+
+.PHONY: change-version-alpha
+change-version-alpha:
+	@current_version=$$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/'); \
+	base_version=$$(echo $$current_version | cut -f-3 -d.); \
+	new_version="$$base_version.a$(timestamp)"; \
+	sed -i.bak 's/^version = .*/version = "'$$new_version'"/' pyproject.toml && rm pyproject.toml.bak; \
+	echo "Updated version to $$new_version"	
 .PHONY: format
 format:
 	@uv run ruff check --fix .
