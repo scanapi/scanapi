@@ -80,7 +80,7 @@ For example:
 ```yaml
 endpoints:
   - name: scanapi-demo # The API's name of your API
-    path: http://demo.scanapi.dev/api/v1 # The API's base url
+    path: https://demo.scanapi.dev/api/v1 # The API's base url
     requests:
       - name: list_all_users # The name of the first request
         path: users/ # The path of the first request
