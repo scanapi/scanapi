@@ -75,6 +75,8 @@ nav:
         - Discord: https://scanapi.dev/discord
         - Twitter: https://twitter.com/scanapi_
 
+  - Community: community.md
+
 plugins:
   - search
   - mkdocstrings:
