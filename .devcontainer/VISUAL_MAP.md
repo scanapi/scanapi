@@ -81,7 +81,7 @@ Python 3.12
 └── Development (optional)
     ├── Testing
     │   ├── pytest, pytest-cov
-    │   ├── pytest-freezegun
+    │   ├── freezegun
     │   └── pytest-mock
     ├── Linting
     │   ├── ruff, pre-commit
