@@ -166,6 +166,24 @@ class TestEvaluateCustomVar:
             == expected
         )
 
+    test_data = [
+        ("pos${post_suffix}/", "posts/"),
+        ("/heal${post_suffix}h/", "/healtsh/"),
+        ("${post_suffix}suffix", "tssuffix"),
+    ]
+
+    @mark.context("when matches the pattern")
+    @mark.context("when the variable is surrounded by word characters")
+    @mark.it("should keep the surrounding characters")
+    @mark.parametrize("sequence, expected", test_data)
+    def test_should_keep_surrounding_characters(self, sequence, expected):
+        spec_vars = {"post_suffix": "ts"}
+
+        assert (
+            StringEvaluator._evaluate_custom_var(sequence, spec_vars)
+            == expected
+        )
+
 
 @mark.describe("string evaluator")
 @mark.describe("replace_var_with_value")
