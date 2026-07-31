@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update Total time delta and response time delta in the HTML report to be more easily human readable
 
 ### Fixed
+- Variables surrounded by word characters, like `/heal${SUFFIX}/`, no longer discard the literal part of the path [#1007](https://github.com/scanapi/scanapi/issues/1007).
 - Non-reachable APIs (NetworkError, TimeoutException) will now exit and report the test as errored [#946](https://github.com/scanapi/scanapi/pull/946).
 
 ## [2.13.2] - 2026-05-18
