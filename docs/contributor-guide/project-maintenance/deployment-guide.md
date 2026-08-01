@@ -41,8 +41,8 @@ Create a new branch called 'v<version-number>' and create a PR named `Release <v
 
 ### Test
 
-Once the PR has been opened, an action will release a alpha version on [PyPI](https://pypi.org/project/scanapi/).
-Download the new alpha version from PyPI and test if everything is working as expected.
+Once the PR has been merged, an action will release a dev version on [PyPI](https://pypi.org/project/scanapi/).
+Download the new dev version from PyPI and test if everything is working as expected.
 
 ### Merge the PR
 

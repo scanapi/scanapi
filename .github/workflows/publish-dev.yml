@@ -1,7 +1,7 @@
 name: Publish dev
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 permissions:
@@ -9,9 +9,9 @@ permissions:
   pull-requests: write
 
 jobs:
-  build-n-publish-test-pypi:
+  build-n-publish-pypi:
     if: github.repository == 'scanapi/scanapi'
-    name: Test PyPI - Build and publish Python 🐍 distributions 📦
+    name:  Build and publish Python 🐍 distributions 📦
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ScanAPI repository
@@ -30,7 +30,7 @@ jobs:
       - name: Run pre-release version update
         run: |
           make change-version-dev
-      - name: Build and publish to test pypi
+      - name: Build and publish to pypi
         run: |
           uv build
           uv publish --token ${{ secrets.PYPI_TOKEN }}
