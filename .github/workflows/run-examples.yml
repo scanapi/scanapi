@@ -17,7 +17,7 @@ jobs:
       docs_only: ${{ steps.changed-files.outputs.docs_only }}
     steps:
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Check changed files
         id: changed-files
@@ -31,7 +31,7 @@ jobs:
     if: ${{ needs.changes.outputs.docs_only != 'true' }}
     steps:
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v5.6.0
         with:
@@ -44,7 +44,7 @@ jobs:
           python -m pip install build
           python -m build
       - name: Upload distributions
-        uses:  actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses:  actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: dist
           path: dist/
@@ -59,11 +59,11 @@ jobs:
     if: ${{ needs.changes.outputs.docs_only != 'true' }}
     steps:
       - name: Download artifact from build package job
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: dist
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Run Examples
         uses: ./.github/actions/run_examples
         with:
@@ -79,11 +79,11 @@ jobs:
     if: ${{ needs.changes.outputs.docs_only != 'true' }}
     steps:
       - name: Download artifact from build package job
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: dist
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Run Examples
         uses: ./.github/actions/run_examples
         with:
@@ -99,11 +99,11 @@ jobs:
     if: ${{ needs.changes.outputs.docs_only != 'true' }}
     steps:
       - name: Download artifact from build package job
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: dist
       - name: Checkout ScanAPI repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Run Examples
         env:
           BASE_URL: "https://demo-api.fly.dev/api/v1/"
