@@ -74,8 +74,10 @@ class StringEvaluator:
             except KeyError as e:
                 raise BadConfigurationError(e)
 
+            # Only replace the ${VAR} portion, not surrounding text
+            var_expr = match.group("start") + variable_name + match.group("end")
             sequence = cls.replace_var_with_value(
-                sequence, match.group(), variable_value
+                sequence, var_expr, variable_value
             )
 
         return sequence
@@ -110,8 +112,10 @@ class StringEvaluator:
 
             variable_value = spec_vars.get(variable_name)
 
+            # Only replace the ${VAR} portion, not surrounding text
+            var_expr = match.group("start") + variable_name + match.group("end")
             sequence = cls.replace_var_with_value(
-                sequence, match.group(), variable_value
+                sequence, var_expr, variable_value
             )
 
         return sequence
