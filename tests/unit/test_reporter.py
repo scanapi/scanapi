@@ -59,7 +59,6 @@ class TestInit:
 
 @mark.describe("reporter")
 @mark.describe("write")
-@time_machine.travel("2020-05-12 11:32:34")
 class TestWrite:
     @fixture
     def mocked__render(self, mocker):
@@ -94,6 +93,7 @@ class TestWrite:
         return mock
 
     @mark.it("should write to default output")
+    @time_machine.travel("2020-05-12 11:32:34")
     def test_should_write_to_default_output(
         self,
         mocked__render,
@@ -113,6 +113,7 @@ class TestWrite:
         mocked__open().write.assert_called_once_with("ScanAPI Report")
 
     @mark.it("should write to custom output")
+    @time_machine.travel("2020-05-12 11:32:34")
     def test_should_write_to_custom_output(
         self,
         mocked__render,
@@ -132,6 +133,7 @@ class TestWrite:
         mocked__open().write.assert_called_once_with("ScanAPI Report")
 
     @mark.it("should handle custom templates")
+    @time_machine.travel("2020-05-12 11:32:34")
     def test_should_handle_custom_templates(
         self,
         mocked__render,
@@ -153,6 +155,7 @@ class TestWrite:
         mocked__open().write.assert_called_once_with("ScanAPI Report")
 
     @mark.it("should open report in browser")
+    @time_machine.travel("2020-05-12 11:32:34")
     def test_should_open_report_in_browser(
         self,
         mocked__render,
