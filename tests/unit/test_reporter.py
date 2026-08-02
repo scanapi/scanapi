@@ -1,5 +1,6 @@
 import pathlib
 
+from freezegun import freeze_time
 from freezegun.api import FakeDatetime
 from pytest import fixture, mark
 
@@ -57,7 +58,7 @@ class TestInit:
 
 @mark.describe("reporter")
 @mark.describe("write")
-@mark.freeze_time("2020-05-12 11:32:34")
+@freeze_time("2020-05-12 11:32:34")
 class TestWrite:
     @fixture
     def mocked__render(self, mocker):
