@@ -48,3 +48,17 @@ updates:
       github-actions:
         patterns:
           - "*"
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "cron"
+      cronjob: "0 9 1,15 * *"        # 09:00 on the 1st and 15th
+      timezone: "America/Sao_Paulo"
+    cooldown:
+      default-days: 10
+    open-pull-requests-limit: 1
+    labels: ["dependencies", "docker"]
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
