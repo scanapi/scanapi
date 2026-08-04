@@ -1,3 +1,5 @@
+"""MCP Server for ScanAPI."""
+
 from mcp.server.fastmcp import FastMCP
 
 from scanapi.scan import run_scan  # pragma: no cover
@@ -11,6 +13,8 @@ mcp = FastMCP("scanapi")
 
 
 @mcp.tool()
+# pylint: disable=too-many-arguments,too-many-positional-arguments
+# skipcq: PTC-W0049
 def run(  # pragma: no cover
     spec_path: str,
     config_path: str | None = None,
@@ -28,7 +32,7 @@ def run(  # pragma: no cover
         output_path (str | None, optional): Report output path. Default is scanapi-report.html.
         no_report (bool, optional): Run ScanAPI without generating a report.
         browser (bool, optional): Open the results file using a browser.
-        template (str | None, optional): Custom report template path. The template must be a .jinja file.
+        template (str | None, optional): Custom report template path.
         log_level (str, optional): Set the logging level (e.g. DEBUG, INFO).
 
     Returns:

@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 import yaml
 
@@ -30,7 +31,6 @@ def run_scan() -> list:
     session.failures = 0
     session.errors = 0
     session.exit_code = ExitCode.OK
-    from datetime import datetime
 
     session.started_at = datetime.now()
 
