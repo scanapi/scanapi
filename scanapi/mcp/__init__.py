@@ -1,1 +1,1 @@
-"""MCP server implementation for ScanAPI."""
+"""MCP server implementation for ScanAPI."""  # pragma: no cover

@@ -14,7 +14,7 @@ fake_results = [
 @fixture
 def mock_version(mocker):
     return mocker.patch(
-        "scanapi.context.version",
+        "scanapi.reporter.version",
         side_effect=lambda pkg: "2.0.0" if pkg == "scanapi" else "unknown",
     )
 
@@ -65,15 +65,7 @@ class TestWrite:
 
     @fixture
     def mocked__session(self, mocker):
-        mock_sess = mocker.patch("scanapi.context.session")
-        mock_sess.successes = 0
-        mock_sess.failures = 0
-        mock_sess.errors = 0
-        from scanapi.exit_code import ExitCode
-
-        mock_sess.exit_code = ExitCode.OK
-        mock_sess.succeed = True
-        return mock_sess
+        return mocker.patch("scanapi.reporter.session")
 
     @fixture
     def mocked__logger(self, mocker):
@@ -85,25 +77,11 @@ class TestWrite:
 
     @fixture
     def context(self, mocked__session):
-        from scanapi.exit_code import ExitCode
-
         return {
             "now": FakeDatetime(2020, 5, 12, 11, 32, 34),
             "project_name": "",
-            "summary": {
-                "requests": len(fake_results),
-                "tests": 0,
-                "passed": 0,
-                "failed": 0,
-                "success": True,
-            },
             "results": fake_results,
-            "session": {
-                "errors": 0,
-                "failures": 0,
-                "successes": 0,
-                "exit_code": ExitCode.OK,
-            },
+            "session": mocked__session,
             "scanapi_version": "2.0.0",
         }
 
@@ -210,7 +188,9 @@ class TestBuildContext:
 
             raise PackageNotFoundError
 
-        _ = mocker.patch("scanapi.context.version", side_effect=raise_not_found)
+        _ = mocker.patch(
+            "scanapi.reporter.version", side_effect=raise_not_found
+        )
 
         results = fake_results
         context = Reporter._build_context(results)

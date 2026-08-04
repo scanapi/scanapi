@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
+import datetime
 import pathlib
 import webbrowser
 from typing import Any, Iterable
 
+from importlib.metadata import version, PackageNotFoundError
 
 from scanapi.console import write_report_path
+from scanapi.session import session
+from scanapi.settings import settings
 from scanapi.template_render import render
 
 
@@ -66,6 +70,15 @@ class Reporter:
             dict: values required to render template.
 
         """
-        from scanapi.context import build_context
+        try:
+            scanapi_version = version("scanapi")
+        except PackageNotFoundError:
+            scanapi_version = "unknown"
 
-        return build_context(results)
+        return {
+            "now": datetime.datetime.now().replace(microsecond=0),
+            "project_name": settings.get("project_name", ""),
+            "results": results,
+            "session": session,
+            "scanapi_version": scanapi_version,
+        }

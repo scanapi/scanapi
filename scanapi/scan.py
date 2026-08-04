@@ -1,7 +1,6 @@
 import logging
 
 import yaml
-from typing import Any
 
 from scanapi.config_loader import load_config_file
 from scanapi.console import write_results, write_summary
@@ -20,11 +19,11 @@ from scanapi.tree import EndpointNode
 logger = logging.getLogger(__name__)
 
 
-def run_scan() -> dict[str, Any]:
-    """Core logic to run the scan and return the context object.
+def run_scan() -> list:
+    """Core logic to run the scan and return the results.
 
     Returns:
-        dict[str, Any]: A dictionary containing the summary and results of the scan.
+        list: A list containing the results of the scan.
     """
     # Reset the session for fresh runs, crucial for long-running MCP server
     session.successes = 0
@@ -32,6 +31,7 @@ def run_scan() -> dict[str, Any]:
     session.errors = 0
     session.exit_code = ExitCode.OK
     from datetime import datetime
+
     session.started_at = datetime.now()
 
     spec_path = settings["spec_path"]
@@ -65,16 +65,14 @@ def run_scan() -> dict[str, Any]:
         logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
 
-    from scanapi.context import build_context
-
-    return build_context(results)
+    return list(results)
 
 
 def scan():
     """Caller function that tries to scans the file and write the report."""
-    context = run_scan()
+    results = run_scan()
 
-    _write(context["results"])
+    _write(results)
     write_summary()
     session.exit()
 
