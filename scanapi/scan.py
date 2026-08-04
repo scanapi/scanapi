@@ -1,6 +1,7 @@
 import logging
 
 import yaml
+from typing import Any
 
 from scanapi.config_loader import load_config_file
 from scanapi.console import write_results, write_summary
@@ -19,8 +20,16 @@ from scanapi.tree import EndpointNode
 logger = logging.getLogger(__name__)
 
 
-def scan():
-    """Caller function that tries to scans the file and write the report."""
+def run_scan() -> dict[str, Any]:
+    """Core logic to run the scan and return the context object."""
+    # Reset the session for fresh runs, crucial for long-running MCP server
+    session.successes = 0
+    session.failures = 0
+    session.errors = 0
+    session.exit_code = ExitCode.OK
+    from datetime import datetime
+    session.started_at = datetime.now()
+
     spec_path = settings["spec_path"]
 
     try:
@@ -42,7 +51,6 @@ def scan():
     try:
         root_node = EndpointNode(api_spec)
         results = root_node.run()
-
     except (
         InvalidKeyError,
         KeyError,
@@ -53,7 +61,16 @@ def scan():
         logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
 
-    _write(results)
+    from scanapi.context import build_context
+
+    return build_context(results)
+
+
+def scan():
+    """Caller function that tries to scans the file and write the report."""
+    context = run_scan()
+
+    _write(context["results"])
     write_summary()
     session.exit()
 
