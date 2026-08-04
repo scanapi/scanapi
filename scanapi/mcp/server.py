@@ -64,11 +64,12 @@ def run(  # pragma: no cover
         response_obj = r.get("response")
         serialized_resp = None
         if response_obj:
+            elapsed_obj = getattr(response_obj, "elapsed", None)
             serialized_resp = {
                 "status_code": getattr(response_obj, "status_code", None),
                 "url": str(getattr(response_obj, "url", "")),
                 "method": getattr(getattr(response_obj, "request", None), "method", ""),
-                "elapsed": getattr(response_obj, "elapsed", None).total_seconds() if getattr(response_obj, "elapsed", None) else 0,
+                "elapsed": elapsed_obj.total_seconds() if elapsed_obj else 0,
                 "text": getattr(response_obj, "text", ""),
             }
 
