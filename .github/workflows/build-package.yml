@@ -1,6 +1,7 @@
 name: Build package
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
