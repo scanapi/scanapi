@@ -3,6 +3,8 @@ from mcp.server.fastmcp import FastMCP
 from scanapi.scan import run_scan  # pragma: no cover
 from scanapi.settings import settings  # pragma: no cover
 from scanapi.cli import configure_logging  # pragma: no cover
+from scanapi.scan import write_output  # pragma: no cover
+from scanapi.session import session  # pragma: no cover
 
 
 mcp = FastMCP("scanapi")
@@ -48,11 +50,7 @@ def run(  # pragma: no cover
 
     # Generate report if needed
     if not no_report:
-        from scanapi.scan import _write
-
-        _write(results)
-
-    from scanapi.session import session
+        write_output(results)
 
     total_tests = session.successes + session.failures + session.errors
 
@@ -69,6 +67,7 @@ def run(  # pragma: no cover
 
 
 def main():  # pragma: no cover
+    """Start the MCP server using the stdio transport."""
     mcp.run(transport="stdio")
 
 

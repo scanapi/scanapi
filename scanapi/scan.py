@@ -72,12 +72,12 @@ def scan():
     """Caller function that tries to scans the file and write the report."""
     results = run_scan()
 
-    _write(results)
+    write_output(results)
     write_summary()
     session.exit()
 
 
-def _write(results):
+def write_output(results):
     """When the user passed the `--no-report` flag: prints the test results to
     the console output.
     When the user did not pass the `--no_report flag`: writes the results on a
