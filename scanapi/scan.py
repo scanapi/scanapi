@@ -21,7 +21,11 @@ logger = logging.getLogger(__name__)
 
 
 def run_scan() -> dict[str, Any]:
-    """Core logic to run the scan and return the context object."""
+    """Core logic to run the scan and return the context object.
+
+    Returns:
+        dict[str, Any]: A dictionary containing the summary and results of the scan.
+    """
     # Reset the session for fresh runs, crucial for long-running MCP server
     session.successes = 0
     session.failures = 0

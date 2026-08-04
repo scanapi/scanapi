@@ -18,17 +18,19 @@ def run(
     template: str | None = None,
     log_level: str = "INFO",
 ) -> dict:
-    """
-    Run ScanAPI against an API specification.
-
+    """Run ScanAPI against an API specification.
+    
     Args:
-        spec_path: Path to the API specification file.
-        config_path: Configuration file path. Default is scanapi.conf.
-        output_path: Report output path. Default is scanapi-report.html.
-        no_report: Run ScanAPI without generating a report.
-        browser: Open the results file using a browser.
-        template: Custom report template path. The template must be a .jinja file.
-        log_level: Set the logging level (e.g. DEBUG, INFO).
+        spec_path (str): Path to the API specification file.
+        config_path (str | None, optional): Configuration file path. Default is scanapi.conf.
+        output_path (str | None, optional): Report output path. Default is scanapi-report.html.
+        no_report (bool, optional): Run ScanAPI without generating a report.
+        browser (bool, optional): Open the results file using a browser.
+        template (str | None, optional): Custom report template path. The template must be a .jinja file.
+        log_level (str, optional): Set the logging level (e.g. DEBUG, INFO).
+        
+    Returns:
+        dict: A dictionary containing the summary and results of the scan.
     """
     configure_logging(log_level)
 

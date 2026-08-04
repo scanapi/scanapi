@@ -7,7 +7,14 @@ from scanapi.settings import settings
 
 
 def build_context(results: Iterable[dict[str, Any]]) -> dict[str, Any]:
-    """Build context dict of values representing the scan execution result."""
+    """Build context dict of values representing the scan execution result.
+
+    Args:
+        results (Iterable[dict[str, Any]]): Generator or list of dicts resulting from Request run.
+
+    Returns:
+        dict[str, Any]: Values required to represent the scan execution result.
+    """
     try:
         scanapi_version = version("scanapi")
     except PackageNotFoundError:
