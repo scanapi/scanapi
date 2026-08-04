@@ -1,6 +1,6 @@
 """MCP Server for ScanAPI."""
 
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 
 from scanapi.scan import run_scan  # pragma: no cover
 from scanapi.settings import settings  # pragma: no cover
@@ -58,6 +58,38 @@ def run(  # pragma: no cover
 
     total_tests = session.successes + session.failures + session.errors
 
+    # Serialize results to ensure they are JSON serializable for MCP transport
+    serialized_results = []
+    for r in results:
+        response_obj = r.get("response")
+        serialized_resp = None
+        if response_obj:
+            serialized_resp = {
+                "status_code": getattr(response_obj, "status_code", None),
+                "url": str(getattr(response_obj, "url", "")),
+                "method": getattr(getattr(response_obj, "request", None), "method", ""),
+                "elapsed": getattr(response_obj, "elapsed", None).total_seconds() if getattr(response_obj, "elapsed", None) else 0,
+                "text": getattr(response_obj, "text", ""),
+            }
+
+        tests_results = []
+        for t in r.get("tests_results", []):
+            status = t.get("status")
+            status_str = status.name if hasattr(status, "name") else str(status)
+            tests_results.append({
+                "name": t.get("name"),
+                "status": status_str,
+                "failure": t.get("failure"),
+            })
+
+        serialized_results.append({
+            "request_node_name": r.get("request_node_name"),
+            "endpoint_name": r.get("endpoint_name"),
+            "no_failure": r.get("no_failure"),
+            "response": serialized_resp,
+            "tests_results": tests_results,
+        })
+
     return {
         "summary": {
             "requests": len(results),
@@ -66,7 +98,7 @@ def run(  # pragma: no cover
             "failed": session.failures,
             "success": session.succeed,
         },
-        "results": results,
+        "results": serialized_results,
     }
 
 
