@@ -1,7 +1,7 @@
 name: Build package
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -33,12 +33,5 @@ jobs:
           name: dist
           path: dist/
           if-no-files-found: error
-
-  test-package:
-    name: Test package
-    needs:
-      - build-package
-    uses: ./.github/workflows/run-examples.yml
-    permissions:
-      contents: read
-      pull-requests: write
+      - name: Test distributions
+        uses: ./.github/actions/run_examples_suite
