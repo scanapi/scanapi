@@ -1,7 +1,6 @@
 name: Build package and test examples
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
