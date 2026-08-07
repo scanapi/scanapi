@@ -47,4 +47,4 @@ jobs:
         run: pip install scanapi==${{ env.VERSION }}
       - name: Run examples
         uses: ./.github/actions/run_examples_suite
-   
+ 
