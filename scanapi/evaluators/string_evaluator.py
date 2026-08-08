@@ -119,7 +119,7 @@ class StringEvaluator:
         return sequence
 
     @classmethod
-    def _var_expression(cls, match) -> str:
+    def _var_expression(cls, match: re.Match) -> str:
         """Constructs the variable expression (${var}) from a regex match.
 
         Args:
@@ -128,11 +128,10 @@ class StringEvaluator:
         Returns:
             str: the ${variable} expression to be replaced
         """
-        return (
-            match.group("start")
-            + match.group("variable")
-            + match.group("end")
-        )
+        start = match.group("start")
+        variable = match.group("variable")
+        end = match.group("end")
+        return f"{start}{variable}{end}"
 
     @classmethod
     def replace_var_with_value(
