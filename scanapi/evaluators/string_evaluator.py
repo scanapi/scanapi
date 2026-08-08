@@ -75,7 +75,7 @@ class StringEvaluator:
                 raise BadConfigurationError(e)
 
             sequence = cls.replace_var_with_value(
-                sequence, match.group(), variable_value
+                sequence, cls._variable_token(match), variable_value
             )
 
         return sequence
@@ -111,10 +111,25 @@ class StringEvaluator:
             variable_value = spec_vars.get(variable_name)
 
             sequence = cls.replace_var_with_value(
-                sequence, match.group(), variable_value
+                sequence, cls._variable_token(match), variable_value
             )
 
         return sequence
+
+    @classmethod
+    def _variable_token(cls, match: "re.Match[str]") -> str:
+        """Returns only the ``${<variable>}`` portion of a pattern match.
+
+        The pattern also captures any word characters surrounding the
+        variable, which must not be replaced along with it.
+
+        Args:
+            match (re.Match): a ``variable_pattern`` match
+
+        Returns:
+            string: the ``${<variable>}`` token itself
+        """
+        return f"{match.group('start')}{match.group('variable')}{match.group('end')}"
 
     @classmethod
     def replace_var_with_value(
