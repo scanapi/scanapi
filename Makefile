@@ -19,28 +19,11 @@ check: lint mypy
 
 .PHONY: change-version
 change-version:
-	@current_version=$$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/'); \
-	base_version=$$(echo $$current_version | cut -f-3 -d.); \
-	new_version="$$base_version.dev$(timestamp)"; \
-	sed -i.bak 's/^version = .*/version = "'$$new_version'"/' pyproject.toml && rm pyproject.toml.bak; \
-	echo "Updated version to $$new_version"
-
+	uv version --bump major
 
 .PHONY: change-version-dev
 change-version-dev:
-	@current_version=$$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/'); \
-	base_version=$$(echo $$current_version | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*/\1/'); \
-	release_version=$$(echo $$base_version | awk -F. '{printf "%d.%d.%d", $$1, $$2, $$3 + 1}'); \
-	commit_count=$$(repo=$$(gh repo view --json nameWithOwner --jq .nameWithOwner 2>/dev/null || true); \
-	if [ -n "$$repo" ]; then \
-		gh api "repos/$$repo/compare/$$base_version...HEAD" --jq '.ahead_by' 2>/dev/null || echo 0; \
-	else \
-		echo 0; \
-	fi); \
-	new_version="$$release_version.dev$$commit_count"; \
-	sed -i.bak 's/^version = .*/version = "'$$new_version'"/' pyproject.toml && rm pyproject.toml.bak; \
-	echo "Updated version to $$new_version"
-
+	uv version --bump patch --bump dev
 .PHONY: format
 format:
 	@uv run ruff check --fix .
