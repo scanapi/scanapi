@@ -1,6 +1,7 @@
 import pathlib
+from datetime import datetime
 
-from freezegun.api import FakeDatetime
+import time_machine
 from pytest import fixture, mark
 
 from scanapi.reporter import Reporter
@@ -10,14 +11,12 @@ fake_results = [
     {"response": "bar", "tests_results": [], "no_failure": False},
 ]
 
-
 @fixture
 def mock_version(mocker):
     return mocker.patch(
         "scanapi.reporter.version",
         side_effect=lambda pkg: "2.0.0" if pkg == "scanapi" else "unknown",
     )
-
 
 @mark.describe("reporter")
 @mark.describe("__init__")
@@ -54,11 +53,14 @@ class TestInit:
         assert str(reporter.output_path) == "my-report.html"
         assert reporter.template is None
 
-
 @mark.describe("reporter")
 @mark.describe("write")
-@mark.freeze_time("2020-05-12 11:32:34")
 class TestWrite:
+    @fixture(autouse=True)
+    def frozen_time(self):
+        with time_machine.travel("2020-05-12 11:32:34"):
+            yield
+
     @fixture
     def mocked__render(self, mocker):
         return mocker.patch("scanapi.reporter.render")
@@ -78,7 +80,7 @@ class TestWrite:
     @fixture
     def context(self, mocked__session):
         return {
-            "now": FakeDatetime(2020, 5, 12, 11, 32, 34),
+            "now": datetime(2020, 5, 12, 11, 32, 34),
             "project_name": "",
             "results": fake_results,
             "session": mocked__session,
@@ -163,7 +165,6 @@ class TestWrite:
         reporter = Reporter()
         reporter.write(fake_results, True)
         assert mocked__webbrowser.open.call_count == 1
-
 
 @mark.describe("reporter")
 @mark.describe("_build_context")
