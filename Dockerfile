@@ -6,7 +6,7 @@ ENV PATH="~/.local/bin:${PATH}"
 
 RUN pip install pip setuptools --upgrade
 
-RUN python -m pip install --no-cache-dir scanapi==2.13.2
+RUN python -m pip install --no-cache-dir scanapi==2.13.3
 
 COPY . /app
 
