@@ -17,13 +17,40 @@ mypy:
 .PHONY: check
 check: lint mypy
 
-.PHONY: change-version
-change-version:
-	uv version --bump major
+.PHONY: bump-major-version
+bump-major-version:
+	@uv version --bump major
 
-.PHONY: change-version-dev
-change-version-dev:
-	uv version --bump patch --bump dev
+# Calculate the next development version from Git tags.
+#
+# Examples:
+#   v2.13.2 + no dev tags        -> 2.13.3.dev0
+#   v2.13.2 + v2.13.3.dev0       -> 2.13.3.dev1
+#   v2.13.2 + v2.13.3.dev46      -> 2.13.3.dev47
+#
+# The stable release determines the next patch version, while the latest
+# development tag determines the development release number.
+.PHONY: next-dev-version
+next-dev-version:
+	@last_release=$$(git tag --list 'v*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$$' | head -n 1); \
+	test -n "$$last_release" || { echo "No stable release tag found" >&2; exit 1; }; \
+	base_version=$${last_release#v}; \
+	next_version=$$(echo "$$base_version" | awk -F. '{print $$1 "." $$2 "." ($$3 + 1)}'); \
+	last_dev=$$(git tag --list "v$${next_version}.dev*" --sort=-v:refname | head -n 1); \
+	if [ -z "$$last_dev" ]; then \
+		dev_number=0; \
+	else \
+		dev_number=$$(echo "$$last_dev" | sed -E 's/.*\.dev([0-9]+)$$/\1/'); \
+		dev_number=$$((dev_number + 1)); \
+	fi; \
+	echo "$${next_version}.dev$$dev_number"
+
+.PHONY: bump-dev-version
+bump-dev-version:
+	@version=$$(make --no-print-directory next-dev-version); \
+	echo "Setting development version to $$version"; \
+	uv version "$$version"
+
 .PHONY: format
 format:
 	@uv run ruff check --fix .
