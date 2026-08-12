@@ -1,7 +1,8 @@
 name: Publish dev
 
 on:
-  push:
+  pull_request:
+    types: closed
     branches:
       - main
 permissions:
@@ -10,7 +11,7 @@ permissions:
 
 jobs:
   build-n-publish-pypi:
-    if: github.repository == 'scanapi/scanapi'
+    if: github.repository == 'scanapi/scanapi' && github.event.pull_request.merged == true
     name:  Build and publish Python 🐍 distributions 📦
     runs-on: ubuntu-latest
     steps:
