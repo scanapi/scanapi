@@ -10,6 +10,9 @@
   <a href="https://github.com/scanapi/scanapi/actions/workflows/publish-dev.yml?query=branch%3Amain">
     <img alt="Examples" src="https://github.com/scanapi/scanapi/actions/workflows/publish-dev.yml/badge.svg?branch=main">
   </a>
+  <a href="https://github.com/scanapi/scanapi/actions/workflows/build-package-and-test.yml?query=branch%3Amain">
+    <img alt="Build and Test Package" src="https://github.com/scanapi/scanapi/actions/workflows/build-package-and-test.yml/badge.svg?branch=main">
+  </a>
   <a href="https://pypistats.org/packages/scanapi">
     <img alt="Downloads Per Month" src="https://shields.io/pypi/dm/scanapi">
   </a>
