@@ -2,50 +2,80 @@ name: Publish dev
 
 on:
   pull_request:
-    types: closed
+  push:
     branches:
       - main
+
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
+
+concurrency:
+  group: publish-dev
+  cancel-in-progress: false
 
 jobs:
   build-n-publish-pypi:
-    if: github.repository == 'scanapi/scanapi' && github.event.pull_request.merged == true
-    name:  Build and publish Python 🐍 distributions 📦
+    name: Build and publish Python 🐍 distributions 📦
     runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
     steps:
       - name: Checkout ScanAPI repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
       - name: Setup Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v5.6.0
         with:
           python-version: 3.12.x
+
       - name: Install uv
-        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b #v8.1.0
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
           enable-cache: true
           cache-dependency-glob: "pyproject.toml"
+
       - name: Install Dependencies
         run: uv sync --extra dev --prerelease=allow
-      - name: Run pre-release version update
-        run: |
-          make change-version-dev
-      - name: Build and publish to pypi
+
+      - name: Set development version
+        run: make bump-dev-version
+
+      - name: Get development version
+        id: version
+        run: echo "version=$(uv version --short)" >> "$GITHUB_OUTPUT"
+
+      - name: Build and publish to PyPI
         run: |
           uv build
           uv publish --token ${{ secrets.PYPI_TOKEN }}
+
+      - name: Create development tag
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git tag "v${VERSION}"
+          git push origin "v${VERSION}"
 
   test-examples:
     name: Test Examples
     runs-on: ubuntu-latest
     needs:
       - build-n-publish-pypi
+
     steps:
       - name: Checkout ScanAPI repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
       - name: Install dev version of ScanAPI
-        run: pip install "scanapi==$(uv version)"
+        run: pip install "scanapi==${{ needs.build-n-publish-pypi.outputs.version }}"
+
       - name: Run examples
         uses: ./.github/actions/run_examples_suite
- 
