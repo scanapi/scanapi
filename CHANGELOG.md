@@ -8,12 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-
+## [2.13.3] - 2026-08-12
 ### Changed
 - Changed standard report template so it groups requests by top level endpoints in a collapsible [#951](https://github.com/scanapi/scanapi/pull/951).
 
-### Changed
-- Update Total time delta and response time delta in the HTML report to be more easily human readable
+- Update Total time delta and response time delta in the HTML report to be more easily human readable [#927](https://github.com/scanapi/scanapi/pull/927).
 
 ### Fixed
 - Non-reachable APIs (NetworkError, TimeoutException) will now exit and report the test as errored [#946](https://github.com/scanapi/scanapi/pull/946).
@@ -325,7 +324,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix vars interpolation.
 
-[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.13.2...HEAD
+[Unreleased]: https://github.com/scanapi/scanapi/compare/v2.13.3...HEAD
+[2.13.3]: https://github.com/scanapi/scanapi/compare/v2.13.2...v2.13.3
 [2.13.2]: https://github.com/scanapi/scanapi/compare/v2.13.1...v2.13.2
 [2.13.1]: https://github.com/scanapi/scanapi/compare/v2.13.0...v2.13.1
 [2.13.0]: https://github.com/scanapi/scanapi/compare/v2.12.0...v2.13.0
