@@ -26,12 +26,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
             gh pr edit "${{ github.event.pull_request.number }}" --add-label "Needs-assignment"
-            gh pr comment "${{ github.event.pull_request.number }}" --body "This PR is not linked to an issue. Please link the issue this PR is intended to resolve before continuing. Please follow
-             the [Contributor Guide](https://scanapi.readthedocs.io/en/latest/contributor-guide/first-pull-request/#5-create-a-github-pr)
-              to learn how to link an issue to your PR. PRs should be associated with an issue before implementation starts.
-              Esta PR não está vinculada a uma issue. Por favor, vincule a issue que esta PR pretende resolver antes de continuar. Siga o
-               [Guia do Contribuidor](https://scanapi.readthedocs.io/en/latest/contributor-guide/first-pull-request/#5-create-a-github-pr)
-                para aprender como vincular uma issue à sua PR. As PRs devem estar associadas a uma issue antes do início da implementação."
+            gh pr comment "${{ github.event.pull_request.number }}" --body |
+            "🇧🇷 **Português**
+            Esta PR não está vinculada a uma issue. Por favor, vincule a issue que esta PR pretende resolver antes de continuar. Siga o
+            [Guia do Contribuidor](https://scanapi.readthedocs.io/en/latest/contributor-guide/first-pull-request/#5-create-a-github-pr)
+            para aprender como vincular uma issue à sua PR. As PRs devem estar associadas a uma issue antes do início da implementação.
+            🇬🇧 **English**
+            This PR is not linked to an issue. Please link the issue this PR is intended to resolve before continuing. Please follow
+            the [Contributor Guide](https://scanapi.readthedocs.io/en/latest/contributor-guide/first-pull-request/#5-create-a-github-pr)
+            to learn how to link an issue to your PR. PRs should be associated with an issue before implementation starts." 
+            
             exit 1
       - name: Verify if issue is assigned to a user
         if: ${{ github.event.pull_request.assignee == null }}
@@ -40,13 +44,17 @@ jobs:
         run: |
             ISSUE_NUMBER=$(gh pr view "${{ github.event.pull_request.number }}" --json body --jq '.body' | grep -oP '(?:fixes|closes|resolves)\s+#\K\d+' | head -1)
             gh pr edit "${{ github.event.pull_request.number }}" --add-label "Needs-assignment"
-            gh pr comment "${{ github.event.pull_request.number }}" --body "This issue is currently assigned to someone else.
-             Please coordinate with the assignee before opening a PR for this issue.
-             If you intend to work on it, please make sure the issue is assigned to you first.
-              See the [Contributor Guide](https://scanapi.readthedocs.io/en/latest/contributor-guide/?h=issue+ass#5-claim-the-issue)
-               for more information.
-               Esta issue está atualmente atribuída a outra pessoa. Por favor, coordene com o responsável antes de abrir uma PR para esta issue.
-                Se você pretende trabalhar nela, certifique-se de que a issue esteja atribuída a você primeiro.
-                 Veja o [Guia do Contribuidor](https://scanapi.readthedocs.io/en/latest/contributor-guide/?h=issue+ass#5-claim-the-issue)
-                  para mais informações."
+            gh pr comment "${{ github.event.pull_request.number }}" --body |
+            "🇧🇷 **Português**
+            Esta issue está atualmente atribuída a outra pessoa. Por favor, coordene com o responsável antes de abrir uma PR para esta
+            issue. Se você pretende trabalhar nela, certifique-se de que a issue esteja atribuída a você primeiro.
+            Veja o [Guia do Contribuidor](https://scanapi.readthedocs.io/en/latest/contributor-guide/?h=issue+ass#5-claim-the-issue)
+            para mais informações.
+            🇬🇧 **English**
+            This issue is currently assigned to someone else.
+            Please coordinate with the assignee before opening a PR for this issue.
+            If you intend to work on it, please make sure the issue is assigned to you first.
+            See the [Contributor Guide](https://scanapi.readthedocs.io/en/latest/contributor-guide/?h=issue+ass#5-claim-the-issue)
+            for more information." 
+  
             exit 1
