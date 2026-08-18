@@ -1,4 +1,4 @@
-name: Verify Asign and Link
+name: Verify Assign and Link
 
 on:
   pull_request_target:
@@ -14,7 +14,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  verify_asign_and_link:
+  verify_assign_and_link:
     name: Verify if PR is linked to an issue and assigned to a user
     runs-on: ubuntu-latest
     steps:
