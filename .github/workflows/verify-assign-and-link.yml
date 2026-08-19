@@ -53,7 +53,12 @@ jobs:
 
           gh pr edit "$PR_NUMBER" --remove-label "needs-issue" 2>/dev/null || true
 
-          echo "ISSUE_NUMBER=$ISSUE_NUMBER" >> "$GITHUB_ENV"
+          if [[ ! "$ISSUE_NUMBER" =~ ^[0-9]+$ ]]; then
+            echo "Invalid issue number extracted from PR body."
+            exit 1
+          fi
+
+          printf 'ISSUE_NUMBER=%s\n' "$ISSUE_NUMBER" >> "$GITHUB_ENV"
 
       - name: Verify if issue is assigned to PR author
         env:
