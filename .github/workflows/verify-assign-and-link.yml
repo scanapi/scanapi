@@ -1,0 +1,129 @@
+name: Verify Assign and Link
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  verify_assign_and_link:
+    name: Verify if PR is linked to an issue and assigned to a user
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Verify if PR is linked to an issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          PR_BODY=$(gh pr view "$PR_NUMBER" --json body --jq '.body // ""')
+
+          ISSUE_NUMBER=$(printf '%s' "$PR_BODY" \
+            | grep -oiP '(?:close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)\s+#\K\d+' \
+            | head -1)
+
+          if [ -z "$ISSUE_NUMBER" ]; then
+            gh pr edit "$PR_NUMBER" --add-label "needs-issue"
+
+            if ! gh pr view "$PR_NUMBER" --json comments \
+              --jq '.comments[].body' \
+              | grep -Fq "This PR is not linked to an issue."; then
+
+              COMMENT_BODY='🇧🇷 **Português**
+              Esta PR não está vinculada a uma issue. Por favor, vincule a issue que esta PR pretende resolver antes de continuar. Siga o [Guia do Contribuidor](https://scanapi.readthedocs.io/en/latest/contributor-guide/first-pull-request/#5-create-a-github-pr) para aprender como vincular uma issue à sua PR. As PRs devem estar associadas a uma issue antes do início da implementação.
+          🇬🇧 **English**
+              This PR is not linked to an issue. Please link the issue this PR is intended to resolve before continuing. Please follow the [Contributor Guide](https://scanapi.readthedocs.io/en/latest/contributor-guide/first-pull-request/#5-create-a-github-pr) to learn how to link an issue to your PR. PRs should be associated with an issue before implementation starts.'
+
+              gh pr comment "$PR_NUMBER" --body "$COMMENT_BODY"
+            fi
+
+            exit 1
+          fi
+
+          gh pr edit "$PR_NUMBER" --remove-label "needs-issue" 2>/dev/null || true
+
+          if [[ ! "$ISSUE_NUMBER" =~ ^[0-9]+$ ]]; then
+            echo "Invalid issue number extracted from PR body."
+            exit 1
+          fi
+
+          printf 'ISSUE_NUMBER=%s\n' "$ISSUE_NUMBER" >> "$GITHUB_ENV"
+
+      - name: Verify if issue is assigned to PR author
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          ASSIGNEE=$(gh issue view "$ISSUE_NUMBER" \
+            --json assignees \
+            --jq '.assignees[0].login // empty')
+
+          if [ -z "$ASSIGNEE" ]; then
+            gh pr edit "$PR_NUMBER" --add-label "needs-assignment"
+            gh issue edit "$ISSUE_NUMBER" --add-label "needs-assignment"
+
+            if ! gh pr view "$PR_NUMBER" --json comments \
+              --jq '.comments[].body' \
+              | grep -Fq "This issue is not assigned to anyone yet."; then
+
+              COMMENT_BODY='🇧🇷 **Português**
+          Esta issue ainda não está atribuída a ninguém. Por favor, atribua a issue a você antes de abrir uma PR.
+              Siga o [Guia do Contribuidor](https://scanapi.readthedocs.io/en/latest/contributor-guide/?h=issue+ass#5-claim-the-issue) para aprender como reivindicar uma issue. Isso ajuda a evitar que várias pessoas trabalhem na mesma issue ao mesmo tempo.
+          🇬🇧 **English**
+              This issue is not assigned to anyone yet. Please assign the issue to yourself before opening a PR. Please follow the [Contributor Guide](https://scanapi.readthedocs.io/en/latest/contributor-guide/?h=issue+ass#5-claim-the-issue) to learn how to claim an issue. This helps us avoid multiple people working on the same issue at the same time.'
+
+              gh pr comment "$PR_NUMBER" --body "$COMMENT_BODY"
+            fi
+
+            if ! gh issue view "$ISSUE_NUMBER" --json comments \
+              --jq '.comments[].body' \
+              | grep -Fq "This issue is not assigned to anyone yet."; then
+              gh issue comment "$ISSUE_NUMBER" --body "$COMMENT_BODY"
+            fi
+
+            exit 1
+          fi
+
+          if [ "$ASSIGNEE" != "$PR_AUTHOR" ]; then
+            gh pr edit "$PR_NUMBER" --add-label "needs-assignment"
+            gh issue edit "$ISSUE_NUMBER" --add-label "needs-assignment"
+
+            if ! gh pr view "$PR_NUMBER" --json comments \
+              --jq '.comments[].body' \
+              | grep -Fq "This issue is currently assigned to someone else."; then
+
+              COMMENT_BODY='🇧🇷 **Português**
+              Esta issue está atualmente atribuída a outra pessoa. Por favor, coordene com o responsável antes de abrir uma PR para esta issue. Se você pretende trabalhar nela, certifique-se de que a issue esteja atribuída a você primeiro. Veja o [Guia do Contribuidor](https://scanapi.readthedocs.io/en/latest/contributor-guide/?h=issue+ass#5-claim-the-issue) para mais informações.
+          🇬🇧 **English**
+              This issue is currently assigned to someone else. Please coordinate with the assignee before opening a PR for this issue. If you intend to work on it, please make sure the issue is assigned to you first. See the [Contributor Guide](https://scanapi.readthedocs.io/en/latest/contributor-guide/?h=issue+ass#5-claim-the-issue) for more information.'
+
+              gh pr comment "$PR_NUMBER" --body "$COMMENT_BODY"
+            fi
+
+            if ! gh issue view "$ISSUE_NUMBER" --json comments \
+              --jq '.comments[].body' \
+              | grep -Fq "This issue is currently assigned to someone else."; then
+              gh issue comment "$ISSUE_NUMBER" --body "$COMMENT_BODY"
+            fi
+
+            exit 1
+          fi
+
+          gh pr edit "$PR_NUMBER" --remove-label "needs-assignment" 2>/dev/null || true
+          gh issue edit "$ISSUE_NUMBER" --remove-label "needs-assignment" 2>/dev/null || true
+
+          echo "Issue #$ISSUE_NUMBER is assigned to PR author $PR_AUTHOR."
+
+          
