@@ -67,6 +67,9 @@ class TestEvaluateEnvVar:
             "${BASE_URL}/posts/${POST_ID}",
             "https://jsonplaceholder.typicode.com/posts/2",
         ),
+        ("/heal${PATH_COMPLEMENT}/", "/health/"),
+        ("${PATH_COMPLEMENT}extra", "thextra"),
+        ("/heal${PATH_COMPLEMENT}extra/", "/healthextra/"),
     ]
 
     @mark.context("when matches the pattern")
@@ -76,6 +79,7 @@ class TestEvaluateEnvVar:
     def test_should_return_evaluated_var(self, sequence, expected):
         os.environ["BASE_URL"] = "https://jsonplaceholder.typicode.com"
         os.environ["POST_ID"] = "2"
+        os.environ["PATH_COMPLEMENT"] = "th"
 
         assert StringEvaluator._evaluate_env_var(sequence) == expected
 
@@ -131,6 +135,8 @@ class TestEvaluateCustomVar:
             "something before 10 something after",
         ),
         ("${user_id} something after", "10 something after"),
+        ("/heal${path_complement}/", "/health/"),
+        ("prefix${user_id}suffix", "prefix10suffix"),
     ]
 
     @mark.context("when matches the pattern")
@@ -142,6 +148,7 @@ class TestEvaluateCustomVar:
             "user_id": "10",
             "apiKey": "abc123",
             "api-token": "xwo",
+            "path_complement": "th",
         }
         assert (
             StringEvaluator._evaluate_custom_var(sequence, spec_vars)
