@@ -167,6 +167,10 @@ class RequestNode:
 
         options = self.options
         verify = options.pop("verify", True)
+
+        if not isinstance(verify, bool):
+            verify = True
+
         kwargs = dict(
             headers=self.headers,
             params=self.params,
