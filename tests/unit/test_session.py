@@ -36,8 +36,8 @@ class TestSucceed:
 @mark.describe("start")
 class TestStart:
     @mark.it("should initialize started_at with current time")
-    @mark.freeze_time("2020-06-15 18:54:57")
-    def test_init_started_at(self):
+    def test_init_started_at(self, time_machine):
+        time_machine.move_to("2020-06-15 18:54:57", tick=False)
         session = Session()
 
         assert str(session.started_at) == "2020-06-15 18:54:57"
@@ -108,10 +108,10 @@ class TestIncrementErrors:
 @mark.describe("elapsed_time")
 class TestElapsedTime:
     @mark.it("should return time")
-    @mark.freeze_time("2020-06-15 18:54:57")
-    def test_return_time(self, freezer):
+    def test_return_time(self, time_machine):
+        time_machine.move_to("2020-06-15 18:54:57", tick=False)
         session = Session()
 
-        freezer.move_to("2020-06-15 18:56:38")
+        time_machine.move_to("2020-06-15 18:56:38", tick=False)
 
         assert str(session.elapsed_time()) == "0:01:41"
