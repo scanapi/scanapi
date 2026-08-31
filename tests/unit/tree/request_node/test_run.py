@@ -22,10 +22,39 @@ class TestRun:
     def mock_console_write_result(self, mocker):
         return mocker.patch("scanapi.tree.request_node.write_result")
 
-    @mark.skip("should call session_with_retry with retry and verify")
-    def test_call_session_with_retry(self):
-        # TODO
-        pass
+    @mark.it("should call session_with_retry with retry and verify")
+    def test_call_session_with_retry(
+        self, mock_session_with_retry, mock_time_sleep
+    ):
+        request = RequestNode(
+            {
+                "path": "http://foo.com",
+                "name": "request_name",
+                "options": {"verify": False},
+                "retry": {"max_retries": 3},
+            },
+            endpoint=EndpointNode({"name": "endpoint_name", "requests": []}),
+        )
+        request.run()
+
+        mock_session_with_retry.assert_called_once_with(
+            {"max_retries": 3}, False
+        )
+
+    @mark.it("should call session_with_retry with default verify as True")
+    def test_call_session_with_retry_default_verify(
+        self, mock_session_with_retry, mock_time_sleep
+    ):
+        request = RequestNode(
+            {
+                "path": "http://foo.com",
+                "name": "request_name",
+            },
+            endpoint=EndpointNode({"name": "endpoint_name", "requests": []}),
+        )
+        request.run()
+
+        mock_session_with_retry.assert_called_once_with(None, True)
 
     @mark.it("should call the request method")
     def test_calls_request(self, mock_session_with_retry, mock_time_sleep):

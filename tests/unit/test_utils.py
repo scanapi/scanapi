@@ -1,3 +1,5 @@
+import ssl
+
 import requests
 from pytest import fixture, mark, raises
 
@@ -123,3 +125,23 @@ class TestSessionWithRetry:
         session = session_with_retry({"max_retries": 7})
 
         assert session._transport._pool._retries == 7
+
+    @mark.context("default verify parameter")
+    @mark.it("should enable certificate verification by default")
+    def test_default_verify_is_true(self):
+        session = session_with_retry({})
+
+        assert (
+            session._transport._pool._ssl_context.verify_mode
+            == ssl.CERT_REQUIRED
+        )
+
+    @mark.context("verify is False")
+    @mark.it("should disable certificate verification")
+    def test_verify_false(self):
+        session = session_with_retry({}, verify=False)
+
+        assert (
+            session._transport._pool._ssl_context.verify_mode
+            == ssl.CERT_NONE
+        )
