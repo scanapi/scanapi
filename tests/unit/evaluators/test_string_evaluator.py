@@ -76,10 +76,10 @@ class TestEvaluateEnvVar:
     @mark.context("when env var is set properly")
     @mark.it("should return sequence with evaluated var")
     @mark.parametrize("sequence, expected", test_data)
-    def test_should_return_evaluated_var(self, sequence, expected):
-        os.environ["BASE_URL"] = "https://jsonplaceholder.typicode.com"
-        os.environ["POST_ID"] = "2"
-        os.environ["PATH_COMPLEMENT"] = "th"
+    def test_should_return_evaluated_var(self, monkeypatch, sequence, expected):
+        monkeypatch.setenv("BASE_URL", "https://jsonplaceholder.typicode.com")
+        monkeypatch.setenv("POST_ID", "2")
+        monkeypatch.setenv("PATH_COMPLEMENT", "th")
 
         assert StringEvaluator._evaluate_env_var(sequence) == expected
 
