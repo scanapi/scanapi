@@ -159,31 +159,20 @@ _Made with [contrib.rocks](https://contrib.rocks)._
 ## Supporters Through Time
 
 <div style="display: flex; gap: 20px; align-items: center;">
-
-  <a href="https://testmu.ai/" target="_blank">
-
+  <a href="https://www.testmuai.com/?utm_medium=sponsor&utm_source=scanapi" target="_blank">
     <picture>
-
       <source media="(prefers-color-scheme: dark)" srcset="./images/testmu-ai-logo-white.png">
-
       <source media="(prefers-color-scheme: light)" srcset="./images/testmu-ai-logo-black.png">
-
       <img src="./images/testmu-ai-logo-black.png" style="vertical-align: middle;" width="100" alt="TestMu AI Logo">
-
     </picture>
-
   </a>
-
-  <picture>
-
-    <source media="(prefers-color-scheme: dark)" srcset="./images/red-hat-logo-white.png">
-
-    <source media="(prefers-color-scheme: light)" srcset="./images/red-hat-logo-black.png">
-
-    <img src="./images/red-hat-logo-black.png" width="100" alt="Red Hat Logo">
-
-  </picture>
-
+  <a href="https://www.redhat.com" target="_blank">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./images/red-hat-logo-white.png">
+      <source media="(prefers-color-scheme: light)" srcset="./images/red-hat-logo-black.png">
+      <img src="./images/red-hat-logo-black.png" width="100" alt="Red Hat Logo">
+    </picture>
+  </a>
 </div>
 
 [github-issues]: https://github.com/scanapi/scanapi/issues
