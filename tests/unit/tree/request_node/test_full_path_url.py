@@ -1,6 +1,7 @@
 from pytest import fixture, mark
 
-from scanapi.tree import EndpointNode, RequestNode
+from scanapi.tree.endpoint_node import EndpointNode
+from scanapi.tree.request_node import RequestNode
 
 
 @mark.describe("request node")
