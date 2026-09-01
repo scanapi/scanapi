@@ -14,11 +14,7 @@ class CodeEvaluator:
     # Configuration: modules available in API spec evaluation
     ALLOWED_MODULES = ["datetime", "math", "random", "re", "time", "uuid"]
     python_code_pattern = re.compile(
-        r"(?P<something_before>\w*)"
-        r"(?P<start>\${{)"
-        r"(?P<python_code>.*)"
-        r"(?P<end>}})"
-        r"(?P<something_after>\w*)"
+        r"\${{(?P<python_code>.*)}}"
     )  # ${{<python_code>}}
 
     @classmethod
