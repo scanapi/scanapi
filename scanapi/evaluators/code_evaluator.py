@@ -187,12 +187,12 @@ class CodeEvaluator:
 
     @classmethod
     def _evaluate_sequence(cls, sequence, match, code, response):
-        # To avoid circular imports
-        from scanapi.evaluators.string_evaluator import StringEvaluator
-
         global_context = cls._get_safe_globals(response)
         result = cls._safe_eval(code, global_context)
 
-        return StringEvaluator.replace_var_with_value(
-            sequence, match.group(), str(result)
-        )
+        variable = match.group()
+        if variable == sequence:
+            return str(result)
+
+        escaped_variable = re.escape(variable)
+        return re.sub(escaped_variable, str(result), sequence)
