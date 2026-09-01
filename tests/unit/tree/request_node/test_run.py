@@ -22,10 +22,58 @@ class TestRun:
     def mock_console_write_result(self, mocker):
         return mocker.patch("scanapi.tree.request_node.write_result")
 
-    @mark.skip("should call session_with_retry with retry and verify")
-    def test_call_session_with_retry(self):
-        # TODO
-        pass
+    @mark.context("when options has verify=False")
+    @mark.it("should call session_with_retry with verify=False")
+    def test_call_session_with_retry_verify_false(
+        self, mock_session_with_retry, mock_time_sleep
+    ):
+        request = RequestNode(
+            {
+                "path": "http://foo.com",
+                "name": "request_name",
+                "options": {"verify": False},
+            },
+            endpoint=EndpointNode(
+                {"name": "endpoint_name", "requests": [{}]}
+            ),
+        )
+        request.run()
+
+        mock_session_with_retry.assert_called_with(request.retry, False)
+
+    @mark.context("when options has verify=True")
+    @mark.it("should call session_with_retry with verify=True")
+    def test_call_session_with_retry_verify_true(
+        self, mock_session_with_retry, mock_time_sleep
+    ):
+        request = RequestNode(
+            {
+                "path": "http://foo.com",
+                "name": "request_name",
+                "options": {"verify": True},
+            },
+            endpoint=EndpointNode(
+                {"name": "endpoint_name", "requests": [{}]}
+            ),
+        )
+        request.run()
+
+        mock_session_with_retry.assert_called_with(request.retry, True)
+
+    @mark.context("when no verify option is set")
+    @mark.it("should call session_with_retry with verify=True by default")
+    def test_call_session_with_retry_verify_default(
+        self, mock_session_with_retry, mock_time_sleep
+    ):
+        request = RequestNode(
+            {"path": "http://foo.com", "name": "request_name"},
+            endpoint=EndpointNode(
+                {"name": "endpoint_name", "requests": [{}]}
+            ),
+        )
+        request.run()
+
+        mock_session_with_retry.assert_called_with(request.retry, True)
 
     @mark.it("should call the request method")
     def test_calls_request(self, mock_session_with_retry, mock_time_sleep):

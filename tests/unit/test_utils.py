@@ -123,3 +123,30 @@ class TestSessionWithRetry:
         session = session_with_retry({"max_retries": 7})
 
         assert session._transport._pool._retries == 7
+
+    @mark.context("verify is not provided")
+    @mark.it("should enable HTTPS certificate verification by default")
+    def test_verify_default(self):
+        import ssl
+
+        session = session_with_retry({})
+
+        assert session._transport._pool._ssl_context.verify_mode == ssl.CERT_REQUIRED
+
+    @mark.context("verify=True is provided explicitly")
+    @mark.it("should enable HTTPS certificate verification")
+    def test_verify_true(self):
+        import ssl
+
+        session = session_with_retry({}, verify=True)
+
+        assert session._transport._pool._ssl_context.verify_mode == ssl.CERT_REQUIRED
+
+    @mark.context("verify=False is provided explicitly")
+    @mark.it("should disable HTTPS certificate verification")
+    def test_verify_false(self):
+        import ssl
+
+        session = session_with_retry({}, verify=False)
+
+        assert session._transport._pool._ssl_context.verify_mode == ssl.CERT_NONE
