@@ -88,7 +88,12 @@ class TestEvaluate:
 
         assert isinstance(excinfo.value, InvalidPythonCodeError)
 
-    test_data = [("${{1 + 1}}", "2"), ("${{'hi'*4}}", "hihihihi")]
+    test_data = [
+        ("${{1 + 1}}", "2"),
+        ("${{'hi'*4}}", "hihihihi"),
+        ("prefix_${{1 + 1}}_suffix", "prefix_2_suffix"),
+        ("/api/v${{1 + 1}}/users", "/api/v2/users"),
+    ]
 
     @mark.context("when sequence matches the pattern")
     @mark.context("when it is not a test case")
