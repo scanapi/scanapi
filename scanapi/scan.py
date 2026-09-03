@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 import yaml
 
@@ -19,8 +20,20 @@ from scanapi.tree import EndpointNode
 logger = logging.getLogger(__name__)
 
 
-def scan():
-    """Caller function that tries to scans the file and write the report."""
+def run_scan() -> list:
+    """Core logic to run the scan and return the results.
+
+    Returns:
+        list: A list containing the results of the scan.
+    """
+    # Reset the session for fresh runs, crucial for long-running MCP server
+    session.successes = 0
+    session.failures = 0
+    session.errors = 0
+    session.exit_code = ExitCode.OK
+
+    session.started_at = datetime.now()
+
     spec_path = settings["spec_path"]
 
     try:
@@ -42,7 +55,6 @@ def scan():
     try:
         root_node = EndpointNode(api_spec)
         results = root_node.run()
-
     except (
         InvalidKeyError,
         KeyError,
@@ -53,12 +65,19 @@ def scan():
         logger.error(error_message)
         raise SystemExit(ExitCode.USAGE_ERROR)
 
-    _write(results)
+    return list(results)
+
+
+def scan():
+    """Caller function that tries to scans the file and write the report."""
+    results = run_scan()
+
+    write_output(results)
     write_summary()
     session.exit()
 
 
-def _write(results):
+def write_output(results):
     """When the user passed the `--no-report` flag: prints the test results to
     the console output.
     When the user did not pass the `--no_report flag`: writes the results on a
