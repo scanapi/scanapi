@@ -168,7 +168,7 @@ class TestReplaceVarWithValue:
             "https://jsonplaceholder.typicode.com",
             "https://jsonplaceholder.typicode.com/posts",
         ),
-        ("${product_id}", "${product_id}", 100, 100),
+        ("${product_id}", "${product_id}", 100, "100"),
         ("products/${product_id}", "${product_id}", 100, "products/100"),
     ]
 
