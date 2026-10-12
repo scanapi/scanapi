@@ -129,7 +129,11 @@ class StringEvaluator:
         Returns:
             string: the ``${<variable>}`` token itself
         """
-        return f"{match.group('start')}{match.group('variable')}{match.group('end')}"
+        return (
+            f"{match.group('start')}"
+            f"{match.group('variable')}"
+            f"{match.group('end')}"
+        )
 
     @classmethod
     def replace_var_with_value(
