@@ -1,0 +1,326 @@
+name: Verify Assign and Link
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+jobs:
+  validate-pr:
+    name: Validate PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Validate PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          REPOSITORY: ${{ github.repository }}
+
+          LABEL_NEEDS_ISSUE: "Needs Issue"
+          LABEL_NEEDS_ASSIGNMENT: "Needs Assignment"
+
+          LINK_COMMENT: |
+            <!-- verify-assign-and-link:Needs Issue -->
+
+            🇧🇷 **Português**
+
+            Esta PR não está vinculada a uma issue. Por favor, vincule a issue que esta PR pretende resolver antes de continuar. Siga o [Guia do Contribuidor](https://readthedocs.io) para aprender como vincular uma issue à sua PR. As PRs devem estar associadas a uma issue antes do início da implementação.
+
+            🇬🇧 **English**
+
+            This PR is not linked to an issue. Please link the issue this PR is intended to resolve before continuing. Please follow the [Contributor Guide](https://readthedocs.io) to learn how to link an issue to a PR. PRs should be associated with an issue before implementation starts.
+
+          UNASSIGNED_COMMENT: |
+            <!-- verify-assign-and-link:Needs Assignment:unassigned -->
+
+            🇧🇷 **Português**
+
+            Esta issue ainda não está atribuída a ninguém. Por favor, atribua a issue a você antes de abrir uma PR. Siga o [Guia do Contribuidor](https://readthedocs.io) para aprender como reivindicar uma issue. Isso ajuda a evitar que várias pessoas trabalhem na mesma issue ao mesmo tempo.
+
+            🇬🇧 **English**
+
+            This issue is not assigned to anyone yet. Please assign the issue to yourself before opening a PR. Please follow the [Contributor Guide](https://readthedocs.io) to learn how to claim an issue. This helps us avoid multiple people working on the same issue at the same time.
+
+          OTHER_ASSIGNEE_COMMENT: |
+            <!-- verify-assign-and-link:Needs Assignment:other -->
+
+            🇧🇷 **Português**
+
+            Esta issue está atualmente atribuída a outra pessoa. Por favor, coordene com o responsável antes de abrir uma PR para esta issue. Se você pretende trabalhar nela, certifique-se de que a issue esteja atribuída a você primeiro. Veja o [Guia do Contribuidor](https://readthedocs.io) para mais informações.
+
+            🇬🇧 **English**
+
+            This issue is currently assigned to someone else. Please coordinate with the assignee before opening a PR for this issue. If you intend to work on it, please make sure the issue is assigned to you first. See the [Contributor Guide](https://readthedocs.io) for more information.
+
+        run: |
+          set -euo pipefail
+
+          echo "Validating PR #${PR_NUMBER}"
+          echo "PR author: ${PR_AUTHOR}"
+
+          # --------------------------------------------------------
+          # Find linked issue
+          # --------------------------------------------------------
+          ISSUE_NUMBER="$(gh pr view "${PR_NUMBER}" \
+            --repo "${REPOSITORY}" \
+            --json closingIssuesReferences \
+            --jq '.closingIssuesReferences[0].number // empty')"
+
+          # --------------------------------------------------------
+          # No linked issue
+          # --------------------------------------------------------
+          if [ -z "${ISSUE_NUMBER}" ]; then
+            echo "PR #${PR_NUMBER} is not linked to an issue."
+
+            gh pr edit "${PR_NUMBER}" \
+              --repo "${REPOSITORY}" \
+              --add-label "${LABEL_NEEDS_ISSUE}"
+
+            COMMENT_MARKER='<!-- verify-assign-and-link:Needs Issue -->'
+
+            if ! gh pr view "${PR_NUMBER}" \
+              --repo "${REPOSITORY}" \
+              --json comments \
+              --jq '.comments[].body' |
+              grep -Fq "${COMMENT_MARKER}"; then
+
+              gh pr comment "${PR_NUMBER}" \
+                --repo "${REPOSITORY}" \
+                --body "${LINK_COMMENT}"
+            fi
+
+            exit 1
+          fi
+
+          echo "PR #${PR_NUMBER} is linked to issue #${ISSUE_NUMBER}."
+
+          # Remove stale label
+          gh pr edit "${PR_NUMBER}" \
+            --repo "${REPOSITORY}" \
+            --remove-label "${LABEL_NEEDS_ISSUE}" \
+            2>/dev/null || true
+
+          # Remove stale comment
+          remove_generated_comments() {
+            local issue_or_pr_number="$1"
+            local comment_marker="$2"
+
+            gh api --paginate \
+              "repos/${REPOSITORY}/issues/${issue_or_pr_number}/comments" \
+              --jq ".[] | select(.body | contains(\"${comment_marker}\")) | .id" |
+              while IFS= read -r comment_id; do
+                [ -z "${comment_id}" ] && continue
+                gh api --method DELETE \
+                  "repos/${REPOSITORY}/issues/comments/${comment_id}"
+              done
+          }       
+
+          # --------------------------------------------------------
+          # Get issue assignees
+          # --------------------------------------------------------
+          ASSIGNEES="$(gh issue view "${ISSUE_NUMBER}" \
+            --repo "${REPOSITORY}" \
+            --json assignees \
+            --jq '.assignees[]?.login')"
+
+          # --------------------------------------------------------
+          # Issue without assignee
+          # --------------------------------------------------------
+          if [ -z "${ASSIGNEES}" ]; then
+            echo "Issue #${ISSUE_NUMBER} has no assignee."
+
+            gh pr edit "${PR_NUMBER}" \
+              --repo "${REPOSITORY}" \
+              --add-label "${LABEL_NEEDS_ASSIGNMENT}"
+
+            gh issue edit "${ISSUE_NUMBER}" \
+              --repo "${REPOSITORY}" \
+              --add-label "${LABEL_NEEDS_ASSIGNMENT}"
+
+            COMMENT_MARKER='<!-- verify-assign-and-link:Needs Assignment:unassigned -->'
+
+            if ! gh issue view "${ISSUE_NUMBER}" \
+              --repo "${REPOSITORY}" \
+              --json comments \
+              --jq '.comments[].body' |
+              grep -Fq "${COMMENT_MARKER}"; then
+
+              gh issue comment "${ISSUE_NUMBER}" \
+                --repo "${REPOSITORY}" \
+                --body "${UNASSIGNED_COMMENT}"
+            fi
+
+            if ! gh pr view "${PR_NUMBER}" \
+              --repo "${REPOSITORY}" \
+              --json comments \
+              --jq '.comments[].body' |
+              grep -Fq "${COMMENT_MARKER}"; then
+
+              gh pr comment "${PR_NUMBER}" \
+                --repo "${REPOSITORY}" \
+                --body "${UNASSIGNED_COMMENT}"
+            fi
+
+            exit 1
+          fi
+
+          # --------------------------------------------------------
+          # Issue assigned to another user
+          # --------------------------------------------------------
+          if ! printf '%s\n' "${ASSIGNEES}" |
+            grep -Fxq "${PR_AUTHOR}"; then
+
+            echo "Issue #${ISSUE_NUMBER} is not assigned to PR author."
+            echo "Assignees:"
+            printf '%s\n' "${ASSIGNEES}"
+            echo "PR author: ${PR_AUTHOR}"
+
+            gh pr edit "${PR_NUMBER}" \
+              --repo "${REPOSITORY}" \
+              --add-label "${LABEL_NEEDS_ASSIGNMENT}"
+
+            gh issue edit "${ISSUE_NUMBER}" \
+              --repo "${REPOSITORY}" \
+              --add-label "${LABEL_NEEDS_ASSIGNMENT}"
+
+            remove_generated_comments "${ISSUE_NUMBER}" \
+              '<!-- verify-assign-and-link:Needs Assignment -->'
+            remove_generated_comments "${PR_NUMBER}" \
+              '<!-- verify-assign-and-link:Needs Assignment -->'
+
+            COMMENT_MARKER='<!-- verify-assign-and-link:Needs Assignment:other -->'
+
+            if ! gh issue view "${ISSUE_NUMBER}" \
+              --repo "${REPOSITORY}" \
+              --json comments \
+              --jq '.comments[].body' |
+              grep -Fq "${COMMENT_MARKER}"; then
+
+              gh issue comment "${ISSUE_NUMBER}" \
+                --repo "${REPOSITORY}" \
+                --body "${OTHER_ASSIGNEE_COMMENT}"
+            fi
+
+            if ! gh pr view "${PR_NUMBER}" \
+              --repo "${REPOSITORY}" \
+              --json comments \
+              --jq '.comments[].body' |
+              grep -Fq "${COMMENT_MARKER}"; then
+
+              gh pr comment "${PR_NUMBER}" \
+                --repo "${REPOSITORY}" \
+                --body "${OTHER_ASSIGNEE_COMMENT}"
+            fi
+
+            exit 1
+          fi
+
+          # --------------------------------------------------------
+          # Validation passed
+          # --------------------------------------------------------
+          echo "Issue #${ISSUE_NUMBER} is correctly assigned to ${PR_AUTHOR}."
+
+          gh pr edit "${PR_NUMBER}" \
+            --repo "${REPOSITORY}" \
+            --remove-label "${LABEL_NEEDS_ASSIGNMENT}" \
+            2>/dev/null || true
+
+          gh issue edit "${ISSUE_NUMBER}" \
+            --repo "${REPOSITORY}" \
+            --remove-label "${LABEL_NEEDS_ASSIGNMENT}" \
+            2>/dev/null || true
+
+          remove_generated_comments "${PR_NUMBER}" \
+            '<!-- verify-assign-and-link:Needs Issue -->'
+          remove_generated_comments "${ISSUE_NUMBER}" \
+            '<!-- verify-assign-and-link:Needs Assignment:unassigned -->'
+          remove_generated_comments "${PR_NUMBER}" \
+            '<!-- verify-assign-and-link:Needs Assignment:unassigned -->'
+          remove_generated_comments "${ISSUE_NUMBER}" \
+            '<!-- verify-assign-and-link:Needs Assignment:other -->'
+          remove_generated_comments "${PR_NUMBER}" \
+            '<!-- verify-assign-and-link:Needs Assignment:other -->'
+          remove_generated_comments "${ISSUE_NUMBER}" \
+            '<!-- verify-assign-and-link:Needs Assignment -->'
+          remove_generated_comments "${PR_NUMBER}" \
+            '<!-- verify-assign-and-link:Needs Assignment -->'
+
+          echo "Validation passed."
+      - name: Remove generated comments and labels from unlinked issues
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          LABEL_NEEDS_ASSIGNMENT: "Needs Assignment"
+          UNASSIGNED_COMMENT: |
+            <!-- verify-assign-and-link:Needs Assignment:unassigned -->
+
+            🇧🇷 **Português**
+
+            Esta issue ainda não está atribuída a ninguém. Por favor, atribua a issue a você antes de abrir uma PR. Siga o [Guia do Contribuidor](https://readthedocs.io) para aprender como reivindicar uma issue. Isso ajuda a evitar que várias pessoas trabalhem na mesma issue ao mesmo tempo.
+
+            🇬🇧 **English**
+
+            This issue is not assigned to anyone yet. Please assign the issue to yourself before opening a PR. Please follow the [Contributor Guide](https://readthedocs.io) to learn how to claim an issue. This helps us avoid multiple people working on the same issue at the same time.
+
+          OTHER_ASSIGNEE_COMMENT: |
+            <!-- verify-assign-and-link:Needs Assignment:other -->
+
+            🇧🇷 **Português**
+
+            Esta issue está atualmente atribuída a outra pessoa. Por favor, coordene com o responsável antes de abrir uma PR para esta issue. Se você pretende trabalhar nela, certifique-se de que a issue esteja atribuída a você primeiro. Veja o [Guia do Contribuidor](https://readthedocs.io) para mais informações.
+
+            🇬🇧 **English**
+
+            This issue is currently assigned to someone else. Please coordinate with the assignee before opening a PR for this issue. If you intend to work on it, please make sure the issue is assigned to you first. See the [Contributor Guide](https://readthedocs.io) for more information.
+        run: |
+          set -euo pipefail
+          remove_generated_comments() {
+            local issue_or_pr_number="$1"
+            local comment_marker="$2"
+
+            gh api --paginate \
+              "repos/${REPOSITORY}/issues/${issue_or_pr_number}/comments" \
+              --jq ".[] | select(.body | contains(\"${comment_marker}\")) | .id" |
+              while IFS= read -r comment_id; do
+                [ -z "${comment_id}" ] && continue
+                gh api --method DELETE \
+                  "repos/${REPOSITORY}/issues/comments/${comment_id}"
+              done
+          }
+          remove_label() {
+            local issue_or_pr_number="$1"
+            local label_name="$2"
+
+            gh issue edit "${issue_or_pr_number}" \
+              --repo "${REPOSITORY}" \
+              --remove-label "${label_name}" \
+              2>/dev/null || true
+          }
+          issues=$(gh issue list \
+            --repo "${REPOSITORY}" \
+            --label "${LABEL_NEEDS_ASSIGNMENT}" \
+            --state open \
+            --search "-linked:pr" \
+            --json number \
+            --jq '.[].number')
+          for issue in $issues; do
+            echo "Removing generated comments from issue #${issue}"
+            remove_generated_comments "${issue}" "<!-- verify-assign-and-link:Needs Assignment:unassigned -->"
+            remove_generated_comments "${issue}" "<!-- verify-assign-and-link:Needs Assignment:other -->"
+            remove_generated_comments "${issue}" "<!-- verify-assign-and-link:Needs Assignment -->"
+            remove_label "${issue}" "${LABEL_NEEDS_ASSIGNMENT}"
+          done
+
+
+        

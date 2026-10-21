@@ -1,0 +1,145 @@
+name: Rerun Verify Assign and Link
+
+on:
+  issues:
+    types:
+      - assigned
+      - unassigned
+
+permissions:
+  contents: read
+  issues: read
+  actions: write
+
+jobs:
+  rerun-workflow:
+    name: Rerun Verify Assign and Link
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Find linked pull requests
+        id: find_prs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          echo "Issue #${ISSUE_NUMBER} changed."
+
+          PR_NUMBERS="$(
+            gh api \
+              "repos/${REPOSITORY}/issues/${ISSUE_NUMBER}/timeline" \
+              --paginate \
+              --jq '
+                .[]
+                | select(
+                    .event == "cross-referenced" and
+                    .source.issue.pull_request != null
+                  )
+                | .source.issue.number
+              ' |
+              sort -u
+          )"
+
+          if [ -z "${PR_NUMBERS}" ]; then
+            echo "No pull request linked to issue #${ISSUE_NUMBER}."
+            exit 0
+          fi
+
+          echo "Linked PRs:"
+          printf '%s\n' "${PR_NUMBERS}"
+
+          {
+            echo "pr_numbers<<EOF"
+            printf '%s\n' "${PR_NUMBERS}"
+            echo "EOF"
+          } >> "${GITHUB_OUTPUT}"
+
+
+      - name: Find Verify Assign and Link workflow
+        id: find_workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          WORKFLOW_NAME: "Verify Assign and Link"
+        run: |
+          set -euo pipefail
+
+          echo "Searching for workflow: ${WORKFLOW_NAME}"
+
+          WORKFLOW_ID="$(
+            gh api \
+              "repos/${REPOSITORY}/actions/workflows?per_page=100" \
+              --jq '.workflows[] | select(.name == "Verify Assign and Link") | .id' |
+              head -n 1
+          )"
+
+          if [ -z "${WORKFLOW_ID}" ]; then
+            echo "Workflow '${WORKFLOW_NAME}' not found."
+            exit 1
+          fi
+
+          echo "Workflow ID: ${WORKFLOW_ID}"
+
+          echo "workflow_id=${WORKFLOW_ID}" >> "${GITHUB_OUTPUT}"
+
+
+      - name: Rerun validation workflows
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          WORKFLOW_ID: ${{ steps.find_workflow.outputs.workflow_id }}
+          LINKED_PR_NUMBERS: ${{ steps.find_prs.outputs.pr_numbers }}
+        run: |
+          set -euo pipefail
+
+          while IFS= read -r PR_NUMBER; do
+
+            if [ -z "${PR_NUMBER}" ]; then
+              continue
+            fi
+
+            echo "----------------------------------------"
+            echo "Processing PR #${PR_NUMBER}"
+            echo "----------------------------------------"
+
+            PR_HEAD_SHA="$(
+              gh api \
+                "repos/${REPOSITORY}/pulls/${PR_NUMBER}" \
+                --jq '.head.sha'
+            )"
+
+            echo "PR head SHA: ${PR_HEAD_SHA}"
+
+            RUN_ID="$(
+              gh api \
+                "repos/${REPOSITORY}/actions/workflows/${WORKFLOW_ID}/runs" \
+                --method GET \
+                -f event="pull_request_target" \
+                -f head_sha="${PR_HEAD_SHA}" \
+                -f per_page=100 \
+                --jq '
+                  .workflow_runs
+                  | map(select(.event == "pull_request_target"))
+                  | sort_by(.created_at)
+                  | reverse
+                  | .[0].id // empty
+                '
+            )"
+
+            if [ -z "${RUN_ID}" ]; then
+              echo "No Verify Assign and Link run found for PR #${PR_NUMBER}."
+              continue
+            fi
+
+            echo "Found run ${RUN_ID} for PR #${PR_NUMBER}."
+
+            gh run rerun "${RUN_ID}" \
+              --repo "${REPOSITORY}"
+
+            echo "Rerun requested for PR #${PR_NUMBER}."
+
+          done <<< "${LINKED_PR_NUMBERS}"
