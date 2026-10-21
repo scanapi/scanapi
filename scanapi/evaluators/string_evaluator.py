@@ -74,8 +74,9 @@ class StringEvaluator:
             except KeyError as e:
                 raise BadConfigurationError(e)
 
+            var_expression = cls._var_expression(match)
             sequence = cls.replace_var_with_value(
-                sequence, match.group(), variable_value
+                sequence, var_expression, variable_value
             )
 
         return sequence
@@ -110,11 +111,27 @@ class StringEvaluator:
 
             variable_value = spec_vars.get(variable_name)
 
+            var_expression = cls._var_expression(match)
             sequence = cls.replace_var_with_value(
-                sequence, match.group(), variable_value
+                sequence, var_expression, variable_value
             )
 
         return sequence
+
+    @classmethod
+    def _var_expression(cls, match: re.Match) -> str:
+        """Constructs the variable expression (${var}) from a regex match.
+
+        Args:
+            match (re.Match): the regex match for the variable pattern
+
+        Returns:
+            str: the ${variable} expression to be replaced
+        """
+        start = match.group("start")
+        variable = match.group("variable")
+        end = match.group("end")
+        return f"{start}{variable}{end}"
 
     @classmethod
     def replace_var_with_value(
@@ -135,8 +152,5 @@ class StringEvaluator:
             sequence (string): sequence of characters with all occurrences of
             the current variable replaced
         """
-        if variable == sequence:
-            return variable_value
-
-        variable = re.escape(variable)
-        return re.sub(variable, str(variable_value), sequence)
+        escaped = re.escape(variable)
+        return re.sub(escaped, str(variable_value), sequence)
