@@ -89,5 +89,7 @@ def session_with_retry(
     retries = retry_configuration.get(MAX_RETRIES_KEY, 0)
 
     return Client(
-        transport=HTTPTransport(retries=retries), timeout=None, verify=verify
+        transport=HTTPTransport(retries=retries, verify=verify),
+        timeout=None,
+        verify=verify,
     )
