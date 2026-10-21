@@ -84,6 +84,23 @@ class TestFullPathUrl:
         )
         assert request.full_url_path == "http://foo.com/foo-bar"
 
+    @mark.context(
+        "when the request specification has a URL with literal text before an environment variable"
+    )
+    @mark.it(
+        "should set the full url path substituting the environment variable and preserving the literal prefix"
+    )
+    def test_with_path_literal_prefix_and_env_var(self, monkeypatch):
+        monkeypatch.setenv("PATH_COMPLEMENT", "th")
+        endpoint = EndpointNode(
+            {"name": "foo", "requests": [{}], "path": "http://foo.com/api"}
+        )
+        request = RequestNode(
+            {"name": "foo", "path": "/heal${PATH_COMPLEMENT}/"},
+            endpoint=endpoint,
+        )
+        assert request.full_url_path == "http://foo.com/api/health/"
+
     @mark.it("should call the evaluate method")
     def test_calls_evaluate(self, mocker, mock_evaluate):
         endpoint = EndpointNode(

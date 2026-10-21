@@ -14,11 +14,7 @@ class StringEvaluator:
     """
 
     variable_pattern = re.compile(
-        r"(?P<something_before>\w*)"
-        r"(?P<start>\${)"
-        r"(?P<variable>[\w|-]*)"
-        r"(?P<end>})"
-        r"(?P<something_after>\w*)"
+        r"\${(?P<variable>[\w-]*)}"
     )  # ${<variable>}
 
     @classmethod
