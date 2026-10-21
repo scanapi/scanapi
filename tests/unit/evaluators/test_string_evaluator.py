@@ -79,6 +79,24 @@ class TestEvaluateEnvVar:
 
         assert StringEvaluator._evaluate_env_var(sequence) == expected
 
+    test_data = [
+        (
+            "https://jsonplaceholder.typicode.com/pos${POST_SUFFIX}/",
+            "https://jsonplaceholder.typicode.com/posts/",
+        ),
+        ("/heal${POST_SUFFIX}h/", "/healtsh/"),
+        ("${POST_SUFFIX}suffix", "tssuffix"),
+    ]
+
+    @mark.context("when matches the pattern")
+    @mark.context("when the variable is surrounded by word characters")
+    @mark.it("should keep the surrounding characters")
+    @mark.parametrize("sequence, expected", test_data)
+    def test_should_keep_surrounding_characters(self, sequence, expected):
+        os.environ["POST_SUFFIX"] = "ts"
+
+        assert StringEvaluator._evaluate_env_var(sequence) == expected
+
     @mark.context("when matches the pattern")
     @mark.context("when there is no corresponding env var")
     @mark.it("should raise bad configuration error")
@@ -143,6 +161,24 @@ class TestEvaluateCustomVar:
             "apiKey": "abc123",
             "api-token": "xwo",
         }
+        assert (
+            StringEvaluator._evaluate_custom_var(sequence, spec_vars)
+            == expected
+        )
+
+    test_data = [
+        ("pos${post_suffix}/", "posts/"),
+        ("/heal${post_suffix}h/", "/healtsh/"),
+        ("${post_suffix}suffix", "tssuffix"),
+    ]
+
+    @mark.context("when matches the pattern")
+    @mark.context("when the variable is surrounded by word characters")
+    @mark.it("should keep the surrounding characters")
+    @mark.parametrize("sequence, expected", test_data)
+    def test_should_keep_surrounding_characters(self, sequence, expected):
+        spec_vars = {"post_suffix": "ts"}
+
         assert (
             StringEvaluator._evaluate_custom_var(sequence, spec_vars)
             == expected
