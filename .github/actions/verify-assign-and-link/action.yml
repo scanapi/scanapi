@@ -1,0 +1,26 @@
+name: Verify Assign and Link
+description: Validate pull request issue links and assignments, or rerun validation workflows.
+
+inputs:
+  mode:
+    description: Operation to perform (validate, cleanup, or rerun).
+    required: true
+  github-token:
+    description: Token used to call the GitHub API.
+    required: true
+  repository:
+    description: Repository in owner/name format.
+    required: true
+  pull-request-number:
+    description: Pull request number for validation.
+    required: false
+  pull-request-author:
+    description: Pull request author's login for validation.
+    required: false
+  issue-number:
+    description: Issue number whose linked pull requests should be rerun.
+    required: false
+
+runs:
+  using: node24
+  main: index.js
