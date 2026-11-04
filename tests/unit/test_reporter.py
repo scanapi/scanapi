@@ -1,8 +1,7 @@
 import pathlib
-
-import time_machine
 from datetime import datetime
 
+import time_machine
 from pytest import fixture, mark
 
 from scanapi.reporter import Reporter

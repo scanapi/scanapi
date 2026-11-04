@@ -1,6 +1,6 @@
-import time_machine
 from random import randrange
 
+import time_machine
 from pytest import mark, raises
 
 from scanapi.session import Session
@@ -111,8 +111,6 @@ class TestElapsedTime:
     @mark.it("should return time")
     @time_machine.travel("2020-06-15 18:54:57")
     def test_return_time(self):
-        import time_machine
-
         session = Session()
 
         with time_machine.travel("2020-06-15 18:56:38"):
