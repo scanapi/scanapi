@@ -1,0 +1,36 @@
+name: Verify Assign and Link tests
+
+on:
+  pull_request:
+    paths:
+      - .github/actions/verify-assign-and-link/**
+      - .github/workflows/verify-assign-and-link-tests.yml
+  push:
+    branches:
+      - main
+    paths:
+      - .github/actions/verify-assign-and-link/**
+      - .github/workflows/verify-assign-and-link-tests.yml
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Jest and coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Set up Node.js 24
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Install Jest dependencies
+        run: npm ci
+        working-directory: .github/actions/verify-assign-and-link
+      - name: Run Jest with 100% coverage thresholds
+        run: >-
+          npm test -- --coverage
+          --coverageThreshold='{"global":{"branches":100,"functions":100,"lines":100,"statements":100}}'
+        working-directory: .github/actions/verify-assign-and-link
