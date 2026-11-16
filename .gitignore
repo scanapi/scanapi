@@ -52,6 +52,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 .idea
+.github/actions/verify-assign-and-link/coverage
 # Translations
 *.mo
 *.pot

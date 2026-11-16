@@ -1,0 +1,38 @@
+name: Verify Assign and Link
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  validate-pr:
+    name: Validate PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Validate PR
+        uses: ./.github/actions/verify-assign-and-link
+        with:
+          mode: validate
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          pull-request-author: ${{ github.event.pull_request.user.login }}
+      - name: Remove generated comments and labels from unlinked issues
+        uses: ./.github/actions/verify-assign-and-link
+        with:
+          mode: cleanup
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+

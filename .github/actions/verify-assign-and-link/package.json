@@ -1,0 +1,11 @@
+{
+  "name": "verify-assign-and-link",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
+  }
+}
