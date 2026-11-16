@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pytest import fixture, mark, raises
 
 from scanapi.settings import Settings, settings, DEFAULT_SETTINGS
@@ -105,7 +107,10 @@ class TestSaveConfigFilePreferences:
         mock_load_config_file,
     ):
         settings.save_config_file_preferences()
-        assert settings["config_path"].endswith("scanapi/scanapi.conf")
+        assert Path(settings["config_path"]).parts[-2:] == (
+            "scanapi",
+            "scanapi.conf",
+        )
         assert mock_load_config_file.called
 
 

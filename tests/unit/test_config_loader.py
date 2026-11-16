@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pytest import mark, raises
 
 from scanapi.config_loader import load_config_file
@@ -61,7 +63,8 @@ class TestLoadConfigFile:
             load_config_file("tests/data/api_invalid_path_include.yaml")
 
         assert "[Errno 2] No such file or directory: " in str(excinfo.value)
-        assert "tests/data/invalid_path/include.yaml'" in str(excinfo.value)
+        expected_path = Path("tests/data/invalid_path/include.yaml")
+        assert str(expected_path) in str(Path(str(excinfo.value)))
 
     @mark.context("include value is not a scalar")
     @mark.it("should raise an exception")
